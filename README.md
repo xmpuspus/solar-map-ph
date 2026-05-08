@@ -50,15 +50,36 @@ Outputs land in `site/public/data/`:
 
 ```bash
 cd site
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Open http://localhost:4321.
 
-### Deploy
+### Deploy (Vercel)
 
-Push to `main`. Cloudflare Pages or GitHub Pages auto-deploys static output from `site/dist/`.
+One-time setup:
+
+```bash
+cd site
+pnpm install
+pnpm vercel link        # create the project, link this directory
+pnpm vercel --prod      # first manual deploy
+```
+
+When prompted by `vercel link`:
+
+- Set up and deploy: `Y`
+- Link to existing project: `N` (first time)
+- Project name: `ghost-watts`
+- In which directory is your code located: `./` (you're already inside `site/`)
+- Framework preset: Astro (auto-detected)
+
+After link, the `.vercel/` directory is created locally and gitignored. Subsequent deploys are automatic on push to `main`. Configure the GitHub integration in the Vercel dashboard so PR previews are also auto-built.
+
+Headers, caching, and CSP are in `site/vercel.json`. The pipeline data files (`/data/*.geojson`, `/data/*.json`) get a permissive CORS header so anyone can fetch them as a public dataset.
+
+CI (`/.github/workflows/ci.yml`) runs on every push and PR: type-check, build, pipeline syntax check, dry-run validation. Vercel handles the actual deploy on merge to `main`.
 
 ## Project layout
 
@@ -104,7 +125,7 @@ Roughly six hours of work per quarter. Annual LGU table refresh adds three hours
 | 4. Move data into site | 15m | Copy outputs to `site/public/data/`, bump `manifest.json` |
 | 5. Write quarterly post | 1-3h | Optional. Skip if no story this quarter |
 | 6. Methodology review | 15m | Add new caveats if surfaced |
-| 7. Commit + deploy | 5m | Tag release `ghost-watts-YYYYQN` |
+| 7. Commit + deploy | 5m | `git push origin main`, Vercel auto-deploys. Tag release `ghost-watts-YYYYQN` |
 | 8. Distribution | 15m | Optional LinkedIn share, optional DM to ICSC. Skip HN/Reddit/X |
 
 ## Methodology in one paragraph

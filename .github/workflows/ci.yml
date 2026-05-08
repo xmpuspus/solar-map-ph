@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  site:
+    name: site (astro)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.12.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: site/pnpm-lock.yaml
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Type-check
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+  pipeline:
+    name: pipeline (python)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: pipeline
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Compile-check
+        run: python -m py_compile pipeline.py validate.py scrape_meralco.py
+
+      - name: JSON validation
+        run: |
+          for f in *.json; do python -c "import json; json.load(open('$f'))"; done
+
+      - name: Pipeline dry-run
+        run: python pipeline.py --quarter 2026Q2 --baseline 2022 --dry-run
+
+      - name: Validate dry-run output
+        run: |
+          python -c "
+          import json
+          fc = json.load(open('../site/public/data/ghost_watts_2026Q2.geojson'))
+          assert fc['type'] == 'FeatureCollection'
+          assert fc['properties']['quarter'] == '2026Q2'
+          print('OK: dry-run output valid')
+          "

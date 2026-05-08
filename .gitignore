@@ -10,6 +10,11 @@ node_modules/
 dist/
 .astro/
 .cache/
+.vercel/
+.turbo/
+.pnpm-store/
+pnpm-debug.log*
+npm-debug.log*
 
 # Environments and secrets
 .env

@@ -34,7 +34,7 @@ What is missing from public discourse: any visualization of where the unregister
 | Imagery for display | OSM basemap | Detected-signal choropleth overlaid. No commercial-imagery republication risk |
 | Compute | Earth Engine free tier | Vendor risk acknowledged. Algorithm portable to rasterio + STAC if needed |
 | Aggregation unit | City/municipality | Barangay drilldown only where built-up area > 1 km² |
-| Frontend stack | Astro + MapLibre GL JS + OSM raster + Observable Plot + Tailwind | No backend. No vendor token. Free hosting on Cloudflare Pages or GitHub Pages |
+| Frontend stack | Astro + MapLibre GL JS + OSM raster + Observable Plot + Tailwind | No backend. No vendor token. Vercel hosting (matches Xavier's existing landas-ph deploy pattern) |
 | Name | ghost-watts | Riffs on ghostwatch parent project. Reads as "capacity that exists but isn't on any meter" |
 | Distribution posture | Quiet-builder | Reference doc, not launch event. Optional LinkedIn share, optional DM to ICSC and Gatchalian's office. Skip HN/Reddit/X |
 
@@ -56,7 +56,7 @@ quarterly refresh (laptop, ~1 day work)
   │     └── LGU permit cost + delay table (hand-curated)
   └── Output: ghost_watts_YYYYQN.geojson + summary
 
-static frontend (Astro, deployed to Cloudflare Pages or GitHub Pages)
+static frontend (Astro, deployed to Vercel)
   ├── /map  (A-mode: city choropleth, time slider, drilldown)
   ├── /me   (B-mode: address → barangay stats + roof PVGIS + LGU friction)
   └── /post (quarterly writeup)
@@ -249,7 +249,7 @@ Inline link to net-metering application steps for that LGU.
 | 4. Move data into site | 15m | Copy outputs to `site/public/data/`, bump `manifest.json` |
 | 5. Write quarterly post | 1-3h | Optional, skip if nothing newsworthy |
 | 6. Methodology review | 15m | Add new caveats |
-| 7. Commit + deploy | 5m | `git push origin main`, tag `ghost-watts-YYYYQN` |
+| 7. Commit + deploy | 5m | `git push origin main`. Vercel auto-deploys. Tag `ghost-watts-YYYYQN` |
 | 8. Distribution | 15m | Optional LinkedIn share or DM. Skip HN/Reddit/X |
 
 Failure-mode handling baked in:
