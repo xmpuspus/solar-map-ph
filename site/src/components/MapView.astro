@@ -1,23 +1,23 @@
 ---
-// MapLibre choropleth + plain-English city panel + Tufte-flavored distribution
-// strips. Color scale is diverging-anchored-at-0, not min/max, because z-scores
-// are signed and "baseline" should always be at the same color.
+// Map + city panel rewritten for laymen. Default surface shows rank, plain
+// verdict, and city facts in everyday vocabulary. Technical breakdown
+// (NIR/SWIR/LST/nightlight z-scores) hidden behind a "Show technical details"
+// toggle. Methodology-grade explanation lives on /methodology, not here.
 const tooltips = {
-  composite: "Combined score from four satellite channels (NIR, SWIR, midday LST, nightlight), z-scored across the 61 franchise cities. Higher = more rooftop change consistent with new solar arrays. Correlative, not diagnostic.",
-  nir: "Near-infrared reflectance change vs 2022, z-scored. Solar panels darken NIR. Negative z-score means this city's roofs got darker relative to peers; the composite flips the sign so positive composite always means more solar-like.",
-  swir: "Short-wave infrared change vs 2022, z-scored. Confirms NIR direction; weaker signal alone but reduces false positives from paint or roof-material changes.",
-  lst: "Land surface temperature anomaly at midday vs 2022, z-scored. Solar arrays run cooler than bare metal/concrete roof in midday sun. Negative = cooler than peers.",
-  nightlight: "VIIRS monthly nightlight change vs 2022, z-scored. Proxy for grid-load change. Positive in the composite as triangulation, not primary evidence.",
-  builtUp: "Total built-up area (rooftops, paved surfaces) in km², from ESA WorldCover 2021. Used to scale the solar signal: a 1% NIR drop over 100 km² of city implies many more roofs changed than the same 1% drop over 1 km².",
-  permit: "Cost in PHP for a residential rooftop solar electrical permit at this LGU. Rizal cited ₱153K vs Laguna ₱16K for the same 520 kWp commercial project; residential ranges accordingly. April 2026 DOE circular targets 3 working days; LGU adoption is uneven.",
+  rooftopDark: "Solar panels are darker than bare roof in near-infrared light. We measure the change vs 2022, then compare each city to the other 60. \"More\" = this city's roofs darkened more than its peers.",
+  rooftopMaterial: "Solar panels reflect short-wave infrared differently from concrete or metal. Confirms the NIR signal and rules out roof-paint changes.",
+  rooftopHeat: "Solar arrays run cooler than bare roofs in midday sun. We measure midday land surface temperature change vs 2022, then compare cities.",
+  nightActivity: "Nighttime light change since 2022. Loosely tracks how the city's evening grid load shifted. Weakest of the four signals.",
+  rooftopArea: "How much of the city is actually rooftop or pavement (km²). A 1% rooftop change over 100 km² of buildings means a lot more new solar than the same 1% over a tiny barangay.",
+  permit: "How much the LGU charges for the electrical permit you'd file before installing solar legally. Same 520 kWp project: ₱153K in Rizal vs ₱16K in Laguna. April 2026 DOE circular targets a 3-day approval; not every LGU has adopted it yet.",
 };
 ---
 <section class="max-w-6xl mx-auto px-6 mb-4">
   <details class="border-l-2 border-ink-900 bg-paper-alt">
     <summary class="cursor-pointer px-4 py-2.5 text-sm font-medium text-ink-900">How to read this map</summary>
     <div class="px-4 pb-4 pt-1 text-sm text-ink-700 leading-relaxed space-y-2 max-w-prose">
-      <p>Every quarter we compare each city's rooftops to the same city's rooftops in 2022 using free satellite data. Roofs that have <strong>darkened in near-infrared</strong> and <strong>cooled at midday</strong> show up the way new solar arrays would.</p>
-      <p>The four signals get blended into one <strong>composite score</strong>, then z-scored across the 61 cities so they're directly comparable. <strong>Stronger blue = above the peer average. Stronger orange = below.</strong> Click any city for the underlying signals plus its distribution rank. Score is correlative, not diagnostic. Full details on <a href="/methodology" class="text-accent-steel no-underline">methodology</a>.</p>
+      <p>Every 3 months we look at each city's roofs from satellite and compare them to the same roofs in 2022. New solar panels make rooftops <strong>darker</strong> and <strong>cooler in midday sun</strong> from above. Cities where lots of roofs changed that way score high.</p>
+      <p><strong>Stronger blue = more new rooftop solar than the average city.</strong> <strong>Stronger orange = less.</strong> Click any city for the rank and the LGU permit cost. The score is a clue, not proof. Methodology and limits on <a href="/methodology" class="text-accent-steel no-underline">/methodology</a>.</p>
     </div>
   </details>
 </section>
@@ -26,62 +26,64 @@ const tooltips = {
   <div class="relative">
     <div id="map" class="w-full h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
     <div id="legend" class="absolute bottom-3 left-3 bg-white/95 border border-ink-300/40 rounded p-3 text-xs shadow-sm">
-      <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1.5 font-mono">Composite signal vs peers</div>
+      <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1.5 font-mono">Solar growth vs other cities</div>
       <div id="legend-bar" class="w-56 h-2 rounded mb-1.5"></div>
-      <div class="grid grid-cols-3 text-[10px] font-mono tabular-nums text-ink-500">
-        <span class="text-left" id="legend-min">-1.5</span>
-        <span class="text-center text-ink-900">0 = peer average</span>
-        <span class="text-right" id="legend-max">+1.5</span>
+      <div class="grid grid-cols-3 text-[10px] text-ink-500">
+        <span class="text-left">less</span>
+        <span class="text-center text-ink-900">average</span>
+        <span class="text-right">more</span>
       </div>
-      <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">61 cities, source: ghost-watts</div>
+      <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">61 cities · source: ghost-watts</div>
     </div>
   </div>
   <aside id="city-panel" class="border border-ink-300/40 bg-white text-sm">
     <div id="city-empty" class="p-5">
       <p class="text-xs uppercase tracking-wider text-ink-500 mb-2 font-mono">click a city</p>
-      <p class="text-ink-500">Pick any colored polygon. The panel will show that city's solar-growth signal, its rank against peer cities on each satellite channel, and (where verified) its LGU permit cost.</p>
+      <p class="text-ink-500">Pick any colored area on the map. You'll see whether that city has been adding rooftop solar lately, where it ranks among the 61 franchise cities, and what the LGU charges to permit a new install.</p>
     </div>
     <div id="city-detail" class="hidden">
       <div class="px-5 pt-5 pb-4">
         <p class="text-xs uppercase tracking-wider text-ink-500 mb-1 font-mono" id="city-province"></p>
         <h3 id="city-name" class="text-2xl font-semibold tracking-tight text-ink-900 leading-none mb-3"></h3>
-        <p id="city-band" class="text-sm leading-relaxed mb-4"></p>
-        <div class="grid grid-cols-[auto_1fr] items-baseline gap-x-4 mb-1">
-          <div class="text-5xl font-mono font-semibold tabular-nums leading-none text-ink-900" id="city-composite"></div>
-          <div class="text-xs uppercase tracking-wider text-ink-500 font-mono">composite<br/><span class="text-[10px] normal-case tracking-normal text-ink-300">vs peer cities</span></div>
+        <p id="city-band" class="text-base leading-relaxed mb-5"></p>
+        <div class="grid grid-cols-[auto_1fr] items-baseline gap-x-4 mb-2">
+          <div class="text-5xl font-mono font-semibold tabular-nums leading-none text-ink-900" id="city-rank"></div>
+          <div class="text-xs uppercase tracking-wider text-ink-500 font-mono">solar-growth<br/>rank<br/><span class="text-[10px] normal-case tracking-normal text-ink-300" id="city-rank-of">of 61 cities</span></div>
         </div>
         <div class="signal-bar mt-2 mb-1"><span id="city-composite-bar" class="bg-accent-steel"></span></div>
-        <div class="grid grid-cols-3 text-[10px] font-mono tabular-nums text-ink-300">
-          <span>-bound</span><span class="text-center">0</span><span class="text-right">+bound</span>
+        <div class="grid grid-cols-3 text-[10px] text-ink-300">
+          <span>fewer panels</span><span class="text-center">average</span><span class="text-right">more panels</span>
         </div>
-      </div>
-
-      <div class="px-5 pb-4 border-t border-ink-300/30 pt-4">
-        <div class="text-xs uppercase tracking-wider text-ink-500 mb-3 font-mono flex justify-between">
-          <span>signal breakdown</span>
-          <span class="text-ink-300 normal-case">distribution position</span>
-        </div>
-        <div id="city-strips" class="space-y-2.5"></div>
-        <p class="text-[10px] text-ink-300 mt-3 leading-relaxed">
-          Tick at city's value vs the 61-city distribution. Negative NIR/SWIR/LST = darker/cooler than peers, which the composite flips so positive composite always reads as more solar.
-        </p>
       </div>
 
       <div class="px-5 py-4 border-t border-ink-300/30 grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
         <div>
-          <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">built-up</div>
-          <div id="built-km2" class="font-mono tabular-nums text-base text-ink-900"></div>
+          <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono inline-flex items-center gap-1">Rooftop area <span class="info-tip" tabindex="0" data-tip={tooltips.rooftopArea}>?</span></div>
+          <div id="built-km2" class="font-mono tabular-nums text-base text-ink-900 mt-0.5"></div>
         </div>
         <div>
-          <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">LGU permit</div>
-          <div id="permit-fee" class="font-mono tabular-nums text-base text-ink-900"></div>
+          <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono inline-flex items-center gap-1">LGU permit fee <span class="info-tip" tabindex="0" data-tip={tooltips.permit}>?</span></div>
+          <div id="permit-fee" class="font-mono tabular-nums text-base text-ink-900 mt-0.5"></div>
           <div id="permit-days" class="font-mono tabular-nums text-[10px] text-ink-500"></div>
         </div>
       </div>
 
-      <div class="px-5 pt-3 pb-5 border-t border-ink-300/30">
+      <details class="border-t border-ink-300/30">
+        <summary class="cursor-pointer px-5 py-3 text-xs uppercase tracking-wider text-ink-500 font-mono hover:bg-paper-alt">Show satellite-signal details</summary>
+        <div class="px-5 pb-4 text-sm">
+          <p class="text-xs text-ink-500 mb-3 leading-relaxed">
+            What the four satellite channels saw in this city since 2022. Each tick shows where this city sits among 61 peers. Steel-blue = points toward solar, coral = points away.
+          </p>
+          <div id="city-strips" class="space-y-3"></div>
+          <p class="text-[11px] text-ink-300 mt-4 leading-relaxed">
+            Composite score: <span id="city-composite" class="font-mono tabular-nums text-ink-700"></span> &middot; weighted blend of all four. <a href="/methodology" class="text-accent-steel no-underline">Full algorithm</a>.
+          </p>
+        </div>
+      </details>
+
+      <div class="px-5 pt-4 pb-5 border-t border-ink-300/30">
         <p class="text-[11px] text-ink-500 mb-3" id="permit-source"></p>
-        <a id="city-me-link" class="inline-flex items-center px-3 py-2 bg-ink-900 text-white text-xs font-mono uppercase tracking-wider hover:bg-ink-700" href="/me">Estimate this city's payback &rarr;</a>
+        <a id="city-me-link" class="inline-flex items-center px-3 py-2 bg-ink-900 text-white text-xs font-mono uppercase tracking-wider hover:bg-ink-700" href="/me">See your roof's payback in this city &rarr;</a>
       </div>
     </div>
   </aside>
@@ -164,35 +166,44 @@ const tooltips = {
     return `linear-gradient(to right, ${stops.join(", ")})`;
   }
 
-  function bandLabel(score: number | null | undefined): { label: string; cls: string; sentence: string } {
+  function bandLabel(score: number | null | undefined, rank: number | null, total: number): { headline: string; cls: string; sentence: string } {
+    const rankText = rank !== null ? `Ranks <strong>${ordinal(rank)}</strong> of ${total} cities.` : "";
     if (score === null || score === undefined || Number.isNaN(score)) {
-      return { label: "no signal", cls: "text-ink-500", sentence: "Not enough satellite data this quarter to score this city." };
+      return { headline: "Not enough satellite data this quarter.", cls: "text-ink-500", sentence: "We couldn't score this city this round. Check back next quarter." };
     }
     if (score >= 1.0) return {
-      label: "strong solar-growth signal",
+      headline: "Lots of new rooftop solar here.",
       cls: "text-accent-steel font-semibold",
-      sentence: "Roofs here have darkened in NIR and cooled at midday <strong>well above</strong> the franchise average, consistent with substantial new rooftop solar."
+      sentence: `${rankText} Far more dark and cool rooftops than 2 years ago — that's what new solar arrays look like from space.`,
     };
     if (score >= 0.5) return {
-      label: "above-average solar-growth signal",
+      headline: "Solar adoption is picking up here.",
       cls: "text-accent-steel",
-      sentence: "Roofs here have darkened and cooled <strong>more than</strong> the franchise average, consistent with rooftop solar adoption."
+      sentence: `${rankText} More dark, cool rooftops than 2 years ago, above the franchise average.`,
     };
     if (score > -0.5) return {
-      label: "near the franchise baseline",
+      headline: "About average for the franchise.",
       cls: "text-ink-500",
-      sentence: "Roofs here track close to what the franchise as a whole did. Either little rooftop change, or noise."
+      sentence: `${rankText} Roofs look about how they did 2 years ago, with no clear solar-growth pattern in this round.`,
     };
     if (score > -1.0) return {
-      label: "below the franchise baseline",
+      headline: "Less solar growth than peers.",
       cls: "text-accent-coral",
-      sentence: "Roofs here moved <strong>opposite</strong> to what new rooftop solar would produce. Could be reroofing, paint, or simply less adoption."
+      sentence: `${rankText} Roofs got brighter or warmer than peers, the opposite of what new solar would do.`,
     };
     return {
-      label: "well below the franchise baseline",
+      headline: "No detectable solar growth.",
       cls: "text-accent-coral font-semibold",
-      sentence: "This city's signal is the <strong>opposite</strong> of what new rooftop solar produces. Investigate before drawing conclusions."
+      sentence: `${rankText} The signal is the opposite of new solar. Could be reroofing, paint, or just no installations.`,
     };
+  }
+
+  function ordinal(n: number): string {
+    const j = n % 10, k = n % 100;
+    if (j === 1 && k !== 11) return n + "st";
+    if (j === 2 && k !== 12) return n + "nd";
+    if (j === 3 && k !== 13) return n + "rd";
+    return n + "th";
   }
 
   function distributionStrip(value: number, allValues: number[], opts: { reverseTone?: boolean } = {}): string {
@@ -217,10 +228,10 @@ const tooltips = {
         <div class="absolute top-0 bottom-0 left-1/2 w-px bg-ink-300/60"></div>
         <div class="absolute -top-1 -bottom-1 w-1 rounded ${tone}" style="left: calc(${tickLeft}% - 2px);"></div>
       </div>
-      <div class="grid grid-cols-3 text-[9px] font-mono tabular-nums text-ink-300 mt-0.5">
-        <span class="text-left">${(-bound).toFixed(1)}</span>
-        <span class="text-center">0</span>
-        <span class="text-right">+${bound.toFixed(1)}</span>
+      <div class="grid grid-cols-3 text-[9px] text-ink-300 mt-0.5">
+        <span class="text-left">least</span>
+        <span class="text-center">average</span>
+        <span class="text-right">most</span>
       </div>
     `;
   }
@@ -242,18 +253,29 @@ const tooltips = {
     };
     const m = props.metrics ?? {};
     const p = props.policy ?? {};
+
+    // Compute rank: 1 = highest composite. Cities with no signal at the bottom.
+    const ranked = [...allFeatures]
+      .filter((f) => typeof f.properties?.metrics?.composite_solar_signal_score === "number")
+      .sort((a, b) => b.properties.metrics.composite_solar_signal_score - a.properties.metrics.composite_solar_signal_score);
+    const total = ranked.length;
+    const rank = ranked.findIndex((f) => f.properties.psgc_code === props.psgc_code) + 1 || null;
+
     set("city-name", props.name);
     set("city-province", props.province);
     set("city-composite", fmtSigned(m.composite_solar_signal_score));
 
     const composite = typeof m.composite_solar_signal_score === "number" ? m.composite_solar_signal_score : null;
-    const band = bandLabel(composite);
+    const band = bandLabel(composite, rank, total);
     const bandEl = document.getElementById("city-band");
     if (bandEl) {
-      bandEl.innerHTML = `<span class="${band.cls}">${band.label}.</span> ${band.sentence}`;
+      bandEl.innerHTML = `<span class="${band.cls} block mb-1">${band.headline}</span><span class="text-ink-700">${band.sentence}</span>`;
     }
 
-    // Composite visual bar (anchored at 0, sym domain)
+    setHTML("city-rank", rank ? ordinal(rank) : "n/a");
+    set("city-rank-of", rank ? `of ${total} cities` : "no rank this round");
+
+    // Visual bar still anchored at 0 (sym domain), but no -bound/+bound chrome
     const allComp = allFeatures
       .map((f) => f.properties?.metrics?.composite_solar_signal_score)
       .filter((v: any) => typeof v === "number" && !Number.isNaN(v));
@@ -264,12 +286,12 @@ const tooltips = {
       compositeBar.style.width = `${(t * 100).toFixed(1)}%`;
     }
 
-    // Distribution strips per signal
+    // Distribution strips per signal, with plain-language labels
     const strips: { key: string; label: string; tip: string; reverseTone?: boolean }[] = [
-      { key: "s2_nir_delta_zscore", label: "NIR delta", tip: tooltips.nir },
-      { key: "s2_swir_delta_zscore", label: "SWIR delta", tip: tooltips.swir },
-      { key: "landsat_lst_anomaly_zscore", label: "LST anomaly", tip: tooltips.lst },
-      { key: "viirs_nightlight_delta_zscore", label: "Nightlight delta", tip: tooltips.nightlight, reverseTone: true },
+      { key: "s2_nir_delta_zscore", label: "Roof darkness change", tip: tooltips.rooftopDark },
+      { key: "s2_swir_delta_zscore", label: "Roof material change", tip: tooltips.rooftopMaterial },
+      { key: "landsat_lst_anomaly_zscore", label: "Midday rooftop heat", tip: tooltips.rooftopHeat },
+      { key: "viirs_nightlight_delta_zscore", label: "Nighttime activity", tip: tooltips.nightActivity, reverseTone: true },
     ];
     setHTML(
       "city-strips",
@@ -279,9 +301,9 @@ const tooltips = {
           const allV = allFeatures.map((f: any) => f.properties?.metrics?.[s.key]).filter((x: any) => typeof x === "number");
           return `
             <div class="text-xs">
-              <div class="flex items-baseline justify-between mb-0.5">
-                <span class="text-ink-500">${infoTip(s.label, s.tip)}</span>
-                <span class="font-mono tabular-nums text-ink-900">${fmtSigned(v)}</span>
+              <div class="flex items-baseline justify-between mb-1">
+                <span class="text-ink-700">${infoTip(s.label, s.tip)}</span>
+                <span class="font-mono tabular-nums text-ink-500 text-[10px]">${fmtSigned(v)}</span>
               </div>
               ${distributionStrip(typeof v === "number" ? v : NaN, allV, { reverseTone: s.reverseTone })}
             </div>
@@ -291,14 +313,14 @@ const tooltips = {
     );
 
     setHTML("built-km2", typeof m.built_up_km2 === "number" ? `${m.built_up_km2.toFixed(1)}<span class="text-xs text-ink-500 ml-1">km²</span>` : "n/a");
-    setHTML("permit-fee", p.lgu_permit_fee_php ? `₱${p.lgu_permit_fee_php.toLocaleString()}` : `<span class="text-base text-ink-300">unverified</span>`);
-    set("permit-days", p.lgu_permit_days_p50 ? `${p.lgu_permit_days_p50} days median` : "");
+    setHTML("permit-fee", p.lgu_permit_fee_php ? `₱${p.lgu_permit_fee_php.toLocaleString()}` : `<span class="text-base text-ink-300">not yet verified</span>`);
+    set("permit-days", p.lgu_permit_days_p50 ? `~${p.lgu_permit_days_p50} days approval` : "");
 
     const sourceEl = document.getElementById("permit-source");
     if (sourceEl) {
       sourceEl.innerHTML = p.permit_data_source
-        ? `Source: <a href="${p.permit_data_source}" class="no-underline text-accent-steel">link</a>`
-        : `Permit data not yet verified for this city. <a href="https://github.com/xmpuspus/ghost-watts" class="no-underline text-accent-steel">Contribute a source</a>.`;
+        ? `Permit data source: <a href="${p.permit_data_source}" class="no-underline text-accent-steel">link</a>`
+        : `Most LGUs publish their fee schedules online; this one isn't in our table yet. <a href="https://github.com/xmpuspus/ghost-watts" class="no-underline text-accent-steel">Help fill in the gap</a>.`;
     }
     const meLink = document.getElementById("city-me-link") as HTMLAnchorElement | null;
     if (meLink) {
