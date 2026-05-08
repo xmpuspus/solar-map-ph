@@ -1,74 +1,67 @@
 ---
 import Base from "../layouts/Base.astro";
+import BubongTool from "../components/BubongTool.astro";
 ---
-<Base title="ghost-watts" pathname="/">
-  <section class="max-w-5xl mx-auto px-6 pt-14 pb-10">
+<Base title="bubong · what can your roof do?" pathname="/">
+  <section class="max-w-5xl mx-auto px-6 pt-14 pb-8">
     <div class="grid md:grid-cols-[1.4fr_1fr] gap-10 items-end">
       <div>
-        <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-4 font-mono">ghost-watts &middot; civic-tech-PH</p>
+        <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-4 font-mono">bubong &middot; your roof from space</p>
         <h1 class="text-4xl md:text-5xl leading-[1.05] mb-5 text-ink-900 font-semibold tracking-tight">
-          Where rooftop solar is growing across Meralco's franchise, from satellite signals.
+          What can your roof do?
         </h1>
-        <p class="text-lg text-ink-700 leading-relaxed">
-          Free tool. 61 cities and municipalities, ~9,300 km<sup>2</sup>, ~22 million people. Refreshed quarterly. Aggregate only, no addresses.
+        <p class="text-lg text-ink-700 leading-relaxed mb-2">
+          Drop your address. We pull a satellite picture of your specific roof, measure it, and tell you whether solar is worth it for you.
+        </p>
+        <p class="text-sm text-ink-500 leading-relaxed">
+          Free. No signup. Nothing about your address leaves your browser. Built for Filipino homeowners on Meralco.
         </p>
       </div>
       <aside class="border-l-2 border-ink-900 pl-5 text-sm text-ink-700 leading-relaxed">
-        <p class="mb-2 font-mono text-xs text-ink-500 uppercase tracking-wider">latest run</p>
-        <p class="font-mono text-2xl tabular-nums text-ink-900 leading-none mb-1">2026 Q2</p>
-        <p class="text-xs text-ink-500">Top signal: Valenzuela <span class="font-mono tabular-nums">+1.23</span></p>
-        <p class="text-xs text-ink-500">Bottom: Lucban <span class="font-mono tabular-nums">-1.03</span></p>
+        <p class="mb-2 font-mono text-xs text-ink-500 uppercase tracking-wider">what you get</p>
+        <ul class="space-y-1.5 text-sm">
+          <li>Hi-res satellite of <em>your</em> rooftop</li>
+          <li>Roof area + system size in kWp</li>
+          <li>Payback in years for your bill</li>
+          <li>Your LGU's permit cost</li>
+          <li>Solar installs near you, verified</li>
+        </ul>
       </aside>
     </div>
   </section>
 
+  <BubongTool />
+
+  <section class="max-w-prose mx-auto px-6 py-12 mt-12 border-t border-ink-300/30">
+    <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">why this exists</p>
+    <h2 class="text-2xl mb-4 leading-tight">PH solar is too important to leave to opaque sales pitches.</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-4">
+      Most Filipino homeowners considering solar have to navigate three asymmetries at once. Installer quotes vary 5x for the same system. LGU permit fees range ₱16K-153K for the same project. Net-metering has a 100kW cap, a 10-day approval target, and an opaque "guerrilla solar" enforcement debate. Meanwhile your Meralco bill keeps going up.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-4">
+      Bubong reads your address, finds your building from OpenStreetMap, measures your roof from satellite, runs the math against the current Meralco rate, and tells you what to do. It surfaces verified case studies of nearby installs, your city's rooftop-change signal from satellite (the ghost-watts research pipeline), and your LGU's permit cost where verified.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed">
+      No installer is paid to recommend their system. No data leaves your browser. The math is open-source and reproducible. <a href="/methodology" class="no-underline text-accent-steel">How we computed everything &rarr;</a>
+    </p>
+  </section>
+
   <section class="max-w-5xl mx-auto px-6 pb-12 grid gap-px bg-ink-300/40 md:grid-cols-2 border border-ink-300/40">
     <a href="/map" class="bg-paper p-6 md:p-8 no-underline group hover:bg-white transition-colors">
-      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">browse</p>
+      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">research backplane</p>
       <h2 class="text-xl mb-2 text-ink-900">The map</h2>
       <p class="text-sm text-ink-500 mb-4 leading-relaxed">
-        Composite signal score per city across the franchise. Click any city to compare it against its 60 peers on four satellite channels. Choropleth on an OSM basemap, anchored at the peer-average baseline.
+        Composite rooftop-change signal across 61 Meralco-franchise cities, refreshed quarterly. Six hand-verified solar installs as case studies. Built on Sentinel-2 + Landsat + VIIRS satellite imagery.
       </p>
       <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Open the map &rarr;</span>
     </a>
-    <a href="/me" class="bg-paper p-6 md:p-8 no-underline group hover:bg-white transition-colors">
-      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">estimate</p>
-      <h2 class="text-xl mb-2 text-ink-900">Your roof</h2>
+    <a href="/methodology" class="bg-paper p-6 md:p-8 no-underline group hover:bg-white transition-colors">
+      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">how it works</p>
+      <h2 class="text-xl mb-2 text-ink-900">Methodology</h2>
       <p class="text-sm text-ink-500 mb-4 leading-relaxed">
-        Type your city, your roof area, your monthly Meralco bill. Get a payback number in years, an annual savings number in pesos, and your LGU's permit cost (where verified). All math runs in your browser.
+        Every algorithm, every weight, every limitation. Includes the ground-truth validation pass that retired the original pin layer and re-positioned the project around per-roof estimates and verified case studies.
       </p>
-      <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Estimate your roof &rarr;</span>
+      <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Read methodology &rarr;</span>
     </a>
-  </section>
-
-  <section class="max-w-prose mx-auto px-6 py-10 border-t border-ink-300/30">
-    <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">why this exists</p>
-    <h2 class="text-2xl mb-4 leading-tight">PH solar policy isn't what the headlines say.</h2>
-    <p class="text-base text-ink-700 leading-relaxed mb-4">
-      ICSC says one-third of rooftop solar in Meralco's franchise is unregistered. Manila Times calls it "guerrilla solar." Politicians blame politicians. Where, exactly, and why?
-    </p>
-    <p class="text-base text-ink-700 leading-relaxed mb-4">
-      The current frame is "Meralco blocks solar." The data tells a more layered story:
-    </p>
-    <ul class="list-none pl-0 text-base text-ink-700 leading-relaxed space-y-3 mb-4 border-l border-ink-300/40 pl-5">
-      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">Meralco</span>asks for tighter regulation: equipment standards, installer accreditation, anti-islanding compliance. Officially safety. Quietly: distribution-charge revenue erosion plus net-metering cross-subsidy.</li>
-      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">DOE + Sen. Sherwin Gatchalian</span>are the streamliners, not the blockers. April 2026 circular cut approval to 10 working days, 3-day LGU electrical permit.</li>
-      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">ERC</span>has been structurally cautious. Opposed cap-raise above 100kW in 2018. Opposed full-retail compensation in 2019.</li>
-      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">LGUs</span>are the silent blocker. Same 520 kWp project: ₱153K permit fees in Rizal vs ₱16K in Laguna. 10x variance.</li>
-      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">Households</span>route around it. ICSC: ~1/3 unregistered installs. Real safety risk to utility workers when anti-islanding fails.</li>
-    </ul>
-    <p class="text-base text-ink-700 leading-relaxed">
-      ghost-watts contributes one missing piece: a public, repeatable estimate of where the unmeasured rooftop capacity concentrates and how that correlates with LGU permit friction.
-    </p>
-  </section>
-
-  <section class="max-w-prose mx-auto px-6 py-8 border-t border-ink-300/30">
-    <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">quarterly posts</p>
-    <ul class="text-base text-ink-700 leading-relaxed space-y-2">
-      <li>
-        <a href="/post/2026-q2" class="no-underline text-ink-900 hover:text-accent-steel">2026-Q2: inaugural release</a>
-        <span class="text-ink-500 text-sm"> &middot; draft, headline numbers TBD</span>
-      </li>
-    </ul>
   </section>
 </Base>

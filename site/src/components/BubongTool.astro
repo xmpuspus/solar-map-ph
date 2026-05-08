@@ -1,0 +1,600 @@
+---
+// Bubong: address → roof score → savings.
+// Client-side flow:
+//   1. Geocode address via Nominatim (Filipino-only)
+//   2. Query Overpass for building polygons within 80m of point
+//   3. Pick the polygon containing the point, or the nearest by centroid
+//   4. Compute roof area (turf area), centroid, bbox
+//   5. Fetch a hi-res Esri tile centered on the building
+//   6. Render image + SVG polygon overlay
+//   7. Compute solar potential (PVGIS-derived constant), payback
+//   8. Compute roof score (area + irradiance + size relative to peers)
+//   9. Surface neighborhood context: distance to verified case studies,
+//      and the user's city's composite signal rank
+//  10. Surface LGU permit cost from the existing friction table
+---
+<form id="bubong-form" class="max-w-2xl mx-auto px-6 grid gap-4">
+  <div class="grid gap-2">
+    <label class="text-sm text-ink-700" for="bubong-address">Your address (anywhere in Meralco's franchise)</label>
+    <input
+      id="bubong-address"
+      name="address"
+      type="text"
+      required
+      placeholder="e.g. Tomas Morato, Quezon City  /  BGC, Taguig  /  Antipolo Vista"
+      class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
+      autocomplete="off"
+    />
+    <p class="text-xs text-ink-500">We'll find your building from OpenStreetMap, measure your roof from satellite, and run the math. Nothing about your address is stored.</p>
+  </div>
+  <div class="grid gap-2 md:grid-cols-2">
+    <div class="grid gap-2">
+      <label class="text-sm text-ink-700" for="bubong-bill">Monthly Meralco bill (₱)</label>
+      <input
+        id="bubong-bill"
+        name="bill"
+        type="number"
+        min="500"
+        max="100000"
+        value="8000"
+        step="100"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono tabular-nums"
+      />
+    </div>
+    <div class="grid gap-2">
+      <label class="text-sm text-ink-700" for="bubong-residents">Household size (for benchmark)</label>
+      <select
+        id="bubong-residents"
+        name="residents"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
+      >
+        <option value="1">1 person</option>
+        <option value="2">2 people</option>
+        <option value="3">3 people</option>
+        <option value="4" selected>4 people</option>
+        <option value="5">5 people</option>
+        <option value="6">6+ people</option>
+      </select>
+    </div>
+  </div>
+  <div class="flex items-center justify-between">
+    <button type="submit" class="btn">Score my roof &rarr;</button>
+    <span id="bubong-status" class="text-xs text-ink-500"></span>
+  </div>
+</form>
+
+<div id="bubong-results" class="hidden max-w-5xl mx-auto px-6 mt-10"></div>
+
+<script>
+  import area from "@turf/area";
+  import centroid from "@turf/centroid";
+  import distance from "@turf/distance";
+  import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
+
+  type LatLon = { lat: number; lon: number; display_name: string };
+  type Building = {
+    osmId: number;
+    coords: number[][]; // outer ring as [lon, lat][]
+    geojson: any;
+    areaM2: number;
+    center: [number, number];
+    bboxM: { minLon: number; minLat: number; maxLon: number; maxLat: number };
+  };
+
+  const MERALCO_RATE_PHP_PER_KWH = 12.5;
+  const INSTALL_COST_PHP_PER_KWP = 65000;
+  const KWP_PER_M2 = 0.15;
+  const SYSTEM_LIFETIME_YEARS = 25;
+  const DEGRADATION_PER_YEAR = 0.005;
+  const PH_KWH_PER_KWP_PER_YEAR = 1315;
+
+  // Typical Meralco residential consumption per household size (kWh/month).
+  // Source: DOE/Meralco aggregate disclosures and ICSC household surveys.
+  const TYPICAL_KWH_BY_RESIDENTS: Record<string, [number, number]> = {
+    "1": [80, 180],
+    "2": [120, 280],
+    "3": [180, 380],
+    "4": [240, 480],
+    "5": [300, 580],
+    "6": [380, 700],
+  };
+
+  async function geocode(q: string): Promise<LatLon | null> {
+    // Photon (Komoot) primary: more permissive than Nominatim, CORS-clean.
+    // OSM-backed so coverage in PH is the same.
+    try {
+      const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(q + " Philippines")}&limit=5&lang=en`;
+      const r = await fetch(url);
+      if (r.ok) {
+        const data = await r.json();
+        const phFeatures = (data.features || []).filter(
+          (f: any) => f.properties?.countrycode === "PH"
+        );
+        const f = phFeatures[0];
+        if (f?.geometry?.coordinates) {
+          const [lon, lat] = f.geometry.coordinates;
+          const p = f.properties;
+          const parts = [p.name, p.city, p.state, p.country].filter(Boolean);
+          return { lat, lon, display_name: parts.join(", ") };
+        }
+      }
+    } catch {
+      // fall through to Nominatim
+    }
+    // Fallback: Nominatim (may be rate-limited)
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&countrycodes=ph&limit=1&accept-language=en`;
+      const r = await fetch(url);
+      if (!r.ok) return null;
+      const arr = await r.json();
+      if (!arr.length) return null;
+      return { lat: parseFloat(arr[0].lat), lon: parseFloat(arr[0].lon), display_name: arr[0].display_name };
+    } catch {
+      return null;
+    }
+  }
+
+  async function fetchBuildings(lat: number, lon: number, radius = 80): Promise<Building[]> {
+    const query = `[out:json][timeout:25];(way["building"](around:${radius},${lat},${lon});relation["building"](around:${radius},${lat},${lon}););out geom;`;
+    const url = `https://overpass-api.de/api/interpreter`;
+    const r = await fetch(url, {
+      method: "POST",
+      body: "data=" + encodeURIComponent(query),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
+    if (!r.ok) return [];
+    const data = await r.json();
+    const out: Building[] = [];
+    for (const el of data.elements || []) {
+      let coords: number[][] | null = null;
+      if (el.type === "way" && el.geometry) {
+        coords = el.geometry.map((p: any) => [p.lon, p.lat]);
+      } else if (el.type === "relation" && el.members) {
+        const outer = el.members.find((m: any) => m.role === "outer" && m.geometry);
+        if (outer && outer.geometry) {
+          coords = outer.geometry.map((p: any) => [p.lon, p.lat]);
+        }
+      }
+      if (!coords || coords.length < 4) continue;
+      // Close the ring if not already
+      if (coords[0][0] !== coords[coords.length - 1][0] || coords[0][1] !== coords[coords.length - 1][1]) {
+        coords.push(coords[0]);
+      }
+      const geo = { type: "Feature" as const, geometry: { type: "Polygon" as const, coordinates: [coords] }, properties: {} };
+      const a = area(geo as any);
+      if (a < 12) continue; // skip tiny ones
+      const c = centroid(geo as any).geometry.coordinates as [number, number];
+      const lons = coords.map((p) => p[0]);
+      const lats = coords.map((p) => p[1]);
+      out.push({
+        osmId: el.id,
+        coords,
+        geojson: geo,
+        areaM2: a,
+        center: c,
+        bboxM: {
+          minLon: Math.min(...lons),
+          maxLon: Math.max(...lons),
+          minLat: Math.min(...lats),
+          maxLat: Math.max(...lats),
+        },
+      });
+    }
+    return out;
+  }
+
+  function pickBuilding(point: [number, number], buildings: Building[]): Building | null {
+    if (!buildings.length) return null;
+    // Try point-in-polygon first
+    for (const b of buildings) {
+      if (booleanPointInPolygon({ type: "Point", coordinates: point } as any, b.geojson as any)) {
+        return b;
+      }
+    }
+    // Otherwise nearest centroid
+    let best: Building | null = null;
+    let bestD = Infinity;
+    for (const b of buildings) {
+      const d = distance({ type: "Point", coordinates: point } as any, { type: "Point", coordinates: b.center } as any, { units: "meters" } as any);
+      if (d < bestD) {
+        bestD = d;
+        best = b;
+      }
+    }
+    return best;
+  }
+
+  function paddedBbox(b: Building, padMeters = 60) {
+    // ~111,000 m per degree latitude; longitude scaled by cos(lat)
+    const padLat = padMeters / 111000;
+    const cLat = (b.bboxM.minLat + b.bboxM.maxLat) / 2;
+    const padLon = padMeters / (111000 * Math.cos((cLat * Math.PI) / 180));
+    return {
+      minLon: b.bboxM.minLon - padLon,
+      maxLon: b.bboxM.maxLon + padLon,
+      minLat: b.bboxM.minLat - padLat,
+      maxLat: b.bboxM.maxLat + padLat,
+    };
+  }
+
+  function esriExportUrl(bbox: { minLon: number; maxLon: number; minLat: number; maxLat: number }, sizePx = 600): string {
+    const params = new URLSearchParams({
+      bbox: `${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}`,
+      bboxSR: "4326",
+      size: `${sizePx},${sizePx}`,
+      imageSR: "3857",
+      format: "jpg",
+      f: "image",
+    });
+    return `https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export?${params}`;
+  }
+
+  function projectToImage(
+    coords: number[][],
+    bbox: { minLon: number; maxLon: number; minLat: number; maxLat: number },
+    sizePx = 600
+  ): string {
+    // Returns SVG path string
+    const dx = bbox.maxLon - bbox.minLon;
+    const dy = bbox.maxLat - bbox.minLat;
+    const pts = coords.map(([lon, lat]) => {
+      const x = ((lon - bbox.minLon) / dx) * sizePx;
+      const y = sizePx - ((lat - bbox.minLat) / dy) * sizePx;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    return `M ${pts.join(" L ")} Z`;
+  }
+
+  function estimateAnnualKwh(lat: number, kwp: number): number {
+    const adjust = 1 + (14.65 - lat) * 0.015;
+    return kwp * PH_KWH_PER_KWP_PER_YEAR * adjust;
+  }
+
+  function paybackYears(installCost: number, annualSavings: number): number {
+    if (annualSavings <= 0) return Infinity;
+    return installCost / annualSavings;
+  }
+
+  function lifetimeNpv(annualKwh: number, ratePhpKwh: number, installCost: number): number {
+    let total = -installCost;
+    let kwh = annualKwh;
+    for (let y = 0; y < SYSTEM_LIFETIME_YEARS; y++) {
+      total += kwh * ratePhpKwh;
+      kwh *= 1 - DEGRADATION_PER_YEAR;
+    }
+    return total;
+  }
+
+  function fmtCurrency(n: number, compact = false): string {
+    if (compact && n >= 1_000_000) return `₱${(n / 1_000_000).toFixed(2)}M`;
+    if (compact && n >= 1000) return `₱${(n / 1000).toFixed(0)}K`;
+    return `₱${Math.round(n).toLocaleString()}`;
+  }
+
+  function roofScore(opts: { areaM2: number; lat: number; aspectRatio: number }): { score: number; breakdown: Record<string, number> } {
+    // 0-100, weighted from area + irradiance + shape proxy (compactness)
+    // area: 100 m² = 50, 200 m² = 70, 400 m² = 90, 800+ m² = 100
+    const areaScore = Math.min(100, 30 + 35 * Math.log10(Math.max(20, opts.areaM2) / 50));
+    // irradiance: lat 14-16 in PH all good; small adjustment
+    const irrScore = 70 + (14.65 - opts.lat) * 1.5;
+    // aspect: too narrow = bad; ~1:1 to 1:3 ideal
+    const aspectPenalty = Math.max(0, opts.aspectRatio - 3) * 5;
+    const aspectScore = Math.max(40, 90 - aspectPenalty);
+    const composite = Math.round(0.5 * areaScore + 0.3 * irrScore + 0.2 * aspectScore);
+    return {
+      score: Math.max(0, Math.min(100, composite)),
+      breakdown: {
+        area: Math.round(areaScore),
+        irradiance: Math.round(irrScore),
+        shape: Math.round(aspectScore),
+      },
+    };
+  }
+
+  function bandFromScore(score: number): { label: string; color: string; advice: string } {
+    if (score >= 80) return { label: "excellent", color: "text-accent-steel font-semibold", advice: "Strong fit for solar. Worth getting quotes." };
+    if (score >= 65) return { label: "good", color: "text-accent-steel", advice: "Likely worth installing if you stay 5+ years." };
+    if (score >= 50) return { label: "fair", color: "text-ink-700", advice: "Possible, but check roof orientation and shading first." };
+    if (score >= 35) return { label: "limited", color: "text-accent-coral", advice: "Constrained by size or shading. Consider a smaller system or efficiency upgrades first." };
+    return { label: "poor fit", color: "text-accent-coral font-semibold", advice: "Solar is unlikely to pay back here. Try efficiency upgrades and time-shifting first." };
+  }
+
+  async function loadJson(path: string) {
+    try {
+      const r = await fetch(path);
+      if (!r.ok) return null;
+      return await r.json();
+    } catch {
+      return null;
+    }
+  }
+
+  type CaseStudy = { id: string; city: string; province: string; lat: number; lon: number; area_m2: number; kwp_equiv: number; image_path: string; note: string };
+
+  async function neighborhoodContext(point: [number, number]) {
+    const [caseDoc, manifest] = await Promise.all([
+      loadJson("/data/case_studies.json"),
+      loadJson("/data/manifest.json"),
+    ]);
+    const cases: CaseStudy[] = caseDoc?.cases ?? [];
+    const enriched = cases.map((c) => ({
+      ...c,
+      distanceKm: distance(
+        { type: "Point", coordinates: point } as any,
+        { type: "Point", coordinates: [c.lon, c.lat] } as any,
+        { units: "kilometers" } as any
+      ),
+    }));
+    enriched.sort((a, b) => a.distanceKm - b.distanceKm);
+    let cityComposite: { city: string; rank: number; total: number; score: number } | null = null;
+    if (manifest?.latest_quarter) {
+      const fc = await loadJson(`/data/ghost_watts_${manifest.latest_quarter}.geojson`);
+      if (fc?.features) {
+        const features = fc.features.filter((f: any) => typeof f.properties?.metrics?.composite_solar_signal_score === "number");
+        // Find which feature contains this point; if none, just the closest by centroid
+        const containing = features.find((f: any) => {
+          const polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
+          return polys.some((poly: number[][][]) => booleanPointInPolygon({ type: "Point", coordinates: point } as any, { type: "Feature", geometry: { type: "Polygon", coordinates: poly } } as any));
+        });
+        if (containing) {
+          const sorted = [...features].sort((a, b) => b.properties.metrics.composite_solar_signal_score - a.properties.metrics.composite_solar_signal_score);
+          const rank = sorted.findIndex((f) => f.properties.psgc_code === containing.properties.psgc_code) + 1;
+          cityComposite = {
+            city: containing.properties.name,
+            rank,
+            total: sorted.length,
+            score: containing.properties.metrics.composite_solar_signal_score,
+          };
+        }
+      }
+    }
+    return { nearestCases: enriched.slice(0, 3), cityComposite };
+  }
+
+  async function lguPermit(cityName: string | null) {
+    const data = await loadJson("/data/lgu_friction.json").catch(() => null);
+    if (!data || !cityName) return { fee: null, days: null, status: "unverified", notes: "" };
+    // The lgu_friction.json structure is verified vs unverified lists; the
+    // verified entries cover province-level reference points only in v1, so
+    // most cities will return unverified. That's honest; we say so.
+    if (data.verified && data.verified[cityName]) {
+      const v = data.verified[cityName];
+      return { fee: v.permit_fee_php, days: v.permit_days_p50, status: v.data_status, notes: v.notes ?? "" };
+    }
+    return { fee: null, days: null, status: "unverified", notes: "Most LGUs publish their fee schedules online but not in our hand-curated table yet." };
+  }
+
+  function aspectRatioOf(building: Building): number {
+    const dLon = building.bboxM.maxLon - building.bboxM.minLon;
+    const dLat = building.bboxM.maxLat - building.bboxM.minLat;
+    const cLat = (building.bboxM.minLat + building.bboxM.maxLat) / 2;
+    const widthM = dLon * 111000 * Math.cos((cLat * Math.PI) / 180);
+    const heightM = dLat * 111000;
+    return Math.max(widthM, heightM) / Math.max(0.1, Math.min(widthM, heightM));
+  }
+
+  async function run(opts: { address: string; bill: number; residents: string }) {
+    const status = document.getElementById("bubong-status")!;
+    status.textContent = "Geocoding...";
+    const geo = await geocode(opts.address);
+    if (!geo) {
+      status.textContent = "Couldn't find that address. Try adding the city or barangay name.";
+      return;
+    }
+    status.textContent = "Looking for your building from OpenStreetMap...";
+    const buildings = await fetchBuildings(geo.lat, geo.lon, 80);
+    if (!buildings.length) {
+      // Try wider radius
+      const wider = await fetchBuildings(geo.lat, geo.lon, 200);
+      if (!wider.length) {
+        status.textContent = "No building footprints near that address in OSM. Tip: try a more specific street name or a nearby landmark.";
+        return;
+      }
+      buildings.push(...wider);
+    }
+    const building = pickBuilding([geo.lon, geo.lat], buildings);
+    if (!building) {
+      status.textContent = "Couldn't pick a single building. Try a more specific address.";
+      return;
+    }
+    status.textContent = "Measuring your roof and pulling satellite imagery...";
+
+    const bbox = paddedBbox(building, 50);
+    const sizePx = 600;
+    const imgUrl = esriExportUrl(bbox, sizePx);
+    const polygonPath = projectToImage(building.coords, bbox, sizePx);
+
+    status.textContent = "Running solar math...";
+    const aspectR = aspectRatioOf(building);
+    const score = roofScore({ areaM2: building.areaM2, lat: geo.lat, aspectRatio: aspectR });
+    const band = bandFromScore(score.score);
+
+    // Use 80% of roof for panels (gaps between rows, walkable space, gutters)
+    const usableRoofM2 = building.areaM2 * 0.8;
+    const kwp = Math.round(usableRoofM2 * KWP_PER_M2 * 10) / 10;
+    const annualKwh = estimateAnnualKwh(geo.lat, kwp);
+    const annualSavings = annualKwh * MERALCO_RATE_PHP_PER_KWH;
+    const installCost = kwp * INSTALL_COST_PHP_PER_KWP;
+    const payback = paybackYears(installCost, annualSavings);
+    const npv = lifetimeNpv(annualKwh, MERALCO_RATE_PHP_PER_KWH, installCost);
+    const monthlyKwh = (opts.bill || 0) / MERALCO_RATE_PHP_PER_KWH;
+    const offsetPct = monthlyKwh > 0 ? Math.min(1, annualKwh / 12 / monthlyKwh) : 0;
+    const peerRange = TYPICAL_KWH_BY_RESIDENTS[opts.residents] ?? [240, 480];
+    const peerLow = peerRange[0];
+    const peerHigh = peerRange[1];
+    const userPercentile =
+      monthlyKwh < peerLow ? "below typical"
+      : monthlyKwh > peerHigh ? "above typical"
+      : "typical";
+
+    status.textContent = "Looking up your neighborhood and LGU...";
+    const ctx = await neighborhoodContext([geo.lon, geo.lat]);
+    const lgu = await lguPermit(ctx.cityComposite?.city ?? null);
+
+    status.textContent = "";
+    render({
+      address: geo.display_name,
+      lat: geo.lat,
+      lon: geo.lon,
+      building,
+      imgUrl,
+      polygonPath,
+      sizePx,
+      score: score.score,
+      breakdown: score.breakdown,
+      band,
+      kwp,
+      annualKwh,
+      annualSavings,
+      installCost,
+      payback,
+      npv,
+      monthlyBill: opts.bill,
+      monthlyKwh,
+      offsetPct,
+      peerLow,
+      peerHigh,
+      userPercentile,
+      cases: ctx.nearestCases,
+      cityComposite: ctx.cityComposite,
+      lgu,
+    });
+  }
+
+  function render(r: any) {
+    const root = document.getElementById("bubong-results")!;
+    root.classList.remove("hidden");
+    const cases = (r.cases || []).map((c: any) => `
+      <a href="/map?city=${encodeURIComponent(c.city.toLowerCase().replace(/[^a-z0-9]+/g, "-"))}" class="block group no-underline">
+        <div class="aspect-square overflow-hidden bg-ink-300/10">
+          <img src="${c.image_path}" alt="confirmed solar in ${c.city}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
+        </div>
+        <p class="text-xs text-ink-700 mt-1 leading-tight">${c.city}</p>
+        <p class="text-[10px] text-ink-500 font-mono">${c.distanceKm.toFixed(1)} km away</p>
+      </a>
+    `).join("");
+
+    root.innerHTML = `
+      <div class="grid gap-6 md:grid-cols-[1.3fr_1fr] mb-8">
+        <div class="border border-ink-300/40 bg-white">
+          <div class="relative aspect-square overflow-hidden bg-ink-300/10">
+            <img src="${r.imgUrl}" alt="Hi-res satellite view of your roof" class="absolute inset-0 w-full h-full object-cover" />
+            <svg viewBox="0 0 ${r.sizePx} ${r.sizePx}" preserveAspectRatio="none" class="absolute inset-0 w-full h-full pointer-events-none">
+              <path d="${r.polygonPath}" fill="none" stroke="#d97757" stroke-width="3" stroke-linejoin="round" />
+              <path d="${r.polygonPath}" fill="#d97757" fill-opacity="0.15" />
+            </svg>
+            <div class="absolute top-2 left-2 bg-white/95 px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-ink-700">
+              your roof · Esri World Imagery
+            </div>
+          </div>
+          <p class="text-xs text-ink-500 px-3 py-2 leading-relaxed">${r.address}</p>
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <div class="border border-ink-300/40 bg-white p-5">
+            <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">roof score</p>
+            <div class="flex items-baseline gap-3">
+              <span class="text-6xl font-mono font-semibold tabular-nums leading-none text-ink-900">${r.score}</span>
+              <span class="text-ink-500 text-xs">/100</span>
+            </div>
+            <p class="${r.band.color} mt-1.5 text-base">${r.band.label}</p>
+            <p class="text-sm text-ink-700 mt-3 leading-snug">${r.band.advice}</p>
+            <dl class="grid grid-cols-3 gap-2 mt-4 text-[11px] font-mono tabular-nums">
+              <div><dt class="text-ink-500">size</dt><dd class="text-ink-900">${r.breakdown.area}</dd></div>
+              <div><dt class="text-ink-500">sun</dt><dd class="text-ink-900">${r.breakdown.irradiance}</dd></div>
+              <div><dt class="text-ink-500">shape</dt><dd class="text-ink-900">${r.breakdown.shape}</dd></div>
+            </dl>
+          </div>
+
+          <div class="border border-ink-300/40 bg-white p-5">
+            <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">your roof</p>
+            <dl class="grid grid-cols-2 gap-y-1 gap-x-4 text-sm font-mono tabular-nums">
+              <dt class="text-ink-500">area</dt><dd class="text-right text-ink-900">${Math.round(r.building.areaM2)} m²</dd>
+              <dt class="text-ink-500">usable</dt><dd class="text-right text-ink-900">${Math.round(r.building.areaM2 * 0.8)} m²</dd>
+              <dt class="text-ink-500">max system</dt><dd class="text-right text-ink-900">${r.kwp.toFixed(1)} kWp</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-ink-300/40 bg-white p-6 md:p-8 mb-8">
+        <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">if you went solar</p>
+        <div class="grid gap-6 md:grid-cols-3 items-baseline">
+          <div>
+            <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">payback</div>
+            <div class="text-5xl md:text-6xl font-mono font-semibold tabular-nums leading-none text-ink-900">${Number.isFinite(r.payback) ? r.payback.toFixed(1) : "—"}</div>
+            <div class="text-sm text-ink-500 mt-1">years to break even</div>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">annual savings</div>
+            <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none text-ink-900">${fmtCurrency(r.annualSavings, true)}</div>
+            <div class="text-sm text-ink-500 mt-1">at ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh</div>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">25-year net</div>
+            <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none ${r.npv > 0 ? "text-accent-steel" : "text-ink-900"}">${fmtCurrency(r.npv, true)}</div>
+            <div class="text-sm text-ink-500 mt-1">after ${fmtCurrency(r.installCost, true)} install</div>
+          </div>
+        </div>
+        <p class="text-sm text-ink-700 mt-5 pt-5 border-t border-ink-300/30 leading-relaxed">
+          A <strong>${r.kwp.toFixed(1)} kWp</strong> rooftop system would generate <strong>${Math.round(r.annualKwh).toLocaleString()} kWh/year</strong>, covering <strong>${Math.round(r.offsetPct * 100)}%</strong> of your current bill.
+          ${r.userPercentile === "above typical"
+            ? `Your monthly use (${Math.round(r.monthlyKwh)} kWh) is <strong>above</strong> a typical ${r.peerLow}-${r.peerHigh} kWh range for your household size — solar will pay back faster than average.`
+            : r.userPercentile === "below typical"
+            ? `Your monthly use (${Math.round(r.monthlyKwh)} kWh) is <strong>below</strong> a typical ${r.peerLow}-${r.peerHigh} kWh range — solar payback is slower; efficiency upgrades may matter less for you.`
+            : `Your monthly use (${Math.round(r.monthlyKwh)} kWh) is in the typical ${r.peerLow}-${r.peerHigh} kWh range for your household.`}
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-[1fr_1fr] mb-8">
+        <div class="border border-ink-300/40 bg-white p-6">
+          <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">your city</p>
+          ${r.cityComposite
+            ? `<h3 class="text-xl text-ink-900 font-semibold mb-1">${r.cityComposite.city}</h3>
+               <p class="text-sm text-ink-700 leading-relaxed mb-3">Ranks <strong>${r.cityComposite.rank}</strong> of ${r.cityComposite.total} Meralco-franchise cities for rooftop change consistent with solar growth (composite ${r.cityComposite.score >= 0 ? "+" : ""}${r.cityComposite.score.toFixed(2)}).</p>
+               <a href="/map?city=${encodeURIComponent(r.cityComposite.city.toLowerCase().replace(/[^a-z0-9]+/g, "-"))}" class="text-xs font-mono uppercase tracking-wider text-accent-steel no-underline">see your city on the map &rarr;</a>`
+            : `<p class="text-sm text-ink-500">Outside Meralco's franchise area; we don't have city-level signal here.</p>`}
+        </div>
+        <div class="border border-ink-300/40 bg-white p-6">
+          <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">LGU permit</p>
+          <h3 class="text-xl text-ink-900 font-semibold mb-1">${r.cityComposite?.city ?? "your LGU"}</h3>
+          <dl class="grid grid-cols-2 gap-y-1 gap-x-4 text-sm font-mono tabular-nums mt-2 mb-3">
+            <dt class="text-ink-500">permit fee</dt><dd class="text-right text-ink-900">${r.lgu.fee !== null ? fmtCurrency(r.lgu.fee) : "not yet verified"}</dd>
+            <dt class="text-ink-500">approval</dt><dd class="text-right text-ink-900">${r.lgu.days ? `~${r.lgu.days} days` : "varies"}</dd>
+          </dl>
+          <p class="text-xs text-ink-500 leading-relaxed">${r.lgu.notes || "April 2026 DOE circular targets a 3-day permit ceiling; LGU adoption uneven."}</p>
+        </div>
+      </div>
+
+      <div class="mb-8">
+        <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">verified rooftop solar near you</p>
+        <div class="grid gap-4 grid-cols-3">${cases}</div>
+      </div>
+
+      <div class="border-t border-ink-300/30 pt-6 text-sm text-ink-500">
+        <p class="mb-2"><strong>What this is:</strong> a personal rooftop assessment using free public data (OpenStreetMap building footprints, Esri World Imagery for the satellite view, PVGIS-derived Philippine yield, current Meralco rate, our hand-curated LGU friction table).</p>
+        <p class="mb-2"><strong>What this isn't:</strong> engineering advice. Talk to a certified installer for a site survey, exact orientation, structural load, and pricing. Estimate accuracy degrades for shaded, multi-story, or unusually-shaped roofs.</p>
+        <p>Methodology and limitations on <a href="/methodology" class="no-underline text-accent-steel">/methodology</a>. The neighborhood signal comes from <a href="/map" class="no-underline text-accent-steel">/map</a>.</p>
+      </div>
+    `;
+  }
+
+  document.getElementById("bubong-form")!.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    const data = new FormData(form);
+    const address = String(data.get("address") || "").trim();
+    const bill = parseFloat(String(data.get("bill") || "8000"));
+    const residents = String(data.get("residents") || "4");
+    if (!address) return;
+    await run({ address, bill, residents });
+  });
+
+  // Pre-fill from query string for /bubong?address=... links
+  const params = new URLSearchParams(location.search);
+  const presetAddress = params.get("address");
+  if (presetAddress) {
+    const input = document.getElementById("bubong-address") as HTMLInputElement;
+    input.value = presetAddress;
+  }
+</script>

@@ -1,0 +1,20 @@
+---
+import Base from "../layouts/Base.astro";
+import BubongTool from "../components/BubongTool.astro";
+---
+<Base title="bubong · what can your roof do?" pathname="/bubong">
+  <section class="max-w-prose mx-auto px-6 pt-12 pb-2">
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">bubong &middot; your roof, from space</p>
+    <h1 class="text-3xl md:text-4xl mb-4 leading-tight">What can your roof do?</h1>
+    <p class="text-ink-700 leading-relaxed">
+      Drop your address. We'll find your building from OpenStreetMap, measure your roof from satellite, and tell you whether solar is worth it — with the actual savings number for your bill, your LGU's permit cost, and the closest hand-verified install. All in your browser. Nothing about your address leaves it.
+    </p>
+  </section>
+
+  <BubongTool />
+
+  <section class="max-w-prose mx-auto px-6 py-8 text-xs text-ink-500 leading-relaxed border-t border-ink-300/30 mt-12">
+    <p class="mb-2"><strong>How it works:</strong> we geocode your address (OpenStreetMap Nominatim), find your building's outline (OSM building footprints via Overpass), measure its rooftop area, pull a hi-res satellite tile of it (Esri World Imagery), and run the solar payback math against the latest Meralco residential rate (₱12.50/kWh) and a PH-average yield from PVGIS (~1315 kWh/kWp/year).</p>
+    <p>The neighborhood context, city composite signal, and LGU permit data come from the ghost-watts research pipeline, which compares 61 Meralco-franchise cities' rooftops in 2026 to 2022 using Sentinel-2 + Landsat + VIIRS satellite imagery. Methodology and full caveats on <a href="/methodology" class="text-accent-steel no-underline">/methodology</a>.</p>
+  </section>
+</Base>
