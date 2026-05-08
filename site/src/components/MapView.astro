@@ -3,7 +3,37 @@
 // MapLibre's GeoJSON source flattens nested object properties on click events,
 // so we maintain a parallel lookup table keyed by psgc_code and read from it
 // instead of trusting e.features[0].properties.
+const tooltips = {
+  composite: "Combined score from 4 satellite signals (NIR, SWIR, LST, nightlight), z-scored across the 61 franchise cities. Higher = stronger signal that rooftop solar grew here from 2022 to current quarter. Roughly: above +0.5 strong, near 0 baseline, below -0.5 below peers. Correlative, not diagnostic.",
+  nir: "Near-infrared reflectance change vs 2022, z-scored. Solar panels darken NIR. Negative = darker = consistent with new solar arrays. Most direct PV signature in remote-sensing literature.",
+  swir: "Short-wave infrared change vs 2022, z-scored. Same direction as NIR (negative = more solar-y), confirmatory rather than primary signal.",
+  lst: "Land surface temperature anomaly at midday vs 2022, z-scored. Solar arrays run cooler than bare roof in midday sun. Negative = cooler = consistent with new solar. Faint but independent of NIR/SWIR.",
+  nightlight: "VIIRS monthly nightlight change vs 2022, z-scored. Proxy for load-shape change. Positive weight in composite, but treated as triangulation, not primary evidence.",
+  builtUp: "Total built-up area (rooftops, roads, paved surfaces) in km², from ESA WorldCover 2021. Used to scale the solar signal: a 1% drop in NIR over 100 km² of city means a lot more roofs changed than the same 1% drop over 1 km².",
+  permit: "Cost in PHP for a residential rooftop solar electrical permit at this LGU. April 2026 DOE circular targets 3 working days for permit issuance, but cost varies hugely by LGU (Rizal cited ₱153K vs Laguna ₱16K for a 520 kWp commercial project, so residential ranges accordingly).",
+};
+
+function bandLabel(score: number | null | undefined): { label: string; tone: string } {
+  if (score === null || score === undefined || Number.isNaN(score)) {
+    return { label: "no signal", tone: "text-ink-500" };
+  }
+  if (score >= 1.0) return { label: "strong solar-growth signal", tone: "text-accent-steel font-semibold" };
+  if (score >= 0.5) return { label: "above-average signal", tone: "text-accent-steel" };
+  if (score > -0.5) return { label: "near baseline", tone: "text-ink-500" };
+  if (score > -1.0) return { label: "below baseline", tone: "text-accent-coral" };
+  return { label: "well below baseline", tone: "text-accent-coral font-semibold" };
+}
 ---
+<section class="max-w-6xl mx-auto px-6 mb-4">
+  <details class="card text-sm">
+    <summary class="cursor-pointer font-medium text-ink-700">How to read this map</summary>
+    <div class="mt-3 text-ink-700 leading-relaxed space-y-2">
+      <p>Every quarter we compare each city's rooftops to the same city's rooftops in 2022 using free satellite data. Roofs that have <strong>darkened in near-infrared</strong> and <strong>cooled at midday</strong> show up the way new solar arrays would. The four signals are blended into one <strong>composite score</strong>, then z-scored across the 61 cities so they're directly comparable.</p>
+      <p>On the map, <strong>stronger blue = stronger signal</strong> the city has been adding rooftop solar. Click any city for the four underlying signals plus its building footprint and (where verified) LGU permit cost. The score is correlative, not diagnostic. See <a href="/methodology" class="text-accent-steel no-underline">methodology</a> for the algorithm and caveats.</p>
+    </div>
+  </details>
+</section>
+
 <div id="map-root" class="grid md:grid-cols-[1fr_320px] gap-4 px-6">
   <div class="relative">
     <div id="map" class="w-full h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
@@ -22,7 +52,7 @@
     <div id="city-empty">
       <div class="text-ink-500 text-xs uppercase tracking-wide mb-2">Click a city on the map</div>
       <p class="text-ink-500">
-        Click any colored polygon to load metrics, building counts, registered estimates, and LGU permit data for that city.
+        Click any colored polygon to load metrics, building counts, registered estimates, and LGU permit data for that city. Open <em>How to read this map</em> above if any of the numbers are unclear.
       </p>
     </div>
     <div id="city-detail" class="hidden">
@@ -31,28 +61,63 @@
 
       <div class="mb-4">
         <div class="flex items-baseline justify-between mb-1">
-          <span class="text-xs uppercase tracking-wide text-ink-500">Composite signal</span>
+          <span class="text-xs uppercase tracking-wide text-ink-500 inline-flex items-center gap-1">
+            Composite signal
+            <span class="info-tip" tabindex="0" data-tip={tooltips.composite}>?</span>
+          </span>
           <span id="city-composite" class="font-mono"></span>
         </div>
         <div class="signal-bar"><span id="city-composite-bar" class="bg-accent-steel"></span></div>
+        <p id="city-band" class="text-xs mt-1.5"></p>
       </div>
 
       <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
-        <dt class="text-ink-500">NIR z-score</dt><dd id="z-nir" class="font-mono text-right"></dd>
-        <dt class="text-ink-500">SWIR z-score</dt><dd id="z-swir" class="font-mono text-right"></dd>
-        <dt class="text-ink-500">LST z-score</dt><dd id="z-lst" class="font-mono text-right"></dd>
-        <dt class="text-ink-500">Nightlight z-score</dt><dd id="z-night" class="font-mono text-right"></dd>
-        <dt class="text-ink-500">Built-up km&sup2;</dt><dd id="built-km2" class="font-mono text-right"></dd>
-        <dt class="text-ink-500">LGU permit fee</dt><dd id="permit-fee" class="font-mono text-right"></dd>
+        <dt class="text-ink-500 inline-flex items-center gap-1">NIR z-score <span class="info-tip" tabindex="0" data-tip={tooltips.nir}>?</span></dt><dd id="z-nir" class="font-mono text-right"></dd>
+        <dt class="text-ink-500 inline-flex items-center gap-1">SWIR z-score <span class="info-tip" tabindex="0" data-tip={tooltips.swir}>?</span></dt><dd id="z-swir" class="font-mono text-right"></dd>
+        <dt class="text-ink-500 inline-flex items-center gap-1">LST z-score <span class="info-tip" tabindex="0" data-tip={tooltips.lst}>?</span></dt><dd id="z-lst" class="font-mono text-right"></dd>
+        <dt class="text-ink-500 inline-flex items-center gap-1">Nightlight z-score <span class="info-tip" tabindex="0" data-tip={tooltips.nightlight}>?</span></dt><dd id="z-night" class="font-mono text-right"></dd>
+        <dt class="text-ink-500 inline-flex items-center gap-1">Built-up km&sup2; <span class="info-tip" tabindex="0" data-tip={tooltips.builtUp}>?</span></dt><dd id="built-km2" class="font-mono text-right"></dd>
+        <dt class="text-ink-500 inline-flex items-center gap-1">LGU permit fee <span class="info-tip" tabindex="0" data-tip={tooltips.permit}>?</span></dt><dd id="permit-fee" class="font-mono text-right"></dd>
         <dt class="text-ink-500">LGU permit days</dt><dd id="permit-days" class="font-mono text-right"></dd>
       </dl>
 
       <p class="mt-4 text-xs text-ink-500" id="permit-source"></p>
+      <p class="mt-3 text-[11px] text-ink-300 leading-relaxed">
+        Negative z-scores on NIR/SWIR/LST = "darker / cooler than peer cities" = consistent with more rooftop solar. The signs flip in the composite so positive composite always means more solar-like.
+      </p>
 
       <a id="city-me-link" class="btn mt-4" href="/me">Run me-mode for this city &rarr;</a>
     </div>
   </aside>
 </div>
+
+<style is:global>
+  .info-tip {
+    @apply inline-flex items-center justify-center w-3.5 h-3.5 text-[10px] rounded-full bg-ink-300/30 text-ink-700 cursor-help leading-none relative select-none;
+  }
+  .info-tip:hover, .info-tip:focus {
+    @apply bg-accent-steel text-white outline-none;
+  }
+  .info-tip:hover::after, .info-tip:focus::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0b1220;
+    color: #fbfaf6;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.4;
+    width: 240px;
+    text-align: left;
+    z-index: 50;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+    white-space: normal;
+  }
+</style>
 
 <section class="max-w-6xl mx-auto px-6 mt-8 grid gap-6 md:grid-cols-2">
   <div class="card">
@@ -124,6 +189,17 @@
     return `linear-gradient(to right, ${stops.join(", ")})`;
   }
 
+  function bandLabelClient(score: number | null | undefined): { label: string; cls: string } {
+    if (score === null || score === undefined || Number.isNaN(score)) {
+      return { label: "no signal", cls: "text-ink-500" };
+    }
+    if (score >= 1.0) return { label: "strong solar-growth signal", cls: "text-accent-steel font-semibold" };
+    if (score >= 0.5) return { label: "above-average signal", cls: "text-accent-steel" };
+    if (score > -0.5) return { label: "near baseline", cls: "text-ink-500" };
+    if (score > -1.0) return { label: "below baseline", cls: "text-accent-coral" };
+    return { label: "well below baseline", cls: "text-accent-coral font-semibold" };
+  }
+
   function showCity(props: CityFeature["properties"]) {
     document.getElementById("city-empty")!.classList.add("hidden");
     document.getElementById("city-detail")!.classList.remove("hidden");
@@ -140,6 +216,12 @@
     const composite = typeof m.composite_solar_signal_score === "number" ? m.composite_solar_signal_score : 0;
     const pct = Math.max(0, Math.min(1, (composite + 1.5) / 3));
     if (compositeBar) compositeBar.style.width = `${(pct * 100).toFixed(1)}%`;
+    const bandEl = document.getElementById("city-band");
+    if (bandEl) {
+      const band = bandLabelClient(typeof m.composite_solar_signal_score === "number" ? m.composite_solar_signal_score : null);
+      bandEl.textContent = band.label;
+      bandEl.className = `text-xs mt-1.5 ${band.cls}`;
+    }
     set("z-nir", fmt(m.s2_nir_delta_zscore));
     set("z-swir", fmt(m.s2_swir_delta_zscore));
     set("z-lst", fmt(m.landsat_lst_anomaly_zscore));
