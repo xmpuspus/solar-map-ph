@@ -1,0 +1,85 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="methodology | ghost-watts" pathname="/methodology">
+  <article class="max-w-prose mx-auto px-6 pt-8 pb-12 prose prose-sm">
+    <h1 class="text-3xl mb-2">Methodology</h1>
+    <p class="text-xs text-ink-500 mb-6">v1, 2026-05. This page is updated each quarter when caveats change.</p>
+
+    <h2 class="text-xl mt-6 mb-2">What ghost-watts measures</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      A composite of four satellite-derived signals computed at city/municipality scale across Meralco's franchise area, each quarter:
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li><strong>NIR delta (Sentinel-2 B8)</strong>: median near-infrared reflectance over the city, current quarter minus 2022 baseline. Crystalline silicon panels darken NIR. Most direct PV signature in the literature. Weight: 0.40.</li>
+      <li><strong>SWIR delta (Sentinel-2 B11)</strong>: same delta on the short-wave infrared band. Confirmatory; weaker signal than NIR. Weight: 0.30.</li>
+      <li><strong>LST anomaly (Landsat 8/9 ST_B10)</strong>: midday land surface temperature current vs baseline. Solar arrays run cooler than bare roof in midday sun. Faint but independent. Weight: 0.20.</li>
+      <li><strong>Nightlight delta (VIIRS DNB)</strong>: monthly average radiance current vs baseline. Proxy for load-shape change. Noisy. Use as triangulation. Weight: 0.10.</li>
+    </ul>
+
+    <h2 class="text-xl mt-6 mb-2">How signals become a composite</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Each city's raw signal is z-scored across all cities in the franchise. Composite =
+      <code>-0.40 × z_nir + -0.30 × z_swir + -0.20 × z_lst + 0.10 × z_nightlight</code>.
+      The negative weights on NIR/SWIR/LST reflect that "darker" or "cooler" indicates more solar. Positive z-scores on nightlight are a load-shape proxy. Initial weights are v1 priors based on PV remote-sensing literature; if/when ground-truth labels are obtained, weights become tunable.
+    </p>
+
+    <h2 class="text-xl mt-6 mb-2">Cloud and noise handling</h2>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li>Sentinel-2: SCL band classes 1, 3, 8, 9, 10 masked out (saturated, shadow, clouds, cirrus).</li>
+      <li>Landsat: QA_PIXEL bits 3 and 4 masked out (cloud and shadow).</li>
+      <li>Built-up area mask from ESA WorldCover 2021 class 50 reduces vegetation and water noise.</li>
+      <li>Heavy-cloud quarters: pipeline broadens the date window to a 4-month rolling median.</li>
+    </ul>
+
+    <h2 class="text-xl mt-6 mb-2">Aggregation unit</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      City/municipality level is the headline scale (~50 polygons). Barangay drilldown is computed only where built-up area exceeds 1 km<sup>2</sup>; below that, signal is too noisy for a useful claim.
+    </p>
+
+    <h2 class="text-xl mt-6 mb-2">What ghost-watts does not claim</h2>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li>No individual-rooftop detection. We do not, and will not, identify any specific home or building as solar.</li>
+      <li>No address-level data. No PII is ingested or published.</li>
+      <li>No causal claim. The composite correlates with PV adoption but could also reflect roof reconstruction, paint changes, or sensor drift. We say "consistent with," never "proves."</li>
+      <li>No prosecution-grade evidence. This data is for civic transparency and homeowner research, not enforcement.</li>
+    </ul>
+
+    <h2 class="text-xl mt-6 mb-2">Data joiners</h2>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li><strong>Microsoft GlobalMLBuildingFootprints</strong> for per-city building counts as a denominator.</li>
+      <li><strong>Meralco aggregate registry counts</strong> from public reports, refreshed quarterly. See <code>pipeline/meralco_aggregates.json</code>.</li>
+      <li><strong>DOE LGU-level net-metering counts</strong> where published.</li>
+      <li><strong>LGU permit cost and delay table</strong>: hand-curated, verified rows only. See <code>pipeline/lgu_friction.json</code>. Open a PR to contribute.</li>
+      <li><strong>PVGIS</strong> (European Commission, free) for the homeowner tool's solar potential math.</li>
+    </ul>
+
+    <h2 class="text-xl mt-6 mb-2">Reproducibility</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The pipeline is one Python script (<code>pipeline/pipeline.py</code>) plus a validator. Earth Engine auth via service account. Anyone with EE access and the repo can run it and produce the same outputs. The full algorithm, weights, and data files are MIT/CC-BY licensed.
+    </p>
+
+    <h2 class="text-xl mt-6 mb-2">Honest limitations</h2>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li>10m Sentinel-2 resolution caps inference at city/barangay scale, not roof-level.</li>
+      <li>Composite weights are v1 priors, not validated against ground truth.</li>
+      <li>Cloud-heavy quarters introduce noise; broadening the window helps but does not eliminate it.</li>
+      <li>Baseline 2022 means installs prior to 2022 are baked into the baseline, not detected.</li>
+      <li>Aggregate Meralco counts come from public reports, not audited filings.</li>
+      <li>LGU friction table is small (~30 LGUs) and unevenly verified.</li>
+    </ul>
+
+    <h2 class="text-xl mt-6 mb-2">References</h2>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1">
+      <li>Yu, J., Wang, Z., Majumdar, A., Rajagopal, R. <em>DeepSolar: A Machine Learning Framework to Efficiently Construct a Solar Deployment Database in the United States.</em> Joule (2018). <a href="https://www.sciencedirect.com/science/article/pii/S2542435118305701" class="no-underline text-accent-steel">link</a></li>
+      <li>ICSC (Institute for Climate and Sustainable Cities). <a href="https://icsc.ngo" class="no-underline text-accent-steel">icsc.ngo</a></li>
+      <li>Meralco public statements (2026-05): <a href="https://bilyonaryo.com/2026/05/03/meralco-urges-crackdown-on-guerilla-solar-setups-tighter-rules/power/" class="no-underline text-accent-steel">Bilyonaryo</a>, <a href="https://tribune.net.ph/2026/05/07/meralco-seeks-crackdown-on-guerrilla-solar-installations" class="no-underline text-accent-steel">Tribune</a>, <a href="https://cleantechnica.com/2026/05/04/guerilla-solar-installations-discovered-need-to-be-controlled-says-philippine-power-distributor/" class="no-underline text-accent-steel">CleanTechnica</a>.</li>
+      <li>Inquirer Opinion, "Guerrilla solar installers in summer of discontent": <a href="https://opinion.inquirer.net/191526/guerrilla-solar-installers-in-summer-of-discontent" class="no-underline text-accent-steel">link</a></li>
+      <li>Manila Times, "A brewing solar controversy" (2026-05-07): <a href="https://www.manilatimes.net/2026/05/07/opinion/columns/a-brewing-solar-controversy/2337415" class="no-underline text-accent-steel">link</a></li>
+      <li>Power Philippines, "Inconsistent LGU Permits Stalling Rooftop Solar Growth": <a href="https://powerphilippines.com/inconsistent-lgu-permits-stalling-rooftop-solar-growth-expert-warns/" class="no-underline text-accent-steel">link</a></li>
+      <li>pv-magazine, "Philippines accelerates permits for solar net-metering" (2026-02-04): <a href="https://www.pv-magazine.com/2026/02/04/philippines-accelerates-permits-for-solar-net-metering/" class="no-underline text-accent-steel">link</a></li>
+      <li>ESA WorldCover v200: <a href="https://esa-worldcover.org" class="no-underline text-accent-steel">esa-worldcover.org</a></li>
+      <li>PVGIS: <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/" class="no-underline text-accent-steel">European Commission JRC</a></li>
+    </ul>
+  </article>
+</Base>

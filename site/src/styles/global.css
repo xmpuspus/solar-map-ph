@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  body {
+    @apply bg-paper text-ink-900 antialiased;
+  }
+  a {
+    @apply underline decoration-ink-300 underline-offset-2 hover:decoration-ink-700;
+  }
+  h1, h2, h3, h4 {
+    @apply font-semibold tracking-tight;
+  }
+  code, pre {
+    @apply font-mono text-[0.92em];
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white border border-ink-300/40 rounded-md p-5 shadow-sm;
+  }
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 text-xs rounded-full bg-ink-700/10 text-ink-700;
+  }
+  .btn {
+    @apply inline-flex items-center px-3 py-1.5 rounded-md bg-ink-900 text-white text-sm hover:bg-ink-700;
+  }
+  .signal-bar {
+    @apply h-2 rounded bg-ink-300/30 overflow-hidden;
+  }
+  .signal-bar > span {
+    @apply block h-full;
+  }
+}

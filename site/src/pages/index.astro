@@ -1,0 +1,63 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="ghost-watts" pathname="/">
+  <section class="max-w-prose mx-auto px-6 pt-12 pb-8">
+    <p class="badge mb-3">civic-tech-PH</p>
+    <h1 class="text-4xl mb-4 leading-tight">
+      The rooftop solar Meralco can't see.
+    </h1>
+    <p class="text-lg text-ink-700 leading-relaxed mb-6">
+      ICSC says roughly one-third of rooftop solar in Meralco's franchise is unregistered. Manila Times calls it "guerrilla solar." Politicians blame politicians. Where, exactly?
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed">
+      ghost-watts uses free public satellite signals (Sentinel-2 NIR/SWIR, Landsat thermal, VIIRS nightlights) blended in Google Earth Engine to estimate the unmeasured rooftop solar capacity in Meralco's franchise area, refreshed quarterly. City-level resolution. Aggregate framing only. No address-level claims.
+    </p>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 py-8 grid gap-6 md:grid-cols-2">
+    <a href="/map" class="card no-underline hover:border-ink-700/40 hover:shadow transition-shadow">
+      <div class="badge mb-2">A-mode</div>
+      <h2 class="text-xl mb-2">The map</h2>
+      <p class="text-sm text-ink-500 mb-3">
+        Composite signal score per city across the franchise. Choropleth on an OSM basemap. Time slider quarterly back to 2022. Click any city for raw z-scores, building count, registered estimate, and LGU permit cost.
+      </p>
+      <p class="text-sm font-medium text-accent-steel">Open the map &rarr;</p>
+    </a>
+    <a href="/me" class="card no-underline hover:border-ink-700/40 hover:shadow transition-shadow">
+      <div class="badge mb-2">B-mode</div>
+      <h2 class="text-xl mb-2">Your roof</h2>
+      <p class="text-sm text-ink-500 mb-3">
+        Drop your address, type your monthly Meralco bill, get your barangay's signal strength, your roof's PVGIS-derived solar potential, your LGU's permit cost and approval delay, and the registered-vs-guerrilla path comparison.
+      </p>
+      <p class="text-sm font-medium text-accent-steel">Estimate your roof &rarr;</p>
+    </a>
+  </section>
+
+  <section class="max-w-prose mx-auto px-6 py-8">
+    <h2 class="text-2xl mb-4">What's actually happening in PH solar policy</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The "politicians block solar" framing oversimplifies. Five actors with distinct positions:
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>Meralco</strong> wants tighter regulation: equipment standards, installer accreditation, anti-islanding compliance. Officially safety. Quietly: distribution-charge revenue erosion plus net-metering cross-subsidy.</li>
+      <li><strong>DOE plus Sen. Sherwin Gatchalian</strong> are the streamliners. April 2026 circular cut approval to 10 working days, 3-day LGU electrical permit, deemed-approved on silence.</li>
+      <li><strong>ERC</strong> has been structurally cautious. Opposed cap-raise above 100kW in 2018. Opposed full-retail compensation in 2019.</li>
+      <li><strong>LGUs</strong> are the silent blocker. Same 520 kWp project: ₱153K permit fees in Rizal vs ₱16K in Laguna.</li>
+      <li><strong>Households</strong> route around it. ICSC: ~1/3 of installs are unregistered. Real safety risk to utility workers if anti-islanding fails.</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed">
+      ghost-watts is a small contribution to one missing piece: a public, repeatable estimate of where the unmeasured capacity concentrates and how it correlates with LGU permit friction.
+    </p>
+  </section>
+
+  <section class="max-w-prose mx-auto px-6 py-8 border-t border-ink-300/30">
+    <h2 class="text-xl mb-3">Quarterly posts</h2>
+    <ul class="text-base text-ink-700 leading-relaxed space-y-2">
+      <li>
+        <a href="/post/2026-q2" class="no-underline text-ink-900 hover:text-accent-steel">2026-Q2: inaugural release</a>
+        <span class="text-ink-500"> &middot; coming on first pipeline run</span>
+      </li>
+    </ul>
+  </section>
+</Base>

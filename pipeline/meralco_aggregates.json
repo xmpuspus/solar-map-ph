@@ -1,0 +1,22 @@
+{
+  "_comment": "Meralco public registered net-metering aggregate counts. Refreshed quarterly from Meralco's public reports. Aggregate only; no address-level data is published or scraped.",
+  "as_of": "2026-05-03",
+  "registered_installations": 20000,
+  "registered_capacity_mw_aggregate": 170,
+  "additional_commercial_outside_program_mw": 370,
+  "total_solar_capacity_mw_in_franchise": 500,
+  "icsc_unregistered_estimate_fraction": 0.33,
+  "source_attribution": "Meralco public statements via Bilyonaryo, Tribune, CleanTechnica reporting (2026-05)",
+  "source_urls": [
+    "https://bilyonaryo.com/2026/05/03/meralco-urges-crackdown-on-guerilla-solar-setups-tighter-rules/power/",
+    "https://tribune.net.ph/2026/05/07/meralco-seeks-crackdown-on-guerrilla-solar-installations",
+    "https://cleantechnica.com/2026/05/04/guerilla-solar-installations-discovered-need-to-be-controlled-says-philippine-power-distributor/",
+    "https://icsc.ngo"
+  ],
+  "context": {
+    "100kW_cap_status": "active under Renewable Energy Act 2008. Meralco supports streamlining; ERC has historically opposed cap-raise. Sen. Sherwin Gatchalian and DOE pushing reform.",
+    "april_2026_doe_circular": "10 working day approval target for net metering, 3-day LGU electrical permit, 7-day CFEI, deemed-approved on silence",
+    "current_meralco_residential_rate_php_per_kwh": 12.5,
+    "rate_as_of": "2026-04"
+  }
+}

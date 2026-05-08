@@ -1,0 +1,49 @@
+{
+  "_comment": "LGU permit cost and approval delay for residential rooftop solar installations. Only verified, sourced data points are populated. Unverified cities have status='unverified' and need a contributor with on-the-ground knowledge to fill in. Open a PR with a source URL to add or correct entries. Refresh annually or when DOE/LGU publishes new fee schedules. April 2026 DOE circular: LGUs must issue electrical permits within 3 working days and Certificates of Final Electrical Inspection within 7 working days, with 'deemed approved' on silence. Many LGUs have not yet adopted the new schedule as of 2026-05-08.",
+  "_source_last_verified": "2026-05-08",
+  "_unit_currency": "PHP",
+  "_unit_days": "calendar days from filing to electrical permit issuance",
+  "_doe_circular_2026": {
+    "circular_date": "2026-04",
+    "permit_target_days": 3,
+    "cfei_target_days": 7,
+    "deemed_approved": true,
+    "source": "https://www.pv-magazine.com/2026/02/04/philippines-accelerates-permits-for-solar-net-metering/"
+  },
+  "verified": {
+    "Rizal Province (province-level reference)": {
+      "permit_fee_php": 153000,
+      "permit_days_p50": null,
+      "project_size_kwp": 520,
+      "data_status": "verified",
+      "data_source": "Power Philippines, citing 520kWp commercial project comparison",
+      "source_url": "https://powerphilippines.com/inconsistent-lgu-permits-stalling-rooftop-solar-growth-expert-warns/",
+      "data_collected": "2026-04",
+      "notes": "Province-level rate cited as outlier high. Specific city varies. Use as upper-bound reference for residential extrapolation: residential ~ 0.10-0.15x of 520kWp commercial fee."
+    },
+    "Laguna Province (province-level reference)": {
+      "permit_fee_php": 16000,
+      "permit_days_p50": null,
+      "project_size_kwp": 520,
+      "data_status": "verified",
+      "data_source": "Power Philippines, citing 520kWp commercial project comparison",
+      "source_url": "https://powerphilippines.com/inconsistent-lgu-permits-stalling-rooftop-solar-growth-expert-warns/",
+      "data_collected": "2026-04",
+      "notes": "Province-level rate cited as low end. Use as lower-bound reference for residential extrapolation."
+    }
+  },
+  "unverified": [
+    "Caloocan", "Las Pinas", "Makati", "Malabon", "Mandaluyong", "Manila", "Marikina",
+    "Muntinlupa", "Navotas", "Paranaque", "Pasay", "Pasig", "Pateros", "Quezon City",
+    "San Juan", "Taguig", "Valenzuela",
+    "San Jose del Monte", "Meycauayan", "Marilao", "Bocaue", "Obando", "Bulacan",
+    "Antipolo", "Cainta", "Taytay", "San Mateo", "Angono", "Binangonan", "Rodriguez (Montalban)",
+    "Teresa", "Cardona", "Baras", "Morong", "Pililla", "Tanay", "Jala-Jala",
+    "Bacoor", "Imus", "Dasmarinas", "Kawit", "Noveleta", "Rosario", "Cavite City",
+    "Tanza", "Trece Martires", "Carmona", "General Mariano Alvarez", "Silang",
+    "Binan", "Cabuyao", "Calamba", "Los Banos", "San Pedro", "Santa Rosa", "Bay", "Calauan",
+    "Tanauan", "Santo Tomas", "Malvar",
+    "Lucban"
+  ],
+  "_contributor_guide": "To add a verified row, file a PR with: actual permit fee schedule (link to ordinance or LGU website), residential rooftop solar project size assumed (typical 3-10kWp), median calendar days from filing to permit issuance (with sample size if known), and a public-source URL. Only data with a verifiable source goes in 'verified'. The permit_days_p50 field is null when only a fee is known. The fee field is null when only delay data is known."
+}

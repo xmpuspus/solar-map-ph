@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+.astro/
+.cache/
+
+# Environments and secrets
+.env
+.env.local
+*-key.json
+ee-key.json
+service-account*.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Local data caches (not committed; only the published GeoJSONs in site/public/data/ are)
+pipeline/.cache/
+pipeline/scratch/
+*.tif
+*.tiff
+*.zip

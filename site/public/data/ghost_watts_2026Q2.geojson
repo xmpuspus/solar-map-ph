@@ -1,0 +1,11 @@
+{
+  "type": "FeatureCollection",
+  "features": [],
+  "properties": {
+    "quarter": "2026Q2",
+    "generated_utc": "2026-05-08T02:02:53.280684+00:00",
+    "dry_run": true,
+    "city_count_planned": 61,
+    "note": "Dry-run output. Run with EE auth to populate features."
+  }
+}

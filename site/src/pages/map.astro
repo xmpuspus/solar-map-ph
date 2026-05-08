@@ -1,0 +1,20 @@
+---
+import Base from "../layouts/Base.astro";
+import MapView from "../components/MapView.astro";
+---
+<Base title="map | ghost-watts" pathname="/map">
+  <section class="max-w-6xl mx-auto px-6 pt-8 pb-4">
+    <h1 class="text-3xl mb-2">Composite solar signal, by city</h1>
+    <p class="text-ink-700 max-w-prose">
+      Each city in Meralco's franchise scored on a multi-signal composite (Sentinel-2 NIR/SWIR delta, Landsat LST anomaly, VIIRS nightlight delta) computed in Earth Engine quarterly. Click a city for the full row of metrics, registered estimates, and LGU permit cost. Signal is correlative, not diagnostic. See
+      <a href="/methodology" class="no-underline text-accent-steel">methodology</a>
+      for the algorithm and caveats.
+    </p>
+  </section>
+
+  <MapView />
+
+  <section class="max-w-6xl mx-auto px-6 py-6 text-xs text-ink-500">
+    Aggregate framing only. No address-level claims. No PII. Cite as: ghost-watts (YYYY-QN), https://github.com/xmpuspus/ghost-watts. CC-BY-4.0 on data.
+  </section>
+</Base>

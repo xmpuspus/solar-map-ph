@@ -1,0 +1,80 @@
+{
+  "_comment": "Cities and municipalities served by Meralco. NCR is fully Meralco. Adjacent provinces are partially served; only LGUs known to be in the franchise are listed. Source: Meralco franchise records and DOE distribution utility maps. Refresh annually or when Meralco publishes franchise updates.",
+  "_source_last_verified": "2026-05-08",
+  "_source": "https://company.meralco.com.ph (franchise area pages)",
+  "ncr": [
+    {"name": "Caloocan", "psgc_code": "1380101000", "province": "Metro Manila"},
+    {"name": "Las Pinas", "psgc_code": "1380102000", "province": "Metro Manila"},
+    {"name": "Makati", "psgc_code": "1380103000", "province": "Metro Manila"},
+    {"name": "Malabon", "psgc_code": "1380104000", "province": "Metro Manila"},
+    {"name": "Mandaluyong", "psgc_code": "1380105000", "province": "Metro Manila"},
+    {"name": "Manila", "psgc_code": "1380106000", "province": "Metro Manila"},
+    {"name": "Marikina", "psgc_code": "1380107000", "province": "Metro Manila"},
+    {"name": "Muntinlupa", "psgc_code": "1380108000", "province": "Metro Manila"},
+    {"name": "Navotas", "psgc_code": "1380109000", "province": "Metro Manila"},
+    {"name": "Paranaque", "psgc_code": "1380110000", "province": "Metro Manila"},
+    {"name": "Pasay", "psgc_code": "1380111000", "province": "Metro Manila"},
+    {"name": "Pasig", "psgc_code": "1380112000", "province": "Metro Manila"},
+    {"name": "Pateros", "psgc_code": "1380113000", "province": "Metro Manila"},
+    {"name": "Quezon City", "psgc_code": "1380114000", "province": "Metro Manila"},
+    {"name": "San Juan", "psgc_code": "1380115000", "province": "Metro Manila"},
+    {"name": "Taguig", "psgc_code": "1380116000", "province": "Metro Manila"},
+    {"name": "Valenzuela", "psgc_code": "1380117000", "province": "Metro Manila"}
+  ],
+  "bulacan_franchise": [
+    {"name": "San Jose del Monte", "psgc_code": "0314023000", "province": "Bulacan"},
+    {"name": "Meycauayan", "psgc_code": "0314020000", "province": "Bulacan"},
+    {"name": "Marilao", "psgc_code": "0314019000", "province": "Bulacan"},
+    {"name": "Bocaue", "psgc_code": "0314005000", "province": "Bulacan"},
+    {"name": "Obando", "psgc_code": "0314022000", "province": "Bulacan"},
+    {"name": "Bulacan", "psgc_code": "0314006000", "province": "Bulacan"}
+  ],
+  "rizal_franchise": [
+    {"name": "Antipolo", "psgc_code": "0458007000", "province": "Rizal"},
+    {"name": "Cainta", "psgc_code": "0458005000", "province": "Rizal"},
+    {"name": "Taytay", "psgc_code": "0458014000", "province": "Rizal"},
+    {"name": "San Mateo", "psgc_code": "0458012000", "province": "Rizal"},
+    {"name": "Angono", "psgc_code": "0458002000", "province": "Rizal"},
+    {"name": "Binangonan", "psgc_code": "0458003000", "province": "Rizal"},
+    {"name": "Rodriguez (Montalban)", "psgc_code": "0458010000", "province": "Rizal"},
+    {"name": "Teresa", "psgc_code": "0458015000", "province": "Rizal"},
+    {"name": "Cardona", "psgc_code": "0458006000", "province": "Rizal"},
+    {"name": "Baras", "psgc_code": "0458001000", "province": "Rizal"},
+    {"name": "Morong", "psgc_code": "0458009000", "province": "Rizal"},
+    {"name": "Pililla", "psgc_code": "0458011000", "province": "Rizal"},
+    {"name": "Tanay", "psgc_code": "0458013000", "province": "Rizal"},
+    {"name": "Jala-Jala", "psgc_code": "0458008000", "province": "Rizal"}
+  ],
+  "cavite_franchise": [
+    {"name": "Bacoor", "psgc_code": "0421004000", "province": "Cavite"},
+    {"name": "Imus", "psgc_code": "0421014000", "province": "Cavite"},
+    {"name": "Dasmarinas", "psgc_code": "0421008000", "province": "Cavite"},
+    {"name": "Kawit", "psgc_code": "0421015000", "province": "Cavite"},
+    {"name": "Noveleta", "psgc_code": "0421018000", "province": "Cavite"},
+    {"name": "Rosario", "psgc_code": "0421021000", "province": "Cavite"},
+    {"name": "Cavite City", "psgc_code": "0421007000", "province": "Cavite"},
+    {"name": "Tanza", "psgc_code": "0421023000", "province": "Cavite"},
+    {"name": "Trece Martires", "psgc_code": "0421024000", "province": "Cavite"},
+    {"name": "Carmona", "psgc_code": "0421006000", "province": "Cavite"},
+    {"name": "General Mariano Alvarez", "psgc_code": "0421011000", "province": "Cavite"},
+    {"name": "Silang", "psgc_code": "0421022000", "province": "Cavite"}
+  ],
+  "laguna_franchise": [
+    {"name": "Binan", "psgc_code": "0434002000", "province": "Laguna"},
+    {"name": "Cabuyao", "psgc_code": "0434006000", "province": "Laguna"},
+    {"name": "Calamba", "psgc_code": "0434005000", "province": "Laguna"},
+    {"name": "Los Banos", "psgc_code": "0434017000", "province": "Laguna"},
+    {"name": "San Pedro", "psgc_code": "0434028000", "province": "Laguna"},
+    {"name": "Santa Rosa", "psgc_code": "0434030000", "province": "Laguna"},
+    {"name": "Bay", "psgc_code": "0434001000", "province": "Laguna"},
+    {"name": "Calauan", "psgc_code": "0434007000", "province": "Laguna"}
+  ],
+  "batangas_franchise": [
+    {"name": "Tanauan", "psgc_code": "0410031000", "province": "Batangas"},
+    {"name": "Santo Tomas", "psgc_code": "0410029000", "province": "Batangas"},
+    {"name": "Malvar", "psgc_code": "0410020000", "province": "Batangas"}
+  ],
+  "quezon_franchise": [
+    {"name": "Lucban", "psgc_code": "0456015000", "province": "Quezon"}
+  ]
+}

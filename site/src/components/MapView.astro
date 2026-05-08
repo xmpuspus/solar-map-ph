@@ -1,0 +1,191 @@
+---
+// Client-side MapLibre + OSM raster basemap, choropleth fill from quarterly GeoJSON.
+---
+<div id="map-root" class="grid md:grid-cols-[1fr_320px] gap-4 px-6">
+  <div id="map" class="w-full h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
+  <aside id="city-panel" class="card text-sm">
+    <div class="text-ink-500 text-xs uppercase tracking-wide mb-2">Click a city on the map</div>
+    <div id="city-empty" class="text-ink-500">
+      Click any colored polygon to load metrics, building counts, registered estimates, and LGU permit data for that city.
+    </div>
+    <div id="city-detail" class="hidden">
+      <h3 id="city-name" class="text-lg font-semibold mb-1"></h3>
+      <p id="city-province" class="text-xs text-ink-500 mb-3"></p>
+
+      <div class="mb-4">
+        <div class="flex items-baseline justify-between mb-1">
+          <span class="text-xs uppercase tracking-wide text-ink-500">Composite signal</span>
+          <span id="city-composite" class="font-mono"></span>
+        </div>
+        <div class="signal-bar"><span id="city-composite-bar" class="bg-accent-steel"></span></div>
+      </div>
+
+      <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
+        <dt class="text-ink-500">NIR z-score</dt><dd id="z-nir" class="font-mono text-right"></dd>
+        <dt class="text-ink-500">SWIR z-score</dt><dd id="z-swir" class="font-mono text-right"></dd>
+        <dt class="text-ink-500">LST z-score</dt><dd id="z-lst" class="font-mono text-right"></dd>
+        <dt class="text-ink-500">Nightlight z-score</dt><dd id="z-night" class="font-mono text-right"></dd>
+        <dt class="text-ink-500">Built-up km&sup2;</dt><dd id="built-km2" class="font-mono text-right"></dd>
+        <dt class="text-ink-500">LGU permit fee</dt><dd id="permit-fee" class="font-mono text-right"></dd>
+        <dt class="text-ink-500">LGU permit days</dt><dd id="permit-days" class="font-mono text-right"></dd>
+      </dl>
+
+      <p class="mt-4 text-xs text-ink-500" id="permit-source"></p>
+
+      <a id="city-me-link" class="btn mt-4" href="/me">Run me-mode for this city &rarr;</a>
+    </div>
+  </aside>
+</div>
+
+<script>
+  import maplibregl from "maplibre-gl";
+  import "maplibre-gl/dist/maplibre-gl.css";
+  import { interpolateRdYlBu } from "d3-scale-chromatic";
+
+  const DATA_BASE = "/data";
+
+  async function loadManifest(): Promise<{ latest_quarter: string; quarters: string[] } | null> {
+    try {
+      const r = await fetch(`${DATA_BASE}/manifest.json`);
+      if (!r.ok) return null;
+      return await r.json();
+    } catch {
+      return null;
+    }
+  }
+
+  async function loadGeoJSON(quarter: string) {
+    const r = await fetch(`${DATA_BASE}/ghost_watts_${quarter}.geojson`);
+    if (!r.ok) throw new Error(`No data for ${quarter}`);
+    return r.json();
+  }
+
+  function fmt(n: number | null | undefined, digits = 2): string {
+    if (n === null || n === undefined || Number.isNaN(n)) return "n/a";
+    return Number(n).toFixed(digits);
+  }
+
+  function colorScale(score: number, min: number, max: number): string {
+    if (max === min) return "#cccccc";
+    const t = (score - min) / (max - min);
+    return interpolateRdYlBu(1 - t);
+  }
+
+  function showEmpty() {
+    document.getElementById("city-empty")!.classList.remove("hidden");
+    document.getElementById("city-detail")!.classList.add("hidden");
+  }
+
+  function showCity(props: any) {
+    document.getElementById("city-empty")!.classList.add("hidden");
+    document.getElementById("city-detail")!.classList.remove("hidden");
+    const set = (id: string, v: string) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = v;
+    };
+    set("city-name", props.name);
+    set("city-province", props.province);
+    set("city-composite", fmt(props.metrics?.composite_solar_signal_score));
+    const compositeBar = document.getElementById("city-composite-bar") as HTMLElement;
+    const composite = props.metrics?.composite_solar_signal_score ?? 0;
+    const pct = Math.max(0, Math.min(1, (composite + 2) / 4));
+    if (compositeBar) compositeBar.style.width = `${(pct * 100).toFixed(1)}%`;
+    set("z-nir", fmt(props.metrics?.s2_nir_delta_zscore));
+    set("z-swir", fmt(props.metrics?.s2_swir_delta_zscore));
+    set("z-lst", fmt(props.metrics?.landsat_lst_anomaly_zscore));
+    set("z-night", fmt(props.metrics?.viirs_nightlight_delta_zscore));
+    set("built-km2", fmt(props.metrics?.built_up_km2, 1));
+    set("permit-fee", props.policy?.lgu_permit_fee_php ? `₱${props.policy.lgu_permit_fee_php.toLocaleString()}` : "unverified");
+    set("permit-days", props.policy?.lgu_permit_days_p50 ? `${props.policy.lgu_permit_days_p50} d` : "unverified");
+    const sourceEl = document.getElementById("permit-source");
+    if (sourceEl) {
+      sourceEl.innerHTML = props.policy?.permit_data_source
+        ? `Source: <a href="${props.policy.permit_data_source}" class="no-underline text-accent-steel">link</a>`
+        : "LGU permit data not yet verified for this city. <a href=\"https://github.com/xmpuspus/ghost-watts\" class=\"no-underline text-accent-steel\">Contribute a source</a>.";
+    }
+    const meLink = document.getElementById("city-me-link") as HTMLAnchorElement;
+    if (meLink) {
+      const slug = (props.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      meLink.href = `/me?city=${encodeURIComponent(slug)}`;
+    }
+  }
+
+  async function init() {
+    const manifest = await loadManifest();
+    const quarter = manifest?.latest_quarter;
+    const map = new maplibregl.Map({
+      container: "map",
+      style: {
+        version: 8,
+        sources: {
+          osm: {
+            type: "raster",
+            tiles: [
+              "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            ],
+            tileSize: 256,
+            attribution: "&copy; OpenStreetMap contributors",
+          },
+        },
+        layers: [{ id: "osm", type: "raster", source: "osm" }],
+      },
+      center: [121.05, 14.6],
+      zoom: 9,
+    });
+
+    if (!quarter) {
+      const note = document.createElement("div");
+      note.className = "absolute top-4 left-4 bg-white border border-ink-300 rounded p-3 text-sm shadow";
+      note.innerHTML =
+        "No quarterly data published yet. Run <code>python pipeline.py --quarter YYYYQN</code> in <code>/pipeline/</code>, then commit the output to <code>/site/public/data/</code>.";
+      document.getElementById("map")!.appendChild(note);
+      return;
+    }
+
+    map.on("load", async () => {
+      try {
+        const fc = await loadGeoJSON(quarter);
+        const composites = fc.features
+          .map((f: any) => f.properties?.metrics?.composite_solar_signal_score)
+          .filter((v: any) => typeof v === "number" && !Number.isNaN(v));
+        const min = composites.length ? Math.min(...composites) : -2;
+        const max = composites.length ? Math.max(...composites) : 2;
+
+        for (const f of fc.features) {
+          const c = f.properties?.metrics?.composite_solar_signal_score;
+          f.properties._fill = colorScale(typeof c === "number" ? c : 0, min, max);
+        }
+
+        map.addSource("ghost-watts", { type: "geojson", data: fc });
+        map.addLayer({
+          id: "ghost-watts-fill",
+          type: "fill",
+          source: "ghost-watts",
+          paint: {
+            "fill-color": ["get", "_fill"],
+            "fill-opacity": 0.6,
+          },
+        });
+        map.addLayer({
+          id: "ghost-watts-outline",
+          type: "line",
+          source: "ghost-watts",
+          paint: { "line-color": "#22324a", "line-width": 0.5 },
+        });
+
+        map.on("click", "ghost-watts-fill", (e) => {
+          const f = e.features?.[0];
+          if (f && f.properties) showCity(f.properties);
+        });
+        map.on("mouseenter", "ghost-watts-fill", () => (map.getCanvas().style.cursor = "pointer"));
+        map.on("mouseleave", "ghost-watts-fill", () => (map.getCanvas().style.cursor = ""));
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }
+
+  init();
+</script>

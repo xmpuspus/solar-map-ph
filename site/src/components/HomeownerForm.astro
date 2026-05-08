@@ -1,0 +1,283 @@
+---
+// Client-side homeowner form. PVGIS API + barangay lookup + LGU friction.
+---
+<form id="me-form" class="max-w-2xl mx-auto px-6 grid gap-4 mt-4">
+  <div class="grid gap-2">
+    <label class="text-sm text-ink-700" for="me-address">Your address (Metro Manila or Meralco franchise area)</label>
+    <input
+      id="me-address"
+      name="address"
+      type="text"
+      required
+      placeholder="e.g. Tomas Morato, Quezon City"
+      class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
+    />
+    <p class="text-xs text-ink-500">Geocoder uses OpenStreetMap Nominatim. Limited to 1 request per second. We don't store your address.</p>
+  </div>
+
+  <div class="grid gap-2 md:grid-cols-2">
+    <div class="grid gap-2">
+      <label class="text-sm text-ink-700" for="me-roof">Approximate roof area (m&sup2;)</label>
+      <input
+        id="me-roof"
+        name="roof"
+        type="number"
+        min="20"
+        max="500"
+        value="80"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono"
+      />
+      <p class="text-xs text-ink-500">Typical PH residential: 60-120 m&sup2;.</p>
+    </div>
+    <div class="grid gap-2">
+      <label class="text-sm text-ink-700" for="me-bill">Monthly Meralco bill (₱)</label>
+      <input
+        id="me-bill"
+        name="bill"
+        type="number"
+        min="500"
+        max="100000"
+        value="8000"
+        step="100"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono"
+      />
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between">
+    <button type="submit" class="btn">Estimate &rarr;</button>
+    <span id="me-status" class="text-xs text-ink-500"></span>
+  </div>
+</form>
+
+<div id="me-results" class="hidden max-w-6xl mx-auto px-6 mt-8 grid gap-4 md:grid-cols-3"></div>
+
+<script>
+  const PVGIS_BASE = "https://re.jrc.ec.europa.eu/api/v5_2/PVcalc";
+  const NOMINATIM_BASE = "https://nominatim.openstreetmap.org/search";
+  const DATA_BASE = "/data";
+  const MERALCO_RATE_PHP_PER_KWH = 12.5;
+  const INSTALL_COST_PHP_PER_KWP = 65000;
+  const KWP_PER_M2 = 0.15;
+  const SYSTEM_LIFETIME_YEARS = 25;
+  const DEGRADATION_PER_YEAR = 0.005;
+
+  async function geocode(q: string): Promise<{ lat: number; lon: number; display_name: string } | null> {
+    const url = `${NOMINATIM_BASE}?q=${encodeURIComponent(q)}&format=json&countrycodes=ph&limit=1`;
+    const resp = await fetch(url, { headers: { "Accept-Language": "en" } });
+    if (!resp.ok) return null;
+    const arr = await resp.json();
+    if (!arr.length) return null;
+    return { lat: parseFloat(arr[0].lat), lon: parseFloat(arr[0].lon), display_name: arr[0].display_name };
+  }
+
+  async function pvgisAnnualKwh(lat: number, lon: number, kwp: number): Promise<number | null> {
+    const url = `${PVGIS_BASE}?lat=${lat}&lon=${lon}&peakpower=${kwp}&loss=14&outputformat=json`;
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) return null;
+      const data = await resp.json();
+      const yearly = data?.outputs?.totals?.fixed?.E_y;
+      return typeof yearly === "number" ? yearly : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async function loadManifest(): Promise<{ latest_quarter: string } | null> {
+    try {
+      const r = await fetch(`${DATA_BASE}/manifest.json`);
+      if (!r.ok) return null;
+      return await r.json();
+    } catch {
+      return null;
+    }
+  }
+
+  async function loadGeoJSON(quarter: string) {
+    const r = await fetch(`${DATA_BASE}/ghost_watts_${quarter}.geojson`);
+    if (!r.ok) return null;
+    return r.json();
+  }
+
+  function pointInPolygon(point: [number, number], polygon: number[][]): boolean {
+    const [x, y] = point;
+    let inside = false;
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const xi = polygon[i][0], yi = polygon[i][1];
+      const xj = polygon[j][0], yj = polygon[j][1];
+      const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+      if (intersect) inside = !inside;
+    }
+    return inside;
+  }
+
+  function findCityForPoint(fc: any, lat: number, lon: number): any | null {
+    for (const f of fc.features ?? []) {
+      const geom = f.geometry;
+      if (!geom) continue;
+      const polys = geom.type === "Polygon" ? [geom.coordinates] : geom.coordinates;
+      for (const poly of polys) {
+        if (pointInPolygon([lon, lat], poly[0])) return f;
+      }
+    }
+    return null;
+  }
+
+  function paybackYears(installCost: number, annualSavings: number): number {
+    if (annualSavings <= 0) return Infinity;
+    return installCost / annualSavings;
+  }
+
+  function lifetimeNpv(annualKwh: number, ratePhpKwh: number, installCost: number): number {
+    let total = -installCost;
+    let kwh = annualKwh;
+    for (let y = 0; y < SYSTEM_LIFETIME_YEARS; y++) {
+      total += kwh * ratePhpKwh;
+      kwh *= 1 - DEGRADATION_PER_YEAR;
+    }
+    return total;
+  }
+
+  function fmtCurrency(n: number): string {
+    return `₱${Math.round(n).toLocaleString()}`;
+  }
+
+  function renderResults(opts: {
+    address: string;
+    cityName: string | null;
+    cityProps: any;
+    kwp: number;
+    annualKwh: number | null;
+    monthlyBillPhp: number;
+  }) {
+    const { address, cityName, cityProps, kwp, annualKwh, monthlyBillPhp } = opts;
+    const annualSavings = annualKwh ? annualKwh * MERALCO_RATE_PHP_PER_KWH : 0;
+    const installCost = kwp * INSTALL_COST_PHP_PER_KWP;
+    const payback = annualKwh ? paybackYears(installCost, annualSavings) : null;
+    const npv = annualKwh ? lifetimeNpv(annualKwh, MERALCO_RATE_PHP_PER_KWH, installCost) : null;
+    const offsetPct = annualKwh ? Math.min(1, annualKwh / (monthlyBillPhp * 12 / MERALCO_RATE_PHP_PER_KWH)) : 0;
+
+    const composite = cityProps?.metrics?.composite_solar_signal_score;
+    const permitFee = cityProps?.policy?.lgu_permit_fee_php;
+    const permitDays = cityProps?.policy?.lgu_permit_days_p50;
+    const permitStatus = cityProps?.policy?.permit_data_status ?? "unverified";
+
+    const root = document.getElementById("me-results")!;
+    root.classList.remove("hidden");
+    root.innerHTML = `
+      <div class="card">
+        <div class="badge mb-2">card 1</div>
+        <h3 class="text-lg font-semibold mb-1">Your barangay's signal</h3>
+        <p class="text-xs text-ink-500 mb-3">${address}</p>
+        <p class="text-sm text-ink-700 leading-relaxed">
+          ${cityName ? `Your address falls in <strong>${cityName}</strong>.` : "We couldn't match your address to a franchise city. The estimate below uses your lat/lon directly."}
+        </p>
+        <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs mt-3">
+          <dt class="text-ink-500">Composite signal</dt><dd class="font-mono text-right">${composite !== undefined ? composite.toFixed(2) : "n/a"}</dd>
+          <dt class="text-ink-500">Built-up km&sup2;</dt><dd class="font-mono text-right">${cityProps?.metrics?.built_up_km2 !== undefined && cityProps?.metrics?.built_up_km2 !== null ? cityProps.metrics.built_up_km2.toFixed(1) : "n/a"}</dd>
+        </dl>
+        <p class="text-xs text-ink-500 mt-3">
+          City-level data only. Barangay drilldown coming when ghost_watts_barangay_*.geojson is published.
+        </p>
+      </div>
+      <div class="card">
+        <div class="badge mb-2">card 2</div>
+        <h3 class="text-lg font-semibold mb-1">Your roof's potential</h3>
+        <p class="text-xs text-ink-500 mb-3">PVGIS at your lat/lon, ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh, ${(INSTALL_COST_PHP_PER_KWP / 1000).toFixed(0)}K ₱/kWp install</p>
+        <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
+          <dt class="text-ink-500">Suggested system</dt><dd class="font-mono text-right">${kwp.toFixed(2)} kWp</dd>
+          <dt class="text-ink-500">Annual generation</dt><dd class="font-mono text-right">${annualKwh ? annualKwh.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " kWh" : "n/a"}</dd>
+          <dt class="text-ink-500">Annual savings</dt><dd class="font-mono text-right">${annualKwh ? fmtCurrency(annualSavings) : "n/a"}</dd>
+          <dt class="text-ink-500">% of bill offset</dt><dd class="font-mono text-right">${(offsetPct * 100).toFixed(0)}%</dd>
+          <dt class="text-ink-500">Install cost</dt><dd class="font-mono text-right">${fmtCurrency(installCost)}</dd>
+          <dt class="text-ink-500">Payback</dt><dd class="font-mono text-right">${payback ? payback.toFixed(1) + " years" : "n/a"}</dd>
+          <dt class="text-ink-500">25-year net value</dt><dd class="font-mono text-right">${npv !== null ? fmtCurrency(npv) : "n/a"}</dd>
+        </dl>
+        <p class="text-xs text-ink-500 mt-3">Estimates only. Not engineering advice. Talk to a certified installer for a real quote and roof inspection.</p>
+      </div>
+      <div class="card">
+        <div class="badge mb-2">card 3</div>
+        <h3 class="text-lg font-semibold mb-1">Your LGU's permit friction</h3>
+        <p class="text-xs text-ink-500 mb-3">${cityName ?? "n/a"} &middot; status: ${permitStatus}</p>
+        <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
+          <dt class="text-ink-500">Permit fee</dt><dd class="font-mono text-right">${permitFee !== null && permitFee !== undefined ? fmtCurrency(permitFee) : "unverified"}</dd>
+          <dt class="text-ink-500">Median approval</dt><dd class="font-mono text-right">${permitDays ?? "unverified"}</dd>
+        </dl>
+        <h4 class="text-sm font-semibold mt-4 mb-2">Two paths</h4>
+        <table class="w-full text-xs">
+          <thead class="text-left text-ink-500">
+            <tr><th></th><th class="font-medium">Registered</th><th class="font-medium">Guerrilla</th></tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Net-metering credits</td><td>Yes (full retail)</td><td>Never</td></tr>
+            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Time to first export</td><td>weeks-months</td><td>days</td></tr>
+            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Anti-islanding compliance</td><td>utility-verified</td><td>your responsibility</td></tr>
+            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Legality</td><td>RA 9513 compliant</td><td>civil + criminal exposure</td></tr>
+            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Worker safety risk</td><td>DU-monitored</td><td>yours</td></tr>
+          </tbody>
+        </table>
+        <p class="text-xs text-ink-500 mt-3">
+          Comparison is descriptive, not prescriptive. Going guerrilla is illegal under RA 9513 and creates real risk to utility workers if the inverter lacks anti-islanding.
+        </p>
+      </div>
+    `;
+  }
+
+  async function onSubmit(ev: SubmitEvent) {
+    ev.preventDefault();
+    const status = document.getElementById("me-status")!;
+    status.textContent = "Geocoding...";
+    const form = ev.currentTarget as HTMLFormElement;
+    const data = new FormData(form);
+    const address = String(data.get("address") || "").trim();
+    const roof = parseFloat(String(data.get("roof") || "80"));
+    const bill = parseFloat(String(data.get("bill") || "8000"));
+    if (!address) {
+      status.textContent = "Address is required.";
+      return;
+    }
+    const geo = await geocode(address);
+    if (!geo) {
+      status.textContent = "Couldn't find that address. Try adding the city or barangay name.";
+      return;
+    }
+    const kwp = roof * KWP_PER_M2;
+    status.textContent = "Asking PVGIS for solar potential at your lat/lon...";
+    const annualKwh = await pvgisAnnualKwh(geo.lat, geo.lon, kwp);
+
+    status.textContent = "Looking up your city in the latest ghost-watts release...";
+    const manifest = await loadManifest();
+    let cityProps: any = {};
+    let cityName: string | null = null;
+    if (manifest?.latest_quarter) {
+      const fc = await loadGeoJSON(manifest.latest_quarter);
+      if (fc) {
+        const found = findCityForPoint(fc, geo.lat, geo.lon);
+        if (found) {
+          cityProps = found.properties || {};
+          cityName = cityProps.name ?? null;
+        }
+      }
+    }
+
+    renderResults({
+      address: geo.display_name,
+      cityName,
+      cityProps,
+      kwp,
+      annualKwh,
+      monthlyBillPhp: bill,
+    });
+    status.textContent = "Done.";
+  }
+
+  document.getElementById("me-form")!.addEventListener("submit", onSubmit);
+
+  const params = new URLSearchParams(location.search);
+  const presetCity = params.get("city");
+  if (presetCity) {
+    const addr = document.getElementById("me-address") as HTMLInputElement;
+    addr.value = `${presetCity.replace(/-/g, " ")}, Philippines`;
+  }
+</script>
