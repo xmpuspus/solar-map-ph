@@ -6,6 +6,669 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          121.01594261027381,
+          14.758485213290262
+        ]
+      },
+      "properties": {
+        "city": "Caloocan",
+        "psgc_code": "1380101000",
+        "province": "Metro Manila",
+        "area_m2": 73328.3,
+        "kwp_equiv": 10999.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.08312432142138,
+          14.772015208576011
+        ]
+      },
+      "properties": {
+        "city": "Caloocan",
+        "psgc_code": "1380101000",
+        "province": "Metro Manila",
+        "area_m2": 71008.3,
+        "kwp_equiv": 10651.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.96532263756802,
+          14.657557120000659
+        ]
+      },
+      "properties": {
+        "city": "Caloocan",
+        "psgc_code": "1380101000",
+        "province": "Metro Manila",
+        "area_m2": 70273.4,
+        "kwp_equiv": 10541.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98732390656461,
+          14.482529869465639
+        ]
+      },
+      "properties": {
+        "city": "Las Pinas",
+        "psgc_code": "1380102000",
+        "province": "Metro Manila",
+        "area_m2": 76512.1,
+        "kwp_equiv": 11476.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.01165666501572,
+          14.374133460265442
+        ]
+      },
+      "properties": {
+        "city": "Las Pinas",
+        "psgc_code": "1380102000",
+        "province": "Metro Manila",
+        "area_m2": 71910.0,
+        "kwp_equiv": 10786.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.01250664616774,
+          14.378908239306737
+        ]
+      },
+      "properties": {
+        "city": "Las Pinas",
+        "psgc_code": "1380102000",
+        "province": "Metro Manila",
+        "area_m2": 68429.1,
+        "kwp_equiv": 10264.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0371236135414,
+          14.545503693715858
+        ]
+      },
+      "properties": {
+        "city": "Makati",
+        "psgc_code": "1380103000",
+        "province": "Metro Manila",
+        "area_m2": 63355.5,
+        "kwp_equiv": 9503.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.03981541117611,
+          14.547164664723866
+        ]
+      },
+      "properties": {
+        "city": "Makati",
+        "psgc_code": "1380103000",
+        "province": "Metro Manila",
+        "area_m2": 39403.7,
+        "kwp_equiv": 5910.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.03505660645145,
+          14.549041434852073
+        ]
+      },
+      "properties": {
+        "city": "Makati",
+        "psgc_code": "1380103000",
+        "province": "Metro Manila",
+        "area_m2": 35926.7,
+        "kwp_equiv": 5389.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.96137996451031,
+          14.65110365162398
+        ]
+      },
+      "properties": {
+        "city": "Malabon",
+        "psgc_code": "1380104000",
+        "province": "Metro Manila",
+        "area_m2": 61780.6,
+        "kwp_equiv": 9267.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.96034252680364,
+          14.648448268830332
+        ]
+      },
+      "properties": {
+        "city": "Malabon",
+        "psgc_code": "1380104000",
+        "province": "Metro Manila",
+        "area_m2": 56375.5,
+        "kwp_equiv": 8456.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.95373896906592,
+          14.682093371500535
+        ]
+      },
+      "properties": {
+        "city": "Malabon",
+        "psgc_code": "1380104000",
+        "province": "Metro Manila",
+        "area_m2": 55208.6,
+        "kwp_equiv": 8281.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.05300404450848,
+          14.58730241533945
+        ]
+      },
+      "properties": {
+        "city": "Mandaluyong",
+        "psgc_code": "1380105000",
+        "province": "Metro Manila",
+        "area_m2": 31671.8,
+        "kwp_equiv": 4750.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.02445305668736,
+          14.583789311566782
+        ]
+      },
+      "properties": {
+        "city": "Mandaluyong",
+        "psgc_code": "1380105000",
+        "province": "Metro Manila",
+        "area_m2": 21243.6,
+        "kwp_equiv": 3186.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.05485964141332,
+          14.5919899319827
+        ]
+      },
+      "properties": {
+        "city": "Mandaluyong",
+        "psgc_code": "1380105000",
+        "province": "Metro Manila",
+        "area_m2": 20856.6,
+        "kwp_equiv": 3128.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.95277018833755,
+          14.605286632917146
+        ]
+      },
+      "properties": {
+        "city": "Manila",
+        "psgc_code": "1380106000",
+        "province": "Metro Manila",
+        "area_m2": 67973.0,
+        "kwp_equiv": 10195.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.95548508979665,
+          14.62680191932127
+        ]
+      },
+      "properties": {
+        "city": "Manila",
+        "psgc_code": "1380106000",
+        "province": "Metro Manila",
+        "area_m2": 55222.5,
+        "kwp_equiv": 8283.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98189340661757,
+          14.588640214101028
+        ]
+      },
+      "properties": {
+        "city": "Manila",
+        "psgc_code": "1380106000",
+        "province": "Metro Manila",
+        "area_m2": 44417.4,
+        "kwp_equiv": 6662.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.09453045310231,
+          14.659824695156571
+        ]
+      },
+      "properties": {
+        "city": "Marikina",
+        "psgc_code": "1380107000",
+        "province": "Metro Manila",
+        "area_m2": 66797.7,
+        "kwp_equiv": 10019.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.08805372600754,
+          14.650004888774532
+        ]
+      },
+      "properties": {
+        "city": "Marikina",
+        "psgc_code": "1380107000",
+        "province": "Metro Manila",
+        "area_m2": 45949.6,
+        "kwp_equiv": 6892.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.08743807572675,
+          14.655479537812425
+        ]
+      },
+      "properties": {
+        "city": "Marikina",
+        "psgc_code": "1380107000",
+        "province": "Metro Manila",
+        "area_m2": 43631.7,
+        "kwp_equiv": 6544.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.01460047747273,
+          14.3813769192366
+        ]
+      },
+      "properties": {
+        "city": "Muntinlupa",
+        "psgc_code": "1380108000",
+        "province": "Metro Manila",
+        "area_m2": 78479.7,
+        "kwp_equiv": 11772.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.01411722475176,
+          14.375106550353506
+        ]
+      },
+      "properties": {
+        "city": "Muntinlupa",
+        "psgc_code": "1380108000",
+        "province": "Metro Manila",
+        "area_m2": 75389.1,
+        "kwp_equiv": 11308.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.03514881362317,
+          14.376797095944562
+        ]
+      },
+      "properties": {
+        "city": "Muntinlupa",
+        "psgc_code": "1380108000",
+        "province": "Metro Manila",
+        "area_m2": 56444.7,
+        "kwp_equiv": 8466.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.93569827657403,
+          14.68470006181621
+        ]
+      },
+      "properties": {
+        "city": "Navotas",
+        "psgc_code": "1380109000",
+        "province": "Metro Manila",
+        "area_m2": 47100.5,
+        "kwp_equiv": 7065.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.95789167861092,
+          14.644065100487978
+        ]
+      },
+      "properties": {
+        "city": "Navotas",
+        "psgc_code": "1380109000",
+        "province": "Metro Manila",
+        "area_m2": 31277.5,
+        "kwp_equiv": 4691.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.93321284113202,
+          14.681295019120215
+        ]
+      },
+      "properties": {
+        "city": "Navotas",
+        "psgc_code": "1380109000",
+        "province": "Metro Manila",
+        "area_m2": 28569.6,
+        "kwp_equiv": 4285.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98161939742218,
+          14.529047175906253
+        ]
+      },
+      "properties": {
+        "city": "Paranaque",
+        "psgc_code": "1380110000",
+        "province": "Metro Manila",
+        "area_m2": 47133.9,
+        "kwp_equiv": 7070.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98805977616837,
+          14.506109279744143
+        ]
+      },
+      "properties": {
+        "city": "Paranaque",
+        "psgc_code": "1380110000",
+        "province": "Metro Manila",
+        "area_m2": 42888.5,
+        "kwp_equiv": 6433.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.00989596705884,
+          14.469267815956048
+        ]
+      },
+      "properties": {
+        "city": "Paranaque",
+        "psgc_code": "1380110000",
+        "province": "Metro Manila",
+        "area_m2": 39804.1,
+        "kwp_equiv": 5970.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9999854624799,
+          14.525790810222995
+        ]
+      },
+      "properties": {
+        "city": "Pasay",
+        "psgc_code": "1380111000",
+        "province": "Metro Manila",
+        "area_m2": 76883.5,
+        "kwp_equiv": 11532.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0226057391818,
+          14.528323436312673
+        ]
+      },
+      "properties": {
+        "city": "Pasay",
+        "psgc_code": "1380111000",
+        "province": "Metro Manila",
+        "area_m2": 54860.9,
+        "kwp_equiv": 8229.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.02488077568434,
+          14.52432083975807
+        ]
+      },
+      "properties": {
+        "city": "Pasay",
+        "psgc_code": "1380111000",
+        "province": "Metro Manila",
+        "area_m2": 48294.0,
+        "kwp_equiv": 7244.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.08344173038148,
+          14.615562032154333
+        ]
+      },
+      "properties": {
+        "city": "Pasig",
+        "psgc_code": "1380112000",
+        "province": "Metro Manila",
+        "area_m2": 57542.5,
+        "kwp_equiv": 8631.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.09153436785209,
+          14.550997111989773
+        ]
+      },
+      "properties": {
+        "city": "Pasig",
+        "psgc_code": "1380112000",
+        "province": "Metro Manila",
+        "area_m2": 38630.5,
+        "kwp_equiv": 5794.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.09219590605696,
+          14.54570644710922
+        ]
+      },
+      "properties": {
+        "city": "Pasig",
+        "psgc_code": "1380112000",
+        "province": "Metro Manila",
+        "area_m2": 37472.5,
+        "kwp_equiv": 5620.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.07271130495467,
+          14.540377583807933
+        ]
+      },
+      "properties": {
+        "city": "Pateros",
+        "psgc_code": "1380113000",
+        "province": "Metro Manila",
+        "area_m2": 19702.5,
+        "kwp_equiv": 2955.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.06587145478606,
+          14.538731488199597
+        ]
+      },
+      "properties": {
+        "city": "Pateros",
+        "psgc_code": "1380113000",
+        "province": "Metro Manila",
+        "area_m2": 13907.8,
+        "kwp_equiv": 2086.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.06484890737273,
+          14.545030001441306
+        ]
+      },
+      "properties": {
+        "city": "Pateros",
+        "psgc_code": "1380113000",
+        "province": "Metro Manila",
+        "area_m2": 2704.2,
+        "kwp_equiv": 405.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           121.11004424482321,
           14.692289730460574
         ]
@@ -51,19 +714,2382 @@
         "area_m2": 65643.4,
         "kwp_equiv": 9846.5
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.04658950431134,
+          14.608603950238697
+        ]
+      },
+      "properties": {
+        "city": "San Juan",
+        "psgc_code": "1380115000",
+        "province": "Metro Manila",
+        "area_m2": 5406.9,
+        "kwp_equiv": 811.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.07025181813952,
+          14.52035419192089
+        ]
+      },
+      "properties": {
+        "city": "Taguig",
+        "psgc_code": "1380116000",
+        "province": "Metro Manila",
+        "area_m2": 68385.4,
+        "kwp_equiv": 10257.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.06528503063615,
+          14.557572093232775
+        ]
+      },
+      "properties": {
+        "city": "Taguig",
+        "psgc_code": "1380116000",
+        "province": "Metro Manila",
+        "area_m2": 67215.0,
+        "kwp_equiv": 10082.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.07790953683988,
+          14.512683114785151
+        ]
+      },
+      "properties": {
+        "city": "Taguig",
+        "psgc_code": "1380116000",
+        "province": "Metro Manila",
+        "area_m2": 59114.8,
+        "kwp_equiv": 8867.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98247429678415,
+          14.736002079221972
+        ]
+      },
+      "properties": {
+        "city": "Valenzuela",
+        "psgc_code": "1380117000",
+        "province": "Metro Manila",
+        "area_m2": 77195.7,
+        "kwp_equiv": 11579.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.93491475604606,
+          14.719439033889978
+        ]
+      },
+      "properties": {
+        "city": "Valenzuela",
+        "psgc_code": "1380117000",
+        "province": "Metro Manila",
+        "area_m2": 74113.5,
+        "kwp_equiv": 11117.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.93182508523142,
+          14.72302818060531
+        ]
+      },
+      "properties": {
+        "city": "Valenzuela",
+        "psgc_code": "1380117000",
+        "province": "Metro Manila",
+        "area_m2": 73726.4,
+        "kwp_equiv": 11059.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.03677144667668,
+          14.790412395329382
+        ]
+      },
+      "properties": {
+        "city": "San Jose del Monte",
+        "psgc_code": "0314023000",
+        "province": "Bulacan",
+        "area_m2": 72545.9,
+        "kwp_equiv": 10881.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.09384409891379,
+          14.841096373745433
+        ]
+      },
+      "properties": {
+        "city": "San Jose del Monte",
+        "psgc_code": "0314023000",
+        "province": "Bulacan",
+        "area_m2": 70985.7,
+        "kwp_equiv": 10647.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.03318936959114,
+          14.817053009877501
+        ]
+      },
+      "properties": {
+        "city": "San Jose del Monte",
+        "psgc_code": "0314023000",
+        "province": "Bulacan",
+        "area_m2": 69064.5,
+        "kwp_equiv": 10359.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.95489729433052,
+          14.750395038149799
+        ]
+      },
+      "properties": {
+        "city": "Meycauayan",
+        "psgc_code": "0314020000",
+        "province": "Bulacan",
+        "area_m2": 79892.4,
+        "kwp_equiv": 11983.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.00687340033816,
+          14.77042963604452
+        ]
+      },
+      "properties": {
+        "city": "Meycauayan",
+        "psgc_code": "0314020000",
+        "province": "Bulacan",
+        "area_m2": 76797.7,
+        "kwp_equiv": 11519.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.02010299004654,
+          14.762837731617342
+        ]
+      },
+      "properties": {
+        "city": "Meycauayan",
+        "psgc_code": "0314020000",
+        "province": "Bulacan",
+        "area_m2": 76414.3,
+        "kwp_equiv": 11462.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.93025989734815,
+          14.76998572310192
+        ]
+      },
+      "properties": {
+        "city": "Marilao",
+        "psgc_code": "0314019000",
+        "province": "Bulacan",
+        "area_m2": 70623.0,
+        "kwp_equiv": 10593.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.00524073716075,
+          14.785392607428964
+        ]
+      },
+      "properties": {
+        "city": "Marilao",
+        "psgc_code": "0314019000",
+        "province": "Bulacan",
+        "area_m2": 69460.5,
+        "kwp_equiv": 10419.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.99023835053119,
+          14.786077522994857
+        ]
+      },
+      "properties": {
+        "city": "Marilao",
+        "psgc_code": "0314019000",
+        "province": "Bulacan",
+        "area_m2": 62128.3,
+        "kwp_equiv": 9319.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.94159259584043,
+          14.811310586296536
+        ]
+      },
+      "properties": {
+        "city": "Bocaue",
+        "psgc_code": "0314005000",
+        "province": "Bulacan",
+        "area_m2": 74468.1,
+        "kwp_equiv": 11170.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.94486027377503,
+          14.839510506874957
+        ]
+      },
+      "properties": {
+        "city": "Bocaue",
+        "psgc_code": "0314005000",
+        "province": "Bulacan",
+        "area_m2": 66742.6,
+        "kwp_equiv": 10011.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.92563865998136,
+          14.801550269583164
+        ]
+      },
+      "properties": {
+        "city": "Bocaue",
+        "psgc_code": "0314005000",
+        "province": "Bulacan",
+        "area_m2": 53249.0,
+        "kwp_equiv": 7987.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.94768492786464,
+          14.691879368705358
+        ]
+      },
+      "properties": {
+        "city": "Obando",
+        "psgc_code": "0314022000",
+        "province": "Bulacan",
+        "area_m2": 62155.2,
+        "kwp_equiv": 9323.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.92540808045581,
+          14.726964758276115
+        ]
+      },
+      "properties": {
+        "city": "Obando",
+        "psgc_code": "0314022000",
+        "province": "Bulacan",
+        "area_m2": 56741.3,
+        "kwp_equiv": 8511.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.93114943279143,
+          14.718038742701946
+        ]
+      },
+      "properties": {
+        "city": "Obando",
+        "psgc_code": "0314022000",
+        "province": "Bulacan",
+        "area_m2": 42461.2,
+        "kwp_equiv": 6369.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8767396529567,
+          14.795857256086261
+        ]
+      },
+      "properties": {
+        "city": "Bulacan",
+        "psgc_code": "0314006000",
+        "province": "Bulacan",
+        "area_m2": 79875.6,
+        "kwp_equiv": 11981.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.96179015498898,
+          14.8309316181758
+        ]
+      },
+      "properties": {
+        "city": "Bulacan",
+        "psgc_code": "0314006000",
+        "province": "Bulacan",
+        "area_m2": 79091.1,
+        "kwp_equiv": 11863.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98878036101677,
+          15.05734400888831
+        ]
+      },
+      "properties": {
+        "city": "Bulacan",
+        "psgc_code": "0314006000",
+        "province": "Bulacan",
+        "area_m2": 79007.6,
+        "kwp_equiv": 11851.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.21984635473478,
+          14.587526600112453
+        ]
+      },
+      "properties": {
+        "city": "Antipolo",
+        "psgc_code": "0458007000",
+        "province": "Rizal",
+        "area_m2": 79179.3,
+        "kwp_equiv": 11876.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.21253737319161,
+          14.591062887073459
+        ]
+      },
+      "properties": {
+        "city": "Antipolo",
+        "psgc_code": "0458007000",
+        "province": "Rizal",
+        "area_m2": 78405.6,
+        "kwp_equiv": 11760.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.16663596766365,
+          14.557988860964747
+        ]
+      },
+      "properties": {
+        "city": "Antipolo",
+        "psgc_code": "0458007000",
+        "province": "Rizal",
+        "area_m2": 78031.1,
+        "kwp_equiv": 11704.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.10589771478054,
+          14.62270647490537
+        ]
+      },
+      "properties": {
+        "city": "Cainta",
+        "psgc_code": "0458005000",
+        "province": "Rizal",
+        "area_m2": 64878.1,
+        "kwp_equiv": 9731.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1155182448651,
+          14.61365257821195
+        ]
+      },
+      "properties": {
+        "city": "Cainta",
+        "psgc_code": "0458005000",
+        "province": "Rizal",
+        "area_m2": 52522.5,
+        "kwp_equiv": 7878.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.14378254828829,
+          14.592408960083707
+        ]
+      },
+      "properties": {
+        "city": "Cainta",
+        "psgc_code": "0458005000",
+        "province": "Rizal",
+        "area_m2": 33988.4,
+        "kwp_equiv": 5098.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.11984740929839,
+          14.553514325089438
+        ]
+      },
+      "properties": {
+        "city": "Taytay",
+        "psgc_code": "0458014000",
+        "province": "Rizal",
+        "area_m2": 66057.4,
+        "kwp_equiv": 9908.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1553855310194,
+          14.572626510212034
+        ]
+      },
+      "properties": {
+        "city": "Taytay",
+        "psgc_code": "0458014000",
+        "province": "Rizal",
+        "area_m2": 57167.5,
+        "kwp_equiv": 8575.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.153233746868,
+          14.583363306380502
+        ]
+      },
+      "properties": {
+        "city": "Taytay",
+        "psgc_code": "0458014000",
+        "province": "Rizal",
+        "area_m2": 55233.5,
+        "kwp_equiv": 8285.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.15541088543576,
+          14.675432329897538
+        ]
+      },
+      "properties": {
+        "city": "San Mateo",
+        "psgc_code": "0458012000",
+        "province": "Rizal",
+        "area_m2": 74514.6,
+        "kwp_equiv": 11177.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.14045112168422,
+          14.694492605802289
+        ]
+      },
+      "properties": {
+        "city": "San Mateo",
+        "psgc_code": "0458012000",
+        "province": "Rizal",
+        "area_m2": 61382.3,
+        "kwp_equiv": 9207.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.14611193387144,
+          14.663111977051814
+        ]
+      },
+      "properties": {
+        "city": "San Mateo",
+        "psgc_code": "0458012000",
+        "province": "Rizal",
+        "area_m2": 47105.2,
+        "kwp_equiv": 7065.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.16943230706254,
+          14.544067443003534
+        ]
+      },
+      "properties": {
+        "city": "Angono",
+        "psgc_code": "0458002000",
+        "province": "Rizal",
+        "area_m2": 78036.0,
+        "kwp_equiv": 11705.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.19175124283299,
+          14.537114827345844
+        ]
+      },
+      "properties": {
+        "city": "Angono",
+        "psgc_code": "0458002000",
+        "province": "Rizal",
+        "area_m2": 68766.4,
+        "kwp_equiv": 10315.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.16552530195607,
+          14.541592303979733
+        ]
+      },
+      "properties": {
+        "city": "Angono",
+        "psgc_code": "0458002000",
+        "province": "Rizal",
+        "area_m2": 59107.1,
+        "kwp_equiv": 8866.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.20121423556269,
+          14.516322972852707
+        ]
+      },
+      "properties": {
+        "city": "Binangonan",
+        "psgc_code": "0458003000",
+        "province": "Rizal",
+        "area_m2": 78818.5,
+        "kwp_equiv": 11822.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.22280182262537,
+          14.392860525541655
+        ]
+      },
+      "properties": {
+        "city": "Binangonan",
+        "psgc_code": "0458003000",
+        "province": "Rizal",
+        "area_m2": 71130.8,
+        "kwp_equiv": 10669.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.19747658893866,
+          14.476679153310627
+        ]
+      },
+      "properties": {
+        "city": "Binangonan",
+        "psgc_code": "0458003000",
+        "province": "Rizal",
+        "area_m2": 62602.4,
+        "kwp_equiv": 9390.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.136093559665,
+          14.739382544316337
+        ]
+      },
+      "properties": {
+        "city": "Rodriguez (Montalban)",
+        "psgc_code": "0458010000",
+        "province": "Rizal",
+        "area_m2": 71405.0,
+        "kwp_equiv": 10710.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.16706061627823,
+          14.742202146233568
+        ]
+      },
+      "properties": {
+        "city": "Rodriguez (Montalban)",
+        "psgc_code": "0458010000",
+        "province": "Rizal",
+        "area_m2": 71018.1,
+        "kwp_equiv": 10652.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.16131423241102,
+          14.764211224938393
+        ]
+      },
+      "properties": {
+        "city": "Rodriguez (Montalban)",
+        "psgc_code": "0458010000",
+        "province": "Rizal",
+        "area_m2": 67537.6,
+        "kwp_equiv": 10130.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.22413748063742,
+          14.560719684179404
+        ]
+      },
+      "properties": {
+        "city": "Teresa",
+        "psgc_code": "0458015000",
+        "province": "Rizal",
+        "area_m2": 77257.5,
+        "kwp_equiv": 11588.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.21041627147949,
+          14.555533212629932
+        ]
+      },
+      "properties": {
+        "city": "Teresa",
+        "psgc_code": "0458015000",
+        "province": "Rizal",
+        "area_m2": 67215.6,
+        "kwp_equiv": 10082.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.21407089174349,
+          14.553834138660116
+        ]
+      },
+      "properties": {
+        "city": "Teresa",
+        "psgc_code": "0458015000",
+        "province": "Rizal",
+        "area_m2": 66829.9,
+        "kwp_equiv": 10024.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.22688901457839,
+          14.478701062536837
+        ]
+      },
+      "properties": {
+        "city": "Cardona",
+        "psgc_code": "0458006000",
+        "province": "Rizal",
+        "area_m2": 66852.5,
+        "kwp_equiv": 10027.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.22728292928933,
+          14.402923757451662
+        ]
+      },
+      "properties": {
+        "city": "Cardona",
+        "psgc_code": "0458006000",
+        "province": "Rizal",
+        "area_m2": 58371.0,
+        "kwp_equiv": 8755.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.22473048208208,
+          14.418678962345615
+        ]
+      },
+      "properties": {
+        "city": "Cardona",
+        "psgc_code": "0458006000",
+        "province": "Rizal",
+        "area_m2": 54114.9,
+        "kwp_equiv": 8117.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.26608197758924,
+          14.577832062840518
+        ]
+      },
+      "properties": {
+        "city": "Baras",
+        "psgc_code": "0458001000",
+        "province": "Rizal",
+        "area_m2": 72230.2,
+        "kwp_equiv": 10834.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.25432441490524,
+          14.613815656986606
+        ]
+      },
+      "properties": {
+        "city": "Baras",
+        "psgc_code": "0458001000",
+        "province": "Rizal",
+        "area_m2": 66811.7,
+        "kwp_equiv": 10021.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.27370466893521,
+          14.518094674688138
+        ]
+      },
+      "properties": {
+        "city": "Baras",
+        "psgc_code": "0458001000",
+        "province": "Rizal",
+        "area_m2": 59886.1,
+        "kwp_equiv": 8982.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.24367958133648,
+          14.554509270586454
+        ]
+      },
+      "properties": {
+        "city": "Morong",
+        "psgc_code": "0458009000",
+        "province": "Rizal",
+        "area_m2": 64125.5,
+        "kwp_equiv": 9618.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2182041258969,
+          14.5077847929202
+        ]
+      },
+      "properties": {
+        "city": "Morong",
+        "psgc_code": "0458009000",
+        "province": "Rizal",
+        "area_m2": 62207.2,
+        "kwp_equiv": 9331.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.21071398365495,
+          14.518186003671401
+        ]
+      },
+      "properties": {
+        "city": "Morong",
+        "psgc_code": "0458009000",
+        "province": "Rizal",
+        "area_m2": 60272.5,
+        "kwp_equiv": 9040.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.30743095453447,
+          14.47736580724732
+        ]
+      },
+      "properties": {
+        "city": "Pililla",
+        "psgc_code": "0458011000",
+        "province": "Rizal",
+        "area_m2": 77673.1,
+        "kwp_equiv": 11651.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.34166236171734,
+          14.407943723495725
+        ]
+      },
+      "properties": {
+        "city": "Pililla",
+        "psgc_code": "0458011000",
+        "province": "Rizal",
+        "area_m2": 76924.3,
+        "kwp_equiv": 11538.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.31206285607786,
+          14.479345737294794
+        ]
+      },
+      "properties": {
+        "city": "Pililla",
+        "psgc_code": "0458011000",
+        "province": "Rizal",
+        "area_m2": 73421.7,
+        "kwp_equiv": 11013.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.33509933824061,
+          14.51537361952824
+        ]
+      },
+      "properties": {
+        "city": "Tanay",
+        "psgc_code": "0458013000",
+        "province": "Rizal",
+        "area_m2": 78819.0,
+        "kwp_equiv": 11822.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.29561899569848,
+          14.499891701311988
+        ]
+      },
+      "properties": {
+        "city": "Tanay",
+        "psgc_code": "0458013000",
+        "province": "Rizal",
+        "area_m2": 69550.9,
+        "kwp_equiv": 10432.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.30908461962945,
+          14.517360722150219
+        ]
+      },
+      "properties": {
+        "city": "Tanay",
+        "psgc_code": "0458013000",
+        "province": "Rizal",
+        "area_m2": 67227.3,
+        "kwp_equiv": 10084.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.37688167261125,
+          14.342416518613788
+        ]
+      },
+      "properties": {
+        "city": "Jala-Jala",
+        "psgc_code": "0458008000",
+        "province": "Rizal",
+        "area_m2": 77720.0,
+        "kwp_equiv": 11658.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.30606813132522,
+          14.29436166665481
+        ]
+      },
+      "properties": {
+        "city": "Jala-Jala",
+        "psgc_code": "0458008000",
+        "province": "Rizal",
+        "area_m2": 54918.5,
+        "kwp_equiv": 8237.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.3066819501845,
+          14.326859549143643
+        ]
+      },
+      "properties": {
+        "city": "Jala-Jala",
+        "psgc_code": "0458008000",
+        "province": "Rizal",
+        "area_m2": 47176.7,
+        "kwp_equiv": 7076.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.97066464419497,
+          14.38593017589938
+        ]
+      },
+      "properties": {
+        "city": "Bacoor",
+        "psgc_code": "0421004000",
+        "province": "Cavite",
+        "area_m2": 68813.4,
+        "kwp_equiv": 10322.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98389396243323,
+          14.366257274876775
+        ]
+      },
+      "properties": {
+        "city": "Bacoor",
+        "psgc_code": "0421004000",
+        "province": "Cavite",
+        "area_m2": 64566.6,
+        "kwp_equiv": 9685.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.00881798871791,
+          14.373602305849946
+        ]
+      },
+      "properties": {
+        "city": "Bacoor",
+        "psgc_code": "0421004000",
+        "province": "Cavite",
+        "area_m2": 61084.8,
+        "kwp_equiv": 9162.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.95270587720083,
+          14.410970940226303
+        ]
+      },
+      "properties": {
+        "city": "Imus",
+        "psgc_code": "0421014000",
+        "province": "Cavite",
+        "area_m2": 69965.2,
+        "kwp_equiv": 10494.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.92139083997999,
+          14.386315213430585
+        ]
+      },
+      "properties": {
+        "city": "Imus",
+        "psgc_code": "0421014000",
+        "province": "Cavite",
+        "area_m2": 68040.1,
+        "kwp_equiv": 10206.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.91013686230346,
+          14.404363155587717
+        ]
+      },
+      "properties": {
+        "city": "Imus",
+        "psgc_code": "0421014000",
+        "province": "Cavite",
+        "area_m2": 66488.3,
+        "kwp_equiv": 9973.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.94667117856629,
+          14.28072793017659
+        ]
+      },
+      "properties": {
+        "city": "Dasmarinas",
+        "psgc_code": "0421008000",
+        "province": "Cavite",
+        "area_m2": 79288.5,
+        "kwp_equiv": 11893.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.95320043436747,
+          14.311279450997409
+        ]
+      },
+      "properties": {
+        "city": "Dasmarinas",
+        "psgc_code": "0421008000",
+        "province": "Cavite",
+        "area_m2": 78891.1,
+        "kwp_equiv": 11833.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9431605523708,
+          14.263585256311563
+        ]
+      },
+      "properties": {
+        "city": "Dasmarinas",
+        "psgc_code": "0421008000",
+        "province": "Cavite",
+        "area_m2": 76586.9,
+        "kwp_equiv": 11488.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.89582361458952,
+          14.434579998412897
+        ]
+      },
+      "properties": {
+        "city": "Kawit",
+        "psgc_code": "0421015000",
+        "province": "Cavite",
+        "area_m2": 72663.4,
+        "kwp_equiv": 10899.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.88767976800786,
+          14.441340786296891
+        ]
+      },
+      "properties": {
+        "city": "Kawit",
+        "psgc_code": "0421015000",
+        "province": "Cavite",
+        "area_m2": 66863.9,
+        "kwp_equiv": 10029.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.91383118741662,
+          14.431466744625435
+        ]
+      },
+      "properties": {
+        "city": "Kawit",
+        "psgc_code": "0421015000",
+        "province": "Cavite",
+        "area_m2": 66093.8,
+        "kwp_equiv": 9914.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.88133706862041,
+          14.423269020738102
+        ]
+      },
+      "properties": {
+        "city": "Noveleta",
+        "psgc_code": "0421018000",
+        "province": "Cavite",
+        "area_m2": 79238.1,
+        "kwp_equiv": 11885.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.87814414758833,
+          14.451325373071036
+        ]
+      },
+      "properties": {
+        "city": "Noveleta",
+        "psgc_code": "0421018000",
+        "province": "Cavite",
+        "area_m2": 28599.4,
+        "kwp_equiv": 4289.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8726995832979,
+          14.43482026960869
+        ]
+      },
+      "properties": {
+        "city": "Noveleta",
+        "psgc_code": "0421018000",
+        "province": "Cavite",
+        "area_m2": 27442.0,
+        "kwp_equiv": 4116.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.85685790264098,
+          14.409132686490494
+        ]
+      },
+      "properties": {
+        "city": "Rosario",
+        "psgc_code": "0421021000",
+        "province": "Cavite",
+        "area_m2": 63781.0,
+        "kwp_equiv": 9567.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.86473188373813,
+          14.419346282270961
+        ]
+      },
+      "properties": {
+        "city": "Rosario",
+        "psgc_code": "0421021000",
+        "province": "Cavite",
+        "area_m2": 25124.7,
+        "kwp_equiv": 3768.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.85571000809773,
+          14.406746706157042
+        ]
+      },
+      "properties": {
+        "city": "Rosario",
+        "psgc_code": "0421021000",
+        "province": "Cavite",
+        "area_m2": 19714.4,
+        "kwp_equiv": 2957.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.88014873121102,
+          14.458218394322861
+        ]
+      },
+      "properties": {
+        "city": "Cavite City",
+        "psgc_code": "0421007000",
+        "province": "Cavite",
+        "area_m2": 40965.5,
+        "kwp_equiv": 6144.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9052163527982,
+          14.490172678415304
+        ]
+      },
+      "properties": {
+        "city": "Cavite City",
+        "psgc_code": "0421007000",
+        "province": "Cavite",
+        "area_m2": 33617.8,
+        "kwp_equiv": 5042.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.88048504949042,
+          14.460528986730896
+        ]
+      },
+      "properties": {
+        "city": "Cavite City",
+        "psgc_code": "0421007000",
+        "province": "Cavite",
+        "area_m2": 18550.2,
+        "kwp_equiv": 2782.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8245234835634,
+          14.37760364670329
+        ]
+      },
+      "properties": {
+        "city": "Tanza",
+        "psgc_code": "0421023000",
+        "province": "Cavite",
+        "area_m2": 77707.9,
+        "kwp_equiv": 11656.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8310447210843,
+          14.354287722779928
+        ]
+      },
+      "properties": {
+        "city": "Tanza",
+        "psgc_code": "0421023000",
+        "province": "Cavite",
+        "area_m2": 77329.3,
+        "kwp_equiv": 11599.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.81957195908358,
+          14.361928071105082
+        ]
+      },
+      "properties": {
+        "city": "Tanza",
+        "psgc_code": "0421023000",
+        "province": "Cavite",
+        "area_m2": 77326.7,
+        "kwp_equiv": 11599.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.85979653587218,
+          14.256720376671677
+        ]
+      },
+      "properties": {
+        "city": "Trece Martires",
+        "psgc_code": "0421024000",
+        "province": "Cavite",
+        "area_m2": 77363.1,
+        "kwp_equiv": 11604.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.87243481668786,
+          14.28631186751809
+        ]
+      },
+      "properties": {
+        "city": "Trece Martires",
+        "psgc_code": "0421024000",
+        "province": "Cavite",
+        "area_m2": 71551.4,
+        "kwp_equiv": 10732.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8967619549572,
+          14.252203544331877
+        ]
+      },
+      "properties": {
+        "city": "Trece Martires",
+        "psgc_code": "0421024000",
+        "province": "Cavite",
+        "area_m2": 64212.5,
+        "kwp_equiv": 9631.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.03476054439557,
+          14.306979873303098
+        ]
+      },
+      "properties": {
+        "city": "Carmona",
+        "psgc_code": "0421006000",
+        "province": "Cavite",
+        "area_m2": 71931.4,
+        "kwp_equiv": 10789.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.01768622194619,
+          14.284514360722792
+        ]
+      },
+      "properties": {
+        "city": "Carmona",
+        "psgc_code": "0421006000",
+        "province": "Cavite",
+        "area_m2": 66524.0,
+        "kwp_equiv": 9978.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.01138227052894,
+          14.278509112012639
+        ]
+      },
+      "properties": {
+        "city": "Carmona",
+        "psgc_code": "0421006000",
+        "province": "Cavite",
+        "area_m2": 66138.9,
+        "kwp_equiv": 9920.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.02158414031634,
+          14.318477349457547
+        ]
+      },
+      "properties": {
+        "city": "General Mariano Alvarez",
+        "psgc_code": "0421011000",
+        "province": "Cavite",
+        "area_m2": 79275.2,
+        "kwp_equiv": 11891.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.02758279687507,
+          14.321991061722391
+        ]
+      },
+      "properties": {
+        "city": "General Mariano Alvarez",
+        "psgc_code": "0421011000",
+        "province": "Cavite",
+        "area_m2": 69219.8,
+        "kwp_equiv": 10383.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.02521646550271,
+          14.317542481588898
+        ]
+      },
+      "properties": {
+        "city": "General Mariano Alvarez",
+        "psgc_code": "0421011000",
+        "province": "Cavite",
+        "area_m2": 62260.3,
+        "kwp_equiv": 9339.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98455815269686,
+          14.172789441101504
+        ]
+      },
+      "properties": {
+        "city": "Silang",
+        "psgc_code": "0421022000",
+        "province": "Cavite",
+        "area_m2": 79326.4,
+        "kwp_equiv": 11899.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.96161521948272,
+          14.203926653682492
+        ]
+      },
+      "properties": {
+        "city": "Silang",
+        "psgc_code": "0421022000",
+        "province": "Cavite",
+        "area_m2": 79315.5,
+        "kwp_equiv": 11897.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.02347782460298,
+          14.23623838161839
+        ]
+      },
+      "properties": {
+        "city": "Silang",
+        "psgc_code": "0421022000",
+        "province": "Cavite",
+        "area_m2": 78917.4,
+        "kwp_equiv": 11837.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0432984780564,
+          14.263181512762758
+        ]
+      },
+      "properties": {
+        "city": "Binan",
+        "psgc_code": "0434002000",
+        "province": "Laguna",
+        "area_m2": 79681.5,
+        "kwp_equiv": 11952.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.06401237096429,
+          14.296526995606078
+        ]
+      },
+      "properties": {
+        "city": "Binan",
+        "psgc_code": "0434002000",
+        "province": "Laguna",
+        "area_m2": 76575.8,
+        "kwp_equiv": 11486.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.09237318869023,
+          14.300989266395398
+        ]
+      },
+      "properties": {
+        "city": "Binan",
+        "psgc_code": "0434002000",
+        "province": "Laguna",
+        "area_m2": 66132.3,
+        "kwp_equiv": 9919.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.08972707801132,
+          14.227756607608892
+        ]
+      },
+      "properties": {
+        "city": "Cabuyao",
+        "psgc_code": "0434006000",
+        "province": "Laguna",
+        "area_m2": 79694.0,
+        "kwp_equiv": 11954.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.16761200977612,
+          14.256626009665354
+        ]
+      },
+      "properties": {
+        "city": "Cabuyao",
+        "psgc_code": "0434006000",
+        "province": "Laguna",
+        "area_m2": 78136.6,
+        "kwp_equiv": 11720.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.15712665661084,
+          14.26655149884061
+        ]
+      },
+      "properties": {
+        "city": "Cabuyao",
+        "psgc_code": "0434006000",
+        "province": "Laguna",
+        "area_m2": 74652.0,
+        "kwp_equiv": 11197.8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.10392884695347,
+          14.185500006419856
+        ]
+      },
+      "properties": {
+        "city": "Calamba",
+        "psgc_code": "0434005000",
+        "province": "Laguna",
+        "area_m2": 77387.4,
+        "kwp_equiv": 11608.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.08310627780676,
+          14.202350332482633
+        ]
+      },
+      "properties": {
+        "city": "Calamba",
+        "psgc_code": "0434005000",
+        "province": "Laguna",
+        "area_m2": 75060.0,
+        "kwp_equiv": 11259.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.11681447464743,
+          14.175523273375196
+        ]
+      },
+      "properties": {
+        "city": "Calamba",
+        "psgc_code": "0434005000",
+        "province": "Laguna",
+        "area_m2": 70812.5,
+        "kwp_equiv": 10621.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.24525909132349,
+          14.186150898518525
+        ]
+      },
+      "properties": {
+        "city": "Los Banos",
+        "psgc_code": "0434017000",
+        "province": "Laguna",
+        "area_m2": 71583.0,
+        "kwp_equiv": 10737.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2108437215805,
+          14.172422334707333
+        ]
+      },
+      "properties": {
+        "city": "Los Banos",
+        "psgc_code": "0434017000",
+        "province": "Laguna",
+        "area_m2": 71200.4,
+        "kwp_equiv": 10680.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.2627207841358,
+          14.175402218030815
+        ]
+      },
+      "properties": {
+        "city": "Los Banos",
+        "psgc_code": "0434017000",
+        "province": "Laguna",
+        "area_m2": 63460.3,
+        "kwp_equiv": 9519.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.01590144846215,
+          14.348730145555509
+        ]
+      },
+      "properties": {
+        "city": "San Pedro",
+        "psgc_code": "0434028000",
+        "province": "Laguna",
+        "area_m2": 73464.6,
+        "kwp_equiv": 11019.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.02015606394029,
+          14.331857161340126
+        ]
+      },
+      "properties": {
+        "city": "San Pedro",
+        "psgc_code": "0434028000",
+        "province": "Laguna",
+        "area_m2": 69990.1,
+        "kwp_equiv": 10498.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.01682216122906,
+          14.343884131811926
+        ]
+      },
+      "properties": {
+        "city": "San Pedro",
+        "psgc_code": "0434028000",
+        "province": "Laguna",
+        "area_m2": 68053.0,
+        "kwp_equiv": 10208.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.09389526092963,
+          14.282422500050366
+        ]
+      },
+      "properties": {
+        "city": "Santa Rosa",
+        "psgc_code": "0434030000",
+        "province": "Laguna",
+        "area_m2": 76580.6,
+        "kwp_equiv": 11487.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.10384880976561,
+          14.254479426708173
+        ]
+      },
+      "properties": {
+        "city": "Santa Rosa",
+        "psgc_code": "0434030000",
+        "province": "Laguna",
+        "area_m2": 51060.0,
+        "kwp_equiv": 7659.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.10627383903555,
+          14.26607068376826
+        ]
+      },
+      "properties": {
+        "city": "Santa Rosa",
+        "psgc_code": "0434030000",
+        "province": "Laguna",
+        "area_m2": 49897.0,
+        "kwp_equiv": 7484.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.26705416816095,
+          14.179461195445723
+        ]
+      },
+      "properties": {
+        "city": "Bay",
+        "psgc_code": "0434001000",
+        "province": "Laguna",
+        "area_m2": 65780.9,
+        "kwp_equiv": 9867.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.27424750200719,
+          14.148053280995493
+        ]
+      },
+      "properties": {
+        "city": "Bay",
+        "psgc_code": "0434001000",
+        "province": "Laguna",
+        "area_m2": 62694.1,
+        "kwp_equiv": 9404.1
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.26605174204113,
+          14.184517070093493
+        ]
+      },
+      "properties": {
+        "city": "Bay",
+        "psgc_code": "0434001000",
+        "province": "Laguna",
+        "area_m2": 61523.2,
+        "kwp_equiv": 9228.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.31151263557058,
+          14.139602347412485
+        ]
+      },
+      "properties": {
+        "city": "Calauan",
+        "psgc_code": "0434007000",
+        "province": "Laguna",
+        "area_m2": 74306.8,
+        "kwp_equiv": 11146.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.30781567030748,
+          14.14036070046507
+        ]
+      },
+      "properties": {
+        "city": "Calauan",
+        "psgc_code": "0434007000",
+        "province": "Laguna",
+        "area_m2": 70436.4,
+        "kwp_equiv": 10565.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.22613363123725,
+          14.087461732814763
+        ]
+      },
+      "properties": {
+        "city": "Calauan",
+        "psgc_code": "0434007000",
+        "province": "Laguna",
+        "area_m2": 66581.8,
+        "kwp_equiv": 9987.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.14397593975143,
+          14.057115364242236
+        ]
+      },
+      "properties": {
+        "city": "Tanauan",
+        "psgc_code": "0410031000",
+        "province": "Batangas",
+        "area_m2": 75108.1,
+        "kwp_equiv": 11266.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.13063629549478,
+          14.094512773833241
+        ]
+      },
+      "properties": {
+        "city": "Tanauan",
+        "psgc_code": "0410031000",
+        "province": "Batangas",
+        "area_m2": 73160.3,
+        "kwp_equiv": 10974.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.08023900514951,
+          14.049904269512556
+        ]
+      },
+      "properties": {
+        "city": "Tanauan",
+        "psgc_code": "0410031000",
+        "province": "Batangas",
+        "area_m2": 72013.1,
+        "kwp_equiv": 10802.0
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.19159376211667,
+          14.05988317940771
+        ]
+      },
+      "properties": {
+        "city": "Santo Tomas",
+        "psgc_code": "0410029000",
+        "province": "Batangas",
+        "area_m2": 72784.2,
+        "kwp_equiv": 10917.6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1548448171562,
+          14.139026186575084
+        ]
+      },
+      "properties": {
+        "city": "Santo Tomas",
+        "psgc_code": "0410029000",
+        "province": "Batangas",
+        "area_m2": 70436.8,
+        "kwp_equiv": 10565.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.21378485085584,
+          13.985132379172907
+        ]
+      },
+      "properties": {
+        "city": "Santo Tomas",
+        "psgc_code": "0410029000",
+        "province": "Batangas",
+        "area_m2": 68547.9,
+        "kwp_equiv": 10282.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.15601985484969,
+          14.007432290368305
+        ]
+      },
+      "properties": {
+        "city": "Malvar",
+        "psgc_code": "0410020000",
+        "province": "Batangas",
+        "area_m2": 78609.4,
+        "kwp_equiv": 11791.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.14731727391087,
+          14.002347330638951
+        ]
+      },
+      "properties": {
+        "city": "Malvar",
+        "psgc_code": "0410020000",
+        "province": "Batangas",
+        "area_m2": 63508.6,
+        "kwp_equiv": 9526.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.11110102250613,
+          14.034927228353414
+        ]
+      },
+      "properties": {
+        "city": "Malvar",
+        "psgc_code": "0410020000",
+        "province": "Batangas",
+        "area_m2": 57691.7,
+        "kwp_equiv": 8653.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.56139373167885,
+          14.124923915330688
+        ]
+      },
+      "properties": {
+        "city": "Lucban",
+        "psgc_code": "0456015000",
+        "province": "Quezon",
+        "area_m2": 77795.0,
+        "kwp_equiv": 11669.3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.54590786401748,
+          14.113087502378738
+        ]
+      },
+      "properties": {
+        "city": "Lucban",
+        "psgc_code": "0456015000",
+        "province": "Quezon",
+        "area_m2": 71606.1,
+        "kwp_equiv": 10740.9
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5783125231646,
+          14.097028725366423
+        ]
+      },
+      "properties": {
+        "city": "Lucban",
+        "psgc_code": "0456015000",
+        "province": "Quezon",
+        "area_m2": 58837.3,
+        "kwp_equiv": 8825.6
+      }
     }
   ],
   "properties": {
     "quarter": "2026Q2",
     "baseline_year": "2022",
-    "generated_utc": "2026-05-08T06:03:33.539136+00:00",
+    "generated_utc": "2026-05-08T06:27:30.420660+00:00",
     "anomaly_threshold": -250,
     "local_radius_m": 200,
     "morph_radius_m": 20,
     "min_area_m2": 400,
     "max_area_m2": 80000,
     "top_k_per_city": 3,
-    "city_count": 1,
-    "total_hotspots": 3
+    "city_count": 61,
+    "total_hotspots": 181
   }
 }
