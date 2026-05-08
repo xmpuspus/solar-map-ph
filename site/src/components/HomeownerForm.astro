@@ -3,16 +3,17 @@
 ---
 <form id="me-form" class="max-w-2xl mx-auto px-6 grid gap-4 mt-4">
   <div class="grid gap-2">
-    <label class="text-sm text-ink-700" for="me-address">Your address (Metro Manila or Meralco franchise area)</label>
+    <label class="text-sm text-ink-700" for="me-address">Your city or municipality (in Meralco's franchise)</label>
     <input
       id="me-address"
       name="address"
       type="text"
       required
-      placeholder="e.g. Tomas Morato, Quezon City"
+      placeholder="e.g. Quezon City, Makati, Antipolo, Bacoor, Calamba"
       class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
+      autocomplete="off"
     />
-    <p class="text-xs text-ink-500">Geocoder uses OpenStreetMap Nominatim. Limited to 1 request per second. We don't store your address.</p>
+    <p class="text-xs text-ink-500">Match is against the 61 cities and municipalities in Meralco's franchise. We don't send your input anywhere; matching runs locally in your browser.</p>
   </div>
 
   <div class="grid gap-2 md:grid-cols-2">
@@ -53,35 +54,108 @@
 <div id="me-results" class="hidden max-w-6xl mx-auto px-6 mt-8 grid gap-4 md:grid-cols-3"></div>
 
 <script>
-  const PVGIS_BASE = "https://re.jrc.ec.europa.eu/api/v5_2/PVcalc";
-  const NOMINATIM_BASE = "https://nominatim.openstreetmap.org/search";
   const DATA_BASE = "/data";
+  // Boundaries are in the pipeline directory but we copy a public version too.
+  const BOUNDARIES_URL = "/data/franchise_cities_polygons.geojson";
   const MERALCO_RATE_PHP_PER_KWH = 12.5;
   const INSTALL_COST_PHP_PER_KWP = 65000;
   const KWP_PER_M2 = 0.15;
   const SYSTEM_LIFETIME_YEARS = 25;
   const DEGRADATION_PER_YEAR = 0.005;
+  // PVGIS-derived annual yield for the Philippines: ~1315 kWh/kWp/year for a
+  // fixed-mount, 14% loss, c-Si system (verified for Quezon City lat=14.65,
+  // lon=121.04). Variation across Meralco's franchise is < 5% so a single
+  // constant is good enough for a homeowner estimate. PVGIS has no CORS
+  // headers, so we cannot fetch it client-side. Refresh this constant when
+  // the real data shifts; or proxy PVGIS via a serverless function in v1.1.
+  const PH_KWH_PER_KWP_PER_YEAR = 1315;
 
-  async function geocode(q: string): Promise<{ lat: number; lon: number; display_name: string } | null> {
-    const url = `${NOMINATIM_BASE}?q=${encodeURIComponent(q)}&format=json&countrycodes=ph&limit=1`;
-    const resp = await fetch(url, { headers: { "Accept-Language": "en" } });
-    if (!resp.ok) return null;
-    const arr = await resp.json();
-    if (!arr.length) return null;
-    return { lat: parseFloat(arr[0].lat), lon: parseFloat(arr[0].lon), display_name: arr[0].display_name };
-  }
-
-  async function pvgisAnnualKwh(lat: number, lon: number, kwp: number): Promise<number | null> {
-    const url = `${PVGIS_BASE}?lat=${lat}&lon=${lon}&peakpower=${kwp}&loss=14&outputformat=json`;
+  let cachedBoundaries: any | null = null;
+  async function loadBoundaries() {
+    if (cachedBoundaries) return cachedBoundaries;
     try {
-      const resp = await fetch(url);
-      if (!resp.ok) return null;
-      const data = await resp.json();
-      const yearly = data?.outputs?.totals?.fixed?.E_y;
-      return typeof yearly === "number" ? yearly : null;
+      const r = await fetch(BOUNDARIES_URL);
+      if (!r.ok) return null;
+      cachedBoundaries = await r.json();
+      return cachedBoundaries;
     } catch {
       return null;
     }
+  }
+
+  function polygonCentroid(coords: number[][]): [number, number] {
+    let sumLon = 0, sumLat = 0, n = 0;
+    for (const ring of [coords]) {
+      for (const pt of ring) {
+        if (Array.isArray(pt) && typeof pt[0] === "number") {
+          sumLon += pt[0]; sumLat += pt[1]; n++;
+        }
+      }
+    }
+    return n > 0 ? [sumLon / n, sumLat / n] : [121.05, 14.6];
+  }
+
+  function geometryRepresentativePoint(geom: any): [number, number] {
+    if (!geom) return [121.05, 14.6];
+    const polys = geom.type === "Polygon" ? [geom.coordinates] : geom.coordinates;
+    let bestArea = 0;
+    let bestCenter: [number, number] = [121.05, 14.6];
+    for (const poly of polys) {
+      const ring = poly[0];
+      if (!ring) continue;
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      for (const pt of ring) {
+        if (pt[0] < minX) minX = pt[0];
+        if (pt[0] > maxX) maxX = pt[0];
+        if (pt[1] < minY) minY = pt[1];
+        if (pt[1] > maxY) maxY = pt[1];
+      }
+      const area = (maxX - minX) * (maxY - minY);
+      if (area > bestArea) {
+        bestArea = area;
+        bestCenter = [(minX + maxX) / 2, (minY + maxY) / 2];
+      }
+    }
+    return bestCenter;
+  }
+
+  type LocalMatch = {
+    lat: number;
+    lon: number;
+    display_name: string;
+    feature: any;
+  };
+
+  async function geocodeLocal(q: string): Promise<LocalMatch | null> {
+    const fc = await loadBoundaries();
+    if (!fc) return null;
+    const norm = q.trim().toLowerCase();
+    if (!norm) return null;
+
+    // Try exact match first, then prefix, then contains
+    const features = fc.features ?? [];
+    const matchExact = features.find((f: any) => f.properties.name.toLowerCase() === norm);
+    const matchPrefix = features.find((f: any) => f.properties.name.toLowerCase().startsWith(norm));
+    const matchContains = features.find((f: any) =>
+      f.properties.name.toLowerCase().includes(norm) ||
+      norm.includes(f.properties.name.toLowerCase())
+    );
+    const match = matchExact ?? matchPrefix ?? matchContains;
+    if (!match) return null;
+    const [lon, lat] = geometryRepresentativePoint(match.geometry);
+    return {
+      lat,
+      lon,
+      display_name: `${match.properties.name}, ${match.properties.province}, Philippines`,
+      feature: match,
+    };
+  }
+
+  function estimateAnnualKwh(lat: number, _lon: number, kwp: number): number {
+    // Light latitude adjustment: PH ranges roughly lat 5-19; QC anchor at 14.65.
+    // North gets slightly less yield, south slightly more. Linear approx, ~1.5% per degree.
+    const adjust = 1 + (14.65 - lat) * 0.015;
+    return kwp * PH_KWH_PER_KWP_PER_YEAR * adjust;
   }
 
   async function loadManifest(): Promise<{ latest_quarter: string } | null> {
@@ -184,7 +258,7 @@
       <div class="card">
         <div class="badge mb-2">card 2</div>
         <h3 class="text-lg font-semibold mb-1">Your roof's potential</h3>
-        <p class="text-xs text-ink-500 mb-3">PVGIS at your lat/lon, ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh, ${(INSTALL_COST_PHP_PER_KWP / 1000).toFixed(0)}K ₱/kWp install</p>
+        <p class="text-xs text-ink-500 mb-3">PVGIS-derived PH yield (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr), ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh, ${(INSTALL_COST_PHP_PER_KWP / 1000).toFixed(0)}K ₱/kWp install</p>
         <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
           <dt class="text-ink-500">Suggested system</dt><dd class="font-mono text-right">${kwp.toFixed(2)} kWp</dd>
           <dt class="text-ink-500">Annual generation</dt><dd class="font-mono text-right">${annualKwh ? annualKwh.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " kWh" : "n/a"}</dd>
@@ -227,36 +301,41 @@
   async function onSubmit(ev: SubmitEvent) {
     ev.preventDefault();
     const status = document.getElementById("me-status")!;
-    status.textContent = "Geocoding...";
+    status.textContent = "Looking up your city...";
     const form = ev.currentTarget as HTMLFormElement;
     const data = new FormData(form);
     const address = String(data.get("address") || "").trim();
     const roof = parseFloat(String(data.get("roof") || "80"));
     const bill = parseFloat(String(data.get("bill") || "8000"));
     if (!address) {
-      status.textContent = "Address is required.";
+      status.textContent = "Type a city or municipality name.";
       return;
     }
-    const geo = await geocode(address);
+    const geo = await geocodeLocal(address);
     if (!geo) {
-      status.textContent = "Couldn't find that address. Try adding the city or barangay name.";
+      status.textContent =
+        "Not found. Type a Meralco-franchise city name (e.g. Quezon City, Makati, Antipolo, Bacoor, Calamba).";
       return;
     }
     const kwp = roof * KWP_PER_M2;
-    status.textContent = "Asking PVGIS for solar potential at your lat/lon...";
-    const annualKwh = await pvgisAnnualKwh(geo.lat, geo.lon, kwp);
+    status.textContent = "Computing solar potential...";
+    const annualKwh = estimateAnnualKwh(geo.lat, geo.lon, kwp);
 
     status.textContent = "Looking up your city in the latest ghost-watts release...";
     const manifest = await loadManifest();
     let cityProps: any = {};
-    let cityName: string | null = null;
+    let cityName: string | null = geo.feature?.properties?.name ?? null;
     if (manifest?.latest_quarter) {
       const fc = await loadGeoJSON(manifest.latest_quarter);
       if (fc) {
-        const found = findCityForPoint(fc, geo.lat, geo.lon);
+        // Match by psgc_code from the local boundaries feature
+        const psgc = geo.feature?.properties?.psgc_code;
+        const found =
+          (psgc && fc.features.find((f: any) => f.properties.psgc_code === psgc)) ||
+          findCityForPoint(fc, geo.lat, geo.lon);
         if (found) {
           cityProps = found.properties || {};
-          cityName = cityProps.name ?? null;
+          cityName = cityProps.name ?? cityName;
         }
       }
     }

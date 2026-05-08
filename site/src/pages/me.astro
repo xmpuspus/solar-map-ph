@@ -6,7 +6,7 @@ import HomeownerForm from "../components/HomeownerForm.astro";
   <section class="max-w-prose mx-auto px-6 pt-8 pb-2">
     <h1 class="text-3xl mb-3">Estimate your roof</h1>
     <p class="text-ink-700 leading-relaxed">
-      Drop your address, your roof area, and your monthly Meralco bill. We compute solar potential at your lat/lon using the European Commission's PVGIS API (free, no auth, no signup), look up your city's signal strength from the latest ghost-watts release, and pull your LGU's permit fee from the hand-curated friction table. All math is client-side. Nothing about you is sent anywhere except OpenStreetMap (geocoding) and PVGIS (solar irradiance), both of which are free public services.
+      Type your city, your roof area, and your monthly Meralco bill. We compute solar potential using a PVGIS-derived national yield (~1315 kWh/kWp/yr for the Philippines), look up your city's signal strength from the latest ghost-watts release, and pull your LGU's permit fee from the hand-curated friction table. All math, geocoding, and lookups run locally in your browser. Nothing about you is sent to any external service.
     </p>
   </section>
 

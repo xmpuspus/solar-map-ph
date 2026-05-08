@@ -1,12 +1,29 @@
 ---
 // Client-side MapLibre + OSM raster basemap, choropleth fill from quarterly GeoJSON.
+// MapLibre's GeoJSON source flattens nested object properties on click events,
+// so we maintain a parallel lookup table keyed by psgc_code and read from it
+// instead of trusting e.features[0].properties.
 ---
 <div id="map-root" class="grid md:grid-cols-[1fr_320px] gap-4 px-6">
-  <div id="map" class="w-full h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
+  <div class="relative">
+    <div id="map" class="w-full h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
+    <div id="legend" class="absolute bottom-3 left-3 bg-white/95 border border-ink-300/40 rounded-md p-2.5 text-xs shadow-sm">
+      <div class="text-ink-500 uppercase tracking-wide mb-1">Composite signal</div>
+      <div id="legend-bar" class="w-48 h-2 rounded mb-1"></div>
+      <div class="flex justify-between text-[10px] font-mono text-ink-500">
+        <span id="legend-min">-1</span>
+        <span>baseline</span>
+        <span id="legend-max">+1</span>
+      </div>
+      <div class="text-[10px] text-ink-300 mt-1">Stronger blue, more rooftop solar growth signal</div>
+    </div>
+  </div>
   <aside id="city-panel" class="card text-sm">
-    <div class="text-ink-500 text-xs uppercase tracking-wide mb-2">Click a city on the map</div>
-    <div id="city-empty" class="text-ink-500">
-      Click any colored polygon to load metrics, building counts, registered estimates, and LGU permit data for that city.
+    <div id="city-empty">
+      <div class="text-ink-500 text-xs uppercase tracking-wide mb-2">Click a city on the map</div>
+      <p class="text-ink-500">
+        Click any colored polygon to load metrics, building counts, registered estimates, and LGU permit data for that city.
+      </p>
     </div>
     <div id="city-detail" class="hidden">
       <h3 id="city-name" class="text-lg font-semibold mb-1"></h3>
@@ -37,6 +54,20 @@
   </aside>
 </div>
 
+<section class="max-w-6xl mx-auto px-6 mt-8 grid gap-6 md:grid-cols-2">
+  <div class="card">
+    <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide text-ink-500">Top 5 strongest signal</h3>
+    <ol id="top5-signal" class="space-y-1.5 text-sm font-mono"></ol>
+  </div>
+  <div class="card">
+    <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide text-ink-500">Verified LGU permit fees (so far)</h3>
+    <ol id="top5-friction" class="space-y-1.5 text-sm"></ol>
+    <p class="text-xs text-ink-500 mt-3">
+      Most cities are still <code>unverified</code>. <a href="https://github.com/xmpuspus/ghost-watts" class="no-underline text-accent-steel">Contribute a source</a> with the LGU's actual residential rooftop solar permit fee.
+    </p>
+  </div>
+</section>
+
 <script>
   import maplibregl from "maplibre-gl";
   import "maplibre-gl/dist/maplibre-gl.css";
@@ -44,11 +75,24 @@
 
   const DATA_BASE = "/data";
 
-  async function loadManifest(): Promise<{ latest_quarter: string; quarters: string[] } | null> {
+  type CityFeature = {
+    type: "Feature";
+    geometry: any;
+    properties: {
+      name: string;
+      psgc_code: string;
+      province: string;
+      metrics: any;
+      policy: any;
+      _fill?: string;
+    };
+  };
+
+  async function loadManifest() {
     try {
       const r = await fetch(`${DATA_BASE}/manifest.json`);
       if (!r.ok) return null;
-      return await r.json();
+      return await r.json() as { latest_quarter: string; quarters: string[] };
     } catch {
       return null;
     }
@@ -71,48 +115,106 @@
     return interpolateRdYlBu(1 - t);
   }
 
-  function showEmpty() {
-    document.getElementById("city-empty")!.classList.remove("hidden");
-    document.getElementById("city-detail")!.classList.add("hidden");
+  function buildLegendGradient(min: number, max: number): string {
+    const stops: string[] = [];
+    for (let i = 0; i <= 10; i++) {
+      const t = i / 10;
+      stops.push(`${interpolateRdYlBu(1 - t)} ${(t * 100).toFixed(0)}%`);
+    }
+    return `linear-gradient(to right, ${stops.join(", ")})`;
   }
 
-  function showCity(props: any) {
+  function showCity(props: CityFeature["properties"]) {
     document.getElementById("city-empty")!.classList.add("hidden");
     document.getElementById("city-detail")!.classList.remove("hidden");
     const set = (id: string, v: string) => {
       const el = document.getElementById(id);
       if (el) el.textContent = v;
     };
+    const m = props.metrics ?? {};
+    const p = props.policy ?? {};
     set("city-name", props.name);
     set("city-province", props.province);
-    set("city-composite", fmt(props.metrics?.composite_solar_signal_score));
-    const compositeBar = document.getElementById("city-composite-bar") as HTMLElement;
-    const composite = props.metrics?.composite_solar_signal_score ?? 0;
-    const pct = Math.max(0, Math.min(1, (composite + 2) / 4));
+    set("city-composite", fmt(m.composite_solar_signal_score));
+    const compositeBar = document.getElementById("city-composite-bar") as HTMLElement | null;
+    const composite = typeof m.composite_solar_signal_score === "number" ? m.composite_solar_signal_score : 0;
+    const pct = Math.max(0, Math.min(1, (composite + 1.5) / 3));
     if (compositeBar) compositeBar.style.width = `${(pct * 100).toFixed(1)}%`;
-    set("z-nir", fmt(props.metrics?.s2_nir_delta_zscore));
-    set("z-swir", fmt(props.metrics?.s2_swir_delta_zscore));
-    set("z-lst", fmt(props.metrics?.landsat_lst_anomaly_zscore));
-    set("z-night", fmt(props.metrics?.viirs_nightlight_delta_zscore));
-    set("built-km2", fmt(props.metrics?.built_up_km2, 1));
-    set("permit-fee", props.policy?.lgu_permit_fee_php ? `₱${props.policy.lgu_permit_fee_php.toLocaleString()}` : "unverified");
-    set("permit-days", props.policy?.lgu_permit_days_p50 ? `${props.policy.lgu_permit_days_p50} d` : "unverified");
+    set("z-nir", fmt(m.s2_nir_delta_zscore));
+    set("z-swir", fmt(m.s2_swir_delta_zscore));
+    set("z-lst", fmt(m.landsat_lst_anomaly_zscore));
+    set("z-night", fmt(m.viirs_nightlight_delta_zscore));
+    set("built-km2", fmt(m.built_up_km2, 1));
+    set("permit-fee", p.lgu_permit_fee_php ? `₱${p.lgu_permit_fee_php.toLocaleString()}` : "unverified");
+    set("permit-days", p.lgu_permit_days_p50 ? `${p.lgu_permit_days_p50} d` : "unverified");
     const sourceEl = document.getElementById("permit-source");
     if (sourceEl) {
-      sourceEl.innerHTML = props.policy?.permit_data_source
-        ? `Source: <a href="${props.policy.permit_data_source}" class="no-underline text-accent-steel">link</a>`
+      sourceEl.innerHTML = p.permit_data_source
+        ? `Source: <a href="${p.permit_data_source}" class="no-underline text-accent-steel">link</a>`
         : "LGU permit data not yet verified for this city. <a href=\"https://github.com/xmpuspus/ghost-watts\" class=\"no-underline text-accent-steel\">Contribute a source</a>.";
     }
-    const meLink = document.getElementById("city-me-link") as HTMLAnchorElement;
+    const meLink = document.getElementById("city-me-link") as HTMLAnchorElement | null;
     if (meLink) {
       const slug = (props.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
       meLink.href = `/me?city=${encodeURIComponent(slug)}`;
     }
   }
 
+  function bboxOfFeatureCollection(fc: any): [number, number, number, number] {
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    const visit = (coords: any) => {
+      if (typeof coords[0] === "number" && typeof coords[1] === "number") {
+        if (coords[0] < minX) minX = coords[0];
+        if (coords[0] > maxX) maxX = coords[0];
+        if (coords[1] < minY) minY = coords[1];
+        if (coords[1] > maxY) maxY = coords[1];
+        return;
+      }
+      for (const c of coords) visit(c);
+    };
+    for (const f of fc.features ?? []) {
+      if (f.geometry) visit(f.geometry.coordinates);
+    }
+    return [minX, minY, maxX, maxY];
+  }
+
+  function renderTop5(features: CityFeature[]) {
+    const sorted = features
+      .filter((f) => typeof f.properties?.metrics?.composite_solar_signal_score === "number")
+      .sort((a, b) => b.properties.metrics.composite_solar_signal_score - a.properties.metrics.composite_solar_signal_score);
+    const top5 = sorted.slice(0, 5);
+    const top5El = document.getElementById("top5-signal");
+    if (top5El) {
+      top5El.innerHTML = top5
+        .map((f, i) => {
+          const c = f.properties.metrics.composite_solar_signal_score;
+          const slug = f.properties.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+          return `<li class="flex justify-between gap-3"><span class="text-ink-500 mr-1">${i + 1}.</span><a class="flex-1 no-underline text-ink-900 hover:text-accent-steel" href="/me?city=${slug}">${f.properties.name}</a><span>${c.toFixed(2)}</span></li>`;
+        })
+        .join("");
+    }
+
+    const verified = features
+      .filter((f) => f.properties?.policy?.permit_data_status === "verified" && f.properties?.policy?.lgu_permit_fee_php)
+      .sort((a, b) => b.properties.policy.lgu_permit_fee_php - a.properties.policy.lgu_permit_fee_php);
+    const friction = verified.slice(0, 5);
+    const fricEl = document.getElementById("top5-friction");
+    if (fricEl) {
+      if (friction.length === 0) {
+        fricEl.innerHTML = '<li class="text-ink-500 text-sm italic">No verified LGU permit data yet. The two reference values currently in the dataset are at province scope, not city scope.</li>';
+      } else {
+        fricEl.innerHTML = friction
+          .map((f) => {
+            const fee = f.properties.policy.lgu_permit_fee_php;
+            return `<li class="flex justify-between gap-3"><span class="text-ink-900">${f.properties.name}</span><span class="font-mono">₱${fee.toLocaleString()}</span></li>`;
+          })
+          .join("");
+      }
+    }
+  }
+
   async function init() {
     const manifest = await loadManifest();
-    const quarter = manifest?.latest_quarter;
     const map = new maplibregl.Map({
       container: "map",
       style: {
@@ -134,10 +236,11 @@
       center: [121.05, 14.6],
       zoom: 9,
     });
+    map.addControl(new maplibregl.NavigationControl(), "top-right");
 
-    if (!quarter) {
+    if (!manifest?.latest_quarter) {
       const note = document.createElement("div");
-      note.className = "absolute top-4 left-4 bg-white border border-ink-300 rounded p-3 text-sm shadow";
+      note.className = "absolute top-4 left-4 bg-white border border-ink-300 rounded p-3 text-sm shadow z-10";
       note.innerHTML =
         "No quarterly data published yet. Run <code>python pipeline.py --quarter YYYYQN</code> in <code>/pipeline/</code>, then commit the output to <code>/site/public/data/</code>.";
       document.getElementById("map")!.appendChild(note);
@@ -146,17 +249,32 @@
 
     map.on("load", async () => {
       try {
-        const fc = await loadGeoJSON(quarter);
+        const fc = await loadGeoJSON(manifest.latest_quarter);
+
         const composites = fc.features
           .map((f: any) => f.properties?.metrics?.composite_solar_signal_score)
           .filter((v: any) => typeof v === "number" && !Number.isNaN(v));
         const min = composites.length ? Math.min(...composites) : -2;
         const max = composites.length ? Math.max(...composites) : 2;
 
+        // Build lookup table keyed by psgc_code so click handler can read the
+        // full nested properties, sidestepping MapLibre's serialization quirks.
+        const byPsgc = new Map<string, CityFeature["properties"]>();
         for (const f of fc.features) {
+          byPsgc.set(f.properties.psgc_code, f.properties);
           const c = f.properties?.metrics?.composite_solar_signal_score;
           f.properties._fill = colorScale(typeof c === "number" ? c : 0, min, max);
+          // Flatten the psgc to top-level for click event reliability.
+          f.properties.__psgc = f.properties.psgc_code;
         }
+
+        // Update legend with real data range
+        const legendBar = document.getElementById("legend-bar") as HTMLElement | null;
+        if (legendBar) legendBar.style.background = buildLegendGradient(min, max);
+        const lmin = document.getElementById("legend-min");
+        const lmax = document.getElementById("legend-max");
+        if (lmin) lmin.textContent = min.toFixed(1);
+        if (lmax) lmax.textContent = `+${max.toFixed(1)}`;
 
         map.addSource("ghost-watts", { type: "geojson", data: fc });
         map.addLayer({
@@ -165,7 +283,7 @@
           source: "ghost-watts",
           paint: {
             "fill-color": ["get", "_fill"],
-            "fill-opacity": 0.6,
+            "fill-opacity": 0.65,
           },
         });
         map.addLayer({
@@ -175,12 +293,48 @@
           paint: { "line-color": "#22324a", "line-width": 0.5 },
         });
 
+        // Fit bounds to franchise polygons
+        const [minX, minY, maxX, maxY] = bboxOfFeatureCollection(fc);
+        if (Number.isFinite(minX)) {
+          map.fitBounds(
+            [
+              [minX, minY],
+              [maxX, maxY],
+            ],
+            { padding: 40, animate: false, maxZoom: 11 }
+          );
+        }
+
         map.on("click", "ghost-watts-fill", (e) => {
           const f = e.features?.[0];
-          if (f && f.properties) showCity(f.properties);
+          if (!f) return;
+          // MapLibre stringifies nested objects on the click event payload;
+          // resolve via the lookup table to get the original full properties.
+          const psgc =
+            (f.properties as any)?.__psgc ??
+            (f.properties as any)?.psgc_code;
+          const full = psgc ? byPsgc.get(String(psgc)) : null;
+          if (full) {
+            showCity(full);
+          } else if (f.properties) {
+            showCity(f.properties as any);
+          }
         });
         map.on("mouseenter", "ghost-watts-fill", () => (map.getCanvas().style.cursor = "pointer"));
         map.on("mouseleave", "ghost-watts-fill", () => (map.getCanvas().style.cursor = ""));
+
+        renderTop5(fc.features as CityFeature[]);
+
+        // Deep-link support: /map?city=quezon-city auto-opens that panel.
+        const params = new URLSearchParams(location.search);
+        const cityParam = params.get("city");
+        if (cityParam) {
+          const slug = cityParam.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+          const match = (fc.features as CityFeature[]).find(
+            (f) => f.properties.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") === slug
+          );
+          if (match) showCity(match.properties);
+        }
       } catch (err) {
         console.error(err);
       }
