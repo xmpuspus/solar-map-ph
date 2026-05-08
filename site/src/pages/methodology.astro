@@ -3,10 +3,33 @@ import Base from "../layouts/Base.astro";
 ---
 <Base title="methodology | ghost-watts" pathname="/methodology">
   <article class="max-w-prose mx-auto px-6 pt-8 pb-12 prose prose-sm">
-    <h1 class="text-3xl mb-2">Methodology</h1>
-    <p class="text-xs text-ink-500 mb-6">v1, 2026-05. This page is updated each quarter when caveats change.</p>
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">§01 methodology · v1 · 2026-05</p>
+    <h1 class="text-3xl mb-2">From four satellite channels to one map color.</h1>
+    <p class="text-base text-ink-700 mb-8 leading-relaxed">Updated each quarter when caveats change. The pipeline is a single Python script (<code class="bg-ink-300/15 px-1">pipeline/pipeline.py</code>) reproducible by anyone with Earth Engine access.</p>
 
-    <h2 class="text-xl mt-6 mb-2">What ghost-watts measures</h2>
+    <figure class="my-8 not-prose">
+      <pre class="bg-paper-alt border border-ink-300/40 p-4 text-xs leading-relaxed font-mono overflow-x-auto text-ink-900">
+  Sentinel-2 B8     ─┐
+  (NIR ▼ darker)     │  weight
+                     ├─ ×(-0.40) ─┐
+  Sentinel-2 B11    ─┤            │
+  (SWIR ▼ darker)    │  weight    │
+                     ├─ ×(-0.30) ─┤      ┌──────────────────┐
+  Landsat 8/9 ST_B10─┤            │      │ z-score across   │   ┌─────┐
+  (LST ▼ cooler)     │  weight    ├─────►│ 61 franchise     │──►│ map │
+                     ├─ ×(-0.20) ─┤      │ cities, weighted │   │ fill│
+  VIIRS DNB         ─┤            │      │ sum = composite  │   │ ▓▓░ │
+  (nightlight Δ)     │  weight    │      └──────────────────┘   └─────┘
+                     └─ ×(+0.10) ─┘
+
+  ESA WorldCover 2021 (built-up mask) restricts every pixel sample.
+
+  composite_z(city) = -0.40·z_NIR  +  -0.30·z_SWIR
+                    + -0.20·z_LST  +  +0.10·z_nightlight                </pre>
+      <figcaption class="text-[11px] text-ink-500 font-mono mt-2">fig 01 · 4 raw signals → z-score across 61 cities → weighted composite → choropleth fill. Negative weights on NIR/SWIR/LST reflect that "darker / cooler" indicates more solar; the composite always reads "higher = more solar-like."</figcaption>
+    </figure>
+
+    <h2 class="text-xl mt-10 mb-2">§02 What ghost-watts measures</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       A composite of four satellite-derived signals computed at city/municipality scale across Meralco's franchise area, each quarter:
     </p>

@@ -2,61 +2,72 @@
 import Base from "../layouts/Base.astro";
 ---
 <Base title="ghost-watts" pathname="/">
-  <section class="max-w-prose mx-auto px-6 pt-12 pb-8">
-    <p class="badge mb-3">civic-tech-PH</p>
-    <h1 class="text-4xl mb-4 leading-tight">
-      The rooftop solar Meralco can't see.
-    </h1>
-    <p class="text-lg text-ink-700 leading-relaxed mb-6">
-      ICSC says roughly one-third of rooftop solar in Meralco's franchise is unregistered. Manila Times calls it "guerrilla solar." Politicians blame politicians. Where, exactly?
-    </p>
-    <p class="text-base text-ink-700 leading-relaxed">
-      ghost-watts uses free public satellite signals (Sentinel-2 NIR/SWIR, Landsat thermal, VIIRS nightlights) blended in Google Earth Engine to estimate the unmeasured rooftop solar capacity in Meralco's franchise area, refreshed quarterly. City-level resolution. Aggregate framing only. No address-level claims.
-    </p>
+  <section class="max-w-5xl mx-auto px-6 pt-14 pb-10">
+    <div class="grid md:grid-cols-[1.4fr_1fr] gap-10 items-end">
+      <div>
+        <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-4 font-mono">ghost-watts &middot; civic-tech-PH</p>
+        <h1 class="text-4xl md:text-5xl leading-[1.05] mb-5 text-ink-900 font-semibold tracking-tight">
+          Where rooftop solar is growing across Meralco's franchise, from satellite signals.
+        </h1>
+        <p class="text-lg text-ink-700 leading-relaxed">
+          Free tool. 61 cities and municipalities, ~9,300 km<sup>2</sup>, ~22 million people. Refreshed quarterly. Aggregate only, no addresses.
+        </p>
+      </div>
+      <aside class="border-l-2 border-ink-900 pl-5 text-sm text-ink-700 leading-relaxed">
+        <p class="mb-2 font-mono text-xs text-ink-500 uppercase tracking-wider">latest run</p>
+        <p class="font-mono text-2xl tabular-nums text-ink-900 leading-none mb-1">2026 Q2</p>
+        <p class="text-xs text-ink-500">Top signal: Valenzuela <span class="font-mono tabular-nums">+1.23</span></p>
+        <p class="text-xs text-ink-500">Bottom: Lucban <span class="font-mono tabular-nums">-1.03</span></p>
+      </aside>
+    </div>
   </section>
 
-  <section class="max-w-6xl mx-auto px-6 py-8 grid gap-6 md:grid-cols-2">
-    <a href="/map" class="card no-underline hover:border-ink-700/40 hover:shadow transition-shadow">
-      <div class="badge mb-2">A-mode</div>
-      <h2 class="text-xl mb-2">The map</h2>
-      <p class="text-sm text-ink-500 mb-3">
-        Composite signal score per city across the franchise. Choropleth on an OSM basemap. Time slider quarterly back to 2022. Click any city for raw z-scores, building count, registered estimate, and LGU permit cost.
+  <section class="max-w-5xl mx-auto px-6 pb-12 grid gap-px bg-ink-300/40 md:grid-cols-2 border border-ink-300/40">
+    <a href="/map" class="bg-paper p-6 md:p-8 no-underline group hover:bg-white transition-colors">
+      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">browse</p>
+      <h2 class="text-xl mb-2 text-ink-900">The map</h2>
+      <p class="text-sm text-ink-500 mb-4 leading-relaxed">
+        Composite signal score per city across the franchise. Click any city to compare it against its 60 peers on four satellite channels. Choropleth on an OSM basemap, anchored at the peer-average baseline.
       </p>
-      <p class="text-sm font-medium text-accent-steel">Open the map &rarr;</p>
+      <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Open the map &rarr;</span>
     </a>
-    <a href="/me" class="card no-underline hover:border-ink-700/40 hover:shadow transition-shadow">
-      <div class="badge mb-2">B-mode</div>
-      <h2 class="text-xl mb-2">Your roof</h2>
-      <p class="text-sm text-ink-500 mb-3">
-        Drop your address, type your monthly Meralco bill, get your barangay's signal strength, your roof's PVGIS-derived solar potential, your LGU's permit cost and approval delay, and the registered-vs-guerrilla path comparison.
+    <a href="/me" class="bg-paper p-6 md:p-8 no-underline group hover:bg-white transition-colors">
+      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">estimate</p>
+      <h2 class="text-xl mb-2 text-ink-900">Your roof</h2>
+      <p class="text-sm text-ink-500 mb-4 leading-relaxed">
+        Type your city, your roof area, your monthly Meralco bill. Get a payback number in years, an annual savings number in pesos, and your LGU's permit cost (where verified). All math runs in your browser.
       </p>
-      <p class="text-sm font-medium text-accent-steel">Estimate your roof &rarr;</p>
+      <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Estimate your roof &rarr;</span>
     </a>
   </section>
 
-  <section class="max-w-prose mx-auto px-6 py-8">
-    <h2 class="text-2xl mb-4">What's actually happening in PH solar policy</h2>
-    <p class="text-base text-ink-700 leading-relaxed mb-3">
-      The "politicians block solar" framing oversimplifies. Five actors with distinct positions:
+  <section class="max-w-prose mx-auto px-6 py-10 border-t border-ink-300/30">
+    <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">why this exists</p>
+    <h2 class="text-2xl mb-4 leading-tight">PH solar policy isn't what the headlines say.</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-4">
+      ICSC says one-third of rooftop solar in Meralco's franchise is unregistered. Manila Times calls it "guerrilla solar." Politicians blame politicians. Where, exactly, and why?
     </p>
-    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
-      <li><strong>Meralco</strong> wants tighter regulation: equipment standards, installer accreditation, anti-islanding compliance. Officially safety. Quietly: distribution-charge revenue erosion plus net-metering cross-subsidy.</li>
-      <li><strong>DOE plus Sen. Sherwin Gatchalian</strong> are the streamliners. April 2026 circular cut approval to 10 working days, 3-day LGU electrical permit, deemed-approved on silence.</li>
-      <li><strong>ERC</strong> has been structurally cautious. Opposed cap-raise above 100kW in 2018. Opposed full-retail compensation in 2019.</li>
-      <li><strong>LGUs</strong> are the silent blocker. Same 520 kWp project: ₱153K permit fees in Rizal vs ₱16K in Laguna.</li>
-      <li><strong>Households</strong> route around it. ICSC: ~1/3 of installs are unregistered. Real safety risk to utility workers if anti-islanding fails.</li>
+    <p class="text-base text-ink-700 leading-relaxed mb-4">
+      The current frame is "Meralco blocks solar." The data tells a more layered story:
+    </p>
+    <ul class="list-none pl-0 text-base text-ink-700 leading-relaxed space-y-3 mb-4 border-l border-ink-300/40 pl-5">
+      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">Meralco</span>asks for tighter regulation: equipment standards, installer accreditation, anti-islanding compliance. Officially safety. Quietly: distribution-charge revenue erosion plus net-metering cross-subsidy.</li>
+      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">DOE + Sen. Sherwin Gatchalian</span>are the streamliners, not the blockers. April 2026 circular cut approval to 10 working days, 3-day LGU electrical permit.</li>
+      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">ERC</span>has been structurally cautious. Opposed cap-raise above 100kW in 2018. Opposed full-retail compensation in 2019.</li>
+      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">LGUs</span>are the silent blocker. Same 520 kWp project: ₱153K permit fees in Rizal vs ₱16K in Laguna. 10x variance.</li>
+      <li><span class="font-mono text-xs uppercase tracking-wider text-ink-500 block mb-0.5">Households</span>route around it. ICSC: ~1/3 unregistered installs. Real safety risk to utility workers when anti-islanding fails.</li>
     </ul>
     <p class="text-base text-ink-700 leading-relaxed">
-      ghost-watts is a small contribution to one missing piece: a public, repeatable estimate of where the unmeasured capacity concentrates and how it correlates with LGU permit friction.
+      ghost-watts contributes one missing piece: a public, repeatable estimate of where the unmeasured rooftop capacity concentrates and how that correlates with LGU permit friction.
     </p>
   </section>
 
   <section class="max-w-prose mx-auto px-6 py-8 border-t border-ink-300/30">
-    <h2 class="text-xl mb-3">Quarterly posts</h2>
+    <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">quarterly posts</p>
     <ul class="text-base text-ink-700 leading-relaxed space-y-2">
       <li>
         <a href="/post/2026-q2" class="no-underline text-ink-900 hover:text-accent-steel">2026-Q2: inaugural release</a>
-        <span class="text-ink-500"> &middot; coming on first pipeline run</span>
+        <span class="text-ink-500 text-sm"> &middot; draft, headline numbers TBD</span>
       </li>
     </ul>
   </section>

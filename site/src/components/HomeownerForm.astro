@@ -1,19 +1,22 @@
 ---
-// Client-side homeowner form. PVGIS API + barangay lookup + LGU friction.
+// Client-side homeowner form. Local geocoder against franchise polygons,
+// PVGIS-derived national yield constant, payback math, LGU friction lookup.
 ---
 <form id="me-form" class="max-w-2xl mx-auto px-6 grid gap-4 mt-4">
   <div class="grid gap-2">
-    <label class="text-sm text-ink-700" for="me-address">Your city or municipality (in Meralco's franchise)</label>
+    <label class="text-sm text-ink-700" for="me-address">Your city or municipality</label>
     <input
       id="me-address"
       name="address"
       type="text"
       required
-      placeholder="e.g. Quezon City, Makati, Antipolo, Bacoor, Calamba"
+      placeholder="Start typing: Quezon City, Makati, Antipolo, Bacoor, Calamba..."
       class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
       autocomplete="off"
+      list="franchise-cities"
     />
-    <p class="text-xs text-ink-500">Match is against the 61 cities and municipalities in Meralco's franchise. We don't send your input anywhere; matching runs locally in your browser.</p>
+    <datalist id="franchise-cities"></datalist>
+    <p class="text-xs text-ink-500">Picks from the 61 cities and municipalities in Meralco's franchise. Nothing sent to any server; matching runs locally.</p>
   </div>
 
   <div class="grid gap-2 md:grid-cols-2">
@@ -26,7 +29,7 @@
         min="20"
         max="500"
         value="80"
-        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono tabular-nums"
       />
       <p class="text-xs text-ink-500">Typical PH residential: 60-120 m&sup2;.</p>
     </div>
@@ -40,7 +43,7 @@
         max="100000"
         value="8000"
         step="100"
-        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono tabular-nums"
       />
     </div>
   </div>
@@ -51,24 +54,25 @@
   </div>
 </form>
 
-<div id="me-results" class="hidden max-w-6xl mx-auto px-6 mt-8 grid gap-4 md:grid-cols-3"></div>
+<div id="me-results" class="hidden max-w-3xl mx-auto px-6 mt-10"></div>
 
 <script>
   const DATA_BASE = "/data";
-  // Boundaries are in the pipeline directory but we copy a public version too.
   const BOUNDARIES_URL = "/data/franchise_cities_polygons.geojson";
   const MERALCO_RATE_PHP_PER_KWH = 12.5;
   const INSTALL_COST_PHP_PER_KWP = 65000;
   const KWP_PER_M2 = 0.15;
   const SYSTEM_LIFETIME_YEARS = 25;
   const DEGRADATION_PER_YEAR = 0.005;
-  // PVGIS-derived annual yield for the Philippines: ~1315 kWh/kWp/year for a
-  // fixed-mount, 14% loss, c-Si system (verified for Quezon City lat=14.65,
-  // lon=121.04). Variation across Meralco's franchise is < 5% so a single
-  // constant is good enough for a homeowner estimate. PVGIS has no CORS
-  // headers, so we cannot fetch it client-side. Refresh this constant when
-  // the real data shifts; or proxy PVGIS via a serverless function in v1.1.
+  // PVGIS-derived national yield for the Philippines (~1315 kWh/kWp/yr for
+  // a fixed-mount, 14% loss, c-Si system, anchored at QC lat=14.65). Variation
+  // across the franchise is < 5% so the constant works for a homeowner estimate.
   const PH_KWH_PER_KWP_PER_YEAR = 1315;
+
+  function estimateAnnualKwh(lat: number, _lon: number, kwp: number): number {
+    const adjust = 1 + (14.65 - lat) * 0.015;
+    return kwp * PH_KWH_PER_KWP_PER_YEAR * adjust;
+  }
 
   let cachedBoundaries: any | null = null;
   async function loadBoundaries() {
@@ -81,18 +85,6 @@
     } catch {
       return null;
     }
-  }
-
-  function polygonCentroid(coords: number[][]): [number, number] {
-    let sumLon = 0, sumLat = 0, n = 0;
-    for (const ring of [coords]) {
-      for (const pt of ring) {
-        if (Array.isArray(pt) && typeof pt[0] === "number") {
-          sumLon += pt[0]; sumLat += pt[1]; n++;
-        }
-      }
-    }
-    return n > 0 ? [sumLon / n, sumLat / n] : [121.05, 14.6];
   }
 
   function geometryRepresentativePoint(geom: any): [number, number] {
@@ -131,8 +123,6 @@
     if (!fc) return null;
     const norm = q.trim().toLowerCase();
     if (!norm) return null;
-
-    // Try exact match first, then prefix, then contains
     const features = fc.features ?? [];
     const matchExact = features.find((f: any) => f.properties.name.toLowerCase() === norm);
     const matchPrefix = features.find((f: any) => f.properties.name.toLowerCase().startsWith(norm));
@@ -144,21 +134,13 @@
     if (!match) return null;
     const [lon, lat] = geometryRepresentativePoint(match.geometry);
     return {
-      lat,
-      lon,
+      lat, lon,
       display_name: `${match.properties.name}, ${match.properties.province}, Philippines`,
       feature: match,
     };
   }
 
-  function estimateAnnualKwh(lat: number, _lon: number, kwp: number): number {
-    // Light latitude adjustment: PH ranges roughly lat 5-19; QC anchor at 14.65.
-    // North gets slightly less yield, south slightly more. Linear approx, ~1.5% per degree.
-    const adjust = 1 + (14.65 - lat) * 0.015;
-    return kwp * PH_KWH_PER_KWP_PER_YEAR * adjust;
-  }
-
-  async function loadManifest(): Promise<{ latest_quarter: string } | null> {
+  async function loadManifest() {
     try {
       const r = await fetch(`${DATA_BASE}/manifest.json`);
       if (!r.ok) return null;
@@ -217,6 +199,21 @@
     return `₱${Math.round(n).toLocaleString()}`;
   }
 
+  function fmtCompact(n: number): string {
+    if (n >= 1_000_000) return `₱${(n / 1_000_000).toFixed(2)}M`;
+    if (n >= 1000) return `₱${(n / 1000).toFixed(0)}K`;
+    return `₱${Math.round(n)}`;
+  }
+
+  function bandLabel(score: number | null | undefined): { label: string; tone: string } {
+    if (score === null || score === undefined || Number.isNaN(score)) return { label: "no signal", tone: "text-ink-500" };
+    if (score >= 1.0) return { label: "strong solar-growth signal vs peer cities", tone: "text-accent-steel font-semibold" };
+    if (score >= 0.5) return { label: "above-average signal vs peer cities", tone: "text-accent-steel" };
+    if (score > -0.5) return { label: "near the franchise baseline", tone: "text-ink-500" };
+    if (score > -1.0) return { label: "below the franchise baseline", tone: "text-accent-coral" };
+    return { label: "well below the franchise baseline", tone: "text-accent-coral font-semibold" };
+  }
+
   function renderResults(opts: {
     address: string;
     cityName: string | null;
@@ -233,69 +230,113 @@
     const offsetPct = annualKwh ? Math.min(1, annualKwh / (monthlyBillPhp * 12 / MERALCO_RATE_PHP_PER_KWH)) : 0;
 
     const composite = cityProps?.metrics?.composite_solar_signal_score;
+    const builtUp = cityProps?.metrics?.built_up_km2;
     const permitFee = cityProps?.policy?.lgu_permit_fee_php;
     const permitDays = cityProps?.policy?.lgu_permit_days_p50;
     const permitStatus = cityProps?.policy?.permit_data_status ?? "unverified";
+    const band = bandLabel(typeof composite === "number" ? composite : null);
 
     const root = document.getElementById("me-results")!;
     root.classList.remove("hidden");
     root.innerHTML = `
-      <div class="card">
-        <div class="badge mb-2">card 1</div>
-        <h3 class="text-lg font-semibold mb-1">Your barangay's signal</h3>
-        <p class="text-xs text-ink-500 mb-3">${address}</p>
-        <p class="text-sm text-ink-700 leading-relaxed">
-          ${cityName ? `Your address falls in <strong>${cityName}</strong>.` : "We couldn't match your address to a franchise city. The estimate below uses your lat/lon directly."}
+      <div class="border border-ink-300/40 bg-white p-6 md:p-8">
+        <p class="text-xs uppercase tracking-wider text-ink-500 mb-2">${cityName ?? "your roof"} &middot; ${kwp.toFixed(1)} kWp suggested</p>
+        <div class="grid gap-6 md:grid-cols-3 items-baseline mb-3">
+          <div>
+            <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">payback</div>
+            <div class="text-5xl md:text-6xl font-mono font-semibold tabular-nums leading-none text-ink-900">${payback ? payback.toFixed(1) : "—"}</div>
+            <div class="text-sm text-ink-500 mt-1">years to break even</div>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">annual savings</div>
+            <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none text-ink-900">${annualKwh ? fmtCompact(annualSavings) : "—"}</div>
+            <div class="text-sm text-ink-500 mt-1">at ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh</div>
+          </div>
+          <div>
+            <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">25-year net</div>
+            <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none ${npv && npv > 0 ? "text-accent-steel" : "text-ink-900"}">${npv !== null ? fmtCompact(npv) : "—"}</div>
+            <div class="text-sm text-ink-500 mt-1">after ${fmtCompact(installCost)} install</div>
+          </div>
+        </div>
+        <p class="text-sm text-ink-700 mt-4 leading-relaxed border-t border-ink-300/30 pt-4">
+          You'd cover about <strong>${(offsetPct * 100).toFixed(0)}%</strong> of your current bill with a <strong>${kwp.toFixed(1)} kWp</strong> system on ~${(kwp / KWP_PER_M2).toFixed(0)} m&sup2; of roof. ${cityName ? `${cityName}'s rooftop satellite signal is <span class="${band.tone}">${band.label}</span>.` : ""}
         </p>
-        <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs mt-3">
-          <dt class="text-ink-500">Composite signal</dt><dd class="font-mono text-right">${composite !== undefined ? composite.toFixed(2) : "n/a"}</dd>
-          <dt class="text-ink-500">Built-up km&sup2;</dt><dd class="font-mono text-right">${cityProps?.metrics?.built_up_km2 !== undefined && cityProps?.metrics?.built_up_km2 !== null ? cityProps.metrics.built_up_km2.toFixed(1) : "n/a"}</dd>
-        </dl>
-        <p class="text-xs text-ink-500 mt-3">
-          City-level data only. Barangay drilldown coming when ghost_watts_barangay_*.geojson is published.
+        <p class="text-xs text-ink-300 mt-3">
+          Estimates only. Yield from PVGIS PH average (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr). Talk to a certified installer before deciding.
         </p>
       </div>
-      <div class="card">
-        <div class="badge mb-2">card 2</div>
-        <h3 class="text-lg font-semibold mb-1">Your roof's potential</h3>
-        <p class="text-xs text-ink-500 mb-3">PVGIS-derived PH yield (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr), ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh, ${(INSTALL_COST_PHP_PER_KWP / 1000).toFixed(0)}K ₱/kWp install</p>
-        <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
-          <dt class="text-ink-500">Suggested system</dt><dd class="font-mono text-right">${kwp.toFixed(2)} kWp</dd>
-          <dt class="text-ink-500">Annual generation</dt><dd class="font-mono text-right">${annualKwh ? annualKwh.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " kWh" : "n/a"}</dd>
-          <dt class="text-ink-500">Annual savings</dt><dd class="font-mono text-right">${annualKwh ? fmtCurrency(annualSavings) : "n/a"}</dd>
-          <dt class="text-ink-500">% of bill offset</dt><dd class="font-mono text-right">${(offsetPct * 100).toFixed(0)}%</dd>
-          <dt class="text-ink-500">Install cost</dt><dd class="font-mono text-right">${fmtCurrency(installCost)}</dd>
-          <dt class="text-ink-500">Payback</dt><dd class="font-mono text-right">${payback ? payback.toFixed(1) + " years" : "n/a"}</dd>
-          <dt class="text-ink-500">25-year net value</dt><dd class="font-mono text-right">${npv !== null ? fmtCurrency(npv) : "n/a"}</dd>
-        </dl>
-        <p class="text-xs text-ink-500 mt-3">Estimates only. Not engineering advice. Talk to a certified installer for a real quote and roof inspection.</p>
-      </div>
-      <div class="card">
-        <div class="badge mb-2">card 3</div>
-        <h3 class="text-lg font-semibold mb-1">Your LGU's permit friction</h3>
-        <p class="text-xs text-ink-500 mb-3">${cityName ?? "n/a"} &middot; status: ${permitStatus}</p>
-        <dl class="grid grid-cols-2 gap-y-2 gap-x-4 text-xs">
-          <dt class="text-ink-500">Permit fee</dt><dd class="font-mono text-right">${permitFee !== null && permitFee !== undefined ? fmtCurrency(permitFee) : "unverified"}</dd>
-          <dt class="text-ink-500">Median approval</dt><dd class="font-mono text-right">${permitDays ?? "unverified"}</dd>
-        </dl>
-        <h4 class="text-sm font-semibold mt-4 mb-2">Two paths</h4>
-        <table class="w-full text-xs">
-          <thead class="text-left text-ink-500">
-            <tr><th></th><th class="font-medium">Registered</th><th class="font-medium">Guerrilla</th></tr>
-          </thead>
-          <tbody>
-            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Net-metering credits</td><td>Yes (full retail)</td><td>Never</td></tr>
-            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Time to first export</td><td>weeks-months</td><td>days</td></tr>
-            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Anti-islanding compliance</td><td>utility-verified</td><td>your responsibility</td></tr>
-            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Legality</td><td>RA 9513 compliant</td><td>civil + criminal exposure</td></tr>
-            <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Worker safety risk</td><td>DU-monitored</td><td>yours</td></tr>
-          </tbody>
-        </table>
-        <p class="text-xs text-ink-500 mt-3">
-          Comparison is descriptive, not prescriptive. Going guerrilla is illegal under RA 9513 and creates real risk to utility workers if the inverter lacks anti-islanding.
-        </p>
+
+      <div class="mt-6 grid gap-3">
+        <details class="border border-ink-300/40 bg-paper-alt">
+          <summary class="cursor-pointer px-5 py-3 text-sm font-medium text-ink-900 flex justify-between items-center">
+            <span>How your city compares <span class="text-ink-500 font-normal">(satellite signal, peer rank)</span></span>
+            <span class="font-mono tabular-nums text-xs text-ink-500">${composite !== undefined ? composite.toFixed(2) : "n/a"}</span>
+          </summary>
+          <div class="px-5 pb-5 pt-2 text-sm text-ink-700 leading-relaxed">
+            <p class="mb-3"><strong>${cityName ?? "this city"}</strong>: ${band.label}. The composite score (${composite !== undefined ? composite.toFixed(2) : "n/a"}) blends near-infrared, short-wave-infrared, midday land surface temperature, and nightlight changes from 2022 to current quarter. Negative composite = roofs darkening + cooling like new solar arrays.</p>
+            <dl class="grid grid-cols-2 gap-y-1.5 gap-x-4 text-xs font-mono tabular-nums">
+              <dt class="text-ink-500">Composite signal</dt><dd class="text-right">${composite !== undefined ? composite.toFixed(2) : "n/a"}</dd>
+              <dt class="text-ink-500">Built-up area</dt><dd class="text-right">${builtUp !== undefined && builtUp !== null ? builtUp.toFixed(1) + " km²" : "n/a"}</dd>
+            </dl>
+            <p class="text-xs text-ink-500 mt-3">Full algorithm and signal breakdown on <a href="/methodology" class="text-accent-steel no-underline">/methodology</a>. <a href="/map?city=${(cityName || "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}" class="text-accent-steel no-underline">See on the map</a>.</p>
+          </div>
+        </details>
+
+        <details class="border border-ink-300/40 bg-paper-alt">
+          <summary class="cursor-pointer px-5 py-3 text-sm font-medium text-ink-900 flex justify-between items-center">
+            <span>What your LGU charges to permit it</span>
+            <span class="font-mono tabular-nums text-xs text-ink-500">${permitFee !== null && permitFee !== undefined ? fmtCurrency(permitFee) : "unverified"}</span>
+          </summary>
+          <div class="px-5 pb-5 pt-2 text-sm text-ink-700 leading-relaxed">
+            <dl class="grid grid-cols-2 gap-y-1.5 gap-x-4 text-xs font-mono tabular-nums mb-3">
+              <dt class="text-ink-500">Permit fee</dt><dd class="text-right">${permitFee !== null && permitFee !== undefined ? fmtCurrency(permitFee) : "unverified"}</dd>
+              <dt class="text-ink-500">Median approval</dt><dd class="text-right">${permitDays ?? "unverified"}</dd>
+              <dt class="text-ink-500">Status</dt><dd class="text-right">${permitStatus}</dd>
+            </dl>
+            ${permitStatus === "verified"
+              ? `<p class="text-xs text-ink-500">From hand-curated LGU friction table. Verify on your LGU's website before filing.</p>`
+              : `<p class="text-xs text-ink-500">${cityName}'s permit data is not yet verified in our table. Most LGUs publish their fee schedules online; or <a href="https://github.com/xmpuspus/ghost-watts" class="text-accent-steel no-underline">contribute a source</a>. April 2026 DOE circular targets a 3-day permit ceiling.</p>`}
+          </div>
+        </details>
+
+        <details class="border border-ink-300/40 bg-paper-alt">
+          <summary class="cursor-pointer px-5 py-3 text-sm font-medium text-ink-900">
+            <span>Read this before going "guerrilla"</span>
+          </summary>
+          <div class="px-5 pb-5 pt-2 text-sm text-ink-700 leading-relaxed">
+            <p class="mb-3">"Guerrilla" solar = installed without permits or grid-tied registration. ICSC estimates ~1/3 of rooftop solar in Meralco's franchise is unregistered. The shortcut is real, the cost is real:</p>
+            <table class="w-full text-xs mb-3">
+              <thead class="text-left text-ink-500">
+                <tr><th class="pb-1.5"></th><th class="pb-1.5 font-medium">Registered</th><th class="pb-1.5 font-medium">Guerrilla</th></tr>
+              </thead>
+              <tbody>
+                <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Net-metering credits</td><td>Yes (full retail)</td><td>Never</td></tr>
+                <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Anti-islanding compliance</td><td>utility-verified</td><td>your responsibility</td></tr>
+                <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Legal exposure</td><td>RA 9513 compliant</td><td>civil + criminal</td></tr>
+                <tr class="border-t border-ink-300/20"><td class="py-1.5 text-ink-500">Worker safety risk</td><td>monitored</td><td>yours</td></tr>
+              </tbody>
+            </table>
+            <p class="text-xs text-ink-500">Descriptive, not prescriptive. Going guerrilla is illegal under RA 9513 and creates real risk to utility workers if the inverter lacks anti-islanding.</p>
+          </div>
+        </details>
       </div>
     `;
+  }
+
+  async function populateDatalist() {
+    const fc = await loadBoundaries();
+    if (!fc) return;
+    const list = document.getElementById("franchise-cities") as HTMLDataListElement | null;
+    if (!list) return;
+    const sorted = [...fc.features].sort((a: any, b: any) =>
+      a.properties.name.localeCompare(b.properties.name)
+    );
+    list.innerHTML = sorted
+      .map(
+        (f: any) =>
+          `<option value="${f.properties.name}">${f.properties.province}</option>`
+      )
+      .join("");
   }
 
   async function onSubmit(ev: SubmitEvent) {
@@ -308,27 +349,24 @@
     const roof = parseFloat(String(data.get("roof") || "80"));
     const bill = parseFloat(String(data.get("bill") || "8000"));
     if (!address) {
-      status.textContent = "Type a city or municipality name.";
+      status.textContent = "Pick a city from the list.";
       return;
     }
     const geo = await geocodeLocal(address);
     if (!geo) {
-      status.textContent =
-        "Not found. Type a Meralco-franchise city name (e.g. Quezon City, Makati, Antipolo, Bacoor, Calamba).";
+      status.textContent = "Not in Meralco's franchise. Try Quezon City, Antipolo, or any of the 61 cities in the list.";
       return;
     }
     const kwp = roof * KWP_PER_M2;
-    status.textContent = "Computing solar potential...";
+    status.textContent = "Computing...";
     const annualKwh = estimateAnnualKwh(geo.lat, geo.lon, kwp);
 
-    status.textContent = "Looking up your city in the latest ghost-watts release...";
     const manifest = await loadManifest();
     let cityProps: any = {};
     let cityName: string | null = geo.feature?.properties?.name ?? null;
     if (manifest?.latest_quarter) {
       const fc = await loadGeoJSON(manifest.latest_quarter);
       if (fc) {
-        // Match by psgc_code from the local boundaries feature
         const psgc = geo.feature?.properties?.psgc_code;
         const found =
           (psgc && fc.features.find((f: any) => f.properties.psgc_code === psgc)) ||
@@ -348,15 +386,16 @@
       annualKwh,
       monthlyBillPhp: bill,
     });
-    status.textContent = "Done.";
+    status.textContent = "";
   }
 
   document.getElementById("me-form")!.addEventListener("submit", onSubmit);
+  populateDatalist();
 
   const params = new URLSearchParams(location.search);
   const presetCity = params.get("city");
   if (presetCity) {
     const addr = document.getElementById("me-address") as HTMLInputElement;
-    addr.value = `${presetCity.replace(/-/g, " ")}, Philippines`;
+    addr.value = presetCity.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }
 </script>

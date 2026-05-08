@@ -20,11 +20,20 @@ const status = frontmatter?.status;
 ---
 <Base title={title} description={description}>
   <article class="max-w-prose mx-auto px-6 pt-8 pb-16">
-    {pubDate || status ? (
+    {status === "draft" ? (
+      <div class="border-l-2 border-accent-coral bg-accent-coral/5 px-4 py-3 mb-6 text-sm">
+        <p class="font-semibold text-accent-coral mb-1">Draft post · headline numbers pending</p>
+        <p class="text-ink-700 text-xs leading-relaxed">This post was written as a structural template for the inaugural quarterly release. The TBD placeholders below get filled in once the first real Earth Engine pipeline run is reviewed. Until then, treat this as scaffolding, not findings.</p>
+      </div>
+    ) : null}
+    {pubDate || (status && status !== "draft") ? (
       <p class="text-xs text-ink-500 mb-6 flex items-center gap-3">
         {pubDate && <span class="font-mono">{pubDate}</span>}
-        {status && <span class="badge">{status}</span>}
+        {status && status !== "draft" && <span class="badge">{status}</span>}
       </p>
+    ) : pubDate ? null : null}
+    {pubDate && status === "draft" ? (
+      <p class="text-xs text-ink-500 mb-6 font-mono">{pubDate}</p>
     ) : null}
     <div class="prose-content text-ink-900">
       <slot />
