@@ -82,7 +82,12 @@ import Base from "../layouts/Base.astro";
       The pipeline is one Python script (<code>pipeline/pipeline.py</code>) plus a validator. Earth Engine auth via service account. Anyone with EE access and the repo can run it and produce the same outputs. The full algorithm, weights, and data files are MIT/CC-BY licensed.
     </p>
 
-    <h2 id="validation" class="text-xl mt-10 mb-2">§07 Ground-truth validation (2026Q2)</h2>
+    <h2 id="validation" class="text-xl mt-10 mb-2">§07 Ground-truth validation, and why the pin layer was dropped (2026Q2)</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      We hand-checked all hot-spot pins from the 2026Q2 release against Esri World Imagery (~1-3 yr vintage in PH) and ran a follow-up extraction with multi-channel filtering. The pin layer was retired before launch when both passes returned precision below the threshold for an honest claim.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2">v1.0: NIR-only local-anomaly extraction</h3>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       We hand-checked all <strong>181 hot-spot pins</strong> from the 2026Q2 release against Esri World Imagery (~1-3 year vintage in PH) by inspecting a 240m-wide tile centered on each hot-spot's lat/lon. Labels:
     </p>
@@ -126,11 +131,28 @@ import Base from "../layouts/Base.astro";
       <li>The hot-spot extraction currently uses NIR-only local-anomaly detection. The map-level diff visualization uses the tighter NIR-and-SWIR fingerprint. A v1.1 hot-spot extraction tightened to multi-channel would likely raise precision substantially. Pencilled in.</li>
       <li>The <strong>city-aggregate composite score</strong> remains usable: individual false positives wash out across hundreds of pixels, and the overall darkening pattern still tracks rooftop turnover (which correlates with solar adoption when zoomed out).</li>
     </ul>
+    <h3 class="text-lg mt-6 mb-2">v1.1: multi-channel AND extraction</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      We tried tightening: require BOTH NIR drop AND SWIR drop (the same fingerprint used in the diff visualization), top-1 per city, larger minimum cluster size. v1.1 produced 61 hot-spots from 60 cities. After re-validation against fresh Esri tiles, strict precision was <strong>1/57 = 1.75%</strong> — worse than v1.0. The multi-channel filter selected different clusters but they weren't more solar-y. Asphalt resurfacing, fresh concrete, and roof material changes all darken in BOTH NIR and SWIR. The AND was less specific than we hoped.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      <strong>Conclusion: pixel-level NIR/SWIR differencing at Sentinel-2's 10m resolution is fundamentally not specific enough to claim per-location solar.</strong> The signal exists at city-aggregate scale (multi-signal composites are robust), but individual pixels and small clusters are too noisy to publish as identification claims.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2">What we kept and what we dropped</h3>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>Kept</strong>: the city-aggregate composite (choropleth on the map). Multi-signal blending at the per-city scale washes out individual false positives. Use this to compare cities and track quarter-over-quarter trends.</li>
+      <li><strong>Kept</strong>: the before/after imagery modal per city. Same neighborhood in 2022 and current quarter with the multi-channel diff overlay. Lets users judge for themselves.</li>
+      <li><strong>Promoted</strong>: the 6 hand-verified case studies (Makati, Valenzuela, Meycauayan, San Mateo, Dasmariñas, Carmona). These are the only locations where Esri hi-res imagery showed a visibly distinct rooftop solar panel array. They become the "notable confirmed installations" sidebar on the map page.</li>
+      <li><strong>Dropped</strong>: the per-pin hot-spot layer. The data is still produced by the pipeline (<code>hot_spots_*.geojson</code>) for researchers who want to inspect candidate locations themselves, but it is no longer rendered on the public map.</li>
+    </ul>
+
     <h3 class="text-lg mt-6 mb-2">How to use ghost-watts honestly</h3>
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
-      <li>Cite the <strong>composite score per city</strong> as a directional indicator of rooftop change consistent with solar growth. Don't claim per-pin solar locations.</li>
-      <li>Treat hot-spot pins as <strong>"places to investigate"</strong>, not as "places where solar was confirmed."</li>
-      <li>If you need address-level claims, hand-verify each pin against fresh imagery (Mapbox satellite tiles updated more recently than Esri sometimes show panels Esri does not).</li>
+      <li>Cite the <strong>composite score per city</strong> as a directional indicator of rooftop change consistent with solar growth. Don't claim per-pin solar.</li>
+      <li>Cite the <strong>6 confirmed case studies</strong> as concrete evidence that satellite-detectable solar adoption is happening at warehouse scale in the franchise.</li>
+      <li>For address-level claims, hand-verify each candidate against fresh hi-res imagery (Mapbox satellite tiles updated more recently than Esri sometimes show panels Esri does not, but we lack a free API for batch validation).</li>
+      <li>Future quarters will let us add a <strong>persistence filter</strong> (only flag pixels that stay dark across 2-3 consecutive quarters), which is the most likely path to defensible per-location precision.</li>
     </ul>
 
     <h2 class="text-xl mt-10 mb-2">§08 Honest limitations</h2>

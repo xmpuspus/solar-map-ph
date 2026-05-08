@@ -1,675 +1,697 @@
 {
+  "summary": {
+    "version": "v1.1_multichannel",
+    "quarter": "2026Q2",
+    "total_v1_1_hotspots": 61,
+    "label_counts": {
+      "solar": 0,
+      "not_solar": 14,
+      "unclear": 0,
+      "missing": 0,
+      "unmatched": 47
+    },
+    "reviewable": 14,
+    "precision_strict": 0.0,
+    "precision_lenient": 0.0,
+    "match_radius_m": 500,
+    "v1_0_total": 181,
+    "v1_0_solar": 6,
+    "delta": {
+      "hotspots_kept_pct": 0.337,
+      "solar_kept_pct": 0.0
+    }
+  },
   "hotspots": [
     {
-      "idx": "000",
-      "psgc_code": "1380101000",
+      "new_idx": 0,
       "city": "Caloocan",
       "lon": 121.07905370930418,
       "lat": 14.75124363694791,
       "area_m2": 128136.0,
       "kwp_equiv": 19220.4,
-      "tile_path": "docs/groundtruth/tiles/000_1380101000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 2350.8,
+      "inherited_label": null
     },
     {
-      "idx": "001",
-      "psgc_code": "1380102000",
+      "new_idx": 1,
       "city": "Las Pinas",
       "lon": 121.01196651015634,
       "lat": 14.376204848534837,
       "area_m2": 117142.3,
       "kwp_equiv": 17571.3,
-      "tile_path": "docs/groundtruth/tiles/001_1380102000.jpg",
-      "fetched": true
+      "matched_old_idx": "004",
+      "match_dist_m": 232.7,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "002",
-      "psgc_code": "1380103000",
+      "new_idx": 2,
       "city": "Makati",
       "lon": 121.0440319478554,
       "lat": 14.541973690745577,
       "area_m2": 114737.0,
       "kwp_equiv": 17210.5,
-      "tile_path": "docs/groundtruth/tiles/002_1380103000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 734.3,
+      "inherited_label": null
     },
     {
-      "idx": "003",
-      "psgc_code": "1380104000",
+      "new_idx": 3,
       "city": "Malabon",
       "lon": 120.94970028763919,
       "lat": 14.677000216523757,
       "area_m2": 64862.0,
       "kwp_equiv": 9729.3,
-      "tile_path": "docs/groundtruth/tiles/003_1380104000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 713.8,
+      "inherited_label": null
     },
     {
-      "idx": "004",
-      "psgc_code": "1380105000",
+      "new_idx": 4,
       "city": "Mandaluyong",
       "lon": 121.02107735024235,
       "lat": 14.578483967182924,
       "area_m2": 40943.2,
       "kwp_equiv": 6141.5,
-      "tile_path": "docs/groundtruth/tiles/004_1380105000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 692.8,
+      "inherited_label": null
     },
     {
-      "idx": "005",
-      "psgc_code": "1380106000",
+      "new_idx": 5,
       "city": "Manila",
       "lon": 120.95246205797471,
       "lat": 14.605319743835897,
       "area_m2": 87669.6,
       "kwp_equiv": 13150.4,
-      "tile_path": "docs/groundtruth/tiles/005_1380106000.jpg",
-      "fetched": true
+      "matched_old_idx": "015",
+      "match_dist_m": 33.4,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "006",
-      "psgc_code": "1380107000",
+      "new_idx": 6,
       "city": "Marikina",
       "lon": 121.08810298049595,
       "lat": 14.651367836800198,
       "area_m2": 124333.4,
       "kwp_equiv": 18650.0,
-      "tile_path": "docs/groundtruth/tiles/006_1380107000.jpg",
-      "fetched": true
+      "matched_old_idx": "019",
+      "match_dist_m": 151.6,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "007",
-      "psgc_code": "1380108000",
+      "new_idx": 7,
       "city": "Muntinlupa",
       "lon": 121.04891878300101,
       "lat": 14.458528228349158,
       "area_m2": 143379.0,
       "kwp_equiv": 21506.8,
-      "tile_path": "docs/groundtruth/tiles/007_1380108000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 9208.3,
+      "inherited_label": null
     },
     {
-      "idx": "008",
-      "psgc_code": "1380109000",
+      "new_idx": 8,
       "city": "Navotas",
       "lon": 120.93305151104018,
       "lat": 14.681235131434605,
       "area_m2": 35519.0,
       "kwp_equiv": 5327.8,
-      "tile_path": "docs/groundtruth/tiles/008_1380109000.jpg",
-      "fetched": true
+      "matched_old_idx": "026",
+      "match_dist_m": 18.6,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "009",
-      "psgc_code": "1380110000",
+      "new_idx": 9,
       "city": "Paranaque",
       "lon": 121.03176719428241,
       "lat": 14.472948205285425,
       "area_m2": 180854.4,
       "kwp_equiv": 27128.2,
-      "tile_path": "docs/groundtruth/tiles/009_1380110000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 2390.1,
+      "inherited_label": null
     },
     {
-      "idx": "010",
-      "psgc_code": "1380111000",
+      "new_idx": 10,
       "city": "Pasay",
       "lon": 121.01085078015959,
       "lat": 14.51701567207023,
       "area_m2": 197431.9,
       "kwp_equiv": 29614.8,
-      "tile_path": "docs/groundtruth/tiles/010_1380111000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1523.2,
+      "inherited_label": null
     },
     {
-      "idx": "011",
-      "psgc_code": "1380112000",
+      "new_idx": 11,
       "city": "Pasig",
       "lon": 121.07137706884119,
       "lat": 14.55319006869783,
       "area_m2": 183878.8,
       "kwp_equiv": 27581.8,
-      "tile_path": "docs/groundtruth/tiles/011_1380112000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 2183.1,
+      "inherited_label": null
     },
     {
-      "idx": "012",
-      "psgc_code": "1380113000",
+      "new_idx": 12,
       "city": "Pateros",
       "lon": 121.06199245795531,
       "lat": 14.544448897704827,
       "area_m2": 36700.1,
       "kwp_equiv": 5505.0,
-      "tile_path": "docs/groundtruth/tiles/012_1380113000.jpg",
-      "fetched": true
+      "matched_old_idx": "038",
+      "match_dist_m": 314.2,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "013",
-      "psgc_code": "1380114000",
+      "new_idx": 13,
       "city": "Quezon City",
       "lon": 121.08827454415226,
       "lat": 14.658031089921419,
       "area_m2": 123557.1,
       "kwp_equiv": 18533.6,
-      "tile_path": "docs/groundtruth/tiles/013_1380114000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1355.5,
+      "inherited_label": null
     },
     {
-      "idx": "014",
-      "psgc_code": "1380115000",
+      "new_idx": 14,
       "city": "San Juan",
       "lon": 121.03608285571903,
       "lat": 14.592445078393323,
       "area_m2": 96557.8,
       "kwp_equiv": 14483.7,
-      "tile_path": "docs/groundtruth/tiles/014_1380115000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 2122.9,
+      "inherited_label": null
     },
     {
-      "idx": "015",
-      "psgc_code": "1380116000",
+      "new_idx": 15,
       "city": "Taguig",
       "lon": 121.0271835456377,
       "lat": 14.53132370646183,
       "area_m2": 110106.7,
       "kwp_equiv": 16516.0,
-      "tile_path": "docs/groundtruth/tiles/015_1380116000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 4793.7,
+      "inherited_label": null
     },
     {
-      "idx": "016",
-      "psgc_code": "1380117000",
+      "new_idx": 16,
       "city": "Valenzuela",
       "lon": 120.99734350815542,
       "lat": 14.755351560784117,
       "area_m2": 122344.6,
       "kwp_equiv": 18351.7,
-      "tile_path": "docs/groundtruth/tiles/016_1380117000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 2680.6,
+      "inherited_label": null
     },
     {
-      "idx": "017",
-      "psgc_code": "0314023000",
+      "new_idx": 17,
       "city": "San Jose del Monte",
       "lon": 121.04549777025551,
       "lat": 14.785003379825898,
       "area_m2": 190630.8,
       "kwp_equiv": 28594.6,
-      "tile_path": "docs/groundtruth/tiles/017_0314023000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1114.4,
+      "inherited_label": null
     },
     {
-      "idx": "018",
-      "psgc_code": "0314020000",
+      "new_idx": 18,
       "city": "Meycauayan",
       "lon": 120.97683796460325,
       "lat": 14.736361535658453,
       "area_m2": 143969.8,
       "kwp_equiv": 21595.5,
-      "tile_path": "docs/groundtruth/tiles/018_0314020000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 2828.7,
+      "inherited_label": null
     },
     {
-      "idx": "019",
-      "psgc_code": "0314019000",
+      "new_idx": 19,
       "city": "Marilao",
       "lon": 120.96292136133684,
       "lat": 14.769745431137817,
       "area_m2": 144333.8,
       "kwp_equiv": 21650.1,
-      "tile_path": "docs/groundtruth/tiles/019_0314019000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 3453.1,
+      "inherited_label": null
     },
     {
-      "idx": "020",
-      "psgc_code": "0314005000",
+      "new_idx": 20,
       "city": "Bocaue",
       "lon": 120.94195519158255,
       "lat": 14.816747357813114,
       "area_m2": 172468.4,
       "kwp_equiv": 25870.3,
-      "tile_path": "docs/groundtruth/tiles/020_0314005000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 605.8,
+      "inherited_label": null
     },
     {
-      "idx": "021",
-      "psgc_code": "0314022000",
+      "new_idx": 21,
       "city": "Obando",
       "lon": 120.92948089650748,
       "lat": 14.721745879572293,
       "area_m2": 120819.6,
       "kwp_equiv": 18122.9,
-      "tile_path": "docs/groundtruth/tiles/021_0314022000.jpg",
-      "fetched": true
+      "matched_old_idx": "063",
+      "match_dist_m": 449.6,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "022",
-      "psgc_code": "0314006000",
+      "new_idx": 22,
       "city": "Bulacan",
       "lon": 121.00725669144946,
       "lat": 15.168524238957687,
       "area_m2": 199919.6,
       "kwp_equiv": 29987.9,
-      "tile_path": "docs/groundtruth/tiles/022_0314006000.jpg",
-      "fetched": false
+      "matched_old_idx": null,
+      "match_dist_m": 12520.8,
+      "inherited_label": null
     },
     {
-      "idx": "023",
-      "psgc_code": "0458007000",
+      "new_idx": 23,
       "city": "Antipolo",
       "lon": 121.14807508444336,
       "lat": 14.606406026227253,
       "area_m2": 177269.4,
       "kwp_equiv": 26590.4,
-      "tile_path": "docs/groundtruth/tiles/023_0458007000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 5742.3,
+      "inherited_label": null
     },
     {
-      "idx": "024",
-      "psgc_code": "0458005000",
+      "new_idx": 24,
       "city": "Cainta",
       "lon": 121.131142864264,
       "lat": 14.594874236993364,
       "area_m2": 164146.9,
       "kwp_equiv": 24622.0,
-      "tile_path": "docs/groundtruth/tiles/024_0458005000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1387.5,
+      "inherited_label": null
     },
     {
-      "idx": "025",
-      "psgc_code": "0458014000",
+      "new_idx": 25,
       "city": "Taytay",
       "lon": 121.11646958544043,
       "lat": 14.55609613155216,
       "area_m2": 112412.2,
       "kwp_equiv": 16861.8,
-      "tile_path": "docs/groundtruth/tiles/025_0458014000.jpg",
-      "fetched": true
+      "matched_old_idx": "073",
+      "match_dist_m": 463.2,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "026",
-      "psgc_code": "0458012000",
+      "new_idx": 26,
       "city": "San Mateo",
       "lon": 121.11283585300889,
       "lat": 14.679074142174096,
       "area_m2": 198444.9,
       "kwp_equiv": 29766.7,
-      "tile_path": "docs/groundtruth/tiles/026_0458012000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 3429.6,
+      "inherited_label": null
     },
     {
-      "idx": "027",
-      "psgc_code": "0458002000",
+      "new_idx": 27,
       "city": "Angono",
       "lon": 121.16808222319118,
       "lat": 14.543924299812195,
       "area_m2": 170365.8,
       "kwp_equiv": 25554.9,
-      "tile_path": "docs/groundtruth/tiles/027_0458002000.jpg",
-      "fetched": true
+      "matched_old_idx": "079",
+      "match_dist_m": 146.2,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "028",
-      "psgc_code": "0458003000",
+      "new_idx": 28,
       "city": "Binangonan",
       "lon": 121.20212346032329,
       "lat": 14.509856765930035,
       "area_m2": 197438.3,
       "kwp_equiv": 29615.7,
-      "tile_path": "docs/groundtruth/tiles/028_0458003000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 725.6,
+      "inherited_label": null
     },
     {
-      "idx": "029",
-      "psgc_code": "0458010000",
+      "new_idx": 29,
       "city": "Rodriguez (Montalban)",
       "lon": 121.12585848895775,
       "lat": 14.758082439247838,
       "area_m2": 189882.4,
       "kwp_equiv": 28482.4,
-      "tile_path": "docs/groundtruth/tiles/029_0458010000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 2352.6,
+      "inherited_label": null
     },
     {
-      "idx": "030",
-      "psgc_code": "0458015000",
+      "new_idx": 30,
       "city": "Teresa",
       "lon": 121.24208451667332,
       "lat": 14.577165733538543,
       "area_m2": 166864.1,
       "kwp_equiv": 25029.6,
-      "tile_path": "docs/groundtruth/tiles/030_0458015000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 2659.8,
+      "inherited_label": null
     },
     {
-      "idx": "031",
-      "psgc_code": "0458006000",
+      "new_idx": 31,
       "city": "Cardona",
       "lon": 121.22140794252351,
       "lat": 14.479118585812834,
       "area_m2": 112064.7,
       "kwp_equiv": 16809.7,
-      "tile_path": "docs/groundtruth/tiles/031_0458006000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 591.9,
+      "inherited_label": null
     },
     {
-      "idx": "032",
-      "psgc_code": "0458001000",
+      "new_idx": 32,
       "city": "Baras",
       "lon": 121.26900532304927,
       "lat": 14.618774288376944,
       "area_m2": 187685.9,
       "kwp_equiv": 28152.9,
-      "tile_path": "docs/groundtruth/tiles/032_0458001000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1673.1,
+      "inherited_label": null
     },
     {
-      "idx": "033",
-      "psgc_code": "0458009000",
+      "new_idx": 33,
       "city": "Morong",
       "lon": 121.24607303653481,
       "lat": 14.570867830448227,
       "area_m2": 176139.0,
       "kwp_equiv": 26420.9,
-      "tile_path": "docs/groundtruth/tiles/033_0458009000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1837.1,
+      "inherited_label": null
     },
     {
-      "idx": "034",
-      "psgc_code": "0458011000",
+      "new_idx": 34,
       "city": "Pililla",
       "lon": 121.33928223041507,
       "lat": 14.39837304441214,
       "area_m2": 126022.1,
       "kwp_equiv": 18903.3,
-      "tile_path": "docs/groundtruth/tiles/034_0458011000.jpg",
-      "fetched": false
+      "matched_old_idx": null,
+      "match_dist_m": 1094.6,
+      "inherited_label": null
     },
     {
-      "idx": "035",
-      "psgc_code": "0458013000",
+      "new_idx": 35,
       "city": "Tanay",
       "lon": 121.30876388609369,
       "lat": 14.517194205170723,
       "area_m2": 197045.4,
       "kwp_equiv": 29556.8,
-      "tile_path": "docs/groundtruth/tiles/035_0458013000.jpg",
-      "fetched": true
+      "matched_old_idx": "105",
+      "match_dist_m": 39.2,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "036",
-      "psgc_code": "0458008000",
+      "new_idx": 36,
       "city": "Jala-Jala",
       "lon": 121.32274068129122,
       "lat": 14.352879506629774,
       "area_m2": 54904.2,
       "kwp_equiv": 8235.6,
-      "tile_path": "docs/groundtruth/tiles/036_0458008000.jpg",
-      "fetched": false
+      "matched_old_idx": null,
+      "match_dist_m": 3371.1,
+      "inherited_label": null
     },
     {
-      "idx": "037",
-      "psgc_code": "0421004000",
+      "new_idx": 37,
       "city": "Bacoor",
       "lon": 120.98441575308885,
       "lat": 14.364005497897915,
       "area_m2": 133773.9,
       "kwp_equiv": 20066.1,
-      "tile_path": "docs/groundtruth/tiles/037_0421004000.jpg",
-      "fetched": true
+      "matched_old_idx": "110",
+      "match_dist_m": 256.6,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "038",
-      "psgc_code": "0421014000",
+      "new_idx": 38,
       "city": "Imus",
       "lon": 120.97082923348059,
       "lat": 14.37979759541328,
       "area_m2": 157734.1,
       "kwp_equiv": 23660.1,
-      "tile_path": "docs/groundtruth/tiles/038_0421014000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 3978.1,
+      "inherited_label": null
     },
     {
-      "idx": "039",
-      "psgc_code": "0421008000",
+      "new_idx": 39,
       "city": "Dasmarinas",
       "lon": 120.99078780283754,
       "lat": 14.295270404869461,
       "area_m2": 189506.7,
       "kwp_equiv": 28426.0,
-      "tile_path": "docs/groundtruth/tiles/039_0421008000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 4423.9,
+      "inherited_label": null
     },
     {
-      "idx": "040",
-      "psgc_code": "0421015000",
+      "new_idx": 40,
       "city": "Kawit",
       "lon": 120.88947584756806,
       "lat": 14.442168951370784,
       "area_m2": 171603.8,
       "kwp_equiv": 25740.6,
-      "tile_path": "docs/groundtruth/tiles/040_0421015000.jpg",
-      "fetched": true
+      "matched_old_idx": "119",
+      "match_dist_m": 214.2,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "041",
-      "psgc_code": "0421018000",
+      "new_idx": 41,
       "city": "Noveleta",
       "lon": 120.87534259647052,
       "lat": 14.424619250399015,
       "area_m2": 182053.4,
       "kwp_equiv": 27308.0,
-      "tile_path": "docs/groundtruth/tiles/041_0421018000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 662.8,
+      "inherited_label": null
     },
     {
-      "idx": "042",
-      "psgc_code": "0421021000",
+      "new_idx": 42,
       "city": "Rosario",
       "lon": 120.87387191995201,
       "lat": 14.409607889285123,
       "area_m2": 144956.4,
       "kwp_equiv": 21743.5,
-      "tile_path": "docs/groundtruth/tiles/042_0421021000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1463.4,
+      "inherited_label": null
     },
     {
-      "idx": "043",
-      "psgc_code": "0421007000",
+      "new_idx": 43,
       "city": "Cavite City",
       "lon": 120.91745459634778,
       "lat": 14.497825266851725,
       "area_m2": 49072.5,
       "kwp_equiv": 7360.9,
-      "tile_path": "docs/groundtruth/tiles/043_0421007000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1568.4,
+      "inherited_label": null
     },
     {
-      "idx": "044",
-      "psgc_code": "0421023000",
+      "new_idx": 44,
       "city": "Tanza",
       "lon": 120.8238563443657,
       "lat": 14.363239655483381,
       "area_m2": 175530.2,
       "kwp_equiv": 26329.5,
-      "tile_path": "docs/groundtruth/tiles/044_0421023000.jpg",
-      "fetched": true
+      "matched_old_idx": "132",
+      "match_dist_m": 484.0,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "045",
-      "psgc_code": "0421024000",
+      "new_idx": 45,
       "city": "Trece Martires",
       "lon": 120.86367489843946,
       "lat": 14.261311738593054,
       "area_m2": 195337.4,
       "kwp_equiv": 29300.6,
-      "tile_path": "docs/groundtruth/tiles/045_0421024000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 659.8,
+      "inherited_label": null
     },
     {
-      "idx": "046",
-      "psgc_code": "0421006000",
+      "new_idx": 46,
       "city": "Carmona",
       "lon": 121.03343981252753,
       "lat": 14.295462045463408,
       "area_m2": 165914.9,
       "kwp_equiv": 24887.2,
-      "tile_path": "docs/groundtruth/tiles/046_0421006000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1288.6,
+      "inherited_label": null
     },
     {
-      "idx": "047",
-      "psgc_code": "0421011000",
+      "new_idx": 47,
       "city": "General Mariano Alvarez",
       "lon": 121.01562627297649,
       "lat": 14.311331861885058,
       "area_m2": 172090.9,
       "kwp_equiv": 25813.6,
-      "tile_path": "docs/groundtruth/tiles/047_0421011000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1021.4,
+      "inherited_label": null
     },
     {
-      "idx": "048",
-      "psgc_code": "0421022000",
+      "new_idx": 48,
       "city": "Silang",
       "lon": 120.97302077559884,
       "lat": 14.257266026757636,
       "area_m2": 179481.4,
       "kwp_equiv": 26922.2,
-      "tile_path": "docs/groundtruth/tiles/048_0421022000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 5919.4,
+      "inherited_label": null
     },
     {
-      "idx": "049",
-      "psgc_code": "0434002000",
+      "new_idx": 49,
       "city": "Binan",
       "lon": 121.06132008875991,
       "lat": 14.326124652959825,
       "area_m2": 146944.1,
       "kwp_equiv": 22041.6,
-      "tile_path": "docs/groundtruth/tiles/049_0434002000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 3303.9,
+      "inherited_label": null
     },
     {
-      "idx": "050",
-      "psgc_code": "0434006000",
+      "new_idx": 50,
       "city": "Cabuyao",
       "lon": 121.11951479281389,
       "lat": 14.258988956194727,
       "area_m2": 187603.2,
       "kwp_equiv": 28140.5,
-      "tile_path": "docs/groundtruth/tiles/050_0434006000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 4139.6,
+      "inherited_label": null
     },
     {
-      "idx": "051",
-      "psgc_code": "0434005000",
+      "new_idx": 51,
       "city": "Calamba",
       "lon": 121.17711436281341,
       "lat": 14.222606679665127,
       "area_m2": 198852.7,
       "kwp_equiv": 29827.9,
-      "tile_path": "docs/groundtruth/tiles/051_0434005000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 8346.4,
+      "inherited_label": null
     },
     {
-      "idx": "052",
-      "psgc_code": "0434017000",
+      "new_idx": 52,
       "city": "Los Banos",
       "lon": 121.25533092836308,
       "lat": 14.176998654415344,
       "area_m2": 183027.9,
       "kwp_equiv": 27454.2,
-      "tile_path": "docs/groundtruth/tiles/052_0434017000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 816.2,
+      "inherited_label": null
     },
     {
-      "idx": "053",
-      "psgc_code": "0434028000",
+      "new_idx": 53,
       "city": "San Pedro",
       "lon": 121.02388972292924,
       "lat": 14.330592161841041,
       "area_m2": 177102.9,
       "kwp_equiv": 26565.4,
-      "tile_path": "docs/groundtruth/tiles/053_0434028000.jpg",
-      "fetched": true
+      "matched_old_idx": "158",
+      "match_dist_m": 426.1,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "054",
-      "psgc_code": "0434030000",
+      "new_idx": 54,
       "city": "Santa Rosa",
       "lon": 121.0492421765033,
       "lat": 14.229431431429106,
       "area_m2": 180664.0,
       "kwp_equiv": 27099.6,
-      "tile_path": "docs/groundtruth/tiles/054_0434030000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 6511.1,
+      "inherited_label": null
     },
     {
-      "idx": "055",
-      "psgc_code": "0434001000",
+      "new_idx": 55,
       "city": "Bay",
       "lon": 121.26708205691054,
       "lat": 14.178056545539706,
       "area_m2": 160584.1,
       "kwp_equiv": 24087.6,
-      "tile_path": "docs/groundtruth/tiles/055_0434001000.jpg",
-      "fetched": true
+      "matched_old_idx": "163",
+      "match_dist_m": 156.2,
+      "inherited_label": "not_solar"
     },
     {
-      "idx": "056",
-      "psgc_code": "0434007000",
+      "new_idx": 56,
       "city": "Calauan",
       "lon": 121.33921496034807,
       "lat": 14.167754079473557,
       "area_m2": 131568.6,
       "kwp_equiv": 19735.3,
-      "tile_path": "docs/groundtruth/tiles/056_0434007000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 4326.7,
+      "inherited_label": null
     },
     {
-      "idx": "057",
-      "psgc_code": "0410031000",
+      "new_idx": 57,
       "city": "Tanauan",
       "lon": 121.1346974346356,
       "lat": 14.111162847517129,
       "area_m2": 171856.0,
       "kwp_equiv": 25778.4,
-      "tile_path": "docs/groundtruth/tiles/057_0410031000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1902.5,
+      "inherited_label": null
     },
     {
-      "idx": "058",
-      "psgc_code": "0410029000",
+      "new_idx": 58,
       "city": "Santo Tomas",
       "lon": 121.19636744927493,
       "lat": 14.075348223831456,
       "area_m2": 166850.2,
       "kwp_equiv": 25027.5,
-      "tile_path": "docs/groundtruth/tiles/058_0410029000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 1795.1,
+      "inherited_label": null
     },
     {
-      "idx": "059",
-      "psgc_code": "0410020000",
+      "new_idx": 59,
       "city": "Malvar",
       "lon": 121.14002245193461,
       "lat": 14.04897336718691,
       "area_m2": 183131.0,
       "kwp_equiv": 27469.6,
-      "tile_path": "docs/groundtruth/tiles/059_0410020000.jpg",
-      "fetched": true
+      "matched_old_idx": null,
+      "match_dist_m": 3488.9,
+      "inherited_label": null
     },
     {
-      "idx": "060",
-      "psgc_code": "0456015000",
+      "new_idx": 60,
       "city": "Lucban",
       "lon": 121.56072447230076,
       "lat": 14.111602551018235,
       "area_m2": 116118.7,
       "kwp_equiv": 17417.8,
-      "tile_path": "docs/groundtruth/tiles/060_0456015000.jpg",
-      "fetched": false
+      "matched_old_idx": null,
+      "match_dist_m": 1483.0,
+      "inherited_label": null
     }
   ]
 }

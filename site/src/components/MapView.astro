@@ -34,13 +34,6 @@ const tooltips = {
         <span class="text-right">more</span>
       </div>
       <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">61 cities · source: ghost-watts</div>
-      <div class="mt-2 pt-2 border-t border-ink-300/30">
-        <div class="flex items-center gap-2">
-          <span class="inline-block w-3 h-3 rounded-full bg-accent-coral border border-white shadow-sm"></span>
-          <span class="text-[10px] text-ink-500">Pins: rooftop change since 2022</span>
-        </div>
-        <a href="/methodology#validation" class="block text-[10px] text-ink-300 mt-1 hover:text-accent-steel">~3.6% hand-verified solar at hi-res &middot; methodology</a>
-      </div>
     </div>
   </div>
   <aside id="city-panel" class="border border-ink-300/40 bg-white text-sm">
@@ -145,6 +138,19 @@ const tooltips = {
     </div>
   </div>
 </div>
+
+<section class="max-w-6xl mx-auto px-6 mt-12">
+  <div class="flex items-baseline justify-between mb-4 gap-4">
+    <div>
+      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono">notable confirmed installations</p>
+      <h2 class="text-2xl text-ink-900 mt-1">Hand-verified rooftop solar, 2026Q2.</h2>
+      <p class="text-sm text-ink-500 mt-1 max-w-prose leading-relaxed">
+        Six locations from the quarterly run where Esri hi-res imagery (~1-3 yr vintage in PH) shows a visibly distinct rooftop panel array. These are the 6 of 169 reviewable hot-spots that we could confirm by eye. The remaining 163 showed rooftop change but no visible panels — could be reroofing, paint, asphalt, or simply installs too recent for Esri's imagery vintage to capture. <a href="/methodology#validation" class="text-accent-steel no-underline">Full validation methodology</a>.
+      </p>
+    </div>
+  </div>
+  <div id="case-studies-grid" class="grid gap-4 grid-cols-2 md:grid-cols-3"></div>
+</section>
 
 <section class="max-w-6xl mx-auto px-6 mt-10 grid gap-6 md:grid-cols-2">
   <div>
@@ -544,6 +550,56 @@ const tooltips = {
     }
   }
 
+  async function loadCaseStudies(): Promise<{ cases: any[] } | null> {
+    try {
+      const r = await fetch(`${DATA_BASE}/case_studies.json`);
+      if (!r.ok) return null;
+      return await r.json();
+    } catch {
+      return null;
+    }
+  }
+
+  async function renderCaseStudies() {
+    const doc = await loadCaseStudies();
+    if (!doc) return;
+    const grid = document.getElementById("case-studies-grid");
+    if (!grid) return;
+    grid.innerHTML = doc.cases
+      .map((c: any, i: number) => {
+        const ha = (c.area_m2 / 10000).toFixed(1);
+        const kwp = Math.round(c.kwp_equiv).toLocaleString();
+        return `
+          <article class="border border-ink-300/40 bg-white overflow-hidden flex flex-col">
+            <div class="relative aspect-square bg-ink-300/10 overflow-hidden">
+              <img src="${c.image_path}" alt="Hi-res view of confirmed solar in ${c.city}" class="w-full h-full object-cover" loading="lazy" />
+              <div class="absolute top-2 left-2 bg-white/90 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-ink-700">case ${(i + 1).toString().padStart(2, "0")}</div>
+            </div>
+            <div class="p-4 flex-1 flex flex-col">
+              <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">${c.province}</p>
+              <h3 class="text-lg font-semibold text-ink-900 mt-0.5 mb-2 leading-tight">${c.city}</h3>
+              <p class="text-xs text-ink-500 mb-3 leading-relaxed">${c.note}</p>
+              <dl class="grid grid-cols-2 gap-y-1 gap-x-3 text-[11px] font-mono tabular-nums mb-3 mt-auto">
+                <dt class="text-ink-500">cluster</dt><dd class="text-right text-ink-900">${ha} ha</dd>
+                <dt class="text-ink-500">kWp eq</dt><dd class="text-right text-ink-900">~${kwp}</dd>
+              </dl>
+              <button data-psgc="${c.id}-stub" data-city="${c.city}" data-province="${c.province}" class="case-study-btn text-xs font-mono uppercase tracking-wider text-accent-steel hover:text-ink-900 self-start">view city before/after &rarr;</button>
+            </div>
+          </article>
+        `;
+      })
+      .join("");
+    // Wire up the buttons to open the imagery modal for each city.
+    grid.querySelectorAll(".case-study-btn").forEach((btn) => {
+      const el = btn as HTMLButtonElement;
+      el.addEventListener("click", () => {
+        const slug = (el.dataset.city || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+        // Find the matching feature by city name to get its psgc_code.
+        location.href = `/map?city=${encodeURIComponent(slug)}`;
+      });
+    });
+  }
+
   async function init() {
     const manifest = await loadManifest();
     const map = new maplibregl.Map({
@@ -655,92 +711,14 @@ const tooltips = {
         map.on("mouseleave", "ghost-watts-fill", () => (map.getCanvas().style.cursor = ""));
 
         renderTop5(fc.features as CityFeature[]);
+        renderCaseStudies();
 
-        // Hot-spot pin layer: top-K darkened-pixel clusters per city.
-        try {
-          const hotSpotsResp = await fetch(`${DATA_BASE}/hot_spots_${manifest.latest_quarter}.geojson`);
-          if (hotSpotsResp.ok) {
-            const hotFc = await hotSpotsResp.json();
-            map.addSource("hot-spots", { type: "geojson", data: hotFc });
-            map.addLayer({
-              id: "hot-spots-shadow",
-              type: "circle",
-              source: "hot-spots",
-              paint: {
-                "circle-radius": [
-                  "interpolate",
-                  ["linear"],
-                  ["get", "area_m2"],
-                  500, 6,
-                  10000, 12,
-                  80000, 22,
-                ],
-                "circle-color": "#0b1220",
-                "circle-opacity": 0.35,
-                "circle-blur": 0.6,
-              },
-            });
-            map.addLayer({
-              id: "hot-spots-fill",
-              type: "circle",
-              source: "hot-spots",
-              paint: {
-                "circle-radius": [
-                  "interpolate",
-                  ["linear"],
-                  ["get", "area_m2"],
-                  500, 3,
-                  10000, 6,
-                  80000, 12,
-                ],
-                "circle-color": "#d97757",
-                "circle-stroke-color": "#ffffff",
-                "circle-stroke-width": 1.2,
-                "circle-opacity": 0.7,
-              },
-            });
-
-            const popup = new maplibregl.Popup({
-              closeButton: false,
-              closeOnClick: false,
-              offset: 12,
-              className: "ghost-watts-popup",
-            });
-
-            map.on("mouseenter", "hot-spots-fill", (e) => {
-              map.getCanvas().style.cursor = "pointer";
-              const f = e.features?.[0];
-              if (!f) return;
-              const p = f.properties as any;
-              const area = Number(p.area_m2 || 0);
-              const kwp = Number(p.kwp_equiv || 0);
-              const ha = (area / 10000).toFixed(1);
-              popup
-                .setLngLat((f.geometry as any).coordinates)
-                .setHTML(
-                  `<div class="text-xs font-mono leading-snug">
-                     <div class="text-ink-900 font-semibold mb-1">${p.city}</div>
-                     <div class="text-ink-700">${ha} ha rooftop change</div>
-                     <div class="text-ink-500">~${Math.round(kwp).toLocaleString()} kWp equiv if all solar</div>
-                     <div class="text-[10px] text-ink-300 mt-1 italic">change, not confirmed solar (3.6% hi-res)</div>
-                   </div>`
-                )
-                .addTo(map);
-            });
-            map.on("mouseleave", "hot-spots-fill", () => {
-              map.getCanvas().style.cursor = "";
-              popup.remove();
-            });
-            map.on("click", "hot-spots-fill", (e) => {
-              const f = e.features?.[0];
-              if (!f) return;
-              const p = f.properties as any;
-              openImagery(p.psgc_code, p.city, p.province);
-            });
-          }
-        } catch (err) {
-          // No hot-spots yet; that's fine
-        }
+        // Hot-spot pin layer was removed in v1.1 after a full ground-truth
+        // pass found pixel-level NIR/SWIR differencing at 10m resolution is
+        // not specific enough to claim per-pin solar (3.6% strict precision,
+        // see /methodology#validation). The pin data is still computed in
+        // the pipeline but not rendered. Six hand-verified case studies are
+        // surfaced via the dedicated section below the map instead.
 
         const params = new URLSearchParams(location.search);
         const cityParam = params.get("city");

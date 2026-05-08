@@ -1,0 +1,84 @@
+{
+  "generated_utc": "2026-05-08T08:52:47Z",
+  "validation_methodology": "Hand-checked against Esri World Imagery (~1-3 yr vintage in PH). Each location showed a visibly distinct rooftop solar panel array at the centered lat/lon. Six confirmed of 169 reviewable hot-spots in the 2026Q2 v1.0 release. See docs/groundtruth/labels.json for the full validation pass.",
+  "cases": [
+    {
+      "id": "makati",
+      "city": "Makati",
+      "province": "Metro Manila",
+      "lat": 14.5472,
+      "lon": 121.0398,
+      "area_m2": 39404,
+      "kwp_equiv": 5911,
+      "note": "rooftop panel grid in dense urban Makati; verified against Esri 2022 hi-res",
+      "v0_hotspot_idx": "007",
+      "image_path": "/case_studies/makati.jpg",
+      "image_ok": true
+    },
+    {
+      "id": "valenzuela",
+      "city": "Valenzuela",
+      "province": "Metro Manila",
+      "lat": 14.7194,
+      "lon": 120.9349,
+      "area_m2": 74114,
+      "kwp_equiv": 11117,
+      "note": "warehouse-scale dark gridded array in northern Valenzuela",
+      "v0_hotspot_idx": "047",
+      "image_path": "/case_studies/valenzuela.jpg",
+      "image_ok": true
+    },
+    {
+      "id": "meycauayan",
+      "city": "Meycauayan",
+      "province": "Bulacan",
+      "lat": 14.7504,
+      "lon": 120.9549,
+      "area_m2": 79892,
+      "kwp_equiv": 11984,
+      "note": "Bulacan industrial belt; warehouse rooftop with dark panel grid",
+      "v0_hotspot_idx": "052",
+      "image_path": "/case_studies/meycauayan.jpg",
+      "image_ok": true
+    },
+    {
+      "id": "san_mateo",
+      "city": "San Mateo",
+      "province": "Rizal",
+      "lat": 14.6945,
+      "lon": 121.1405,
+      "area_m2": 61382,
+      "kwp_equiv": 9207,
+      "note": "industrial warehouse with dark gridded roof on Rizal side",
+      "v0_hotspot_idx": "077",
+      "image_path": "/case_studies/san_mateo.jpg",
+      "image_ok": true
+    },
+    {
+      "id": "dasmarinas",
+      "city": "Dasmari\u00f1as",
+      "province": "Cavite",
+      "lat": 14.3113,
+      "lon": 120.9532,
+      "area_m2": 78891,
+      "kwp_equiv": 11834,
+      "note": "Cavite industrial roof with dark gridded sections; one of the largest detected",
+      "v0_hotspot_idx": "116",
+      "image_path": "/case_studies/dasmarinas.jpg",
+      "image_ok": true
+    },
+    {
+      "id": "carmona",
+      "city": "Carmona",
+      "province": "Cavite",
+      "lat": 14.2845,
+      "lon": 121.0177,
+      "area_m2": 66524,
+      "kwp_equiv": 9979,
+      "note": "Carmona industrial complex; visible solar panel array on warehouse roof",
+      "v0_hotspot_idx": "137",
+      "image_path": "/case_studies/carmona.jpg",
+      "image_ok": true
+    }
+  ]
+}

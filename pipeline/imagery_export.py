@@ -51,17 +51,19 @@ FINGERPRINT_PALETTE = ["#ffffff", "#d97757"]
 THUMB_DIM = 600
 
 # Hot-spot extraction.
-# Strategy: subtract a local focal mean so we find pixels that dropped in NIR
-# *more than their neighborhood* (true local anomalies, not city-wide dimming).
-# Then morphological opening to remove speckle, threshold, and connected-
-# component vectorization. Size caps reject city-wide blobs and pixel-scale
-# noise.
+# v1.1 strategy: require BOTH NIR and SWIR co-darkening (multi-channel
+# fingerprint, same as the diff visualization), drop the speckle via
+# morphological opening, then connected-component vectorization. Size caps
+# reject neighborhood-scale drift and pixel-scale noise. Top 1 per city
+# (not 3) to keep precision high.
 HOTSPOT_LOCAL_RADIUS_M = 200      # focal mean radius for local-anomaly baseline
-HOTSPOT_ANOMALY_THRESHOLD = -250  # NIR scaled units below local baseline
-HOTSPOT_MORPH_RADIUS_M = 20       # erode+dilate radius to remove single-pixel speckle
-HOTSPOT_MIN_AREA_M2 = 400         # ~20x20m rooftop minimum
-HOTSPOT_MAX_AREA_M2 = 80_000      # 8 hectares; bigger than that, it's neighborhood drift
-HOTSPOT_TOP_K_PER_CITY = 3
+HOTSPOT_NIR_DROP = -250           # NIR scaled units; multi-channel AND threshold
+HOTSPOT_SWIR_DROP = -250          # SWIR scaled units; multi-channel AND threshold
+HOTSPOT_LOCAL_ANOMALY_THRESHOLD = -150  # local-anomaly threshold on the AND mask
+HOTSPOT_MORPH_RADIUS_M = 30       # erode+dilate radius
+HOTSPOT_MIN_AREA_M2 = 2_000       # warehouse-scale floor
+HOTSPOT_MAX_AREA_M2 = 200_000     # 20 hectares; the v1.0 solar were 4-8 ha clusters, keep them
+HOTSPOT_TOP_K_PER_CITY = 1        # top 1 per city for higher per-pin confidence
 
 
 def parse_args() -> argparse.Namespace:
@@ -237,15 +239,24 @@ def extract_hotspots(
         .subtract(s2_baseline.select("B8"))
         .updateMask(built_mask)
     )
+    swir_diff = (
+        s2_current.select("B11")
+        .subtract(s2_baseline.select("B11"))
+        .updateMask(built_mask)
+    )
 
-    # Local-anomaly: subtract a neighborhood mean so we measure how much THIS
-    # pixel dropped relative to its surroundings, not absolutely. This rejects
-    # city-wide dimming (atmospheric, sensor drift, broad weather effects) and
-    # surfaces actual localized rooftop changes.
-    local_mean = nir_diff.focal_mean(radius=HOTSPOT_LOCAL_RADIUS_M, units="meters")
-    local_anomaly = nir_diff.subtract(local_mean)
+    # v1.1: multi-channel AND. A pixel must drop in BOTH NIR and SWIR to count.
+    # Solar panels do both; reroofing/paint/shadows usually don't trip both.
+    co_darkened_strength = nir_diff.add(swir_diff).divide(2)  # avg drop magnitude where AND holds
+    multi_mask = nir_diff.lt(HOTSPOT_NIR_DROP).And(swir_diff.lt(HOTSPOT_SWIR_DROP))
+    co_darkened = co_darkened_strength.updateMask(multi_mask)
 
-    darkened = local_anomaly.lt(HOTSPOT_ANOMALY_THRESHOLD).selfMask()
+    # Local-anomaly on the AND signal: this pixel dropped MORE than its
+    # neighborhood on the multi-channel measure.
+    local_mean = co_darkened.unmask(0).focal_mean(radius=HOTSPOT_LOCAL_RADIUS_M, units="meters")
+    local_anomaly = co_darkened.subtract(local_mean)
+
+    darkened = local_anomaly.lt(HOTSPOT_LOCAL_ANOMALY_THRESHOLD).selfMask()
     # Morphological opening: erode then dilate to drop pixel-scale speckle.
     opened = (
         darkened.focal_min(radius=HOTSPOT_MORPH_RADIUS_M, units="meters")
@@ -363,7 +374,10 @@ def main() -> int:
                 "quarter": args.quarter,
                 "baseline_year": str(baseline_year),
                 "generated_utc": datetime.now(timezone.utc).isoformat(),
-                "anomaly_threshold": HOTSPOT_ANOMALY_THRESHOLD,
+                "version": "v1.1_multichannel",
+                "nir_drop_threshold": HOTSPOT_NIR_DROP,
+                "swir_drop_threshold": HOTSPOT_SWIR_DROP,
+                "local_anomaly_threshold": HOTSPOT_LOCAL_ANOMALY_THRESHOLD,
                 "local_radius_m": HOTSPOT_LOCAL_RADIUS_M,
                 "morph_radius_m": HOTSPOT_MORPH_RADIUS_M,
                 "min_area_m2": HOTSPOT_MIN_AREA_M2,
