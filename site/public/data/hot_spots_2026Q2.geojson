@@ -1,0 +1,69 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.11004424482321,
+          14.692289730460574
+        ]
+      },
+      "properties": {
+        "city": "Quezon City",
+        "psgc_code": "1380114000",
+        "province": "Metro Manila",
+        "area_m2": 78369.4,
+        "kwp_equiv": 11755.4
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.07035813083618,
+          14.72069921505389
+        ]
+      },
+      "properties": {
+        "city": "Quezon City",
+        "psgc_code": "1380114000",
+        "province": "Metro Manila",
+        "area_m2": 73341.1,
+        "kwp_equiv": 11001.2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.08623863540679,
+          14.646001177692614
+        ]
+      },
+      "properties": {
+        "city": "Quezon City",
+        "psgc_code": "1380114000",
+        "province": "Metro Manila",
+        "area_m2": 65643.4,
+        "kwp_equiv": 9846.5
+      }
+    }
+  ],
+  "properties": {
+    "quarter": "2026Q2",
+    "baseline_year": "2022",
+    "generated_utc": "2026-05-08T06:03:33.539136+00:00",
+    "anomaly_threshold": -250,
+    "local_radius_m": 200,
+    "morph_radius_m": 20,
+    "min_area_m2": 400,
+    "max_area_m2": 80000,
+    "top_k_per_city": 3,
+    "city_count": 1,
+    "total_hotspots": 3
+  }
+}

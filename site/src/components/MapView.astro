@@ -34,6 +34,10 @@ const tooltips = {
         <span class="text-right">more</span>
       </div>
       <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">61 cities · source: ghost-watts</div>
+      <div class="flex items-center gap-2 mt-2 pt-2 border-t border-ink-300/30">
+        <span class="inline-block w-3 h-3 rounded-full bg-accent-coral border border-white shadow-sm"></span>
+        <span class="text-[10px] text-ink-500">Coral pins = top rooftop changes since 2022</span>
+      </div>
     </div>
   </div>
   <aside id="city-panel" class="border border-ink-300/40 bg-white text-sm">
@@ -83,10 +87,60 @@ const tooltips = {
 
       <div class="px-5 pt-4 pb-5 border-t border-ink-300/30">
         <p class="text-[11px] text-ink-500 mb-3" id="permit-source"></p>
-        <a id="city-me-link" class="inline-flex items-center px-3 py-2 bg-ink-900 text-white text-xs font-mono uppercase tracking-wider hover:bg-ink-700" href="/me">See your roof's payback in this city &rarr;</a>
+        <button id="city-imagery-btn" class="hidden w-full mb-2 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-xs font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">
+          See satellite imagery &rarr;
+        </button>
+        <a id="city-me-link" class="inline-flex w-full items-center justify-center px-3 py-2 bg-ink-900 text-white text-xs font-mono uppercase tracking-wider hover:bg-ink-700" href="/me">See your roof's payback &rarr;</a>
       </div>
     </div>
   </aside>
+</div>
+
+<div id="imagery-modal" class="hidden fixed inset-0 z-[100] bg-ink-900/85 backdrop-blur-sm overflow-y-auto" role="dialog" aria-modal="true">
+  <div class="min-h-screen flex items-center justify-center p-4 md:p-8">
+    <div class="bg-paper border border-ink-300/40 max-w-6xl w-full">
+      <header class="px-6 py-4 border-b border-ink-300/30 flex items-baseline justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-1" id="imagery-province"></p>
+          <h3 class="text-2xl font-semibold tracking-tight text-ink-900" id="imagery-city"></h3>
+        </div>
+        <button id="imagery-close" class="text-ink-500 hover:text-ink-900 text-2xl leading-none px-2" aria-label="Close">&times;</button>
+      </header>
+      <div class="grid md:grid-cols-3 gap-px bg-ink-300/40">
+        <figure class="bg-paper p-4">
+          <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">2022 baseline · true color</p>
+          <div class="relative aspect-square bg-ink-300/10 overflow-hidden">
+            <img id="imagery-baseline" class="absolute inset-0 w-full h-full object-contain" alt="2022 satellite imagery" />
+            <div id="imagery-baseline-loading" class="absolute inset-0 flex items-center justify-center text-xs text-ink-300 font-mono">loading...</div>
+          </div>
+          <figcaption class="text-xs text-ink-500 mt-2 leading-relaxed">Sentinel-2 RGB median, Q2 2022. Same polygon as the current panel.</figcaption>
+        </figure>
+        <figure class="bg-paper p-4">
+          <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">2026 Q2 current · true color</p>
+          <div class="relative aspect-square bg-ink-300/10 overflow-hidden">
+            <img id="imagery-current" class="absolute inset-0 w-full h-full object-contain" alt="2026 Q2 satellite imagery" />
+            <div id="imagery-current-loading" class="absolute inset-0 flex items-center justify-center text-xs text-ink-300 font-mono">loading...</div>
+          </div>
+          <figcaption class="text-xs text-ink-500 mt-2 leading-relaxed">Sentinel-2 RGB median, Q2 2026. Look closely at the same neighborhood between the two panels.</figcaption>
+        </figure>
+        <figure class="bg-paper p-4">
+          <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">what changed · NIR diff</p>
+          <div class="relative aspect-square bg-ink-300/10 overflow-hidden">
+            <img id="imagery-diff" class="absolute inset-0 w-full h-full object-contain" alt="NIR difference 2022 to 2026" />
+            <div id="imagery-diff-loading" class="absolute inset-0 flex items-center justify-center text-xs text-ink-300 font-mono">loading...</div>
+          </div>
+          <figcaption class="text-xs text-ink-500 mt-2 leading-relaxed">
+            <strong class="text-accent-coral">Red pixels darkened</strong> in near-infrared since 2022. Solar panels darken NIR. Masked to rooftops and pavement only.
+          </figcaption>
+        </figure>
+      </div>
+      <footer class="px-6 py-3 border-t border-ink-300/30 flex flex-wrap gap-x-6 gap-y-1 text-[11px] text-ink-500 font-mono">
+        <span>source: Sentinel-2 SR Harmonized via Earth Engine</span>
+        <span>masked: ESA WorldCover 2021 built-up</span>
+        <span>generated: <span id="imagery-generated"></span></span>
+      </footer>
+    </div>
+  </div>
 </div>
 
 <section class="max-w-6xl mx-auto px-6 mt-10 grid gap-6 md:grid-cols-2">
@@ -109,6 +163,14 @@ const tooltips = {
   import { interpolateRdYlBu } from "d3-scale-chromatic";
 
   const DATA_BASE = "/data";
+
+  // Tooltip strings for the satellite-signal breakdown (laymen vocabulary).
+  const tooltips = {
+    rooftopDark: "Solar panels are darker than bare roof in near-infrared light. We measure the change vs 2022, then compare each city to the other 60. \"More\" = this city's roofs darkened more than its peers.",
+    rooftopMaterial: "Solar panels reflect short-wave infrared differently from concrete or metal. Confirms the NIR signal and rules out roof-paint changes.",
+    rooftopHeat: "Solar arrays run cooler than bare roofs in midday sun. We measure midday land surface temperature change vs 2022, then compare cities.",
+    nightActivity: "Nighttime light change since 2022. Loosely tracks how the city's evening grid load shifted. Weakest of the four signals.",
+  };
 
   type CityFeature = {
     type: "Feature";
@@ -327,7 +389,83 @@ const tooltips = {
       const slug = (props.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
       meLink.href = `/me?city=${encodeURIComponent(slug)}`;
     }
+
+    // Wire imagery button (only show if at least the baseline image exists).
+    const imgBtn = document.getElementById("city-imagery-btn") as HTMLButtonElement | null;
+    if (imgBtn) {
+      imgBtn.classList.add("hidden");
+      checkImageryAvailable(props.psgc_code).then((available) => {
+        if (available) {
+          imgBtn.classList.remove("hidden");
+          imgBtn.onclick = () => openImagery(props.psgc_code, props.name, props.province);
+        }
+      });
+    }
   }
+
+  const imageryCheckCache = new Map<string, Promise<boolean>>();
+  function checkImageryAvailable(psgc: string): Promise<boolean> {
+    if (imageryCheckCache.has(psgc)) return imageryCheckCache.get(psgc)!;
+    const p = new Promise<boolean>((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = `/imagery/${psgc}_baseline.jpg`;
+    });
+    imageryCheckCache.set(psgc, p);
+    return p;
+  }
+
+  function openImagery(psgc: string, name: string, province: string) {
+    const modal = document.getElementById("imagery-modal");
+    if (!modal) return;
+    document.getElementById("imagery-city")!.textContent = name;
+    document.getElementById("imagery-province")!.textContent = `${province} · before vs after`;
+    const setSrc = (id: string, src: string, loadingId: string) => {
+      const img = document.getElementById(id) as HTMLImageElement | null;
+      const loading = document.getElementById(loadingId);
+      if (!img) return;
+      img.style.opacity = "0";
+      if (loading) loading.style.display = "flex";
+      img.onload = () => {
+        img.style.opacity = "1";
+        if (loading) loading.style.display = "none";
+      };
+      img.onerror = () => {
+        if (loading) loading.textContent = "image not available";
+      };
+      img.src = src;
+    };
+    setSrc("imagery-baseline", `/imagery/${psgc}_baseline.jpg`, "imagery-baseline-loading");
+    setSrc("imagery-current", `/imagery/${psgc}_current.jpg`, "imagery-current-loading");
+    setSrc("imagery-diff", `/imagery/${psgc}_diff.png`, "imagery-diff-loading");
+    document.getElementById("imagery-generated")!.textContent = new Date().toISOString().slice(0, 10);
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeImagery() {
+    const modal = document.getElementById("imagery-modal");
+    if (!modal) return;
+    modal.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const closeBtn = document.getElementById("imagery-close");
+    if (closeBtn) closeBtn.onclick = closeImagery;
+    const modal = document.getElementById("imagery-modal");
+    if (modal) {
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal || (e.target as HTMLElement).closest("[role=dialog]") === modal && !((e.target as HTMLElement).closest(".bg-paper"))) {
+          closeImagery();
+        }
+      });
+    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeImagery();
+    });
+  });
 
   function bboxOfFeatureCollection(fc: any): [number, number, number, number] {
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
@@ -480,41 +618,22 @@ const tooltips = {
           paint: { "line-color": "#22324a", "line-width": 0.5 },
         });
 
-        // Direct labels on the top 3 cities (Tufte-flavored)
+        // Direct labels on the top 3 cities, rendered as HTML markers because
+        // the bare OSM raster style has no glyphs URL (no symbol-layer text).
         const sortedFeatures = [...fc.features]
           .filter((f: any) => typeof f.properties?.metrics?.composite_solar_signal_score === "number")
           .sort((a: any, b: any) => b.properties.metrics.composite_solar_signal_score - a.properties.metrics.composite_solar_signal_score);
         const top3 = sortedFeatures.slice(0, 3);
-        const labelsFc = {
-          type: "FeatureCollection",
-          features: top3.map((f: any) => ({
-            type: "Feature",
-            geometry: { type: "Point", coordinates: representativePoint(f.geometry) },
-            properties: {
-              label: f.properties.name,
-              score: f.properties.metrics.composite_solar_signal_score.toFixed(2),
-            },
-          })),
-        };
-        map.addSource("top-labels", { type: "geojson", data: labelsFc });
-        map.addLayer({
-          id: "top-labels",
-          type: "symbol",
-          source: "top-labels",
-          layout: {
-            "text-field": ["concat", ["get", "label"], "\n+", ["get", "score"]],
-            "text-size": 11,
-            "text-anchor": "center",
-            "text-justify": "center",
-            "text-allow-overlap": false,
-            "text-font": ["Open Sans Regular"],
-          },
-          paint: {
-            "text-color": "#0b1220",
-            "text-halo-color": "#ffffff",
-            "text-halo-width": 1.5,
-          },
-        });
+        for (const f of top3) {
+          const center = representativePoint(f.geometry);
+          const score = f.properties.metrics.composite_solar_signal_score.toFixed(2);
+          const el = document.createElement("div");
+          el.className = "ghost-watts-rank-label";
+          el.innerHTML = `<span class="rank-name">${f.properties.name}</span><span class="rank-score">+${score}</span>`;
+          new maplibregl.Marker({ element: el, anchor: "center" })
+            .setLngLat(center as [number, number])
+            .addTo(map);
+        }
 
         const [minX, minY, maxX, maxY] = bboxOfFeatureCollection(fc);
         if (Number.isFinite(minX)) {
@@ -533,6 +652,91 @@ const tooltips = {
         map.on("mouseleave", "ghost-watts-fill", () => (map.getCanvas().style.cursor = ""));
 
         renderTop5(fc.features as CityFeature[]);
+
+        // Hot-spot pin layer: top-K darkened-pixel clusters per city.
+        try {
+          const hotSpotsResp = await fetch(`${DATA_BASE}/hot_spots_${manifest.latest_quarter}.geojson`);
+          if (hotSpotsResp.ok) {
+            const hotFc = await hotSpotsResp.json();
+            map.addSource("hot-spots", { type: "geojson", data: hotFc });
+            map.addLayer({
+              id: "hot-spots-shadow",
+              type: "circle",
+              source: "hot-spots",
+              paint: {
+                "circle-radius": [
+                  "interpolate",
+                  ["linear"],
+                  ["get", "area_m2"],
+                  500, 6,
+                  10000, 12,
+                  80000, 22,
+                ],
+                "circle-color": "#0b1220",
+                "circle-opacity": 0.35,
+                "circle-blur": 0.6,
+              },
+            });
+            map.addLayer({
+              id: "hot-spots-fill",
+              type: "circle",
+              source: "hot-spots",
+              paint: {
+                "circle-radius": [
+                  "interpolate",
+                  ["linear"],
+                  ["get", "area_m2"],
+                  500, 4,
+                  10000, 8,
+                  80000, 16,
+                ],
+                "circle-color": "#d97757",
+                "circle-stroke-color": "#ffffff",
+                "circle-stroke-width": 1.5,
+                "circle-opacity": 0.9,
+              },
+            });
+
+            const popup = new maplibregl.Popup({
+              closeButton: false,
+              closeOnClick: false,
+              offset: 12,
+              className: "ghost-watts-popup",
+            });
+
+            map.on("mouseenter", "hot-spots-fill", (e) => {
+              map.getCanvas().style.cursor = "pointer";
+              const f = e.features?.[0];
+              if (!f) return;
+              const p = f.properties as any;
+              const area = Number(p.area_m2 || 0);
+              const kwp = Number(p.kwp_equiv || 0);
+              const ha = (area / 10000).toFixed(1);
+              popup
+                .setLngLat((f.geometry as any).coordinates)
+                .setHTML(
+                  `<div class="text-xs font-mono leading-snug">
+                     <div class="text-ink-900 font-semibold mb-1">${p.city}</div>
+                     <div class="text-ink-700">${ha} ha rooftop change</div>
+                     <div class="text-ink-500">~${Math.round(kwp).toLocaleString()} kWp equiv if all solar</div>
+                   </div>`
+                )
+                .addTo(map);
+            });
+            map.on("mouseleave", "hot-spots-fill", () => {
+              map.getCanvas().style.cursor = "";
+              popup.remove();
+            });
+            map.on("click", "hot-spots-fill", (e) => {
+              const f = e.features?.[0];
+              if (!f) return;
+              const p = f.properties as any;
+              openImagery(p.psgc_code, p.city, p.province);
+            });
+          }
+        } catch (err) {
+          // No hot-spots yet; that's fine
+        }
 
         const params = new URLSearchParams(location.search);
         const cityParam = params.get("city");
@@ -607,5 +811,25 @@ const tooltips = {
   }
   .font-mono {
     font-variant-numeric: tabular-nums;
+  }
+  .ghost-watts-popup .maplibregl-popup-content {
+    background: #ffffff;
+    border: 1px solid #8e98ac;
+    border-radius: 4px;
+    padding: 8px 10px;
+    box-shadow: 0 4px 12px rgba(11, 18, 32, 0.15);
+  }
+  .ghost-watts-popup .maplibregl-popup-tip {
+    border-top-color: #8e98ac;
+  }
+  .ghost-watts-rank-label {
+    @apply pointer-events-none flex flex-col items-center text-[11px] leading-tight font-mono;
+    text-shadow: 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 3px #ffffff, 0 0 6px #ffffff;
+  }
+  .ghost-watts-rank-label .rank-name {
+    @apply text-ink-900 font-semibold;
+  }
+  .ghost-watts-rank-label .rank-score {
+    @apply text-ink-700 tabular-nums;
   }
 </style>

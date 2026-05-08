@@ -2,5 +2,7 @@
   "latest_quarter": "2026Q2",
   "quarters": [
     "2026Q2"
-  ]
+  ],
+  "imagery_quarter": "2026Q2",
+  "hotspots_quarter": "2026Q2"
 }
