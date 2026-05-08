@@ -19,9 +19,31 @@ npm-debug.log*
 # Environments and secrets
 .env
 .env.local
+.env.*
+
+# GCP service account keys (catch-all, matches any naming convention)
 *-key.json
 ee-key.json
 service-account*.json
+*-service-account*.json
+*-credentials*.json
+*-compute*.json
+poised-honor-*.json
+my-first-project-*.json
+.ee-key.json
+ee-key
+gcp-key*.json
+*.iam.gserviceaccount.com.json
+google-credentials.json
+gcp-credentials.json
+
+# Anything in a credentials/ or secrets/ subdir
+**/credentials/
+**/secrets/
+
+# AWS, Azure, generic
+.aws/
+credentials
 
 # OS
 .DS_Store

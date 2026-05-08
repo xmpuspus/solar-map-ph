@@ -25,6 +25,7 @@ import ee  # type: ignore[import-not-found]
 
 PIPELINE_DIR = Path(__file__).parent
 SITE_DATA_DIR = PIPELINE_DIR.parent / "site" / "public" / "data"
+BOUNDARIES_PATH = PIPELINE_DIR / "boundaries" / "franchise_cities_polygons.geojson"
 
 SIGNAL_WEIGHTS = {
     "nir": 0.40,
@@ -116,33 +117,38 @@ def load_franchise_cities() -> list[dict[str, Any]]:
     return cities
 
 
-def get_city_geometry(name: str, psgc_code: str) -> ee.Geometry | None:
-    """Fetch admin polygon from FAO GAUL or PSA boundary asset.
+def load_boundary_polygons() -> dict[str, dict[str, Any]]:
+    """Load city polygons from the locally-shipped GeoJSON.
 
-    Tries multiple known boundary assets. Returns None if no polygon found,
-    in which case the caller should skip this city and log.
-
-    The PSA PSGC boundary asset is published in EE under various community uploads.
-    Adjust ``boundary_asset`` to a specific asset id you have access to. As a
-    fallback we use FAO GAUL level 2 administrative units.
+    The repo ships ``boundaries/franchise_cities_polygons.geojson`` (fetched once
+    via ``fetch_boundaries.py`` from OSM Nominatim) because FAO/GAUL only exposes
+    province-level admin units for the Philippines. Returns dict keyed by PSGC code.
     """
-    boundary_asset = os.environ.get(
-        "EE_BOUNDARY_ASSET",
-        "FAO/GAUL/2015/level2",
-    )
-    fc = ee.FeatureCollection(boundary_asset)
-    if "FAO/GAUL" in boundary_asset:
-        feature = (
-            fc.filter(ee.Filter.eq("ADM0_NAME", "Philippines"))
-            .filter(ee.Filter.eq("ADM2_NAME", name))
-            .first()
+    if not BOUNDARIES_PATH.exists():
+        raise SystemExit(
+            f"Missing {BOUNDARIES_PATH}. Run: python fetch_boundaries.py first."
         )
-    else:
-        feature = fc.filter(ee.Filter.eq("psgc_code", psgc_code)).first()
-    info = feature.getInfo()
-    if info is None:
+    with BOUNDARIES_PATH.open() as f:
+        fc = json.load(f)
+    by_psgc: dict[str, dict[str, Any]] = {}
+    for feat in fc.get("features", []):
+        psgc = feat["properties"].get("psgc_code")
+        if psgc:
+            by_psgc[psgc] = feat
+    return by_psgc
+
+
+def get_city_geometry_from_local(
+    psgc_code: str, polygons: dict[str, dict[str, Any]]
+) -> tuple[ee.Geometry, dict[str, Any]] | None:
+    feat = polygons.get(psgc_code)
+    if feat is None:
         return None
-    return ee.Geometry(info["geometry"])
+    geom_geojson = feat.get("geometry")
+    if not geom_geojson:
+        return None
+    geom = ee.Geometry(geom_geojson, geodesic=False)
+    return geom, geom_geojson
 
 
 def median_band(
@@ -210,12 +216,78 @@ def get_built_up_mask(geometry: ee.Geometry) -> ee.Image:
 
 
 def built_up_km2(geometry: ee.Geometry) -> float | None:
+    """Total built-up area in km^2 over the city polygon.
+
+    Uses ee.Reducer.sum() because we want the total area, not the mean per
+    pixel. ESA WorldCover is 10m so each pixel is 100 m^2.
+    """
     mask = get_built_up_mask(geometry)
     pixel_area = ee.Image.pixelArea().updateMask(mask)
-    area_m2 = reduce_mean(pixel_area, geometry, scale=10)
-    if area_m2 is None:
+    try:
+        result = pixel_area.reduceRegion(
+            reducer=ee.Reducer.sum(),
+            geometry=geometry,
+            scale=10,
+            maxPixels=int(1e10),
+            bestEffort=True,
+        ).getInfo()
+    except Exception as exc:
+        print(f"  built_up area calc failed: {exc}", file=sys.stderr)
         return None
-    return area_m2 / 1e6
+    if not result:
+        return None
+    values = [v for v in result.values() if v is not None]
+    if not values:
+        return None
+    return float(values[0]) / 1e6
+
+
+def collection_size(
+    collection_id: str,
+    start: date,
+    end: date,
+    geometry: ee.Geometry,
+) -> int:
+    coll = (
+        ee.ImageCollection(collection_id)
+        .filterDate(str(start), str(end))
+        .filterBounds(geometry)
+    )
+    try:
+        return int(coll.size().getInfo())
+    except Exception:
+        return 0
+
+
+def signal_delta(
+    collection_id: str,
+    band: str,
+    geom: ee.Geometry,
+    built_mask: ee.Image,
+    quarter_start: date,
+    quarter_end: date,
+    baseline_start: date,
+    baseline_end: date,
+    scale: int,
+    cloud_mask_fn=None,
+) -> float | None:
+    """Compute (median current - median baseline) over the built-up area.
+
+    Returns None if either window has zero scenes (empty .median() has 0 bands
+    and would crash the subtract). Each window's mean is computed independently
+    and the delta is subtracted in Python.
+    """
+    if collection_size(collection_id, quarter_start, quarter_end, geom) == 0:
+        return None
+    if collection_size(collection_id, baseline_start, baseline_end, geom) == 0:
+        return None
+    curr_img = median_band(collection_id, band, quarter_start, quarter_end, geom, cloud_mask_fn).updateMask(built_mask)
+    base_img = median_band(collection_id, band, baseline_start, baseline_end, geom, cloud_mask_fn).updateMask(built_mask)
+    curr_value = reduce_mean(curr_img, geom, scale=scale)
+    base_value = reduce_mean(base_img, geom, scale=scale)
+    if curr_value is None or base_value is None:
+        return None
+    return curr_value - base_value
 
 
 def compute_signals_for_city(
@@ -223,42 +295,27 @@ def compute_signals_for_city(
     quarter_start: date,
     quarter_end: date,
     baseline_year: int,
+    polygons: dict[str, dict[str, Any]],
 ) -> CityResult | None:
     name = city["name"]
-    geom = get_city_geometry(name, city["psgc_code"])
-    if geom is None:
+    pair = get_city_geometry_from_local(city["psgc_code"], polygons)
+    if pair is None:
         print(f"  no boundary polygon for {name}; skipping", file=sys.stderr)
         return None
-
-    geom_info = geom.getInfo()
+    geom, geom_info = pair
     built_mask = get_built_up_mask(geom)
 
     baseline_start = date(baseline_year, quarter_start.month, 1)
     baseline_end = date(baseline_year, quarter_end.month, quarter_end.day)
 
-    s2_collection = "COPERNICUS/S2_SR_HARMONIZED"
-    nir_curr = median_band(s2_collection, "B8", quarter_start, quarter_end, geom, s2_cloud_mask).updateMask(built_mask)
-    nir_base = median_band(s2_collection, "B8", baseline_start, baseline_end, geom, s2_cloud_mask).updateMask(built_mask)
-    nir_delta_image = nir_curr.subtract(nir_base)
+    s2 = "COPERNICUS/S2_SR_HARMONIZED"
+    landsat = "LANDSAT/LC09/C02/T1_L2"
+    viirs = "NOAA/VIIRS/DNB/MONTHLY_V1/VCMSLCFG"
 
-    swir_curr = median_band(s2_collection, "B11", quarter_start, quarter_end, geom, s2_cloud_mask).updateMask(built_mask)
-    swir_base = median_band(s2_collection, "B11", baseline_start, baseline_end, geom, s2_cloud_mask).updateMask(built_mask)
-    swir_delta_image = swir_curr.subtract(swir_base)
-
-    landsat_collection = "LANDSAT/LC09/C02/T1_L2"
-    lst_curr = median_band(landsat_collection, "ST_B10", quarter_start, quarter_end, geom, landsat_cloud_mask).updateMask(built_mask)
-    lst_base = median_band(landsat_collection, "ST_B10", baseline_start, baseline_end, geom, landsat_cloud_mask).updateMask(built_mask)
-    lst_anomaly_image = lst_curr.subtract(lst_base)
-
-    viirs_collection = "NOAA/VIIRS/DNB/MONTHLY_V1/VCMSLCFG"
-    viirs_curr = median_band(viirs_collection, "avg_rad", quarter_start, quarter_end, geom)
-    viirs_base = median_band(viirs_collection, "avg_rad", baseline_start, baseline_end, geom)
-    viirs_delta_image = viirs_curr.subtract(viirs_base)
-
-    nir_delta = reduce_mean(nir_delta_image, geom, scale=10)
-    swir_delta = reduce_mean(swir_delta_image, geom, scale=10)
-    lst_anomaly = reduce_mean(lst_anomaly_image, geom, scale=30)
-    nightlight_delta = reduce_mean(viirs_delta_image, geom, scale=500)
+    nir_delta = signal_delta(s2, "B8", geom, built_mask, quarter_start, quarter_end, baseline_start, baseline_end, scale=10, cloud_mask_fn=s2_cloud_mask)
+    swir_delta = signal_delta(s2, "B11", geom, built_mask, quarter_start, quarter_end, baseline_start, baseline_end, scale=10, cloud_mask_fn=s2_cloud_mask)
+    lst_anomaly = signal_delta(landsat, "ST_B10", geom, built_mask, quarter_start, quarter_end, baseline_start, baseline_end, scale=30, cloud_mask_fn=landsat_cloud_mask)
+    nightlight_delta = signal_delta(viirs, "avg_rad", geom, built_mask, quarter_start, quarter_end, baseline_start, baseline_end, scale=500, cloud_mask_fn=None)
     built_km2 = built_up_km2(geom)
 
     return CityResult(
@@ -478,13 +535,17 @@ def main() -> int:
     quarter_start, quarter_end = quarter_to_dates(args.quarter)
     baseline_year = int(args.baseline)
     cities = load_franchise_cities()
-    print(f"Processing {len(cities)} cities for {args.quarter} (baseline {args.baseline})")
+    polygons = load_boundary_polygons()
+    print(
+        f"Processing {len(cities)} cities for {args.quarter} (baseline {args.baseline}), "
+        f"{len(polygons)} polygons available"
+    )
 
     results: list[CityResult] = []
     for i, city in enumerate(cities, start=1):
         print(f"[{i}/{len(cities)}] {city['name']}")
         try:
-            r = compute_signals_for_city(city, quarter_start, quarter_end, baseline_year)
+            r = compute_signals_for_city(city, quarter_start, quarter_end, baseline_year, polygons)
         except Exception as exc:
             print(f"  failed: {exc}", file=sys.stderr)
             r = None

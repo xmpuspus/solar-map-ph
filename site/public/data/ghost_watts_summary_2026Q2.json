@@ -1,0 +1,44 @@
+{
+  "quarter": "2026Q2",
+  "baseline_year": "2022",
+  "generated_utc": "2026-05-08T03:54:10.109147+00:00",
+  "city_count": 61,
+  "city_count_with_signal": 61,
+  "composite_score_franchise_mean": -6.768265365286558e-17,
+  "composite_score_max": 1.2293228816011457,
+  "composite_score_min": -1.0308550505242573,
+  "top5_strongest_signal": [
+    {
+      "name": "Valenzuela",
+      "composite": 1.2293228816011457
+    },
+    {
+      "name": "Malabon",
+      "composite": 0.9129564385983094
+    },
+    {
+      "name": "Baras",
+      "composite": 0.7151436581083926
+    },
+    {
+      "name": "Antipolo",
+      "composite": 0.7109068486323796
+    },
+    {
+      "name": "Teresa",
+      "composite": 0.7057224020381178
+    }
+  ],
+  "weights": {
+    "nir": 0.4,
+    "swir": 0.3,
+    "lst": 0.2,
+    "nightlight": 0.1
+  },
+  "meralco_aggregates": {
+    "registered_installations": 20000,
+    "registered_capacity_mw_aggregate": 170,
+    "icsc_unregistered_estimate_fraction": 0.33,
+    "as_of": "2026-05-03"
+  }
+}
