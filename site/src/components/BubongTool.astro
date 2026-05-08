@@ -79,7 +79,14 @@
     areaM2: number;
     center: [number, number];
     bboxM: { minLon: number; minLat: number; maxLon: number; maxLat: number };
+    buildingType: string | null;  // OSM building tag value
+    isResidential: boolean;
+    isCommercial: boolean;
   };
+
+  const RESIDENTIAL_TAGS = new Set(["residential", "house", "apartments", "detached", "semidetached_house", "terrace", "bungalow", "dormitory"]);
+  const COMMERCIAL_TAGS = new Set(["commercial", "retail", "supermarket", "mall", "office", "industrial", "warehouse", "factory", "cathedral", "church", "religious", "school", "hospital", "civic", "government", "stadium"]);
+  const RESIDENTIAL_AREA_CEILING_M2 = 500; // anything bigger is suspicious for residential
 
   const MERALCO_RATE_PHP_PER_KWH = 12.5;
   const INSTALL_COST_PHP_PER_KWP = 65000;
@@ -166,6 +173,10 @@
       const c = centroid(geo as any).geometry.coordinates as [number, number];
       const lons = coords.map((p) => p[0]);
       const lats = coords.map((p) => p[1]);
+      const tags = el.tags || {};
+      const buildingType = tags.building && tags.building !== "yes" ? tags.building : (tags.amenity || tags.shop || null);
+      const isResidential = !!buildingType && RESIDENTIAL_TAGS.has(buildingType);
+      const isCommercial = !!buildingType && COMMERCIAL_TAGS.has(buildingType);
       out.push({
         osmId: el.id,
         coords,
@@ -178,6 +189,9 @@
           minLat: Math.min(...lats),
           maxLat: Math.max(...lats),
         },
+        buildingType,
+        isResidential,
+        isCommercial,
       });
     }
     return out;
@@ -185,23 +199,29 @@
 
   function pickBuilding(point: [number, number], buildings: Building[]): Building | null {
     if (!buildings.length) return null;
-    // Try point-in-polygon first
+    const inside: Building[] = [];
     for (const b of buildings) {
       if (booleanPointInPolygon({ type: "Point", coordinates: point } as any, b.geojson as any)) {
-        return b;
+        inside.push(b);
       }
     }
-    // Otherwise nearest centroid
-    let best: Building | null = null;
-    let bestD = Infinity;
-    for (const b of buildings) {
-      const d = distance({ type: "Point", coordinates: point } as any, { type: "Point", coordinates: b.center } as any, { units: "meters" } as any);
-      if (d < bestD) {
-        bestD = d;
-        best = b;
+    // If we land inside one or more buildings, prefer residential, then smallest area.
+    if (inside.length) {
+      const residential = inside.filter((b) => b.isResidential);
+      if (residential.length) {
+        residential.sort((a, b) => a.areaM2 - b.areaM2);
+        return residential[0];
       }
+      inside.sort((a, b) => a.areaM2 - b.areaM2);
+      return inside[0];
     }
-    return best;
+    // Otherwise: nearest residential within range, falling back to nearest of any kind.
+    const ranked = buildings
+      .map((b) => ({ b, d: distance({ type: "Point", coordinates: point } as any, { type: "Point", coordinates: b.center } as any, { units: "meters" } as any) }))
+      .sort((a, b) => a.d - b.d);
+    const nearestResidential = ranked.find((r) => r.b.isResidential && r.d < 50);
+    if (nearestResidential) return nearestResidential.b;
+    return ranked[0]?.b ?? null;
   }
 
   function paddedBbox(b: Building, padMeters = 60) {
@@ -431,6 +451,26 @@
     const ctx = await neighborhoodContext([geo.lon, geo.lat]);
     const lgu = await lguPermit(ctx.cityComposite?.city ?? null);
 
+    // Build context warnings. Only warn when the matched footprint is at a
+    // scale that produces unrealistic residential numbers. Building-type
+    // tags alone (e.g. "school" tagged on a small classroom building) over-
+    // warn and confuse users on perfectly fine residential queries.
+    const warnings: { kind: "info" | "warn"; text: string }[] = [];
+    if (building.areaM2 > RESIDENTIAL_AREA_CEILING_M2) {
+      warnings.push({
+        kind: "warn",
+        text: building.isCommercial
+          ? `We matched a <strong>${building.buildingType}</strong> (${Math.round(building.areaM2)} m²) at this address. The numbers below are at THAT building's scale, not a typical home. For your own house, type your specific street name and number.`
+          : `The matched building is unusually large (${Math.round(building.areaM2)} m²). If this isn't your home, try a more specific street and number.`,
+      });
+    }
+    if (!ctx.cityComposite) {
+      warnings.push({
+        kind: "info",
+        text: `Outside Meralco's franchise — neighborhood and LGU permit data won't appear. The roof score and savings estimate still apply (we use the same PH yield baseline).`,
+      });
+    }
+
     status.textContent = "";
     render({
       address: geo.display_name,
@@ -458,12 +498,21 @@
       cases: ctx.nearestCases,
       cityComposite: ctx.cityComposite,
       lgu,
+      warnings,
     });
   }
 
   function render(r: any) {
     const root = document.getElementById("bubong-results")!;
     root.classList.remove("hidden");
+    const warningsHtml = (r.warnings || [])
+      .map((w: any) => {
+        const tone = w.kind === "warn"
+          ? "border-l-4 border-accent-coral bg-accent-coral/5"
+          : "border-l-4 border-accent-steel bg-accent-steel/5";
+        return `<div class="${tone} px-4 py-3 mb-3 text-sm text-ink-700 leading-relaxed">${w.text}</div>`;
+      })
+      .join("");
     const cases = (r.cases || []).map((c: any) => `
       <a href="/map?city=${encodeURIComponent(c.city.toLowerCase().replace(/[^a-z0-9]+/g, "-"))}" class="block group no-underline">
         <div class="aspect-square overflow-hidden bg-ink-300/10">
@@ -475,6 +524,7 @@
     `).join("");
 
     root.innerHTML = `
+      ${warningsHtml}
       <div class="grid gap-6 md:grid-cols-[1.3fr_1fr] mb-8">
         <div class="border border-ink-300/40 bg-white">
           <div class="relative aspect-square overflow-hidden bg-ink-300/10">
