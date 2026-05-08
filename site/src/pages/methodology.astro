@@ -82,7 +82,58 @@ import Base from "../layouts/Base.astro";
       The pipeline is one Python script (<code>pipeline/pipeline.py</code>) plus a validator. Earth Engine auth via service account. Anyone with EE access and the repo can run it and produce the same outputs. The full algorithm, weights, and data files are MIT/CC-BY licensed.
     </p>
 
-    <h2 class="text-xl mt-6 mb-2">Honest limitations</h2>
+    <h2 id="validation" class="text-xl mt-10 mb-2">§07 Ground-truth validation (2026Q2)</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      We hand-checked all <strong>181 hot-spot pins</strong> from the 2026Q2 release against Esri World Imagery (~1-3 year vintage in PH) by inspecting a 240m-wide tile centered on each hot-spot's lat/lon. Labels:
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li><strong>solar</strong>: a clear panel-grid array was visible on a rooftop at the centered location.</li>
+      <li><strong>not_solar</strong>: the rooftop had visibly changed (reroofing, asphalt, construction, paint) but no panel grid was visible.</li>
+      <li><strong>unclear</strong>: ambiguous — could be panels, could be material change.</li>
+      <li><strong>missing</strong>: Esri returned 500 for that lat/lon (12 of 181 hot-spots, mostly remote rural areas outside hi-res coverage).</li>
+    </ul>
+    <figure class="my-6 not-prose">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="border-b-2 border-ink-300">
+            <th class="text-left py-2 font-semibold">Label</th>
+            <th class="text-right py-2 font-semibold tabular-nums">Count</th>
+            <th class="text-right py-2 font-semibold tabular-nums">% of reviewable</th>
+          </tr>
+        </thead>
+        <tbody class="font-mono tabular-nums">
+          <tr class="border-b border-ink-300/40"><td class="py-1.5 text-accent-steel font-semibold not-mono">solar</td><td class="text-right py-1.5">6</td><td class="text-right py-1.5">3.6%</td></tr>
+          <tr class="border-b border-ink-300/40"><td class="py-1.5 not-mono">unclear</td><td class="text-right py-1.5">16</td><td class="text-right py-1.5">9.5%</td></tr>
+          <tr class="border-b border-ink-300/40"><td class="py-1.5 text-accent-coral not-mono">not_solar</td><td class="text-right py-1.5">147</td><td class="text-right py-1.5">87.0%</td></tr>
+          <tr class="border-b-2 border-ink-300"><td class="py-1.5 text-ink-500 not-mono italic">missing imagery</td><td class="text-right py-1.5">12</td><td class="text-right py-1.5">— (excluded)</td></tr>
+          <tr class="font-semibold"><td class="py-1.5 not-mono">total</td><td class="text-right py-1.5">181</td><td class="text-right py-1.5">169 reviewable</td></tr>
+        </tbody>
+      </table>
+      <figcaption class="text-xs text-ink-500 mt-2">tab 01 · ground-truth labels for 2026Q2 hot-spots, single reviewer, 2026-05-08. Full per-hotspot labels at <code>docs/groundtruth/labels.json</code>.</figcaption>
+    </figure>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      <strong>Strict precision (treat unclear as not-solar): 6/169 = 3.6%.</strong>
+      <br/>
+      <strong>Lenient precision (treat unclear as solar): 22/169 = 13.0%.</strong>
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Both numbers are low. Even at the most generous interpretation, fewer than 1 in 5 hot-spots show visible solar panels in the reviewable hi-res imagery.
+    </p>
+    <h3 class="text-lg mt-6 mb-2">What that actually means</h3>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li>The pin layer surfaces <strong>statistically anomalous rooftop change</strong>, not <strong>confirmed solar arrays</strong>. Most pixel-level darkening is reroofing, asphalt resurfacing, paint changes, or atmospheric leftovers from cloud-mask, not solar panels.</li>
+      <li>This is a <strong>lower bound</strong>. Esri PH imagery is typically 1-3 years stale. Solar installs from 2024-2026 may exist on the ground but not yet in our reference imagery, so they get marked "not_solar" in the validation. Real precision is higher than 3.6% but we cannot prove how much higher without fresher imagery.</li>
+      <li>The hot-spot extraction currently uses NIR-only local-anomaly detection. The map-level diff visualization uses the tighter NIR-and-SWIR fingerprint. A v1.1 hot-spot extraction tightened to multi-channel would likely raise precision substantially. Pencilled in.</li>
+      <li>The <strong>city-aggregate composite score</strong> remains usable: individual false positives wash out across hundreds of pixels, and the overall darkening pattern still tracks rooftop turnover (which correlates with solar adoption when zoomed out).</li>
+    </ul>
+    <h3 class="text-lg mt-6 mb-2">How to use ghost-watts honestly</h3>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li>Cite the <strong>composite score per city</strong> as a directional indicator of rooftop change consistent with solar growth. Don't claim per-pin solar locations.</li>
+      <li>Treat hot-spot pins as <strong>"places to investigate"</strong>, not as "places where solar was confirmed."</li>
+      <li>If you need address-level claims, hand-verify each pin against fresh imagery (Mapbox satellite tiles updated more recently than Esri sometimes show panels Esri does not).</li>
+    </ul>
+
+    <h2 class="text-xl mt-10 mb-2">§08 Honest limitations</h2>
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
       <li>10m Sentinel-2 resolution caps inference at city/barangay scale, not roof-level.</li>
       <li>Composite weights are v1 priors, not validated against ground truth.</li>

@@ -34,9 +34,12 @@ const tooltips = {
         <span class="text-right">more</span>
       </div>
       <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">61 cities · source: ghost-watts</div>
-      <div class="flex items-center gap-2 mt-2 pt-2 border-t border-ink-300/30">
-        <span class="inline-block w-3 h-3 rounded-full bg-accent-coral border border-white shadow-sm"></span>
-        <span class="text-[10px] text-ink-500">Coral pins = top rooftop changes since 2022</span>
+      <div class="mt-2 pt-2 border-t border-ink-300/30">
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-3 h-3 rounded-full bg-accent-coral border border-white shadow-sm"></span>
+          <span class="text-[10px] text-ink-500">Pins: rooftop change since 2022</span>
+        </div>
+        <a href="/methodology#validation" class="block text-[10px] text-ink-300 mt-1 hover:text-accent-steel">~3.6% hand-verified solar at hi-res &middot; methodology</a>
       </div>
     </div>
   </div>
@@ -686,14 +689,14 @@ const tooltips = {
                   "interpolate",
                   ["linear"],
                   ["get", "area_m2"],
-                  500, 4,
-                  10000, 8,
-                  80000, 16,
+                  500, 3,
+                  10000, 6,
+                  80000, 12,
                 ],
                 "circle-color": "#d97757",
                 "circle-stroke-color": "#ffffff",
-                "circle-stroke-width": 1.5,
-                "circle-opacity": 0.9,
+                "circle-stroke-width": 1.2,
+                "circle-opacity": 0.7,
               },
             });
 
@@ -719,6 +722,7 @@ const tooltips = {
                      <div class="text-ink-900 font-semibold mb-1">${p.city}</div>
                      <div class="text-ink-700">${ha} ha rooftop change</div>
                      <div class="text-ink-500">~${Math.round(kwp).toLocaleString()} kWp equiv if all solar</div>
+                     <div class="text-[10px] text-ink-300 mt-1 italic">change, not confirmed solar (3.6% hi-res)</div>
                    </div>`
                 )
                 .addTo(map);

@@ -49,6 +49,9 @@ credentials
 .DS_Store
 Thumbs.db
 
+# Ground-truth tile cache (regeneratable via fetch_groundtruth.py)
+docs/groundtruth/tiles/
+
 # IDE
 .vscode/
 .idea/
