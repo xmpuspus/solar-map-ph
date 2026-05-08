@@ -124,13 +124,13 @@ const tooltips = {
           <figcaption class="text-xs text-ink-500 mt-2 leading-relaxed">Sentinel-2 RGB median, Q2 2026. Look closely at the same neighborhood between the two panels.</figcaption>
         </figure>
         <figure class="bg-paper p-4">
-          <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">what changed · NIR diff</p>
+          <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">solar fingerprint · NIR ∧ SWIR drop</p>
           <div class="relative aspect-square bg-ink-300/10 overflow-hidden">
-            <img id="imagery-diff" class="absolute inset-0 w-full h-full object-contain" alt="NIR difference 2022 to 2026" />
+            <img id="imagery-diff" class="absolute inset-0 w-full h-full object-contain" alt="Pixels matching solar spectral fingerprint" />
             <div id="imagery-diff-loading" class="absolute inset-0 flex items-center justify-center text-xs text-ink-300 font-mono">loading...</div>
           </div>
           <figcaption class="text-xs text-ink-500 mt-2 leading-relaxed">
-            <strong class="text-accent-coral">Red pixels darkened</strong> in near-infrared since 2022. Solar panels darken NIR. Masked to rooftops and pavement only.
+            <strong class="text-accent-coral">Red pixels</strong> darkened in BOTH near-infrared <em>and</em> short-wave infrared since 2022, masked to built-up area. Solar panels do both because of the silicon spectral response. Reroofing, paint, and shadows usually don't trip both bands. Suggestive, not proof.
           </figcaption>
         </figure>
       </div>

@@ -42,11 +42,12 @@ QUARTER_TO_MONTHS = {
 
 # Visualization parameters
 RGB_VIS = {"min": 0, "max": 3000, "bands": ["B4", "B3", "B2"], "gamma": 1.4}
-DIFF_VIS = {
-    "min": -1500,
-    "max": 0,
-    "palette": ["#7a1810", "#b13a1c", "#d97757", "#f3d6cd", "#ffffff"],
-}
+# Multi-channel solar fingerprint: pixels where NIR AND SWIR both dropped
+# significantly. NIR-only is too permissive (catches reroofing, paint, shadows).
+# AND-ing with SWIR enforces a silicon-style spectral signature.
+SOLAR_FINGERPRINT_NIR_DROP = -250
+SOLAR_FINGERPRINT_SWIR_DROP = -250
+FINGERPRINT_PALETTE = ["#ffffff", "#d97757"]
 THUMB_DIM = 600
 
 # Hot-spot extraction.
@@ -71,6 +72,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--limit", type=int, help="Process at most N cities (for testing)")
     p.add_argument("--skip-imagery", action="store_true", help="Skip image export, just hot spots")
     p.add_argument("--skip-hotspots", action="store_true", help="Skip hot-spot extraction")
+    p.add_argument("--diff-only", action="store_true", help="Only regenerate diff PNGs (skip baseline+current RGB)")
     return p.parse_args()
 
 
@@ -154,13 +156,17 @@ def export_city_imagery(
     s2_baseline = median_s2(baseline_start, baseline_end, geom)
     s2_current = median_s2(quarter_start, quarter_end, geom)
 
-    # Built-up mask to focus the diff on rooftops/pavement
     worldcover = ee.ImageCollection("ESA/WorldCover/v200").first()
     built_mask = worldcover.eq(50).clip(geom)
 
-    nir_diff = (
-        s2_current.select("B8")
-        .subtract(s2_baseline.select("B8"))
+    nir_diff = s2_current.select("B8").subtract(s2_baseline.select("B8"))
+    swir_diff = s2_current.select("B11").subtract(s2_baseline.select("B11"))
+    # Solar fingerprint: BOTH NIR and SWIR dropped meaningfully, on built-up area.
+    # Single-channel NIR drop catches reroofing, paint, shadows; AND-ing with
+    # SWIR drop enforces a silicon-style spectral response.
+    fingerprint = (
+        nir_diff.lt(SOLAR_FINGERPRINT_NIR_DROP)
+        .And(swir_diff.lt(SOLAR_FINGERPRINT_SWIR_DROP))
         .updateMask(built_mask)
     )
 
@@ -171,27 +177,37 @@ def export_city_imagery(
     }
     results: dict[str, bool] = {}
 
-    try:
-        url_baseline = s2_baseline.clip(geom).getThumbURL(
-            {**RGB_VIS, "region": geom, "dimensions": THUMB_DIM, "format": "jpg"}
-        )
-        results["baseline"] = download(url_baseline, out["baseline"])
-    except Exception as exc:
-        print(f"    baseline failed: {exc}", file=sys.stderr)
-        results["baseline"] = False
+    if not getattr(export_city_imagery, "_diff_only", False):
+        try:
+            url_baseline = s2_baseline.clip(geom).getThumbURL(
+                {**RGB_VIS, "region": geom, "dimensions": THUMB_DIM, "format": "jpg"}
+            )
+            results["baseline"] = download(url_baseline, out["baseline"])
+        except Exception as exc:
+            print(f"    baseline failed: {exc}", file=sys.stderr)
+            results["baseline"] = False
+
+        try:
+            url_current = s2_current.clip(geom).getThumbURL(
+                {**RGB_VIS, "region": geom, "dimensions": THUMB_DIM, "format": "jpg"}
+            )
+            results["current"] = download(url_current, out["current"])
+        except Exception as exc:
+            print(f"    current failed: {exc}", file=sys.stderr)
+            results["current"] = False
+    else:
+        results["baseline"] = out["baseline"].exists()
+        results["current"] = out["current"].exists()
 
     try:
-        url_current = s2_current.clip(geom).getThumbURL(
-            {**RGB_VIS, "region": geom, "dimensions": THUMB_DIM, "format": "jpg"}
-        )
-        results["current"] = download(url_current, out["current"])
-    except Exception as exc:
-        print(f"    current failed: {exc}", file=sys.stderr)
-        results["current"] = False
-
-    try:
-        url_diff = nir_diff.getThumbURL(
-            {**DIFF_VIS, "region": geom, "dimensions": THUMB_DIM, "format": "png"}
+        url_diff = fingerprint.getThumbURL(
+            {
+                "min": 0, "max": 1,
+                "palette": FINGERPRINT_PALETTE,
+                "region": geom,
+                "dimensions": THUMB_DIM,
+                "format": "png",
+            }
         )
         results["diff"] = download(url_diff, out["diff"])
     except Exception as exc:
@@ -325,6 +341,7 @@ def main() -> int:
             continue
 
         if not args.skip_imagery:
+            export_city_imagery._diff_only = args.diff_only  # type: ignore[attr-defined]
             results = export_city_imagery(psgc, geom, quarter_start, quarter_end, baseline_year)
             if not all(results.values()):
                 failed_imagery.append(name)
