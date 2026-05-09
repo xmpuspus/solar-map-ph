@@ -1,0 +1,20 @@
+# Skip large directories that don't affect the deterministic hash.
+detection/scan/ncr_tiles/
+detection/bootstrap/tiles/
+detection/scan/per_tile_segments.jsonl
+detection/scan/ncr_scan_results*.jsonl
+detection/train/_baselines/
+detection/train/v4_calibrated/ablation/
+detection/verify/sheets/
+detection/verify/v3_new_sheets/
+docs/groundtruth/tiles/
+site/node_modules/
+site/dist/
+site/.astro/
+site/public/case_studies/
+.git/
+node_modules/
+tmp/
+__pycache__/
+*.pyc
+.DS_Store

@@ -16,16 +16,34 @@
 <form id="bubong-form" class="max-w-2xl mx-auto px-6 grid gap-4">
   <div class="grid gap-2">
     <label class="text-sm text-ink-700" for="bubong-address">Your address (anywhere in Meralco's franchise)</label>
-    <input
-      id="bubong-address"
-      name="address"
-      type="text"
-      required
-      placeholder="e.g. Tomas Morato, Quezon City  /  BGC, Taguig  /  Antipolo Vista"
-      class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
-      autocomplete="off"
-    />
-    <p class="text-xs text-ink-500">We'll find your building from OpenStreetMap, measure your roof from satellite, and run the math. Nothing about your address is stored.</p>
+    <div class="relative">
+      <input
+        id="bubong-address"
+        name="address"
+        type="text"
+        required
+        placeholder="Start typing — pick from the list, or use a sample below"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
+        autocomplete="off"
+        aria-autocomplete="list"
+        aria-controls="bubong-address-suggest"
+        aria-expanded="false"
+      />
+      <ul
+        id="bubong-address-suggest"
+        role="listbox"
+        class="hidden absolute z-30 left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-white border border-ink-300 rounded-md shadow-lg"
+      ></ul>
+    </div>
+    <div class="flex flex-wrap items-baseline gap-1.5 text-xs">
+      <span class="text-ink-500">Try:</span>
+      <button type="button" data-fill="SM Megamall, Mandaluyong" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">SM Megamall</button>
+      <button type="button" data-fill="Tomas Morato, Quezon City" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">Tomas Morato, QC</button>
+      <button type="button" data-fill="BGC, Taguig" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">BGC</button>
+      <button type="button" data-fill="Antipolo, Rizal" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">Antipolo</button>
+      <button type="button" data-fill="Bacoor, Cavite" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">Bacoor</button>
+    </div>
+    <p class="text-xs text-ink-500">We'll tell you whether you can install solar on your roof, what it would save you, and what your block's grid saturation means for approval. Address is not stored.</p>
   </div>
   <div class="grid gap-2 md:grid-cols-2">
     <div class="grid gap-2">
@@ -58,7 +76,7 @@
     </div>
   </div>
   <div class="flex items-center justify-between">
-    <button type="submit" class="btn">Score my roof &rarr;</button>
+    <button type="submit" class="btn">Can I install solar? &rarr;</button>
     <span id="bubong-status" class="text-xs text-ink-500"></span>
   </div>
 </form>
@@ -106,29 +124,53 @@
     "6": [380, 700],
   };
 
-  async function geocode(q: string): Promise<LatLon | null> {
-    // Photon (Komoot) primary: more permissive than Nominatim, CORS-clean.
-    // OSM-backed so coverage in PH is the same.
+  // Photon's lat/lon proximity bias weights NCR results higher even for ambiguous
+  // strings (e.g., "Madison Park" no longer prefers a US suburb).
+  const PHOTON_BIAS_LAT = 14.6;
+  const PHOTON_BIAS_LON = 121.0;
+
+  async function photonSearch(q: string, limit = 8): Promise<any[]> {
+    const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=${limit}&lang=en&lat=${PHOTON_BIAS_LAT}&lon=${PHOTON_BIAS_LON}`;
     try {
-      const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(q + " Philippines")}&limit=5&lang=en`;
       const r = await fetch(url);
-      if (r.ok) {
-        const data = await r.json();
-        const phFeatures = (data.features || []).filter(
-          (f: any) => f.properties?.countrycode === "PH"
-        );
-        const f = phFeatures[0];
-        if (f?.geometry?.coordinates) {
-          const [lon, lat] = f.geometry.coordinates;
-          const p = f.properties;
-          const parts = [p.name, p.city, p.state, p.country].filter(Boolean);
-          return { lat, lon, display_name: parts.join(", ") };
-        }
-      }
+      if (!r.ok) return [];
+      const d = await r.json();
+      return (d.features || []).filter((f: any) =>
+        f.properties?.countrycode === "PH" || f.properties?.country === "Philippines"
+      );
     } catch {
-      // fall through to Nominatim
+      return [];
     }
-    // Fallback: Nominatim (may be rate-limited)
+  }
+
+  function photonFeatureToLabel(f: any): { label: string; sub: string; lat: number; lon: number } {
+    const [lon, lat] = f.geometry.coordinates;
+    const p = f.properties || {};
+    const labelParts = [p.name, p.street, p.housenumber].filter(Boolean);
+    const subParts = [p.locality, p.district, p.city, p.county, p.state].filter(Boolean);
+    return {
+      label: labelParts.join(" ") || subParts[0] || "",
+      sub: Array.from(new Set(subParts)).slice(0, 3).join(", "),
+      lat, lon,
+    };
+  }
+
+  async function geocode(q: string): Promise<LatLon | null> {
+    // Try a few query variants to catch the case where users type "BGC, Taguig"
+    // (Photon may not match the abbreviation) or addresses where the literal
+    // string isn't tagged but the locality is.
+    const tries = [q, q + ", Philippines"];
+    for (const variant of tries) {
+      const features = await photonSearch(variant, 5);
+      const f = features[0];
+      if (f?.geometry?.coordinates) {
+        const [lon, lat] = f.geometry.coordinates;
+        const p = f.properties || {};
+        const parts = [p.name, p.city || p.locality, p.state, p.country].filter(Boolean);
+        return { lat, lon, display_name: parts.join(", ") };
+      }
+    }
+    // Fallback: Nominatim
     try {
       const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&countrycodes=ph&limit=1&accept-language=en`;
       const r = await fetch(url);
@@ -225,15 +267,25 @@
   }
 
   function paddedBbox(b: Building, padMeters = 60) {
-    // ~111,000 m per degree latitude; longitude scaled by cos(lat)
-    const padLat = padMeters / 111000;
+    // Square the bbox in real meters before requesting from Esri. A non-square
+    // bbox at size=600,600 (which we always request) makes Esri return a blank
+    // / zoomed-out tile for some buildings — that was the broken-image bug.
+    // Always pad to at least 60 m half-width so a small house gets a usable
+    // ~120 m view; for big buildings the half-width grows with the longest
+    // building axis + padMeters.
     const cLat = (b.bboxM.minLat + b.bboxM.maxLat) / 2;
-    const padLon = padMeters / (111000 * Math.cos((cLat * Math.PI) / 180));
+    const cLon = (b.bboxM.minLon + b.bboxM.maxLon) / 2;
+    const lonScale = 111000 * Math.cos((cLat * Math.PI) / 180);
+    const halfLonM = ((b.bboxM.maxLon - b.bboxM.minLon) * lonScale) / 2;
+    const halfLatM = ((b.bboxM.maxLat - b.bboxM.minLat) * 111000) / 2;
+    const halfM = Math.max(60, Math.max(halfLonM, halfLatM) + padMeters);
+    const halfLat = halfM / 111000;
+    const halfLon = halfM / lonScale;
     return {
-      minLon: b.bboxM.minLon - padLon,
-      maxLon: b.bboxM.maxLon + padLon,
-      minLat: b.bboxM.minLat - padLat,
-      maxLat: b.bboxM.maxLat + padLat,
+      minLon: cLon - halfLon,
+      maxLon: cLon + halfLon,
+      minLat: cLat - halfLat,
+      maxLat: cLat + halfLat,
     };
   }
 
@@ -330,11 +382,123 @@
   }
 
   type CaseStudy = { id: string; city: string; province: string; lat: number; lon: number; area_m2: number; kwp_equiv: number; image_path: string; note: string };
+  type Detection = { lat: number; lon: number; score: number; tier: "high" | "candidate"; tile_id: string; distanceKm: number };
+  type SaturationCell = {
+    cellLat: number;
+    cellLon: number;
+    nPanelsHigh: number;
+    nPanelsCandidate: number;
+    nBuildingsSolar: number;
+    sumKwpInstalled: number;
+    tier: "early" | "growing" | "saturated";
+  };
+
+  type VerdictKind =
+    | "yes-pioneer"
+    | "yes-normal"
+    | "yes-saturated"
+    | "already-has"
+    | "too-small"
+    | "commercial"
+    | "outside-franchise";
+  type VerdictTone = "go" | "caution" | "stop" | "info";
+  type VerdictBullet = { kind: "size" | "money" | "neighborhood" | "alert"; text: string };
+  type Verdict = {
+    kind: VerdictKind;
+    tone: VerdictTone;
+    headline: string;
+    subhead: string;
+    bullets: VerdictBullet[];
+    nextSteps: { label: string; href: string }[];
+  };
+  type PerBuildingDetection = {
+    osmId: number;
+    panelAreaM2: number;
+    kwpEstimate: number;
+    confidence: number;
+    tile_id: string;
+    panelPolygon: number[][];
+  };
+
+  async function nearbyDetections(point: [number, number], radiusKm = 1.5): Promise<Detection[]> {
+    const fc = await loadJson("/data/rooftop_solar_ncr.geojson");
+    if (!fc?.features) return [];
+    const out: Detection[] = [];
+    for (const f of fc.features) {
+      const [lon, lat] = f.geometry.coordinates;
+      const d = distance(
+        { type: "Point", coordinates: point } as any,
+        { type: "Point", coordinates: [lon, lat] } as any,
+        { units: "kilometers" } as any
+      );
+      if (d > radiusKm) continue;
+      const props = f.properties ?? {};
+      const score = typeof props.score === "number" ? props.score : 0;
+      const tier = props.tier === "high" ? "high" : "candidate";
+      out.push({ lat, lon, score, tier, tile_id: props.tile_id ?? "", distanceKm: d });
+    }
+    out.sort((a, b) => {
+      if (a.tier !== b.tier) return a.tier === "high" ? -1 : 1;
+      return a.distanceKm - b.distanceKm;
+    });
+    return out;
+  }
+
+  async function saturationCellAt(lon: number, lat: number): Promise<SaturationCell | null> {
+    const fc = await loadJson("/data/solar_saturation_ncr.geojson");
+    if (!fc?.features) return null;
+    const pt = { type: "Point", coordinates: [lon, lat] } as any;
+    for (const f of fc.features) {
+      if (booleanPointInPolygon(pt, f as any)) {
+        const p = f.properties ?? {};
+        return {
+          cellLat: p.cell_lat,
+          cellLon: p.cell_lon,
+          nPanelsHigh: p.n_panels_high ?? 0,
+          nPanelsCandidate: p.n_panels_candidate ?? 0,
+          nBuildingsSolar: p.n_buildings_solar ?? 0,
+          sumKwpInstalled: p.sum_kwp_installed ?? 0,
+          tier: p.tier ?? "early",
+        };
+      }
+    }
+    return null;
+  }
+
+  async function perBuildingDetectionsByOsmId(): Promise<Map<number, PerBuildingDetection[]>> {
+    const fc = await loadJson("/data/per_building_solar_ncr.geojson");
+    const out = new Map<number, PerBuildingDetection[]>();
+    if (!fc?.features) return out;
+    for (const f of fc.features) {
+      const p = f.properties ?? {};
+      const osmId = typeof p.building_osm_id === "number" ? p.building_osm_id : null;
+      if (osmId === null) continue;
+      const polygon = (f.geometry?.coordinates && f.geometry.coordinates[0]) || [];
+      const rec: PerBuildingDetection = {
+        osmId,
+        panelAreaM2: typeof p.panel_area_m2 === "number" ? p.panel_area_m2 : 0,
+        kwpEstimate: typeof p.kwp_estimate === "number" ? p.kwp_estimate : 0,
+        confidence: typeof p.confidence === "number" ? p.confidence : 0,
+        tile_id: p.tile_id ?? "",
+        panelPolygon: polygon,
+      };
+      const list = out.get(osmId);
+      if (list) {
+        list.push(rec);
+      } else {
+        out.set(osmId, [rec]);
+      }
+    }
+    return out;
+  }
 
   async function neighborhoodContext(point: [number, number]) {
-    const [caseDoc, manifest] = await Promise.all([
+    const [caseDoc, manifest, detections, perBuildingMap, saturation] = await Promise.all([
       loadJson("/data/case_studies.json"),
       loadJson("/data/manifest.json"),
+      nearbyDetections(point, 1.5),
+      perBuildingDetectionsByOsmId(),
+      saturationCellAt(point[0], point[1]),
     ]);
     const cases: CaseStudy[] = caseDoc?.cases ?? [];
     const enriched = cases.map((c) => ({
@@ -368,7 +532,7 @@
         }
       }
     }
-    return { nearestCases: enriched.slice(0, 3), cityComposite };
+    return { nearestCases: enriched.slice(0, 3), cityComposite, detections, perBuildingMap, saturation };
   }
 
   async function lguPermit(cityName: string | null) {
@@ -393,12 +557,176 @@
     return Math.max(widthM, heightM) / Math.max(0.1, Math.min(widthM, heightM));
   }
 
+  // Decision tree for the headline verdict. Order matters: earlier checks
+  // dominate later ones (e.g., "already has solar" wins over saturation tier).
+  function computeVerdict(args: {
+    building: Building;
+    usableRoofM2: number;
+    kwp: number;
+    annualSavings: number;
+    payback: number;
+    detectedSolar: any | null;
+    saturation: SaturationCell | null;
+    cityComposite: any | null;
+  }): Verdict {
+    const { building, usableRoofM2, kwp, annualSavings, payback, detectedSolar, saturation, cityComposite } = args;
+
+    const fmtPhp = (n: number) => "₱" + Math.round(n).toLocaleString();
+    const fmtKwp = (n: number) => n.toFixed(1) + " kWp";
+    const fmtYrs = (n: number) => Number.isFinite(n) ? n.toFixed(1) + " years" : "n/a";
+
+    // Roof area thresholds: below 25 m² usable, residential solar doesn't pay back;
+    // above 500 m² building area, you're outside homeowner solar territory and need
+    // a commercial developer (net metering caps at 100 kW).
+    const RES_AREA_FLOOR_M2 = 25;
+    const RES_AREA_CEILING_M2 = 500;
+
+    // 1) Already has solar — the highest-priority case. Don't quote NEW-install savings.
+    if (detectedSolar && detectedSolar.n > 0) {
+      return {
+        kind: "already-has",
+        tone: "info",
+        headline: "Heads up — this building already has solar.",
+        subhead: `Our satellite scan found ${detectedSolar.n} panel polygon${detectedSolar.n > 1 ? "s" : ""} on this OSM building, totaling roughly ${fmtKwp(detectedSolar.kwp)} installed. Top match confidence ${(detectedSolar.confidence * 100).toFixed(0)}%.`,
+        bullets: [
+          { kind: "size", text: `If this is your home, the savings estimate below is for a NEW install — not your current bill.` },
+          { kind: "alert", text: `If this isn't yours, the satellite may be looking at a neighbor; OSM building outlines aren't always precise.` },
+          { kind: "money", text: `Either way: register with Meralco's Net Metering Program if you haven't, otherwise surplus generation is wasted.` },
+        ],
+        nextSteps: [
+          { label: "Why registration matters", href: "/safety#reg" },
+        ],
+      };
+    }
+
+    // 2) Building too large = commercial scale. Different math, different financing.
+    if (building.areaM2 > RES_AREA_CEILING_M2) {
+      return {
+        kind: "commercial",
+        tone: "info",
+        headline: "This is a commercial-scale building.",
+        subhead: `At ${Math.round(building.areaM2)} m², you're outside homeowner solar territory. You'd need a commercial solar developer, not a residential installer.`,
+        bullets: [
+          { kind: "size", text: `Maximum system would be ~${fmtKwp(kwp)} — that's PPA territory, not net metering.` },
+          { kind: "money", text: `Net metering caps at 100 kW. Above that you'd need a Power Purchase Agreement and DOE Renewable Energy registration.` },
+          { kind: "alert", text: `Above 1 MW you'd also need an ERC interconnection study. Talk to a commercial developer.` },
+        ],
+        nextSteps: [
+          { label: "Read the safety primer", href: "/safety" },
+        ],
+      };
+    }
+
+    // 3) Roof too small — be honest, don't sell solar that won't pay back.
+    if (usableRoofM2 < RES_AREA_FLOOR_M2) {
+      return {
+        kind: "too-small",
+        tone: "stop",
+        headline: "Probably not — this roof is too small for solar to pay back.",
+        subhead: `Only ${Math.round(usableRoofM2)} m² of usable roof. Below ~25 m², the inverter cost alone makes the math hard.`,
+        bullets: [
+          { kind: "size", text: `Maximum system: ${fmtKwp(kwp)} (a typical PH home is 3–8 kWp).` },
+          { kind: "money", text: `Best case: about ${fmtPhp(annualSavings)}/year saved, payback ${fmtYrs(payback)}.` },
+          { kind: "alert", text: `Energy-efficient appliances or a small battery for outage backup may have better ROI for you.` },
+        ],
+        nextSteps: [
+          { label: "Try another address" , href: "#bubong-form" },
+        ],
+      };
+    }
+
+    // 4) Outside Meralco franchise — solar still works but rules differ.
+    if (!cityComposite) {
+      return {
+        kind: "outside-franchise",
+        tone: "go",
+        headline: `Yes — but you're outside Meralco's franchise.`,
+        subhead: `Solar still works at this address. The rules belong to your local electric cooperative, not Meralco. Net-metering process and rates differ.`,
+        bullets: [
+          { kind: "size", text: `Roof can fit a ${fmtKwp(kwp)} system on ${Math.round(usableRoofM2)} m² of usable roof.` },
+          { kind: "money", text: `At Meralco-equivalent rates: ~${fmtPhp(annualSavings)}/year saved, payback ${fmtYrs(payback)}. Local rates are likely lower; payback may take longer.` },
+          { kind: "neighborhood", text: `Confirm net-metering rules with your local coop before signing with an installer.` },
+        ],
+        nextSteps: [
+          { label: "Safe installation checklist", href: "/safety#checklist" },
+        ],
+      };
+    }
+
+    // 5–7) Tier-based variants for franchise-area roofs that pass the size gate.
+    const tier = saturation?.tier ?? "early";
+    const moneyText = `Save ~${fmtPhp(annualSavings)}/year, payback in ${fmtYrs(payback)} (${fmtKwp(kwp)} system).`;
+    const sizeText = `${Math.round(usableRoofM2)} m² of usable roof, fits ${fmtKwp(kwp)}.`;
+
+    if (tier === "saturated") {
+      const nHigh = saturation?.nPanelsHigh ?? 0;
+      const sumKwp = saturation?.sumKwpInstalled ?? 0;
+      return {
+        kind: "yes-saturated",
+        tone: "caution",
+        headline: "Yes — but request a hosting-capacity check before you size the system.",
+        subhead: `Your block is solar-dense. Without a hosting-capacity check, your installer might oversize and your application could be downsized or delayed by Meralco engineering review.`,
+        bullets: [
+          { kind: "neighborhood", text: `${nHigh} confirmed install${nHigh === 1 ? "" : "s"} and ~${Math.round(sumKwp)} kWp already within 300m of you.` },
+          { kind: "size", text: sizeText },
+          { kind: "money", text: moneyText + " Skip the check, and the system you actually get approved may be smaller than this." },
+        ],
+        nextSteps: [
+          { label: "Why this matters", href: "/safety#why" },
+          { label: "Safe installation checklist", href: "/safety#checklist" },
+        ],
+      };
+    }
+
+    if (tier === "growing") {
+      const nHigh = saturation?.nPanelsHigh ?? 0;
+      const sumKwp = saturation?.sumKwpInstalled ?? 0;
+      return {
+        kind: "yes-normal",
+        tone: "go",
+        headline: `Yes. About ${fmtPhp(annualSavings)}/year saved, payback in ${fmtYrs(payback)}.`,
+        subhead: `Your block is in the growing-adoption zone. Engineering review will look closely at your inverter datasheet and net-metering paperwork, but approval is normal.`,
+        bullets: [
+          { kind: "size", text: sizeText },
+          { kind: "money", text: moneyText },
+          { kind: "neighborhood", text: `${nHigh} confirmed install${nHigh === 1 ? "" : "s"} in 300m and ~${Math.round(sumKwp)} kWp installed. You'll be one of several reviewed this quarter.` },
+        ],
+        nextSteps: [
+          { label: "Safe installation checklist", href: "/safety#checklist" },
+        ],
+      };
+    }
+
+    // early / pioneer
+    const nHigh = saturation?.nPanelsHigh ?? 0;
+    return {
+      kind: "yes-pioneer",
+      tone: "go",
+      headline: `Yes — and you'd be one of the first in your block.`,
+      subhead: `About ${fmtPhp(annualSavings)}/year saved, payback in ${fmtYrs(payback)}. Plenty of headroom on the local distribution transformer; approval should be straightforward.`,
+      bullets: [
+        { kind: "size", text: sizeText },
+        { kind: "money", text: moneyText },
+        { kind: "neighborhood", text: nHigh === 0 ? "No confirmed solar installs visible within 300m of you. You'd be a pioneer." : `Only ${nHigh} confirmed install${nHigh === 1 ? "" : "s"} within 300m. You'd be among the first.` },
+      ],
+      nextSteps: [
+        { label: "Safe installation checklist", href: "/safety#checklist" },
+      ],
+    };
+  }
+
   async function run(opts: { address: string; bill: number; residents: string }) {
     const status = document.getElementById("bubong-status")!;
     status.textContent = "Geocoding...";
-    const geo = await geocode(opts.address);
+    // If the user picked from autocomplete, use that lat/lon directly.
+    let geo: LatLon | null;
+    if (acPicked) {
+      geo = { lat: acPicked.lat, lon: acPicked.lon, display_name: addrInput.value };
+    } else {
+      geo = await geocode(opts.address);
+    }
     if (!geo) {
-      status.textContent = "Couldn't find that address. Try adding the city or barangay name.";
+      status.textContent = "Couldn't find that address. Try a chip below the field, or type a nearby landmark and pick from the dropdown.";
       return;
     }
     status.textContent = "Looking for your building from OpenStreetMap...";
@@ -422,6 +750,9 @@
     const bbox = paddedBbox(building, 50);
     const sizePx = 600;
     const imgUrl = esriExportUrl(bbox, sizePx);
+    // Fallback: wider zoom (more padding) — different Esri cache region, often
+    // succeeds when the tighter bbox returns blank.
+    const imgUrlFallback = esriExportUrl(paddedBbox(building, 200), sizePx);
     const polygonPath = projectToImage(building.coords, bbox, sizePx);
 
     status.textContent = "Running solar math...";
@@ -451,6 +782,26 @@
     const ctx = await neighborhoodContext([geo.lon, geo.lat]);
     const lgu = await lguPermit(ctx.cityComposite?.city ?? null);
 
+    // Per-building solar match: did our v2.1 panel-segmentation pipeline place
+    // a panel polygon on THIS building?
+    const buildingPanels = ctx.perBuildingMap.get(building.osmId) ?? [];
+    const totalPanelM2 = buildingPanels.reduce((s, p) => s + p.panelAreaM2, 0);
+    const totalKwpDetected = buildingPanels.reduce((s, p) => s + p.kwpEstimate, 0);
+    const maxConf = buildingPanels.reduce((m, p) => Math.max(m, p.confidence), 0);
+    const detectedSolar = buildingPanels.length > 0
+      ? {
+          n: buildingPanels.length,
+          panelAreaM2: totalPanelM2,
+          kwp: totalKwpDetected,
+          confidence: maxConf,
+          tileId: buildingPanels[0]?.tile_id ?? "",
+          // Center the thumbnail on the building, not on the panel polygon corner.
+          // building.center is the OSM polygon centroid (turf.centroid).
+          tileLat: building.center[1],
+          tileLon: building.center[0],
+        }
+      : null;
+
     // Build context warnings. Only warn when the matched footprint is at a
     // scale that produces unrealistic residential numbers. Building-type
     // tags alone (e.g. "school" tagged on a small classroom building) over-
@@ -471,6 +822,22 @@
       });
     }
 
+    // Compute the headline verdict: a binary "can I install solar here?" answer
+    // grounded in roof size, neighborhood saturation, existing detected solar,
+    // building scale, and franchise status. The verdict folds these signals
+    // into one decisive answer so the user doesn't have to integrate a roof
+    // score, a saturation tier, and a payback number on their own.
+    const verdict = computeVerdict({
+      building,
+      usableRoofM2,
+      kwp,
+      annualSavings,
+      payback,
+      detectedSolar,
+      saturation: ctx.saturation,
+      cityComposite: ctx.cityComposite,
+    });
+
     status.textContent = "";
     render({
       address: geo.display_name,
@@ -478,6 +845,7 @@
       lon: geo.lon,
       building,
       imgUrl,
+      imgUrlFallback,
       polygonPath,
       sizePx,
       score: score.score,
@@ -496,10 +864,28 @@
       peerHigh,
       userPercentile,
       cases: ctx.nearestCases,
+      detections: ctx.detections,
       cityComposite: ctx.cityComposite,
       lgu,
       warnings,
+      detectedSolar,
+      saturation: ctx.saturation,
+      verdict,
     });
+  }
+
+  function esriThumbUrl(lat: number, lon: number, sizePx = 300): string {
+    const half = 0.0011; // ~120m at lat 14.6 -> ~240m view, matches the scan tile
+    const bbox = `${lon - half},${lat - half},${lon + half},${lat + half}`;
+    const params = new URLSearchParams({
+      bbox,
+      bboxSR: "4326",
+      size: `${sizePx},${sizePx}`,
+      imageSR: "3857",
+      format: "jpg",
+      f: "image",
+    });
+    return `https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export?${params}`;
   }
 
   function render(r: any) {
@@ -523,12 +909,70 @@
       </a>
     `).join("");
 
+    // Hero verdict — first thing the user sees. Replaces score-first framing.
+    const v = r.verdict as Verdict;
+    const verdictToneClass: Record<VerdictTone, string> = {
+      go: "border-green-500 bg-green-50",
+      caution: "border-amber-500 bg-amber-50",
+      stop: "border-red-500 bg-red-50",
+      info: "border-accent-steel bg-accent-steel/5",
+    };
+    const verdictHeadlineClass: Record<VerdictTone, string> = {
+      go: "text-green-900",
+      caution: "text-amber-900",
+      stop: "text-red-900",
+      info: "text-ink-900",
+    };
+    const verdictBulletIcon: Record<VerdictBullet["kind"], string> = {
+      size: "roof",
+      money: "₱",
+      neighborhood: "block",
+      alert: "!",
+    };
+    const verdictHtml = `
+      <div class="border-l-4 ${verdictToneClass[v.tone]} px-6 py-6 mb-6">
+        <p class="text-xs uppercase tracking-[0.2em] font-mono opacity-60 mb-2 ${verdictHeadlineClass[v.tone]}">verdict</p>
+        <h2 class="text-2xl md:text-3xl leading-tight font-semibold mb-3 ${verdictHeadlineClass[v.tone]}">${v.headline}</h2>
+        <p class="text-base text-ink-700 leading-relaxed mb-4">${v.subhead}</p>
+        <ul class="grid gap-2 mb-4">
+          ${v.bullets.map((b) => `
+            <li class="flex items-start gap-3 text-sm text-ink-700 leading-snug">
+              <span class="inline-flex items-center justify-center min-w-[3.25rem] h-6 px-2 text-[10px] font-mono uppercase tracking-wider bg-ink-900 text-white">${verdictBulletIcon[b.kind]}</span>
+              <span>${b.text}</span>
+            </li>
+          `).join("")}
+        </ul>
+        ${v.nextSteps.length > 0 ? `
+          <div class="flex flex-wrap gap-3 pt-2 border-t border-ink-300/30">
+            ${v.nextSteps.map((s) => `
+              <a href="${s.href}" class="text-xs font-mono uppercase tracking-wider no-underline ${verdictHeadlineClass[v.tone]} hover:underline underline-offset-4">${s.label} &rarr;</a>
+            `).join("")}
+          </div>
+        ` : ""}
+      </div>`;
+
+    // Below-the-verdict saturation strip: just the granular 300m stats, since
+    // the verdict already delivered the interpretation.
+    const sat = r.saturation as SaturationCell | null;
+    const saturationHtml = sat
+      ? `
+      <div class="bg-paper-alt border border-ink-300/40 px-4 py-3 mb-4 flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm">
+        <span class="text-xs uppercase tracking-wider font-mono text-ink-500">300m around your address</span>
+        <span class="font-mono tabular-nums text-ink-900"><strong>${sat.nPanelsHigh}</strong> confirmed installs</span>
+        <span class="font-mono tabular-nums text-ink-700">${sat.nPanelsCandidate} candidate signals</span>
+        <span class="font-mono tabular-nums text-ink-700">${sat.sumKwpInstalled.toFixed(0)} kWp installed</span>
+        <a href="/safety" class="text-xs font-mono uppercase tracking-wider no-underline text-accent-steel hover:underline ml-auto">how we measure &rarr;</a>
+      </div>`
+      : "";
+
     root.innerHTML = `
+      ${verdictHtml}
+      ${saturationHtml}
       ${warningsHtml}
       <div class="grid gap-6 md:grid-cols-[1.3fr_1fr] mb-8">
         <div class="border border-ink-300/40 bg-white">
           <div class="relative aspect-square overflow-hidden bg-ink-300/10">
-            <img src="${r.imgUrl}" alt="Hi-res satellite view of your roof" class="absolute inset-0 w-full h-full object-cover" />
+            <img src="${r.imgUrl}" alt="Hi-res satellite view of your roof" class="absolute inset-0 w-full h-full object-cover" loading="eager" onerror="this.onerror=null;this.src='${r.imgUrlFallback || r.imgUrl}';this.classList.add('opacity-90')" />
             <svg viewBox="0 0 ${r.sizePx} ${r.sizePx}" preserveAspectRatio="none" class="absolute inset-0 w-full h-full pointer-events-none">
               <path d="${r.polygonPath}" fill="none" stroke="#d97757" stroke-width="3" stroke-linejoin="round" />
               <path d="${r.polygonPath}" fill="#d97757" fill-opacity="0.15" />
@@ -563,6 +1007,19 @@
               <dt class="text-ink-500">usable</dt><dd class="text-right text-ink-900">${Math.round(r.building.areaM2 * 0.8)} m²</dd>
               <dt class="text-ink-500">max system</dt><dd class="text-right text-ink-900">${r.kwp.toFixed(1)} kWp</dd>
             </dl>
+          </div>
+
+          <div class="border border-ink-300/40 bg-white p-5">
+            <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">on your application packet</p>
+            <p class="text-xs text-ink-700 leading-relaxed mb-3">Five items to confirm with your installer. With these on file, the technical requirements are met up front — fewer rounds of revision, fewer reasons for delay.</p>
+            <ul class="grid gap-1.5 text-xs text-ink-700 leading-snug">
+              <li class="flex gap-2"><span class="font-mono text-accent-steel">01</span><span>Inverter datasheet citing <strong>IEEE 1547</strong> or <strong>UL 1741</strong> anti-islanding compliance.</span></li>
+              <li class="flex gap-2"><span class="font-mono text-accent-steel">02</span><span>Accredited installer (ask for the accreditation number).</span></li>
+              <li class="flex gap-2"><span class="font-mono text-accent-steel">03</span><span>Single-line diagram + panel layout in the application packet.</span></li>
+              <li class="flex gap-2"><span class="font-mono text-accent-steel">04</span><span>System sized at or below your <strong>12-month average daytime load</strong>.</span></li>
+              <li class="flex gap-2"><span class="font-mono text-accent-steel">05</span><span>Net-metering paperwork filed before commissioning, not after.</span></li>
+            </ul>
+            <p class="text-[11px] text-ink-500 leading-relaxed mt-3 pt-3 border-t border-ink-300/30">Statutory window to act on a complete application is <strong>20 working days</strong>. <a href="/safety#recourse" class="no-underline text-accent-steel">If it drags &rarr;</a></p>
           </div>
         </div>
       </div>
@@ -621,6 +1078,31 @@
         <div class="grid gap-4 grid-cols-2 md:grid-cols-3">${cases}</div>
       </div>
 
+      ${(r.detections && r.detections.length > 0) ? `
+      <div class="mb-8">
+        <div class="flex items-baseline justify-between gap-3 mb-3">
+          <p class="text-xs uppercase tracking-wider text-ink-500 font-mono">solar detected near you</p>
+          <p class="text-[10px] text-ink-300 font-mono">${r.detections.length} within 1.5 km</p>
+        </div>
+        <p class="text-sm text-ink-500 leading-relaxed mb-4">
+          Tile-level scan of NCR using a CNN (clf_v3) trained on 304 OSM-tagged rooftop arrays + active-learning label cleanup. <strong class="text-ink-900">High-confidence</strong> = LOSO precision ~99% at threshold 0.85. <strong class="text-ink-900">Candidate</strong> = lower confidence, may need verification. <a href="/methodology#cnn-detection" class="no-underline text-accent-steel">How we built this &rarr;</a>
+        </p>
+        <div class="grid gap-3 grid-cols-2 md:grid-cols-4">
+          ${r.detections.slice(0, 8).map((d: any) => `
+            <a href="https://www.openstreetmap.org/?mlat=${d.lat}&mlon=${d.lon}&zoom=19" target="_blank" rel="noopener" class="block group no-underline">
+              <div class="aspect-square overflow-hidden bg-ink-300/10 relative">
+                <img src="${esriThumbUrl(d.lat, d.lon, 300)}" alt="detected solar tile" class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
+                <div class="absolute top-1 left-1 px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wider ${d.tier === "high" ? "bg-accent-steel/95 text-white" : "bg-white/95 text-ink-700"}">
+                  ${d.tier}
+                </div>
+              </div>
+              <p class="text-[10px] text-ink-500 font-mono mt-1">${d.distanceKm.toFixed(2)} km · score ${d.score.toFixed(2)}</p>
+            </a>
+          `).join("")}
+        </div>
+      </div>
+      ` : ``}
+
       <div class="border-t border-ink-300/30 pt-6 text-sm text-ink-500">
         <p class="mb-2"><strong>What this is:</strong> a personal rooftop assessment using free public data (OpenStreetMap building footprints, Esri World Imagery for the satellite view, PVGIS-derived Philippine yield, current Meralco rate, our hand-curated LGU friction table).</p>
         <p class="mb-2"><strong>What this isn't:</strong> engineering advice. Talk to a certified installer for a site survey, exact orientation, structural load, and pricing. Estimate accuracy degrades for shaded, multi-story, or unusually-shaped roofs.</p>
@@ -628,6 +1110,124 @@
       </div>
     `;
   }
+
+  // ── Address autocomplete ─────────────────────────────────────────────
+  // Live Photon-backed suggestions as the user types. Solves the failure mode
+  // where the user types a real PH address that OSM doesn't have under that
+  // exact name (e.g. "Madison Park West"); they instead see what Photon DOES
+  // know nearby and pick from there. Key gain over single-shot geocoding:
+  // failure becomes "no suggestions appear", not "couldn't find that".
+  type AddressSuggestion = { label: string; sub: string; lat: number; lon: number };
+
+  const addrInput = document.getElementById("bubong-address") as HTMLInputElement;
+  const suggestList = document.getElementById("bubong-address-suggest") as HTMLUListElement;
+  let acSuggestions: AddressSuggestion[] = [];
+  let acActiveIdx = -1;
+  let acPicked: AddressSuggestion | null = null;
+  let acTimer: ReturnType<typeof setTimeout> | null = null;
+  let acLastQuery = "";
+
+  function escapeHtml(s: string): string {
+    return s.replace(/[<>&'"]/g, (c) => ({"<":"&lt;",">":"&gt;","&":"&amp;","'":"&#39;","\"":"&quot;"}[c] as string));
+  }
+
+  function renderSuggestions() {
+    if (acSuggestions.length === 0) {
+      suggestList.classList.add("hidden");
+      suggestList.innerHTML = "";
+      addrInput.setAttribute("aria-expanded", "false");
+      return;
+    }
+    suggestList.classList.remove("hidden");
+    addrInput.setAttribute("aria-expanded", "true");
+    suggestList.innerHTML = acSuggestions.map((s, i) => `
+      <li role="option" aria-selected="${i === acActiveIdx}">
+        <button type="button" data-idx="${i}"
+          class="w-full text-left px-3 py-2 text-sm border-b border-ink-300/30 last:border-b-0 ${i === acActiveIdx ? 'bg-ink-100' : 'hover:bg-ink-100'}">
+          <div class="text-ink-900">${escapeHtml(s.label || s.sub || "(no label)")}</div>
+          ${s.sub ? `<div class="text-xs text-ink-500">${escapeHtml(s.sub)}</div>` : ""}
+        </button>
+      </li>
+    `).join("");
+    suggestList.querySelectorAll<HTMLButtonElement>("button[data-idx]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.idx!, 10);
+        pickSuggestion(acSuggestions[idx]);
+      });
+    });
+  }
+
+  function pickSuggestion(s: AddressSuggestion) {
+    acPicked = s;
+    addrInput.value = [s.label, s.sub].filter(Boolean).join(", ");
+    suggestList.classList.add("hidden");
+    suggestList.innerHTML = "";
+    acActiveIdx = -1;
+    addrInput.setAttribute("aria-expanded", "false");
+  }
+
+  async function refreshSuggestions(q: string) {
+    if (q === acLastQuery) return;
+    acLastQuery = q;
+    const features = await photonSearch(q, 8);
+    if (q !== acLastQuery) return;   // stale
+    acSuggestions = features.map(photonFeatureToLabel).filter((s) => s.label || s.sub);
+    acActiveIdx = -1;
+    renderSuggestions();
+  }
+
+  addrInput.addEventListener("input", () => {
+    acPicked = null;
+    const q = addrInput.value.trim();
+    if (acTimer) clearTimeout(acTimer);
+    if (q.length < 3) {
+      acSuggestions = [];
+      renderSuggestions();
+      return;
+    }
+    acTimer = setTimeout(() => refreshSuggestions(q), 250);
+  });
+
+  addrInput.addEventListener("keydown", (e) => {
+    if (suggestList.classList.contains("hidden")) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      acActiveIdx = Math.min(acSuggestions.length - 1, acActiveIdx + 1);
+      renderSuggestions();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      acActiveIdx = Math.max(0, acActiveIdx - 1);
+      renderSuggestions();
+    } else if (e.key === "Enter" && acActiveIdx >= 0) {
+      e.preventDefault();
+      pickSuggestion(acSuggestions[acActiveIdx]);
+    } else if (e.key === "Escape") {
+      suggestList.classList.add("hidden");
+      acActiveIdx = -1;
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    const target = e.target as Node;
+    if (!addrInput.contains(target) && !suggestList.contains(target)) {
+      suggestList.classList.add("hidden");
+      acActiveIdx = -1;
+      addrInput.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Sample-address chips: one click fills the input AND triggers autocomplete
+  // so the user can refine immediately. If they hit submit without picking, the
+  // chip text itself is geocodable via the fallback path.
+  document.querySelectorAll<HTMLButtonElement>("button[data-fill]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      addrInput.value = btn.dataset.fill!;
+      addrInput.focus();
+      acPicked = null;
+      acLastQuery = "";
+      refreshSuggestions(addrInput.value);
+    });
+  });
 
   document.getElementById("bubong-form")!.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -637,14 +1237,15 @@
     const bill = parseFloat(String(data.get("bill") || "8000"));
     const residents = String(data.get("residents") || "4");
     if (!address) return;
+    // If the user picked a suggestion, run() will get the lat/lon directly
+    // (skip a redundant geocode round-trip). The picker is checked inside run().
     await run({ address, bill, residents });
   });
 
   // Pre-fill from query string for /bubong?address=... links
-  const params = new URLSearchParams(location.search);
-  const presetAddress = params.get("address");
+  const presetParams = new URLSearchParams(location.search);
+  const presetAddress = presetParams.get("address");
   if (presetAddress) {
-    const input = document.getElementById("bubong-address") as HTMLInputElement;
-    input.value = presetAddress;
+    addrInput.value = presetAddress;
   }
 </script>

@@ -1,0 +1,18 @@
+[v3] OSM tiles after 10m dedup: 294
+[v3]   DROP noisy case: case_san_mateo
+[v3]   DROP noisy case: case_valenzuela
+[v3] case studies: 4 kept, 2 dropped
+[v3] promoted rnegs to positive: 4
+[v3] user-tagged TRUE high-conf tiles added: 111
+[v3] GT not_solar negatives: 46
+[v3] random NCR negatives: 150 (4 promoted -> excluded)
+[v3] user-tagged FALSE high-conf tiles added as negatives: 1
+
+[v3] total positive sources: 413
+[v3] total negative sources: 197
+[v3] aug: pos 4/src, neg 4/src
+[v3] total rows: 3050 (pos=2065 neg=985)
+[v3] loading openai/clip-vit-large-patch14
+[v3] embedding 3050 tiles...
+[v3] wrote /Users/xavier/Desktop/ghost-watts/detection/train/dataset_v3.npz: X.shape=(3050, 768)
+[v3] manifest -> /Users/xavier/Desktop/ghost-watts/detection/train/dataset_v3_manifest.json

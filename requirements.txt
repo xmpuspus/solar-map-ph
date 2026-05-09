@@ -1,0 +1,27 @@
+# Pinned dependencies for ghost-watts detection pipeline.
+# All versions == not >= so docker build → docker run produces a deterministic
+# clf_v4.joblib hash from the same dataset_v4.npz embeddings.
+
+# ----- ML core -----
+numpy==1.26.4
+torch==2.9.1
+transformers==4.57.3
+scikit-learn==1.7.2
+joblib==1.5.2
+
+# ----- HuggingFace stack (transformers transitive deps, pinned for reproducibility) -----
+huggingface-hub==0.36.0
+safetensors==0.7.0
+tokenizers==0.22.2
+
+# ----- Image / IO -----
+pillow==11.3.0
+requests==2.32.5
+
+# ----- SAM (v2.1 per-building stage) -----
+segment-anything==1.0
+# torchvision is a transitive dep of segment-anything; install with torch
+# torchvision==0.24.1   # uncomment if missing on your build host
+
+# ----- Optional, for nightly scan + ablation tooling -----
+# (these are stdlib elsewhere or already covered above)

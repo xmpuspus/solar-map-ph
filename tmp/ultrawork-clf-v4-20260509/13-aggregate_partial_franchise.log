@@ -1,0 +1,6 @@
+[agg] v3 tiles: 18448    v2 tiles: 16544
+[agg] OSM tags: 2514
+[agg] v3 geojson: 153 high + 231 candidate -> /Users/xavier/Desktop/ghost-watts/site/public/data/rooftop_solar_ncr.geojson
+[agg] v3 OSM cross-match: high=24 confirmed + 129 new (84% NEW)
+[agg]                     cand=14 confirmed + 217 new
+[agg] delta: v2=92H/209C  ->  v3=153H/231C  (40 upgraded to H, 2 lost)

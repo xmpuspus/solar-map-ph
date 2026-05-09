@@ -1,0 +1,46 @@
+{
+  "encoder": "satlas:Aerial_SwinB_SI",
+  "feature_dim": 1024,
+  "n_rows": 3040,
+  "n_pos_sources": 412,
+  "n_neg_sources": 196,
+  "device": "mps",
+  "loso": {
+    "best_f1": {
+      "f1": 0.9223529411764706,
+      "threshold": 0.3746193193347789,
+      "tp": 392,
+      "fp": 46,
+      "fn": 20,
+      "tn": 150,
+      "precision": 0.8949771689497716,
+      "recall": 0.9514563106796117
+    },
+    "at_threshold_0p85": {
+      "threshold": 0.85,
+      "tp": 206,
+      "fp": 9,
+      "fn": 206,
+      "tn": 187,
+      "precision": 0.958139534883721,
+      "recall": 0.5,
+      "f1": 0.6570972886762361
+    }
+  },
+  "calibrated_holdout": {
+    "platt_A": 1.2172600403562934,
+    "platt_B": 0.1910114529858197,
+    "n_holdout_pos_sources": 59,
+    "n_holdout_neg_sources": 39,
+    "at_calibrated_t085": {
+      "threshold": 0.85,
+      "tp": 36,
+      "fp": 4,
+      "fn": 23,
+      "tn": 35,
+      "precision": 0.9,
+      "recall": 0.6101694915254238,
+      "f1": 0.7272727272727273
+    }
+  }
+}

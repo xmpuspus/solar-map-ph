@@ -1,0 +1,23 @@
+[verify] 130 high-confidence detections
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_00.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_01.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_02.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_03.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_04.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_05.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_06.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_07.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_08.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_09.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_10.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_11.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_12.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_13.png
+[verify] wrote /Users/xavier/Desktop/ghost-watts/detection/verify/sheets/page_14.png
+[verify] tag template -> /Users/xavier/Desktop/ghost-watts/detection/verify/tags.json  (130 rows)
+[verify] sheets in   -> /Users/xavier/Desktop/ghost-watts/detection/verify/sheets
+
+Next: open each page_*.png and edit tags.json setting label to one of:
+  "true"      -> a real rooftop solar in this tile
+  "false"     -> false positive, no solar visible
+  "ambiguous" -> can't tell from imagery (will be excluded from training)

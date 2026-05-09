@@ -1,0 +1,174 @@
+---
+import Base from "../layouts/Base.astro";
+import cities from "../../public/data/city_solar_saturation.json";
+
+type CityRow = {
+  city: string;
+  province: string;
+  n_high: number;
+  n_candidate: number;
+  n_buildings_solar: number;
+  sum_kwp: number;
+  mean_kwp_per_building: number;
+};
+
+const top15 = (cities as CityRow[])
+  .filter((r) => r.sum_kwp > 0)
+  .slice(0, 15);
+---
+<Base title="solar safety · ghost-watts" pathname="/safety">
+  <article class="max-w-prose mx-auto px-6 pt-8 pb-12">
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">solar safety · v1 · 2026-05</p>
+    <h1 class="text-3xl mb-3 text-ink-900">Going solar safely — what to know before signing.</h1>
+    <p class="text-base text-ink-700 mb-4 leading-relaxed">
+      Three real engineering concerns govern rooftop solar interconnection anywhere in the world: <strong>anti-islanding</strong>, <strong>voltage rise on the feeder</strong>, and <strong>reverse power flow at the local transformer</strong>. Each is genuine. Each has been a solved problem in certified equipment for over a decade — modern grid-tied inverters handle all three automatically, in software, on every install.
+    </p>
+    <p class="text-base text-ink-700 mb-6 leading-relaxed">
+      What's left is process. The Net Metering application protects everyone when it runs to spec; it costs homeowners weeks when it doesn't. This page walks through the engineering so you understand what you're being asked, lays out exactly what to put in your application packet, and points to what the law gives you if the process drags.
+    </p>
+
+    <p class="text-sm text-ink-500 mb-6">
+      <a href="/bubong" class="no-underline text-accent-steel">Run the full lookup for your roof &rarr;</a>
+    </p>
+
+    <h2 id="why" class="text-xl mt-10 mb-2 text-ink-900">Why interconnection rules exist at all</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-4">
+      Most homes were wired to receive power. They aren't designed to push power back into the network. When rooftop solar exceeds household consumption, the surplus current flows backward, up the service drop, into the secondary distribution wires, and onto the local low-voltage transformer. Three concrete physics problems follow.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2 text-ink-900">1. Anti-islanding (the lineman problem)</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      When a feeder fault trips and the grid drops, an unprotected solar inverter can keep generating, energizing the supposedly-dead line that a Meralco lineman is about to touch. <strong>This is the deadliest failure mode for distributed solar anywhere in the world.</strong>
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The fix is well understood: every grid-tied inverter sold in the last decade implements <em>anti-islanding</em> protection. The inverter watches voltage and frequency on the line and if either drifts outside narrow tolerances (per IEEE 1547 in the US, PEC 2017 Article 6.90 in the Philippines), it disconnects within 2 seconds. Properly certified inverters are safe. The risk is unbranded gear and DIY installs that skip these standards.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      What to look for: the inverter datasheet must explicitly cite IEEE 1547, UL 1741, or VDE-AR-N 4105 anti-islanding compliance. If it doesn't, treat that as a hard no.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2 text-ink-900">2. Voltage rise on the feeder end</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Distribution feeders are designed for power to flow downstream from the substation to the customer. As current passes through copper, voltage drops along the way (typical PH residential service: ~230V at the house, ~240V at the transformer). Solar inverts that direction: power flows upstream, and voltage <em>rises</em> at the house.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      PEC 2017 caps household voltage at +5%/-5% of nominal (218-242V range). One small install rarely tips this. Twenty installs on the same feeder, all generating simultaneously at noon, easily can. Voltage above 252V starts damaging appliances and triggers mass inverter trip-offs (which then cause oscillation as inverters reconnect and trip again). Meralco has documented this on their own feeders.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2 text-ink-900">3. Reverse power flow at the transformer</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      A typical PH residential pole-mounted transformer is sized 25-50 kVA and serves 30-50 homes. It's optimized for forward current — primary side feeding secondary side. Sustained reverse current (when noon solar exceeds the served homes' load) wasn't part of the design envelope.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The widely-accepted rule of thumb in distribution planning: when distributed generation exceeds <strong>15% of feeder peak load</strong>, the utility runs a hosting-capacity study. Past 50%, transformer derating or upgrades become necessary. Past 100%, you're exporting through the transformer in the wrong direction at thermal levels it wasn't built for.
+    </p>
+
+    <h2 id="reg" class="text-xl mt-10 mb-2 text-ink-900">What "registered" means and why it matters</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The <strong>Net Metering Program</strong> (under DOE Department Circular 2013-05-0009 as amended) is the legal pathway for residential and small commercial rooftop solar up to 100 kW. Each of the 5 steps has a specific engineering function:
+    </p>
+    <ol class="list-decimal pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>Application + technical documents.</strong> Includes inverter datasheet (proves anti-islanding), single-line diagram, panel layout. Engineering review screens for pre-vetted inverter brands.</li>
+      <li><strong>Pre-installation inspection.</strong> Confirms your service drop and panel can handle bidirectional flow. Catches DIY mistakes before they become hazards.</li>
+      <li><strong>Hosting-capacity check.</strong> The utility evaluates the local feeder's existing distributed-generation load. If your install would push the feeder past safe thresholds (commonly 15% feeder peak), the response is to downsize the approval, request inverter curtailment, or require feeder upgrades. This is also the step where neighbors with existing solar affect what you can size — and vice versa.</li>
+      <li><strong>Bi-directional meter installation.</strong> Replaces the standard meter with one that records import and export separately.</li>
+      <li><strong>Commissioning.</strong> A utility engineer witnesses the first inverter start-up and verifies anti-islanding behavior under simulated fault.</li>
+    </ol>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Skipping registration ("guerrilla solar") doesn't make installation cheaper, it removes the engineering review. A registered install on the same feeder as ten unregistered ones still inherits all their voltage and reverse-flow problems, with no pathway to fix them.
+    </p>
+
+    <h2 id="recourse" class="text-xl mt-10 mb-2 text-ink-900">If your application is delayed or denied</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The Net Metering process has statutory timelines. A complete application — inverter datasheet citing IEEE 1547, single-line diagram, panel layout, system sized below 12-month daytime average — has specific paths if it stalls.
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>20 working days.</strong> Per DOE Department Circular 2013-05-0009, the distribution utility has 20 working days from a complete application to approve, deny with cause, or request specific clarifications. Beyond that, escalation paths open.</li>
+      <li><strong>ERC complaint.</strong> The <a href="https://www.erc.gov.ph/Complaint" class="no-underline text-accent-steel">Energy Regulatory Commission</a> handles distribution-utility complaints, including Net Metering disputes. Cite the missed timeline and the application reference number.</li>
+      <li><strong>DOE escalation.</strong> The Department of Energy's <a href="https://www.doe.gov.ph" class="no-underline text-accent-steel">Renewable Energy Management Bureau</a> oversees Net Metering compliance. For clear-cut delay cases, this is often faster than ERC.</li>
+      <li><strong>Public records request.</strong> Under the FOI Executive Order, you can request the hosting-capacity study cited in any grid-saturation denial. If one isn't on file, the denial doesn't stand.</li>
+      <li><strong>Industry advocates.</strong> The <a href="https://icsc.ngo" class="no-underline text-accent-steel">ICSC</a> and PSEMA track rooftop-solar approval friction. If your application is symptomatic of a broader pattern, they amplify it.</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Keep timestamps on everything. Email is preferable to phone calls for the audit trail. Verbal grid-saturation concerns should be requested in writing with the hosting-capacity study referenced by date.
+    </p>
+
+    <h2 id="checklist" class="text-xl mt-10 mb-2 text-ink-900">Safe installation checklist</h2>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-6">
+      <li><strong>Inverter</strong> with explicit IEEE 1547 / UL 1741 / VDE-AR-N 4105 anti-islanding certification on the datasheet.</li>
+      <li><strong>Installer</strong> on Meralco's accredited list (search <a href="https://meralco.com.ph" class="no-underline text-accent-steel">meralco.com.ph</a> or check ICSC's installer directory).</li>
+      <li><strong>Net Metering Program registration</strong> filed before commissioning. Without this you have no legal export path; surplus generation is wasted and sometimes triggers Meralco's reverse-flow audit anyway.</li>
+      <li><strong>LGU electrical permit</strong> filed alongside Meralco approval. Most LGUs treat solar as a rooftop addition; permit fees vary. April 2026 DOE circular targets a 3-day permit ceiling, adoption uneven.</li>
+      <li><strong>DOE Renewable Energy registration</strong> for systems above 100 kW (commercial/industrial scale).</li>
+      <li><strong>For systems above 1 MW</strong>: ERC interconnection study, not just net metering.</li>
+    </ul>
+
+    <h2 id="data" class="text-xl mt-10 mb-2 text-ink-900">Your neighborhood's saturation, measured from satellite</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      We took the 114 high-confidence rooftop-solar tiles our CNN found across NCR (<a href="/methodology#cnn-detection" class="no-underline text-accent-steel">methodology</a>), then ran SAM panel segmentation + OSM building intersection to get <strong>231 distinct OSM buildings with detected solar, totaling about 39.7 MW</strong>. From those installs we computed a per-240m-cell saturation index: how many existing panels and how much installed kWp sit within 300m of every point.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Three tiers, defined by both panel count and installed capacity within 300m:
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong class="text-green-700">Early-adopter</strong> (0-2 detected high-conf installs AND below 50 kWp): plenty of headroom on the local transformer. You'd be a pioneer, approval should be fast.</li>
+      <li><strong class="text-yellow-700">Growing adoption</strong> (3-7 high-conf installs OR 50-300 kWp): expect more attention from Meralco engineers. Inverter datasheet review is more rigorous.</li>
+      <li><strong class="text-red-700">Saturated</strong> (8+ high-conf installs OR over 300 kWp): your installer should request a hosting-capacity check before sizing. Without it, your application risks delay or downsizing.</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Limits: the index measures <em>visible</em> rooftop solar. Carport, ground-mount, and BIPV at this resolution may be missed. Cells in industrial-zoned areas show up "saturated" because of one or two mega-installs (e.g., the 1.5 MW SM rooftop drives all surrounding 240m cells red); for those, the saturation flag is engineering-correct, but the implication for an adjacent home is that you share a feeder with a major commercial generator, which still warrants the hosting-capacity check.
+    </p>
+
+    <h2 id="lookup" class="text-xl mt-10 mb-2 text-ink-900">Look up your address</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-4">
+      The <a href="/bubong" class="no-underline text-accent-steel">main tool</a> already wires the saturation index into the result page: type your address and you get the saturation tier, the panel and kWp counts in your 300m halo, and a tier-specific recommendation. Below the saturation card you'll see whether your specific OSM building already has detected panels.
+    </p>
+
+    <h2 id="cities" class="text-xl mt-10 mb-2 text-ink-900">NCR cities by detected installed solar</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      This is what the satellite scan and our v2.1 building-level localization actually see, by city. Counts are: high = high-confidence tile detections (CNN score &ge; 0.85), candidate = lower-confidence (0.70&ndash;0.85), bldg = unique OSM buildings the SAM panel-segmentation step matched. kWp is the sum of building-level kWp estimates within each city.
+    </p>
+    <div class="not-prose overflow-x-auto mb-4">
+      <table class="w-full text-sm font-mono tabular-nums">
+        <thead class="border-b border-ink-300/40 text-ink-500 text-xs uppercase tracking-wider">
+          <tr>
+            <th class="text-left py-2 pr-4">city</th>
+            <th class="text-right py-2 px-3">high</th>
+            <th class="text-right py-2 px-3">candidate</th>
+            <th class="text-right py-2 px-3">buildings</th>
+            <th class="text-right py-2 pl-3">kWp installed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {top15.map((r, i) => (
+            <tr class={`border-b border-ink-300/20 ${i === 0 ? "text-ink-900 font-medium" : "text-ink-700"}`}>
+              <td class="py-1.5 pr-4">{r.city}</td>
+              <td class="py-1.5 px-3 text-right">{r.n_high}</td>
+              <td class="py-1.5 px-3 text-right">{r.n_candidate}</td>
+              <td class="py-1.5 px-3 text-right">{r.n_buildings_solar}</td>
+              <td class="py-1.5 pl-3 text-right">{Math.round(r.sum_kwp).toLocaleString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="text-sm text-ink-500 leading-relaxed mb-4">
+      Caveats: Esri imagery in PH is 1-3 years stale, so installs from 2024-2026 may not be visible. Cities with low kWp may simply have most of their solar outside the imagery window, not absent. Quezon City leads by a wide margin in absolute terms; per-square-km, Valenzuela and Malabon are denser.
+    </p>
+
+    <h2 id="map" class="text-xl mt-10 mb-2 text-ink-900">See the map</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-4">
+      The <a href="/map" class="no-underline text-accent-steel">city map</a> overlays the per-tile detection circles (high vs candidate) and per-building panel polygons on top of the city-level composite signal. Click a polygon to see the building's OSM ID, type, kWp, and confidence.
+    </p>
+
+    <h2 class="text-xl mt-10 mb-2 text-ink-900">Sources</h2>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li>IEEE 1547-2018 — Standard for Interconnection and Interoperability of Distributed Energy Resources with Associated Electric Power Systems Interfaces.</li>
+      <li>UL 1741-2021 — Inverters, Converters, Controllers and Interconnection System Equipment for Use With Distributed Energy Resources.</li>
+      <li>Philippine Electrical Code (PEC) 2017 — Article 6.90 (Solar Photovoltaic Systems).</li>
+      <li>DOE Department Circular 2013-05-0009 (Net Metering Rules) and amendments.</li>
+      <li>Meralco public statements (May 2026): <a href="https://bilyonaryo.com/2026/05/03/meralco-urges-crackdown-on-guerilla-solar-setups-tighter-rules/power/" class="no-underline text-accent-steel">Bilyonaryo</a>, <a href="https://tribune.net.ph/2026/05/07/meralco-seeks-crackdown-on-guerrilla-solar-installations" class="no-underline text-accent-steel">Tribune</a>, <a href="https://cleantechnica.com/2026/05/04/guerilla-solar-installations-discovered-need-to-be-controlled-says-philippine-power-distributor/" class="no-underline text-accent-steel">CleanTechnica</a>.</li>
+      <li>EPRI hosting-capacity literature (the "15% rule of thumb" and feeder-impact studies).</li>
+    </ul>
+  </article>
+</Base>

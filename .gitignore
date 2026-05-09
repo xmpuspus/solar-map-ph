@@ -62,3 +62,40 @@ pipeline/scratch/
 *.tif
 *.tiff
 *.zip
+
+# detection/: heavy artifacts -- regenerable from the scripts
+detection/bootstrap/tiles/
+detection/bootstrap/sheets/
+detection/scan/ncr_tiles/
+detection/scan/review_sheets/
+detection/scan/ncr_scan_results.jsonl
+detection/scan/ncr_scan_results_v3.jsonl
+detection/scan/ncr_scan_results_v4.jsonl
+detection/scan/ncr_scan_results.jsonl.bak
+detection/scan/scan.log
+detection/scan/per_tile_segments.jsonl
+detection/scan/segment_thumbnails/
+detection/scan/sam_checkpoints/
+detection/scan/per_building_thumbs/
+detection/scan/v2_vs_v3_delta.json
+detection/train/random_neg_tiles/
+detection/train/dataset.npz
+detection/train/dataset_v2.npz
+detection/train/dataset_v3.npz
+detection/train/dataset_v4.npz
+detection/train/build_v2.log
+detection/buildings/cache/
+# Phase-5 franchise scan baselines (large npz/joblib snapshots; small jsonl/json kept).
+# Files stay on disk, just not version-controlled.
+detection/train/_baselines/*.npz
+detection/train/_baselines/*.joblib
+# Worldcover GeoTIFFs (regenerable from public URL — caught by the *.tif rule above
+# but listing here for documentation)
+detection/scan/worldcover/
+# Encoder ablation embeddings (8-12 MB each, regenerable from encoder_ablation.py)
+detection/train/v4_calibrated/ablation/*/embeddings.npz
+detection/verify/sheets/
+# Keep: detection/verify/build_verification_sheets.py + tags.json (the labels themselves)
+detection/spike/out/
+# Keep: detection/train/clf*.joblib + detection/train/clf*_metrics.json (small, reproducible artifacts)
+# Keep: detection/bootstrap/osm_solar_ncr_plus.geojson (small, OSM source-of-truth snapshot)

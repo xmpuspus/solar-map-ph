@@ -1,0 +1,42 @@
+[finalize] raw scan lines:    62296
+[finalize] raw snapshot -> detection/train/_baselines/scan_v4_franchise_raw_20260509T173007.jsonl
+in=62296
+  kept (orig NCR grid + new franchise): 45752
+  dropped (NCR area, off-grid): 16544
+  dropped (exact tile_id duplicates): 0
+[finalize] detection/scan/ncr_scan_results_v3.jsonl now has    45752 deduped lines
+[agg] v3 tiles: 45417    v2 tiles: 16544
+[agg] OSM tags: 2514
+[agg] v3 geojson: 266 high + 351 candidate -> /Users/xavier/Desktop/ghost-watts/site/public/data/rooftop_solar_ncr.geojson
+[agg] v3 OSM cross-match: high=40 confirmed + 226 new (85% NEW)
+[agg]                     cand=22 confirmed + 329 new
+[agg] delta: v2=92H/209C  ->  v3=266H/351C  (40 upgraded to H, 2 lost)
+  "true"      -> a real rooftop solar in this tile
+  "false"     -> false positive, no solar visible
+  "ambiguous" -> can't tell from imagery (will be excluded from training)
+
+[finalize] === Per-area breakdown ===
+Per-area breakdown (lat × lon):
+  NCR (14.4-14.78 N, 120.92-121.13 E):
+    high:       130
+    candidate:  216
+  Extended franchise (Bulacan/Cavite/Rizal/Laguna):
+    high:       136
+    candidate:  135
+
+  Total high:       266
+  Total candidate:  351
+
+Top 10 franchise high-conf detections:
+  14.55532_121.13872             s=0.988  (14.5553, 121.1387)
+  14.84476_121.01552             s=0.988  (14.8448, 121.0155)
+  14.20540_121.08720             s=0.987  (14.2054, 121.0872)
+  14.34364_121.01328             s=0.987  (14.3436, 121.0133)
+  14.56828_121.14096             s=0.986  (14.5683, 121.1410)
+  14.25724_121.12080             s=0.984  (14.2572, 121.1208)
+  14.32852_120.95952             s=0.984  (14.3285, 120.9595)
+  14.35228_121.06256             s=0.984  (14.3523, 121.0626)
+  14.22700_121.13872             s=0.983  (14.2270, 121.1387)
+  14.23348_121.09392             s=0.982  (14.2335, 121.0939)
+
+[finalize] DONE.

@@ -33,6 +33,23 @@ const tooltips = {
         <span class="text-center text-ink-900">average</span>
         <span class="text-right">more</span>
       </div>
+      <div class="border-t border-ink-300/30 mt-2 pt-2">
+        <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1.5 font-mono">Detected solar (confidence)</div>
+        <div class="flex items-center gap-3 text-[10px] text-ink-700 mb-0.5">
+          <span class="inline-flex items-center gap-1.5">
+            <span class="inline-block rounded-full" style="width:11px;height:11px;background:#0c2d5a;border:1.5px solid #fff;box-shadow:0 0 6px 2px rgba(29,78,216,0.45)"></span>
+            very likely <span class="text-ink-500 font-mono">≥0.95</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <span class="inline-block rounded-full" style="width:8px;height:8px;background:#0c2d5a;border:1.5px solid #fff"></span>
+            likely <span class="text-ink-500 font-mono">0.85–0.95</span>
+          </span>
+        </div>
+        <div class="flex items-center gap-1.5 text-[10px] text-ink-700">
+          <span class="inline-block rounded-full" style="width:7px;height:7px;background:rgba(255,255,255,0.5);border:1.3px solid #475569"></span>
+          possible <span class="text-ink-500 font-mono">0.70–0.85 · zoom in to see</span>
+        </div>
+      </div>
       <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">61 cities · source: ghost-watts</div>
     </div>
   </div>
@@ -720,6 +737,186 @@ const tooltips = {
         // the pipeline but not rendered. Six hand-verified case studies are
         // surfaced via the dedicated section below the map instead.
 
+        // CNN detection layer (v2): per-tile solar detections from the
+        // OSM-bootstrapped CLIP+LR classifier. See /methodology#cnn-detection.
+        // High = score >= 0.85 (LOSO precision 98%), candidate = score 0.70-0.85.
+        try {
+          const detectionsResp = await fetch(`${DATA_BASE}/rooftop_solar_ncr.geojson`);
+          if (detectionsResp.ok) {
+            const detections = await detectionsResp.json();
+            map.addSource("cnn-detections", { type: "geojson", data: detections });
+
+            // Confidence encoding: a single binary "tier" was hiding the continuous
+            // CNN score from the user. We now render three layers so the score
+            // shows up pre-attentively — fill vs hollow distinguishes high vs
+            // candidate, size scales with score within each tier, and a soft
+            // halo only behind high-confidence dots makes them pop.
+            map.addLayer({
+              id: "cnn-halo-high",
+              type: "circle",
+              source: "cnn-detections",
+              filter: ["==", ["get", "tier"], "high"],
+              paint: {
+                "circle-radius": [
+                  "interpolate", ["linear"], ["zoom"],
+                  9, 5, 12, 12, 15, 22,
+                ],
+                "circle-color": "#1d4ed8",
+                "circle-blur": 0.85,
+                "circle-opacity": [
+                  "interpolate", ["linear"], ["zoom"],
+                  9, 0.18, 12, 0.30, 15, 0.45,
+                ],
+              },
+            });
+            map.addLayer({
+              id: "cnn-dot-high",
+              type: "circle",
+              source: "cnn-detections",
+              filter: ["==", ["get", "tier"], "high"],
+              paint: {
+                // Score-driven radius: a 0.99 dot is ~2x a 0.85 dot at every zoom.
+                "circle-radius": [
+                  "interpolate", ["linear"], ["zoom"],
+                  9, ["interpolate", ["linear"], ["get", "score"], 0.85, 2, 0.92, 3, 0.99, 5],
+                  12, ["interpolate", ["linear"], ["get", "score"], 0.85, 4, 0.92, 6, 0.99, 9],
+                  15, ["interpolate", ["linear"], ["get", "score"], 0.85, 7, 0.92, 10, 0.99, 14],
+                ],
+                "circle-color": "#0c2d5a",
+                "circle-stroke-color": "#ffffff",
+                "circle-stroke-width": 1.5,
+                "circle-opacity": 1,
+              },
+            });
+            // Candidates: hollow rings that only appear when zoomed in enough
+            // to interpret them. At wide zoom they were noise; at zoom 11+
+            // they're actionable.
+            map.addLayer({
+              id: "cnn-dot-candidate",
+              type: "circle",
+              source: "cnn-detections",
+              filter: ["==", ["get", "tier"], "candidate"],
+              minzoom: 10.5,
+              paint: {
+                "circle-radius": [
+                  "interpolate", ["linear"], ["zoom"],
+                  11, ["interpolate", ["linear"], ["get", "score"], 0.70, 2.5, 0.85, 4],
+                  15, ["interpolate", ["linear"], ["get", "score"], 0.70, 5, 0.85, 8],
+                ],
+                "circle-color": "#ffffff",
+                "circle-opacity": 0.35,
+                "circle-stroke-color": "#475569",
+                "circle-stroke-width": 1.3,
+                "circle-stroke-opacity": [
+                  "interpolate", ["linear"], ["zoom"],
+                  11, 0.55, 14, 0.85,
+                ],
+              },
+            });
+
+            const onDetectionClick = (e: any) => {
+              const f = e.features?.[0];
+              if (!f) return;
+              const p: any = f.properties;
+              const coords = (f.geometry as any).coordinates as [number, number];
+              const [lon, lat] = coords;
+              const thumb = esriThumbUrl(lat, lon, 320, 0.0011);
+              const score = Number(p.score);
+              const isHigh = p.tier === "high";
+              const conf = isHigh
+                ? (score >= 0.95 ? "very likely" : "likely")
+                : "possible";
+              const tierColor = isHigh ? "#0c2d5a" : "#475569";
+              const html = `
+                <div class="text-xs leading-snug" style="width:240px">
+                  <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=19" target="_blank" rel="noopener" class="block no-underline">
+                    <div style="position:relative;width:240px;height:240px;background:#e5e7eb;overflow:hidden">
+                      <img src="${thumb}" alt="rooftop tile imagery" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" />
+                      <div style="position:absolute;top:6px;left:6px;background:${tierColor};color:#fff;padding:2px 6px;font-size:10px;font-family:ui-monospace,monospace;text-transform:uppercase;letter-spacing:0.06em">${conf}</div>
+                    </div>
+                  </a>
+                  <div class="px-1 pt-2 pb-1">
+                    <p class="font-mono tabular-nums text-ink-900 mb-0.5">CNN score <strong>${score.toFixed(3)}</strong> &middot; ${conf}</p>
+                    <p class="text-ink-500 mb-1.5">${lat.toFixed(5)}, ${lon.toFixed(5)} · 240 m tile</p>
+                    <a href="https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=19" target="_blank" rel="noopener" class="text-accent-steel no-underline">view on OSM &rarr;</a>
+                  </div>
+                </div>`;
+              new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(coords).setHTML(html).addTo(map);
+            };
+            map.on("click", "cnn-dot-high", onDetectionClick);
+            map.on("click", "cnn-dot-candidate", onDetectionClick);
+            for (const layerId of ["cnn-dot-high", "cnn-dot-candidate"]) {
+              map.on("mouseenter", layerId, () => (map.getCanvas().style.cursor = "pointer"));
+              map.on("mouseleave", layerId, () => (map.getCanvas().style.cursor = ""));
+            }
+            // Update legend text with detection count
+            const meta = (detections as any)._meta ?? {};
+            const lsource2 = document.getElementById("legend-source");
+            if (lsource2) {
+              lsource2.textContent = `61 cities · ${meta.n_high_confidence ?? 0} likely + ${meta.n_candidate ?? 0} possible installs detected`;
+            }
+          }
+        } catch (err) {
+          console.error("CNN detection layer failed to load:", err);
+        }
+
+        // v2.1 building-level panel polygons. Renders as a fill on top of the
+        // tile-level circles so users can see the actual roof outlines we
+        // localized to. Each feature is one OSM building with detected solar.
+        try {
+          const perBuildingResp = await fetch(`${DATA_BASE}/per_building_solar_ncr.geojson`);
+          if (perBuildingResp.ok) {
+            const perBuilding = await perBuildingResp.json();
+            map.addSource("per-building-solar", { type: "geojson", data: perBuilding });
+            map.addLayer({
+              id: "per-building-fill",
+              type: "fill",
+              source: "per-building-solar",
+              paint: {
+                "fill-color": "#d97757",
+                "fill-opacity": 0.35,
+              },
+            });
+            map.addLayer({
+              id: "per-building-line",
+              type: "line",
+              source: "per-building-solar",
+              paint: {
+                "line-color": "#d97757",
+                "line-width": 1.5,
+              },
+            });
+            map.on("click", "per-building-fill", (e) => {
+              const f = e.features?.[0];
+              if (!f) return;
+              const p: any = f.properties;
+              const lngLat = e.lngLat;
+              // Tighter zoom (0.0007 ~ ~150m view) so the building fills the frame
+              const thumb = esriThumbUrl(lngLat.lat, lngLat.lng, 320, 0.0007);
+              const html = `
+                <div class="text-xs leading-snug" style="width:240px">
+                  <a href="https://www.openstreetmap.org/way/${p.building_osm_id}" target="_blank" rel="noopener" class="block no-underline">
+                    <div style="position:relative;width:240px;height:240px;background:#e5e7eb;overflow:hidden">
+                      <img src="${thumb}" alt="building rooftop imagery" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy" />
+                      <div style="position:absolute;top:6px;left:6px;background:#d97757;color:#fff;padding:2px 6px;font-size:10px;font-family:ui-monospace,monospace;text-transform:uppercase;letter-spacing:0.06em">building-level</div>
+                    </div>
+                  </a>
+                  <div class="px-1 pt-2 pb-1">
+                    <p class="font-mono tabular-nums text-ink-900 mb-0.5"><strong>${(Number(p.kwp_estimate)).toFixed(1)} kWp</strong> · ${Number(p.panel_area_m2).toFixed(0)} m² panels</p>
+                    <p class="text-ink-500 mb-0.5">${p.building_type ?? "untagged"} · ${Number(p.building_area_m2).toFixed(0)} m² building</p>
+                    <p class="text-ink-500 mb-1.5">conf ${Number(p.confidence).toFixed(2)} · ${p.n_segments_merged} SAM segments</p>
+                    <a href="https://www.openstreetmap.org/way/${p.building_osm_id}" target="_blank" rel="noopener" class="text-accent-steel no-underline">view OSM building &rarr;</a>
+                  </div>
+                </div>`;
+              new maplibregl.Popup({ maxWidth: "280px" }).setLngLat(lngLat).setHTML(html).addTo(map);
+            });
+            map.on("mouseenter", "per-building-fill", () => (map.getCanvas().style.cursor = "pointer"));
+            map.on("mouseleave", "per-building-fill", () => (map.getCanvas().style.cursor = ""));
+          }
+        } catch (err) {
+          console.error("Per-building layer failed to load:", err);
+        }
+
         const params = new URLSearchParams(location.search);
         const cityParam = params.get("city");
         if (cityParam) {
@@ -733,6 +930,22 @@ const tooltips = {
         console.error(err);
       }
     });
+  }
+
+  // Build an Esri World Imagery export URL for a small bbox centered on lat/lon.
+  // Used by detection click popups so the user sees the actual rooftop imagery,
+  // not just a textual readout of the score.
+  function esriThumbUrl(lat: number, lon: number, sizePx = 300, halfDeg = 0.0011): string {
+    const bbox = `${lon - halfDeg},${lat - halfDeg},${lon + halfDeg},${lat + halfDeg}`;
+    const params = new URLSearchParams({
+      bbox,
+      bboxSR: "4326",
+      size: `${sizePx},${sizePx}`,
+      imageSR: "3857",
+      format: "jpg",
+      f: "image",
+    });
+    return `https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export?${params}`;
   }
 
   function representativePoint(geom: any): [number, number] {

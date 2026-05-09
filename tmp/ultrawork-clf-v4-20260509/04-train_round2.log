@@ -1,0 +1,17 @@
+[v3-train] X=(3050, 768)  pos=2065  neg=985
+[v3-train] unique sources: 610
+  fold 0: train=2435 val=615 held_pos=83 held_neg=40
+  fold 1: train=2435 val=615 held_pos=83 held_neg=40
+  fold 2: train=2440 val=610 held_pos=83 held_neg=39
+  fold 3: train=2445 val=605 held_pos=82 held_neg=39
+  fold 4: train=2445 val=605 held_pos=82 held_neg=39
+
+[v3-train] CV pos sources: 413  neg sources: 197
+  pos max_score 5-num: min=0.072 q1=0.882 med=0.957 q3=0.980 max=0.995
+  neg max_score 5-num: min=0.011 q1=0.056 med=0.103 q3=0.289 max=0.931
+
+[v3-train] BEST F1: t=0.4460  TP=392 FP=31 FN=21 TN=166  precision=0.927 recall=0.949 F1=0.938
+[v3-train] @ t=0.85: P=0.988 R=0.772 F1=0.867
+[v3-train] HIGH-PRECISION (P>=0.9, R>=0.5): t=0.3230  precision=0.900 recall=0.961
+[v3-train] saved -> /Users/xavier/Desktop/ghost-watts/detection/train/clf_v3.joblib
+[v3-train] saved metrics -> /Users/xavier/Desktop/ghost-watts/detection/train/clf_v3_metrics.json

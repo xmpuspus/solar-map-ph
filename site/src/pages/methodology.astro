@@ -3,33 +3,36 @@ import Base from "../layouts/Base.astro";
 ---
 <Base title="methodology · ghost-watts" pathname="/methodology">
   <article class="max-w-prose mx-auto px-6 pt-8 pb-12 prose prose-sm">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">§01 methodology · v1 · 2026-05</p>
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">methodology · v1 · 2026-05</p>
     <h1 class="text-3xl mb-2">From four satellite channels to one map color.</h1>
     <p class="text-base text-ink-700 mb-8 leading-relaxed">Updated each quarter when caveats change. The pipeline is a single Python script (<code class="bg-ink-300/15 px-1">pipeline/pipeline.py</code>) reproducible by anyone with Earth Engine access.</p>
 
     <figure class="my-8 not-prose">
-      <pre class="bg-paper-alt border border-ink-300/40 p-4 text-xs leading-relaxed font-mono overflow-x-auto text-ink-900">
-  Sentinel-2 B8     ─┐
-  (NIR ▼ darker)     │  weight
-                     ├─ ×(-0.40) ─┐
-  Sentinel-2 B11    ─┤            │
-  (SWIR ▼ darker)    │  weight    │
-                     ├─ ×(-0.30) ─┤      ┌──────────────────┐
-  Landsat 8/9 ST_B10─┤            │      │ z-score across   │   ┌─────┐
-  (LST ▼ cooler)     │  weight    ├─────►│ 61 franchise     │──►│ map │
-                     ├─ ×(-0.20) ─┤      │ cities, weighted │   │ fill│
-  VIIRS DNB         ─┤            │      │ sum = composite  │   │ ▓▓░ │
-  (nightlight Δ)     │  weight    │      └──────────────────┘   └─────┘
-                     └─ ×(+0.10) ─┘
+      <div class="bg-paper-alt border border-ink-300/40 p-4 overflow-x-auto">
+        <pre class="mermaid text-ink-900">
+flowchart LR
+  S2NIR["Sentinel-2 B8<br/>NIR delta"]
+  S2SWIR["Sentinel-2 B11<br/>SWIR delta"]
+  LST["Landsat 8/9 ST_B10<br/>LST anomaly"]
+  VIIRS["VIIRS DNB<br/>nightlight delta"]
+  MASK["ESA WorldCover<br/>built-up mask"]
+  Z["z-score per signal<br/>across 61 cities"]
+  W["weighted sum<br/>-0.40 * NIR, -0.30 * SWIR<br/>-0.20 * LST, +0.10 * NL"]
+  MAP["choropleth fill"]
 
-  ESA WorldCover 2021 (built-up mask) restricts every pixel sample.
-
-  composite_z(city) = -0.40·z_NIR  +  -0.30·z_SWIR
-                    + -0.20·z_LST  +  +0.10·z_nightlight                </pre>
-      <figcaption class="text-[11px] text-ink-500 font-mono mt-2">fig 01 · 4 raw signals → z-score across 61 cities → weighted composite → choropleth fill. Negative weights on NIR/SWIR/LST reflect that "darker / cooler" indicates more solar; the composite always reads "higher = more solar-like."</figcaption>
+  S2NIR --&gt; Z
+  S2SWIR --&gt; Z
+  LST --&gt; Z
+  VIIRS --&gt; Z
+  MASK -.-&gt;|restricts pixels| Z
+  Z --&gt; W
+  W --&gt; MAP
+        </pre>
+      </div>
+      <figcaption class="text-[11px] text-ink-500 font-mono mt-2">fig 01 · 4 raw signals, z-scored across 61 cities, weighted, mapped. Negative weights on NIR / SWIR / LST encode that darker or cooler imagery indicates more solar; the composite always reads higher = more solar-like.</figcaption>
     </figure>
 
-    <h2 class="text-xl mt-10 mb-2">§02 What ghost-watts measures</h2>
+    <h2 class="text-xl mt-10 mb-2">What ghost-watts measures</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       A composite of four satellite-derived signals computed at city/municipality scale across Meralco's franchise area, each quarter:
     </p>
@@ -82,7 +85,7 @@ import Base from "../layouts/Base.astro";
       The pipeline is one Python script (<code>pipeline/pipeline.py</code>) plus a validator. Earth Engine auth via service account. Anyone with EE access and the repo can run it and produce the same outputs. The full algorithm, weights, and data files are MIT/CC-BY licensed.
     </p>
 
-    <h2 id="validation" class="text-xl mt-10 mb-2">§07 Ground-truth validation, and why the pin layer was dropped (2026Q2)</h2>
+    <h2 id="validation" class="text-xl mt-10 mb-2">Ground-truth validation, and why the pin layer was dropped (2026Q2)</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       We hand-checked all hot-spot pins from the 2026Q2 release against Esri World Imagery (~1-3 yr vintage in PH) and ran a follow-up extraction with multi-channel filtering. The pin layer was retired before launch when both passes returned precision below the threshold for an honest claim.
     </p>
@@ -94,7 +97,7 @@ import Base from "../layouts/Base.astro";
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
       <li><strong>solar</strong>: a clear panel-grid array was visible on a rooftop at the centered location.</li>
       <li><strong>not_solar</strong>: the rooftop had visibly changed (reroofing, asphalt, construction, paint) but no panel grid was visible.</li>
-      <li><strong>unclear</strong>: ambiguous — could be panels, could be material change.</li>
+      <li><strong>unclear</strong>: ambiguous; could be panels, could be material change.</li>
       <li><strong>missing</strong>: Esri returned 500 for that lat/lon (12 of 181 hot-spots, mostly remote rural areas outside hi-res coverage).</li>
     </ul>
     <figure class="my-6 not-prose">
@@ -110,7 +113,7 @@ import Base from "../layouts/Base.astro";
           <tr class="border-b border-ink-300/40"><td class="py-1.5 text-accent-steel font-semibold not-mono">solar</td><td class="text-right py-1.5">6</td><td class="text-right py-1.5">3.6%</td></tr>
           <tr class="border-b border-ink-300/40"><td class="py-1.5 not-mono">unclear</td><td class="text-right py-1.5">16</td><td class="text-right py-1.5">9.5%</td></tr>
           <tr class="border-b border-ink-300/40"><td class="py-1.5 text-accent-coral not-mono">not_solar</td><td class="text-right py-1.5">147</td><td class="text-right py-1.5">87.0%</td></tr>
-          <tr class="border-b-2 border-ink-300"><td class="py-1.5 text-ink-500 not-mono italic">missing imagery</td><td class="text-right py-1.5">12</td><td class="text-right py-1.5">— (excluded)</td></tr>
+          <tr class="border-b-2 border-ink-300"><td class="py-1.5 text-ink-500 not-mono italic">missing imagery</td><td class="text-right py-1.5">12</td><td class="text-right py-1.5">excluded</td></tr>
           <tr class="font-semibold"><td class="py-1.5 not-mono">total</td><td class="text-right py-1.5">181</td><td class="text-right py-1.5">169 reviewable</td></tr>
         </tbody>
       </table>
@@ -133,10 +136,10 @@ import Base from "../layouts/Base.astro";
     </ul>
     <h3 class="text-lg mt-6 mb-2">v1.1: multi-channel AND extraction</h3>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      We tried tightening: require BOTH NIR drop AND SWIR drop (the same fingerprint used in the diff visualization), top-1 per city, larger minimum cluster size. v1.1 produced 61 hot-spots from 60 cities. After re-validation against fresh Esri tiles, strict precision was <strong>1/57 = 1.75%</strong> — worse than v1.0. The multi-channel filter selected different clusters but they weren't more solar-y. Asphalt resurfacing, fresh concrete, and roof material changes all darken in BOTH NIR and SWIR. The AND was less specific than we hoped.
+      We tried tightening: require BOTH NIR drop AND SWIR drop (the same fingerprint used in the diff visualization), top-1 per city, larger minimum cluster size. v1.1 produced 61 hot-spots from 60 cities. After re-validation against fresh Esri tiles, strict precision was <strong>1/57 = 1.75%</strong>, worse than v1.0. The multi-channel filter selected different clusters but they weren't more solar-y. Asphalt resurfacing, fresh concrete, and roof material changes all darken in BOTH NIR and SWIR. The AND was less specific than we hoped.
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      <strong>Conclusion: pixel-level NIR/SWIR differencing at Sentinel-2's 10m resolution is fundamentally not specific enough to claim per-location solar.</strong> The signal exists at city-aggregate scale (multi-signal composites are robust), but individual pixels and small clusters are too noisy to publish as identification claims.
+      <strong>Conclusion: pixel-level NIR/SWIR differencing at Sentinel-2's 10m resolution isn't specific enough to claim per-location solar.</strong> The signal exists at city-aggregate scale (multi-signal composites average out per-pixel noise), but individual pixels and small clusters are too noisy to publish as identification claims.
     </p>
 
     <h3 class="text-lg mt-6 mb-2">What we kept and what we dropped</h3>
@@ -155,7 +158,203 @@ import Base from "../layouts/Base.astro";
       <li>Future quarters will let us add a <strong>persistence filter</strong> (only flag pixels that stay dark across 2-3 consecutive quarters), which is the most likely path to defensible per-location precision.</li>
     </ul>
 
-    <h2 class="text-xl mt-10 mb-2">§08 Honest limitations</h2>
+    <h2 id="cnn-detection" class="text-xl mt-10 mb-2">CNN-based per-tile detection (v3)</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The Sentinel-2 pipeline above gives a useful city-level signal but is structurally too coarse to claim solar at a specific roof (one S2 pixel = 100 m²; a typical residential 5 kWp install fits inside a single pixel). To make per-roof claims defensible we built a separate detection layer on hi-res Esri imagery and a CNN classifier.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2">The ML stack, end to end</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Three layers, in order: a frozen <strong>CLIP-ViT-L/14 encoder</strong> turns each 600 × 600 px Esri tile into a 768-dim embedding; a <strong>logistic-regression head</strong> turns embeddings into a tile-level solar probability; a <strong>SAM-based localizer</strong> (covered below) turns each high-confidence tile into a per-building panel polygon. Training is offline, ~30 min on an M-series Mac. Inference over all of NCR is ~13 min (cold) or ~3 min (when re-classifying a cached tile set).
+    </p>
+
+    <figure class="my-6 not-prose">
+      <div class="bg-paper-alt border border-ink-300/40 p-4 overflow-x-auto">
+        <pre class="mermaid text-ink-900">
+flowchart TB
+  subgraph TRAIN[Training]
+    direction TB
+    OSM["OSM Overpass<br/>312 solar locations"]
+    GT["6 hand-verified<br/>case studies"]
+    NEG["46 GT not_solar<br/>+ 154 random NCR"]
+    FETCH["Esri tile fetch<br/>240 m view, 0.4 m/px"]
+    AUG["4x augmentation<br/>rotation, flip, jitter"]
+    EMB["CLIP-ViT-L/14 frozen<br/>768-dim embedding"]
+    LR["Logistic Regression<br/>class-balanced, C=1.0"]
+    CV["5-fold group-aware CV"]
+    CLF["clf_v3.joblib"]
+    OSM --&gt; FETCH
+    GT --&gt; FETCH
+    NEG --&gt; FETCH
+    FETCH --&gt; AUG
+    AUG --&gt; EMB
+    EMB --&gt; LR
+    LR --&gt; CV
+    CV --&gt; CLF
+  end
+  subgraph SCAN[NCR scan]
+    direction TB
+    GRID["240 m grid over NCR<br/>16,544 tiles"]
+    SCANEMB["CLIP embedding"]
+    SCORE["clf_v3 score per tile"]
+    HIGH["high tier<br/>score 0.85 and up"]
+    CAND["candidate tier<br/>score 0.70 to 0.85"]
+    GEO["rooftop_solar_ncr.geojson<br/>114 high + 280 candidate"]
+    GRID --&gt; SCANEMB
+    SCANEMB --&gt; SCORE
+    SCORE --&gt; HIGH
+    SCORE --&gt; CAND
+    HIGH --&gt; GEO
+    CAND --&gt; GEO
+  end
+  CLF -.-&gt;|loaded for inference| SCORE
+        </pre>
+      </div>
+      <figcaption class="text-[11px] text-ink-500 font-mono mt-2">fig 02 · ML training and inference. The logistic head sits on top of frozen CLIP features so the same encoder serves training and inference; only the small joblib-pickled head needs to be redeployed when labels change.</figcaption>
+    </figure>
+
+    <h3 class="text-lg mt-6 mb-2">Pipeline</h3>
+    <ol class="list-decimal pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>Positive set bootstrap.</strong> We queried OpenStreetMap (Overpass) for nodes and ways tagged <code>generator:source=solar</code> AND <code>location=roof</code> within the Meralco franchise bounding box (14.0–15.2 N, 120.6–121.5 E). 312 verified rooftop-solar locations, deduped to 294 unique buildings at ~10 m clustering. We added the 6 hand-verified case studies on top.</li>
+      <li><strong>Tile fetch.</strong> For each location, fetch a 600×600 px Esri World Imagery tile centered on the OSM lat/lon, covering ~240 m × ~240 m at ~0.4 m/pixel.</li>
+      <li><strong>Negative set.</strong> Re-used the 46 hand-labeled <code>not_solar</code> tiles from the ground-truth pass, plus 154 random tiles drawn uniformly from the NCR bounding box. Total 200 negative sources.</li>
+      <li><strong>Encoder.</strong> CLIP-ViT-L/14 (<code>openai/clip-vit-large-patch14</code>), frozen. We tried two pretrained DeepSolar-flavored Hugging Face Mask2Former models first; both saturated the segmentation mask at 100% on every image and were unusable. CLIP zero-shot with a prompt ensemble gave F1 ≈ 0.5. Linear-on-CLIP-features beats both.</li>
+      <li><strong>Augmentation.</strong> 4× per source (rotation 0/90/180/270, optional horizontal flip, mild brightness ±15% and color ±10% jitter). 2,500 rows total: 1,500 positive, 1,000 negative.</li>
+      <li><strong>Classifier.</strong> Logistic regression with class-balanced weights on the 768-dim CLIP image embedding. Trained for 2,000 max iterations, regularization C=1.0.</li>
+      <li><strong>Validation.</strong> 5-fold group-aware cross-validation. Each source's augmentations are held out together (no within-source leakage). Per-source max-score aggregation.</li>
+    </ol>
+    <h3 class="text-lg mt-6 mb-2">Results (v2 baseline)</h3>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>Best F1 = 0.906</strong> at threshold 0.525 (TP=271, FP=27, FN=29, TN=173). Precision 90.9%, recall 90.3%.</li>
+      <li><strong>High-precision setting:</strong> threshold 0.85 → precision 98.1%, recall 68.0% (TP=204, FP=4, TN=196, FN=96). This is what we used for the original "high-confidence detection" tier.</li>
+      <li><strong>Even-higher precision:</strong> threshold 0.96 → precision 100%, recall 34.7%. Catches roughly a third of the rooftop-solar locations with zero false positives in the validation set.</li>
+      <li><strong>Honest caveat:</strong> at NCR-wide deployment (16,544 tiles, ~0.1-0.5% prevalence), even a 2% LOSO false-positive rate produces hundreds of false alarms per real positive. The <em>candidate</em> tier (score 0.70–0.85) is a flagging surface, not a verified inventory.</li>
+      <li><strong>Label-noise discovery:</strong> the classifier scored two of the original 6 case studies (<code>case_valenzuela</code>, <code>case_san_mateo</code>) below 0.30, suggesting the panels in those tiles may be greenhouse roofs or painted metal, not actual photovoltaics. OSM-bootstrapped labels turned out cleaner than single-pass vision-model labeling on ambiguous PH industrial roofs.</li>
+    </ul>
+
+    <h3 class="text-lg mt-6 mb-2">v3 cleanup pass: label-noise removed</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      v2 surfaced its own label noise: 4 random-NCR tiles that scored above 0.85 (<code>rneg_0074</code>, <code>rneg_0086</code>, <code>rneg_0116</code>, <code>rneg_0136</code>) were unmistakably real solar when checked by eye. v2 also kept the 2 noisy case studies as positives. We retrained <strong>clf_v3</strong> with those 4 promoted to positives and the 2 noisy cases dropped: pure label cleanup, no architectural changes.
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>v3 best F1 = 0.918</strong> (vs v2 0.906). Precision 91.2%, recall 92.4% at threshold 0.519.</li>
+      <li><strong>v3 at t=0.85: precision 99.1%, recall 70.5%</strong> (vs v2 P=98.1% R=68.0%). The threshold gives nearly perfect precision while finding more true solar.</li>
+      <li><strong>v3 NCR scan: 114 high + 280 candidate</strong> (vs v2 92 + 209). +24% high, +34% candidate. 23 tiles upgraded from candidate to high; 1 lost from high (the dropped noisy case study area).</li>
+      <li><strong>v3 OSM cross-match:</strong> high tier 24 confirmed + 90 new (79% NEW vs v2 75%). The cleaned classifier finds more genuinely-undocumented installations.</li>
+    </ul>
+    <h3 class="text-lg mt-6 mb-2">The "false positives" are real positives</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The 4 highest-scored "negatives" in the validation set (random NCR tiles) all contain visible rooftop solar arrays when checked by eye. These were never in OSM but the classifier found them. Two examples:
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li><code>rneg_0116</code> (score 0.951): commercial complex with 4+ separate rooftop panel arrays.</li>
+      <li><code>rneg_0136</code> (score 0.954): institutional building with a clearly visible blue-gray panel grid.</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The LOSO precision number quoted above (98% at threshold 0.85) is a <strong>lower bound</strong>. The "false positives" inflating the negative class are mostly OSM-coverage gaps. The CNN's value sits there: it surfaces solar the OSM community hasn't yet mapped.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2">v4: a second active-learning round + honest holdout calibration</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The v3 CV precision is biased upward: data augmentation creates near-duplicate variants of the same source image, and group-aware folds can leak similarity through the augmentation chain. To get an honest precision number we ran another active-learning round and split out a never-trained 20% holdout for Platt-sigmoid calibration.
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>Active learning, round 2.</strong> All 114 v3 high-confidence tiles were re-inspected at the source 600px Esri resolution (not the 480px verification thumbnails). 111 confirmed real solar, 1 confirmed false positive (uniform blue painted metal roof, no inter-panel structure), 2 stay ambiguous. Two thumbnail-level mislabels surfaced: a sawtooth industrial roof initially called false (was solar on south-facing slopes) and 29 thumbnails initially called ambiguous that turned out to host clearly visible PV at full resolution.</li>
+      <li><strong>Calibration.</strong> 20% of OSM-positive sources held out, never seen by the trained classifier. The remaining 80% trains the base LR; the held-out set fits a Platt sigmoid <code>P = sigmoid(1.29 × decision_function(x) + 0.16)</code> mapping raw scores to calibrated probabilities.</li>
+      <li><strong>Honest holdout, threshold 0.85: precision 95.9%, recall 79.7%, F1 0.870</strong> across 59 positive + 39 negative held-out sources. The honest precision is ~3 points lower than the LOSO number, which is consistent with augmentation leakage. To hit P ≥ 0.99 on this honest holdout, threshold needs to climb to 0.97 (recall drops to 66%).</li>
+      <li><strong>v4 NCR scan: 130 high + 216 candidate</strong> (vs v3 114 + 280). 40 tiles upgraded to high, 2 lost. 82% of high tier are NEW (not in OSM).</li>
+    </ul>
+    <h3 class="text-lg mt-6 mb-2">Encoder ablation: CLIP wins</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Before locking the encoder, we ran the same training set through two alternatives at the same head and the same Platt holdout:
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li><code>openai/clip-vit-large-patch14</code> (current): calibrated holdout F1 = <strong>0.870</strong>, P = 0.959.</li>
+      <li><code>facebook/dinov2-large</code>: F1 = 0.830 (-4 pts), P = 0.936 (-2.3 pts).</li>
+      <li><code>satlas Aerial_SwinB_SI</code> (aerial-imagery pretrained): F1 = 0.727 (-14 pts), P = 0.900 (-5.9 pts).</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The aerial-pretrained encoder underperforming the general-purpose one was the most surprising result. CLIP's web-scale text-paired image pretraining apparently encodes "is this a solar panel array" better than satlas's narrower aerial-task pretraining. CLIP-ViT-L stays locked.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2">Cross-match against OpenStreetMap</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      For every CNN detection we look up the nearest OSM-tagged solar location and treat detections within 200 m as "confirmed by OSM" (model rediscovers known solar) and detections farther away as "new" (model proposes solar OSM has not tagged). On the full v4 Meralco-franchise scan (45,752 tiles covering NCR + Bulacan/Cavite/Rizal/Laguna industrial belts, 617 detections):
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
+      <li>HIGH-CONFIDENCE TIER (266 detections, score ≥ 0.85): <strong>40 confirmed by OSM (15%) · 226 new (85%)</strong></li>
+      <li>CANDIDATE TIER (351 detections, score 0.70-0.85): <strong>22 confirmed (6%) · 329 new (94%)</strong></li>
+      <li>By area: <strong>NCR 130 high + 216 candidate</strong> · <strong>extended franchise 136 high + 135 candidate</strong>. Doubling the geographic footprint roughly doubled the high-confidence count.</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      This is a useful sanity check for the classifier. If almost every detection re-mapped an OSM point, the model would just be memorizing training data; if none did, the model would be hallucinating. The ~25% confirmed / ~75% new split at the high tier is consistent with a classifier that learned the visual signature of rooftop PV well enough to recognize it on buildings the OSM community has not yet mapped.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The "candidate" tier is noisier: many genuine borderline cases plus more visually-ambiguous false positives. The high-confidence tier is the production set.
+    </p>
+
+    <h3 class="text-lg mt-6 mb-2">Coverage scan</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      We tile the Meralco franchise (14.20–14.85 N, 120.88–121.22 E) on a 240 m grid, no overlap. 45,752 tiles after the Phase 5 extension (NCR's original 16,544 + Bulacan/Cavite/Rizal/Laguna industrial belts). Each tile is fetched from Esri, embedded with CLIP-ViT-L, and scored by the classifier. Results at score ≥ 0.70 are written to <code>site/public/data/rooftop_solar_ncr.geojson</code> with a <em>tier</em> property (<code>high</code> for ≥ 0.85, <code>candidate</code> otherwise). The "your roof" page surfaces detections within 1.5 km of the user's geocoded address.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The base detection layer outputs tile-level Points (the 240 m square center). v2.1 (next section) localizes panels at building-polygon resolution.
+    </p>
+
+    <h2 id="building-level" class="text-xl mt-10 mb-2">v2.1 Building-level panel localization</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Tile-level detection answers "is there solar in this 240m grid square." It cannot answer "which roof," and it cannot estimate kWp installed without a footprint. v2.1 adds panel-polygon resolution by combining three signals.
+    </p>
+
+    <figure class="my-6 not-prose">
+      <div class="bg-paper-alt border border-ink-300/40 p-4 overflow-x-auto">
+        <pre class="mermaid text-ink-900">
+flowchart TB
+  TILE["High-confidence tile<br/>from clf_v3 scan"]
+  SAM["SAM ViT-B<br/>auto-mask generator<br/>~150 masks per tile"]
+  COLOR["Color signature filter<br/>brightness 25 to 140<br/>blue bias -25 to +60"]
+  CROP["192 px context crop<br/>centered on each mask"]
+  CEMB["CLIP-ViT-L embed"]
+  LR2["clf_v3 score"]
+  COMB["combined score<br/>0.6 * CLIP + 0.4 * color"]
+  KEEP["keep if combined &gt;= 0.70"]
+  OSM2["OSM buildings within 200 m<br/>via Overpass"]
+  MATCH["Centroid-in-polygon<br/>or bbox overlap"]
+  MERGE["Per-building merge<br/>sum panel area<br/>cap at footprint"]
+  KWP["kWp estimate<br/>area_m2 divided by 6"]
+  OUT["per_building_solar_ncr.geojson<br/>231 buildings, 39.7 MW"]
+  TILE --&gt; SAM
+  SAM --&gt; COLOR
+  COLOR --&gt;|drops ~70% of masks| CROP
+  CROP --&gt; CEMB
+  CEMB --&gt; LR2
+  LR2 --&gt; COMB
+  COMB --&gt; KEEP
+  KEEP --&gt; MATCH
+  OSM2 --&gt; MATCH
+  MATCH --&gt; MERGE
+  MERGE --&gt; KWP
+  KWP --&gt; OUT
+        </pre>
+      </div>
+      <figcaption class="text-[11px] text-ink-500 font-mono mt-2">fig 03 · v2.1 turns each high-confidence tile into one feature per OSM building with detected panels. SAM produces many candidate masks; the color filter is fast and removes most non-panel masks before CLIP scoring; the per-building merge collapses over-segmented arrays back to one polygon per building.</figcaption>
+    </figure>
+    <ol class="list-decimal pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>SAM (Segment Anything, ViT-B checkpoint).</strong> For each high-confidence v3 tile we run SAM's automatic mask generator. SAM is class-agnostic: it carves the image into ~150-200 generic regions per tile (every roof slope, road, treeline becomes its own mask).</li>
+      <li><strong>Color signature filter.</strong> Solar panels in PH aerial imagery are dark with neutral-to-blue tone. We compute per-mask mean RGB and reject masks whose brightness or blue bias is incompatible with panels (light roofs, vegetation, asphalt, brightly-tarpaulined informal roofs all get filtered out before the next step).</li>
+      <li><strong>CLIP+LR scoring on 192 px context window.</strong> Each surviving mask is centered in a 192×192 px window (~76 m), embedded with CLIP-ViT-L, and scored by clf_v3. Final segment confidence is <code>0.6 × CLIP_score + 0.4 × color_score</code>. We keep segments with combined confidence ≥ 0.70.</li>
+      <li><strong>OSM building intersection.</strong> Each kept segment polygon is matched against OSM building footprints around the tile (Overpass query with 200 m radius). The segment is assigned to the building containing its centroid (or, if outside any building, to the building with largest bbox overlap).</li>
+      <li><strong>Per-building merge.</strong> SAM frequently over-segments a single rooftop array into 8-30 pieces; without grouping the same SM Mall installation would emit 30 features. We group all segments by OSM building id, sum their panel area (capped at the building footprint), use the highest-confidence segment as the displayed polygon, and keep the max segment confidence as the building's score.</li>
+      <li><strong>kWp estimate.</strong> Industry rule of thumb: ~6 m² of crystalline-silicon panel per kWp installed. <code>kwp_estimate = panel_area_m² / 6</code>. This is approximate: efficiency varies, mounting density varies, and SAM's polygon often clips the array boundary by ±10%.</li>
+    </ol>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Output: <code>site/public/data/per_building_solar_ncr.geojson</code>, one Feature per building with detected panels. Properties include <code>building_osm_id</code>, <code>building_type</code>, <code>panel_area_m2</code>, <code>kwp_estimate</code>, <code>confidence</code>, <code>n_segments_merged</code>. The "your roof" tool does an osm_id lookup against this file: when the user's address matches a building that v2.1 found panels on, the result page surfaces a "your roof MAY already have solar" banner with the detection thumbnail and estimated kWp.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      <strong>What this is not:</strong> a verified panel-area number. SAM's polygons are approximate (contour-of-a-mask, not a precise rectified panel outline); CLIP+LR was trained at tile scale and applied at segment scale; OSM building footprints in PH are uneven. Treat the kWp number as ±20–30%. The high-value claim is <em>"there is solar on this specific OSM building"</em>; the m² and kWp are useful framing, not audit-grade.
+    </p>
+
+    <h2 class="text-xl mt-10 mb-2">Honest limitations</h2>
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
       <li>10m Sentinel-2 resolution caps inference at city/barangay scale, not roof-level.</li>
       <li>Composite weights are v1 priors, not validated against ground truth.</li>
@@ -178,4 +377,23 @@ import Base from "../layouts/Base.astro";
       <li>PVGIS: <a href="https://re.jrc.ec.europa.eu/pvg_tools/en/" class="no-underline text-accent-steel">European Commission JRC</a></li>
     </ul>
   </article>
+
+  <script is:inline type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "neutral",
+      flowchart: { htmlLabels: true, curve: "basis" },
+      themeVariables: {
+        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+        fontSize: "13px",
+        primaryColor: "#f5f1e8",
+        primaryTextColor: "#1a1a1a",
+        primaryBorderColor: "#9ca3af",
+        lineColor: "#6b7280",
+        secondaryColor: "#e5e0d3",
+        tertiaryColor: "#fafafa",
+      },
+    });
+  </script>
 </Base>

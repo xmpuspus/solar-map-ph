@@ -1,0 +1,6184 @@
+{
+  "n_detections": 617,
+  "n_high": 266,
+  "n_candidate": 351,
+  "confirmed_distance_m": 200,
+  "summary": {
+    "confirmed_high": 40,
+    "new_high": 226,
+    "confirmed_candidate": 22,
+    "new_candidate": 329
+  },
+  "rows": [
+    {
+      "tile_id": "14.40756_120.92336",
+      "lat": 14.40756,
+      "lon": 120.92336,
+      "tier": "high",
+      "score": 0.859,
+      "nearest_osm_m": 1570.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.40756_120.92560",
+      "lat": 14.40756,
+      "lon": 120.9256,
+      "tier": "candidate",
+      "score": 0.811,
+      "nearest_osm_m": 1811.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.40972_120.97264",
+      "lat": 14.40972,
+      "lon": 120.97264000000001,
+      "tier": "high",
+      "score": 0.936,
+      "nearest_osm_m": 1692.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.40972_121.03760",
+      "lat": 14.40972,
+      "lon": 121.03760000000003,
+      "tier": "candidate",
+      "score": 0.701,
+      "nearest_osm_m": 2910.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.41188_120.94128",
+      "lat": 14.41188,
+      "lon": 120.94128,
+      "tier": "candidate",
+      "score": 0.72,
+      "nearest_osm_m": 1858.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.41188_121.04656",
+      "lat": 14.41188,
+      "lon": 121.04656000000003,
+      "tier": "candidate",
+      "score": 0.81,
+      "nearest_osm_m": 3259.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.41404_120.96592",
+      "lat": 14.41404,
+      "lon": 120.96592000000001,
+      "tier": "high",
+      "score": 0.944,
+      "nearest_osm_m": 1024.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.41620_121.03984",
+      "lat": 14.4162,
+      "lon": 121.03984000000003,
+      "tier": "high",
+      "score": 0.938,
+      "nearest_osm_m": 2423.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.41620_121.04208",
+      "lat": 14.4162,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.811,
+      "nearest_osm_m": 2579.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.41836_121.03984",
+      "lat": 14.41836,
+      "lon": 121.03984000000003,
+      "tier": "candidate",
+      "score": 0.849,
+      "nearest_osm_m": 2239.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.41836_121.04208",
+      "lat": 14.41836,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.749,
+      "nearest_osm_m": 2407.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42052_121.03312",
+      "lat": 14.42052,
+      "lon": 121.03312000000003,
+      "tier": "high",
+      "score": 0.932,
+      "nearest_osm_m": 1621.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42268_121.03312",
+      "lat": 14.42268,
+      "lon": 121.03312000000003,
+      "tier": "high",
+      "score": 0.977,
+      "nearest_osm_m": 1414.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42268_121.03536",
+      "lat": 14.42268,
+      "lon": 121.03536000000003,
+      "tier": "candidate",
+      "score": 0.781,
+      "nearest_osm_m": 1560.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42484_121.02864",
+      "lat": 14.42484,
+      "lon": 121.02864000000002,
+      "tier": "candidate",
+      "score": 0.774,
+      "nearest_osm_m": 987.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42484_121.04432",
+      "lat": 14.42484,
+      "lon": 121.04432000000003,
+      "tier": "candidate",
+      "score": 0.701,
+      "nearest_osm_m": 2194.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42700_121.03984",
+      "lat": 14.427,
+      "lon": 121.03984000000003,
+      "tier": "candidate",
+      "score": 0.702,
+      "nearest_osm_m": 1655.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42916_121.02192",
+      "lat": 14.42916,
+      "lon": 121.02192000000002,
+      "tier": "candidate",
+      "score": 0.704,
+      "nearest_osm_m": 615.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42916_121.04208",
+      "lat": 14.42916,
+      "lon": 121.04208000000003,
+      "tier": "high",
+      "score": 0.992,
+      "nearest_osm_m": 1800.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43132_120.96816",
+      "lat": 14.43132,
+      "lon": 120.96816000000001,
+      "tier": "high",
+      "score": 0.912,
+      "nearest_osm_m": 26.2,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.43132_121.01072",
+      "lat": 14.43132,
+      "lon": 121.01072000000002,
+      "tier": "high",
+      "score": 0.883,
+      "nearest_osm_m": 1609.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43132_121.01968",
+      "lat": 14.43132,
+      "lon": 121.01968000000002,
+      "tier": "candidate",
+      "score": 0.702,
+      "nearest_osm_m": 672.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43132_121.04208",
+      "lat": 14.43132,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.788,
+      "nearest_osm_m": 1753.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43348_121.00624",
+      "lat": 14.43348,
+      "lon": 121.00624000000002,
+      "tier": "candidate",
+      "score": 0.785,
+      "nearest_osm_m": 1186.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43348_121.00848",
+      "lat": 14.43348,
+      "lon": 121.00848000000002,
+      "tier": "candidate",
+      "score": 0.775,
+      "nearest_osm_m": 1404.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43348_121.01072",
+      "lat": 14.43348,
+      "lon": 121.01072000000002,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 1589.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43348_121.01296",
+      "lat": 14.43348,
+      "lon": 121.01296000000002,
+      "tier": "high",
+      "score": 0.907,
+      "nearest_osm_m": 1348.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43348_121.04208",
+      "lat": 14.43348,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.805,
+      "nearest_osm_m": 1739.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43348_121.04656",
+      "lat": 14.43348,
+      "lon": 121.04656000000003,
+      "tier": "high",
+      "score": 0.857,
+      "nearest_osm_m": 2222.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43564_120.96816",
+      "lat": 14.43564,
+      "lon": 120.96816000000001,
+      "tier": "candidate",
+      "score": 0.81,
+      "nearest_osm_m": 505.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43564_121.00624",
+      "lat": 14.43564,
+      "lon": 121.00624000000002,
+      "tier": "high",
+      "score": 0.913,
+      "nearest_osm_m": 1094.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43564_121.04432",
+      "lat": 14.43564,
+      "lon": 121.04432000000003,
+      "tier": "candidate",
+      "score": 0.75,
+      "nearest_osm_m": 1997.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.44428_120.95024",
+      "lat": 14.44428,
+      "lon": 120.95024000000001,
+      "tier": "high",
+      "score": 0.993,
+      "nearest_osm_m": 101.4,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.44428_120.95248",
+      "lat": 14.44428,
+      "lon": 120.95248000000001,
+      "tier": "candidate",
+      "score": 0.764,
+      "nearest_osm_m": 157.5,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.44428_120.99504",
+      "lat": 14.44428,
+      "lon": 120.99504000000002,
+      "tier": "candidate",
+      "score": 0.736,
+      "nearest_osm_m": 662.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.44644_120.95472",
+      "lat": 14.446439999999999,
+      "lon": 120.95472000000001,
+      "tier": "high",
+      "score": 0.909,
+      "nearest_osm_m": 437.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.44644_120.96368",
+      "lat": 14.446439999999999,
+      "lon": 120.96368000000001,
+      "tier": "candidate",
+      "score": 0.702,
+      "nearest_osm_m": 1370.6,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.44644_121.02864",
+      "lat": 14.446439999999999,
+      "lon": 121.02864000000002,
+      "tier": "candidate",
+      "score": 0.776,
+      "nearest_osm_m": 1472.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.44860_120.95472",
+      "lat": 14.448599999999999,
+      "lon": 120.95472000000001,
+      "tier": "high",
+      "score": 0.926,
+      "nearest_osm_m": 585.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.44860_120.97936",
+      "lat": 14.448599999999999,
+      "lon": 120.97936000000001,
+      "tier": "candidate",
+      "score": 0.719,
+      "nearest_osm_m": 2161.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.44860_120.98160",
+      "lat": 14.448599999999999,
+      "lon": 120.98160000000001,
+      "tier": "candidate",
+      "score": 0.714,
+      "nearest_osm_m": 1959.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.44860_121.04432",
+      "lat": 14.448599999999999,
+      "lon": 121.04432000000003,
+      "tier": "high",
+      "score": 0.851,
+      "nearest_osm_m": 2605.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.45076_120.92560",
+      "lat": 14.450759999999999,
+      "lon": 120.9256,
+      "tier": "candidate",
+      "score": 0.76,
+      "nearest_osm_m": 2825.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.45508_120.99504",
+      "lat": 14.455079999999999,
+      "lon": 120.99504000000002,
+      "tier": "candidate",
+      "score": 0.717,
+      "nearest_osm_m": 1851.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.45508_121.03536",
+      "lat": 14.455079999999999,
+      "lon": 121.03536000000003,
+      "tier": "high",
+      "score": 0.973,
+      "nearest_osm_m": 2612.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.45724_121.03312",
+      "lat": 14.457239999999999,
+      "lon": 121.03312000000003,
+      "tier": "candidate",
+      "score": 0.813,
+      "nearest_osm_m": 2757.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.46588_121.01520",
+      "lat": 14.465879999999999,
+      "lon": 121.01520000000002,
+      "tier": "high",
+      "score": 0.937,
+      "nearest_osm_m": 3650.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.46588_121.01744",
+      "lat": 14.465879999999999,
+      "lon": 121.01744000000002,
+      "tier": "candidate",
+      "score": 0.803,
+      "nearest_osm_m": 3697.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.47452_121.04432",
+      "lat": 14.474519999999998,
+      "lon": 121.04432000000003,
+      "tier": "high",
+      "score": 0.871,
+      "nearest_osm_m": 4406.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.47452_121.05328",
+      "lat": 14.474519999999998,
+      "lon": 121.05328000000003,
+      "tier": "candidate",
+      "score": 0.765,
+      "nearest_osm_m": 4678.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.47668_120.98384",
+      "lat": 14.476679999999998,
+      "lon": 120.98384000000001,
+      "tier": "high",
+      "score": 0.914,
+      "nearest_osm_m": 2006.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.48100_120.99728",
+      "lat": 14.480999999999998,
+      "lon": 120.99728000000002,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 1340.9,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.48100_121.03984",
+      "lat": 14.480999999999998,
+      "lon": 121.03984000000003,
+      "tier": "high",
+      "score": 0.986,
+      "nearest_osm_m": 3626.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.48100_121.04208",
+      "lat": 14.480999999999998,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.773,
+      "nearest_osm_m": 3655.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.48316_121.03984",
+      "lat": 14.483159999999998,
+      "lon": 121.03984000000003,
+      "tier": "candidate",
+      "score": 0.756,
+      "nearest_osm_m": 3387.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.48316_121.04656",
+      "lat": 14.483159999999998,
+      "lon": 121.04656000000003,
+      "tier": "high",
+      "score": 0.902,
+      "nearest_osm_m": 3529.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.48964_121.04208",
+      "lat": 14.489639999999998,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.743,
+      "nearest_osm_m": 2709.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.48964_121.04880",
+      "lat": 14.489639999999998,
+      "lon": 121.04880000000003,
+      "tier": "candidate",
+      "score": 0.744,
+      "nearest_osm_m": 2945.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.49180_120.99952",
+      "lat": 14.491799999999998,
+      "lon": 120.99952000000002,
+      "tier": "candidate",
+      "score": 0.717,
+      "nearest_osm_m": 631.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.49396_120.99280",
+      "lat": 14.493959999999998,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.829,
+      "nearest_osm_m": 79.4,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.49828_121.03088",
+      "lat": 14.498279999999998,
+      "lon": 121.03088000000002,
+      "tier": "candidate",
+      "score": 0.826,
+      "nearest_osm_m": 1810.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.50260_120.99728",
+      "lat": 14.502599999999997,
+      "lon": 120.99728000000002,
+      "tier": "candidate",
+      "score": 0.785,
+      "nearest_osm_m": 81.6,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.50260_121.03312",
+      "lat": 14.502599999999997,
+      "lon": 121.03312000000003,
+      "tier": "candidate",
+      "score": 0.719,
+      "nearest_osm_m": 1277.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.50908_121.00848",
+      "lat": 14.509079999999997,
+      "lon": 121.00848000000002,
+      "tier": "high",
+      "score": 0.938,
+      "nearest_osm_m": 1409.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.50908_121.03536",
+      "lat": 14.509079999999997,
+      "lon": 121.03536000000003,
+      "tier": "candidate",
+      "score": 0.738,
+      "nearest_osm_m": 517.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.51340_121.03536",
+      "lat": 14.513399999999997,
+      "lon": 121.03536000000003,
+      "tier": "high",
+      "score": 0.942,
+      "nearest_osm_m": 165.8,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.51340_121.03760",
+      "lat": 14.513399999999997,
+      "lon": 121.03760000000003,
+      "tier": "high",
+      "score": 0.912,
+      "nearest_osm_m": 76.2,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.51556_121.02416",
+      "lat": 14.515559999999997,
+      "lon": 121.02416000000002,
+      "tier": "high",
+      "score": 0.976,
+      "nearest_osm_m": 1390.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.51772_120.99952",
+      "lat": 14.517719999999997,
+      "lon": 120.99952000000002,
+      "tier": "candidate",
+      "score": 0.745,
+      "nearest_osm_m": 950.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.51988_120.98384",
+      "lat": 14.519879999999997,
+      "lon": 120.98384000000001,
+      "tier": "candidate",
+      "score": 0.731,
+      "nearest_osm_m": 914.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.51988_121.01520",
+      "lat": 14.519879999999997,
+      "lon": 121.01520000000002,
+      "tier": "candidate",
+      "score": 0.733,
+      "nearest_osm_m": 2441.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.51988_121.06896",
+      "lat": 14.519879999999997,
+      "lon": 121.06896000000003,
+      "tier": "candidate",
+      "score": 0.713,
+      "nearest_osm_m": 2808.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.52420_120.99056",
+      "lat": 14.524199999999997,
+      "lon": 120.99056000000002,
+      "tier": "high",
+      "score": 0.924,
+      "nearest_osm_m": 61.8,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.52420_120.99280",
+      "lat": 14.524199999999997,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.739,
+      "nearest_osm_m": 104.5,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.52420_120.99728",
+      "lat": 14.524199999999997,
+      "lon": 120.99728000000002,
+      "tier": "candidate",
+      "score": 0.839,
+      "nearest_osm_m": 534.9,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.52636_121.00624",
+      "lat": 14.526359999999997,
+      "lon": 121.00624000000002,
+      "tier": "candidate",
+      "score": 0.704,
+      "nearest_osm_m": 1466.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.52636_121.00848",
+      "lat": 14.526359999999997,
+      "lon": 121.00848000000002,
+      "tier": "candidate",
+      "score": 0.715,
+      "nearest_osm_m": 1684.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53068_120.98160",
+      "lat": 14.530679999999997,
+      "lon": 120.98160000000001,
+      "tier": "candidate",
+      "score": 0.734,
+      "nearest_osm_m": 329.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53068_120.99056",
+      "lat": 14.530679999999997,
+      "lon": 120.99056000000002,
+      "tier": "high",
+      "score": 0.866,
+      "nearest_osm_m": 427.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53068_121.00176",
+      "lat": 14.530679999999997,
+      "lon": 121.00176000000002,
+      "tier": "candidate",
+      "score": 0.749,
+      "nearest_osm_m": 844.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53068_121.05328",
+      "lat": 14.530679999999997,
+      "lon": 121.05328000000003,
+      "tier": "candidate",
+      "score": 0.76,
+      "nearest_osm_m": 1908.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53068_121.07344",
+      "lat": 14.530679999999997,
+      "lon": 121.07344000000003,
+      "tier": "high",
+      "score": 0.949,
+      "nearest_osm_m": 3135.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53284_120.98832",
+      "lat": 14.532839999999997,
+      "lon": 120.98832000000002,
+      "tier": "high",
+      "score": 0.917,
+      "nearest_osm_m": 626.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53284_120.99056",
+      "lat": 14.532839999999997,
+      "lon": 120.99056000000002,
+      "tier": "candidate",
+      "score": 0.821,
+      "nearest_osm_m": 386.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53284_121.02416",
+      "lat": 14.532839999999997,
+      "lon": 121.02416000000002,
+      "tier": "candidate",
+      "score": 0.772,
+      "nearest_osm_m": 2551.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53500_120.99056",
+      "lat": 14.534999999999997,
+      "lon": 120.99056000000002,
+      "tier": "candidate",
+      "score": 0.72,
+      "nearest_osm_m": 480.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53500_121.09136",
+      "lat": 14.534999999999997,
+      "lon": 121.09136000000004,
+      "tier": "candidate",
+      "score": 0.85,
+      "nearest_osm_m": 3493.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53716_120.98160",
+      "lat": 14.537159999999997,
+      "lon": 120.98160000000001,
+      "tier": "candidate",
+      "score": 0.811,
+      "nearest_osm_m": 70.1,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.53716_120.98832",
+      "lat": 14.537159999999997,
+      "lon": 120.98832000000002,
+      "tier": "candidate",
+      "score": 0.754,
+      "nearest_osm_m": 674.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53716_121.01968",
+      "lat": 14.537159999999997,
+      "lon": 121.01968000000002,
+      "tier": "candidate",
+      "score": 0.839,
+      "nearest_osm_m": 2276.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54148_120.99280",
+      "lat": 14.541479999999996,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.712,
+      "nearest_osm_m": 1021.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54148_121.02640",
+      "lat": 14.541479999999996,
+      "lon": 121.02640000000002,
+      "tier": "candidate",
+      "score": 0.808,
+      "nearest_osm_m": 2406.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54364_120.99280",
+      "lat": 14.543639999999996,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.709,
+      "nearest_osm_m": 1259.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54364_120.99504",
+      "lat": 14.543639999999996,
+      "lon": 120.99504000000002,
+      "tier": "candidate",
+      "score": 0.778,
+      "nearest_osm_m": 1255.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54580_121.01520",
+      "lat": 14.545799999999996,
+      "lon": 121.01520000000002,
+      "tier": "candidate",
+      "score": 0.78,
+      "nearest_osm_m": 1209.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54580_121.02192",
+      "lat": 14.545799999999996,
+      "lon": 121.02192000000002,
+      "tier": "candidate",
+      "score": 0.84,
+      "nearest_osm_m": 1734.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54796_120.98832",
+      "lat": 14.547959999999996,
+      "lon": 120.98832000000002,
+      "tier": "candidate",
+      "score": 0.768,
+      "nearest_osm_m": 846.9,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54796_121.05552",
+      "lat": 14.547959999999996,
+      "lon": 121.05552000000003,
+      "tier": "candidate",
+      "score": 0.749,
+      "nearest_osm_m": 789.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55012_120.99056",
+      "lat": 14.550119999999996,
+      "lon": 120.99056000000002,
+      "tier": "candidate",
+      "score": 0.763,
+      "nearest_osm_m": 897.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55012_121.01296",
+      "lat": 14.550119999999996,
+      "lon": 121.01296000000002,
+      "tier": "candidate",
+      "score": 0.744,
+      "nearest_osm_m": 683.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55012_121.02640",
+      "lat": 14.550119999999996,
+      "lon": 121.02640000000002,
+      "tier": "candidate",
+      "score": 0.709,
+      "nearest_osm_m": 1976.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55012_121.08016",
+      "lat": 14.550119999999996,
+      "lon": 121.08016000000003,
+      "tier": "candidate",
+      "score": 0.736,
+      "nearest_osm_m": 2418.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55228_121.02416",
+      "lat": 14.552279999999996,
+      "lon": 121.02416000000002,
+      "tier": "candidate",
+      "score": 0.746,
+      "nearest_osm_m": 1691.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55228_121.05776",
+      "lat": 14.552279999999996,
+      "lon": 121.05776000000003,
+      "tier": "high",
+      "score": 0.867,
+      "nearest_osm_m": 262.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55444_120.98160",
+      "lat": 14.554439999999996,
+      "lon": 120.98160000000001,
+      "tier": "high",
+      "score": 0.97,
+      "nearest_osm_m": 76.5,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.55444_120.98384",
+      "lat": 14.554439999999996,
+      "lon": 120.98384000000001,
+      "tier": "high",
+      "score": 0.957,
+      "nearest_osm_m": 43.0,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.55444_121.00848",
+      "lat": 14.554439999999996,
+      "lon": 121.00848000000002,
+      "tier": "high",
+      "score": 0.975,
+      "nearest_osm_m": 14.0,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.55444_121.05776",
+      "lat": 14.554439999999996,
+      "lon": 121.05776000000003,
+      "tier": "high",
+      "score": 0.98,
+      "nearest_osm_m": 37.0,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.55660_121.05776",
+      "lat": 14.556599999999996,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.767,
+      "nearest_osm_m": 205.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55876_121.00624",
+      "lat": 14.558759999999996,
+      "lon": 121.00624000000002,
+      "tier": "candidate",
+      "score": 0.769,
+      "nearest_osm_m": 515.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55876_121.00848",
+      "lat": 14.558759999999996,
+      "lon": 121.00848000000002,
+      "tier": "high",
+      "score": 0.855,
+      "nearest_osm_m": 450.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.56092_120.98832",
+      "lat": 14.560919999999996,
+      "lon": 120.98832000000002,
+      "tier": "candidate",
+      "score": 0.828,
+      "nearest_osm_m": 835.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.56092_121.07120",
+      "lat": 14.560919999999996,
+      "lon": 121.07120000000003,
+      "tier": "candidate",
+      "score": 0.747,
+      "nearest_osm_m": 1558.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.56308_120.99280",
+      "lat": 14.563079999999996,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.739,
+      "nearest_osm_m": 1348.9,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.56524_120.99280",
+      "lat": 14.565239999999996,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.821,
+      "nearest_osm_m": 1514.9,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.56740_121.09808",
+      "lat": 14.567399999999996,
+      "lon": 121.09808000000004,
+      "tier": "candidate",
+      "score": 0.705,
+      "nearest_osm_m": 581.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57388_121.01968",
+      "lat": 14.573879999999996,
+      "lon": 121.01968000000002,
+      "tier": "candidate",
+      "score": 0.845,
+      "nearest_osm_m": 2442.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57388_121.05776",
+      "lat": 14.573879999999996,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.832,
+      "nearest_osm_m": 1775.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57604_120.98384",
+      "lat": 14.576039999999995,
+      "lon": 120.98384000000001,
+      "tier": "candidate",
+      "score": 0.754,
+      "nearest_osm_m": 1472.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57604_120.99280",
+      "lat": 14.576039999999995,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.795,
+      "nearest_osm_m": 2124.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57604_121.05776",
+      "lat": 14.576039999999995,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.701,
+      "nearest_osm_m": 1628.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57604_121.11152",
+      "lat": 14.576039999999995,
+      "lon": 121.11152000000004,
+      "tier": "candidate",
+      "score": 0.734,
+      "nearest_osm_m": 1579.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57820_120.97712",
+      "lat": 14.578199999999995,
+      "lon": 120.97712000000001,
+      "tier": "high",
+      "score": 0.896,
+      "nearest_osm_m": 1037.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57820_121.05552",
+      "lat": 14.578199999999995,
+      "lon": 121.05552000000003,
+      "tier": "candidate",
+      "score": 0.798,
+      "nearest_osm_m": 1295.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57820_121.05776",
+      "lat": 14.578199999999995,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.704,
+      "nearest_osm_m": 1505.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57820_121.07792",
+      "lat": 14.578199999999995,
+      "lon": 121.07792000000003,
+      "tier": "high",
+      "score": 0.943,
+      "nearest_osm_m": 2106.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58036_120.99952",
+      "lat": 14.580359999999995,
+      "lon": 120.99952000000002,
+      "tier": "candidate",
+      "score": 0.714,
+      "nearest_osm_m": 2548.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58036_121.05328",
+      "lat": 14.580359999999995,
+      "lon": 121.05328000000003,
+      "tier": "candidate",
+      "score": 0.81,
+      "nearest_osm_m": 966.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58036_121.06672",
+      "lat": 14.580359999999995,
+      "lon": 121.06672000000003,
+      "tier": "high",
+      "score": 0.85,
+      "nearest_osm_m": 2348.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58036_121.09136",
+      "lat": 14.580359999999995,
+      "lon": 121.09136000000004,
+      "tier": "candidate",
+      "score": 0.73,
+      "nearest_osm_m": 2106.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58252_120.98384",
+      "lat": 14.582519999999995,
+      "lon": 120.98384000000001,
+      "tier": "candidate",
+      "score": 0.799,
+      "nearest_osm_m": 920.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58252_120.98832",
+      "lat": 14.582519999999995,
+      "lon": 120.98832000000002,
+      "tier": "candidate",
+      "score": 0.789,
+      "nearest_osm_m": 1336.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58252_121.05328",
+      "lat": 14.582519999999995,
+      "lon": 121.05328000000003,
+      "tier": "candidate",
+      "score": 0.819,
+      "nearest_osm_m": 883.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58252_121.06224",
+      "lat": 14.582519999999995,
+      "lon": 121.06224000000003,
+      "tier": "candidate",
+      "score": 0.753,
+      "nearest_osm_m": 1835.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58252_121.09808",
+      "lat": 14.582519999999995,
+      "lon": 121.09808000000004,
+      "tier": "candidate",
+      "score": 0.783,
+      "nearest_osm_m": 1931.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58252_121.12720",
+      "lat": 14.582519999999995,
+      "lon": 121.12720000000004,
+      "tier": "candidate",
+      "score": 0.837,
+      "nearest_osm_m": 896.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58468_120.98832",
+      "lat": 14.584679999999995,
+      "lon": 120.98832000000002,
+      "tier": "candidate",
+      "score": 0.733,
+      "nearest_osm_m": 1256.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58468_121.05776",
+      "lat": 14.584679999999995,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.719,
+      "nearest_osm_m": 1343.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58468_121.06672",
+      "lat": 14.584679999999995,
+      "lon": 121.06672000000003,
+      "tier": "candidate",
+      "score": 0.727,
+      "nearest_osm_m": 2020.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58468_121.08912",
+      "lat": 14.584679999999995,
+      "lon": 121.08912000000004,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 1569.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58468_121.09808",
+      "lat": 14.584679999999995,
+      "lon": 121.09808000000004,
+      "tier": "candidate",
+      "score": 0.802,
+      "nearest_osm_m": 1691.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58684_120.97712",
+      "lat": 14.586839999999995,
+      "lon": 120.97712000000001,
+      "tier": "candidate",
+      "score": 0.785,
+      "nearest_osm_m": 77.1,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.58684_120.98384",
+      "lat": 14.586839999999995,
+      "lon": 120.98384000000001,
+      "tier": "high",
+      "score": 0.904,
+      "nearest_osm_m": 737.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58684_120.98832",
+      "lat": 14.586839999999995,
+      "lon": 120.98832000000002,
+      "tier": "high",
+      "score": 0.968,
+      "nearest_osm_m": 1217.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58684_121.04432",
+      "lat": 14.586839999999995,
+      "lon": 121.04432000000003,
+      "tier": "high",
+      "score": 0.989,
+      "nearest_osm_m": 56.5,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.58684_121.04880",
+      "lat": 14.586839999999995,
+      "lon": 121.04880000000003,
+      "tier": "candidate",
+      "score": 0.783,
+      "nearest_osm_m": 444.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58684_121.05776",
+      "lat": 14.586839999999995,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.776,
+      "nearest_osm_m": 1371.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58684_121.06448",
+      "lat": 14.586839999999995,
+      "lon": 121.06448000000003,
+      "tier": "candidate",
+      "score": 0.787,
+      "nearest_osm_m": 2064.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58684_121.10480",
+      "lat": 14.586839999999995,
+      "lon": 121.10480000000004,
+      "tier": "candidate",
+      "score": 0.728,
+      "nearest_osm_m": 1585.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58900_120.98384",
+      "lat": 14.588999999999995,
+      "lon": 120.98384000000001,
+      "tier": "high",
+      "score": 0.914,
+      "nearest_osm_m": 751.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58900_120.99952",
+      "lat": 14.588999999999995,
+      "lon": 120.99952000000002,
+      "tier": "candidate",
+      "score": 0.811,
+      "nearest_osm_m": 2426.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58900_121.04432",
+      "lat": 14.588999999999995,
+      "lon": 121.04432000000003,
+      "tier": "high",
+      "score": 0.969,
+      "nearest_osm_m": 180.0,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.58900_121.06672",
+      "lat": 14.588999999999995,
+      "lon": 121.06672000000003,
+      "tier": "candidate",
+      "score": 0.724,
+      "nearest_osm_m": 1732.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59116_120.99952",
+      "lat": 14.591159999999995,
+      "lon": 120.99952000000002,
+      "tier": "candidate",
+      "score": 0.809,
+      "nearest_osm_m": 2454.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59116_121.06000",
+      "lat": 14.591159999999995,
+      "lon": 121.06000000000003,
+      "tier": "candidate",
+      "score": 0.845,
+      "nearest_osm_m": 1705.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59116_121.09584",
+      "lat": 14.591159999999995,
+      "lon": 121.09584000000004,
+      "tier": "high",
+      "score": 0.862,
+      "nearest_osm_m": 1019.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59332_121.08016",
+      "lat": 14.593319999999995,
+      "lon": 121.08016000000003,
+      "tier": "candidate",
+      "score": 0.728,
+      "nearest_osm_m": 408.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59548_120.98832",
+      "lat": 14.595479999999995,
+      "lon": 120.98832000000002,
+      "tier": "high",
+      "score": 0.898,
+      "nearest_osm_m": 1503.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59548_120.99056",
+      "lat": 14.595479999999995,
+      "lon": 120.99056000000002,
+      "tier": "candidate",
+      "score": 0.78,
+      "nearest_osm_m": 1703.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59764_120.96592",
+      "lat": 14.597639999999995,
+      "lon": 120.96592000000001,
+      "tier": "candidate",
+      "score": 0.753,
+      "nearest_osm_m": 1640.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59764_120.99280",
+      "lat": 14.597639999999995,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.807,
+      "nearest_osm_m": 2036.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59764_121.08016",
+      "lat": 14.597639999999995,
+      "lon": 121.08016000000003,
+      "tier": "candidate",
+      "score": 0.719,
+      "nearest_osm_m": 85.0,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.59980_120.99280",
+      "lat": 14.599799999999995,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.727,
+      "nearest_osm_m": 2178.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59980_121.09808",
+      "lat": 14.599799999999995,
+      "lon": 121.09808000000004,
+      "tier": "high",
+      "score": 0.98,
+      "nearest_osm_m": 32.6,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.60196_121.04208",
+      "lat": 14.601959999999995,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.757,
+      "nearest_osm_m": 1064.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.60196_121.04880",
+      "lat": 14.601959999999995,
+      "lon": 121.04880000000003,
+      "tier": "high",
+      "score": 0.858,
+      "nearest_osm_m": 1682.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.60196_121.05104",
+      "lat": 14.601959999999995,
+      "lon": 121.05104000000003,
+      "tier": "candidate",
+      "score": 0.737,
+      "nearest_osm_m": 1763.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.60196_121.07344",
+      "lat": 14.601959999999995,
+      "lon": 121.07344000000003,
+      "tier": "candidate",
+      "score": 0.818,
+      "nearest_osm_m": 925.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.60196_121.10480",
+      "lat": 14.601959999999995,
+      "lon": 121.10480000000004,
+      "tier": "candidate",
+      "score": 0.843,
+      "nearest_osm_m": 674.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.60412_120.97264",
+      "lat": 14.604119999999995,
+      "lon": 120.97264000000001,
+      "tier": "candidate",
+      "score": 0.703,
+      "nearest_osm_m": 1904.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.60412_121.03312",
+      "lat": 14.604119999999995,
+      "lon": 121.03312000000003,
+      "tier": "candidate",
+      "score": 0.708,
+      "nearest_osm_m": 155.5,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.60412_121.03984",
+      "lat": 14.604119999999995,
+      "lon": 121.03984000000003,
+      "tier": "candidate",
+      "score": 0.803,
+      "nearest_osm_m": 763.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.60412_121.08016",
+      "lat": 14.604119999999995,
+      "lon": 121.08016000000003,
+      "tier": "high",
+      "score": 0.983,
+      "nearest_osm_m": 166.9,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.60844_120.97264",
+      "lat": 14.608439999999995,
+      "lon": 120.97264000000001,
+      "tier": "candidate",
+      "score": 0.784,
+      "nearest_osm_m": 2372.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.60844_121.06448",
+      "lat": 14.608439999999995,
+      "lon": 121.06448000000003,
+      "tier": "candidate",
+      "score": 0.839,
+      "nearest_osm_m": 1605.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61060_120.98832",
+      "lat": 14.610599999999994,
+      "lon": 120.98832000000002,
+      "tier": "candidate",
+      "score": 0.793,
+      "nearest_osm_m": 1817.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61060_120.99056",
+      "lat": 14.610599999999994,
+      "lon": 120.99056000000002,
+      "tier": "candidate",
+      "score": 0.807,
+      "nearest_osm_m": 1597.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61492_121.03760",
+      "lat": 14.614919999999994,
+      "lon": 121.03760000000003,
+      "tier": "high",
+      "score": 0.872,
+      "nearest_osm_m": 1143.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61492_121.04208",
+      "lat": 14.614919999999994,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.747,
+      "nearest_osm_m": 931.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61492_121.09136",
+      "lat": 14.614919999999994,
+      "lon": 121.09136000000004,
+      "tier": "high",
+      "score": 0.854,
+      "nearest_osm_m": 568.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61492_121.09360",
+      "lat": 14.614919999999994,
+      "lon": 121.09360000000004,
+      "tier": "high",
+      "score": 0.951,
+      "nearest_osm_m": 666.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61708_120.97712",
+      "lat": 14.617079999999994,
+      "lon": 120.97712000000001,
+      "tier": "high",
+      "score": 0.854,
+      "nearest_osm_m": 2884.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61708_120.98608",
+      "lat": 14.617079999999994,
+      "lon": 120.98608000000002,
+      "tier": "high",
+      "score": 0.976,
+      "nearest_osm_m": 1920.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61708_121.01520",
+      "lat": 14.617079999999994,
+      "lon": 121.01520000000002,
+      "tier": "candidate",
+      "score": 0.769,
+      "nearest_osm_m": 1140.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61708_121.04208",
+      "lat": 14.617079999999994,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.741,
+      "nearest_osm_m": 700.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61708_121.08688",
+      "lat": 14.617079999999994,
+      "lon": 121.08688000000004,
+      "tier": "candidate",
+      "score": 0.729,
+      "nearest_osm_m": 429.8,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61708_121.09360",
+      "lat": 14.617079999999994,
+      "lon": 121.09360000000004,
+      "tier": "candidate",
+      "score": 0.774,
+      "nearest_osm_m": 485.6,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61708_121.10032",
+      "lat": 14.617079999999994,
+      "lon": 121.10032000000004,
+      "tier": "candidate",
+      "score": 0.703,
+      "nearest_osm_m": 1138.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61924_120.96816",
+      "lat": 14.619239999999994,
+      "lon": 120.96816000000001,
+      "tier": "candidate",
+      "score": 0.742,
+      "nearest_osm_m": 3653.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61924_120.98608",
+      "lat": 14.619239999999994,
+      "lon": 120.98608000000002,
+      "tier": "high",
+      "score": 0.919,
+      "nearest_osm_m": 1939.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61924_121.05328",
+      "lat": 14.619239999999994,
+      "lon": 121.05328000000003,
+      "tier": "candidate",
+      "score": 0.791,
+      "nearest_osm_m": 143.4,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.61924_121.05552",
+      "lat": 14.619239999999994,
+      "lon": 121.05552000000003,
+      "tier": "high",
+      "score": 0.914,
+      "nearest_osm_m": 97.7,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.61924_121.10032",
+      "lat": 14.619239999999994,
+      "lon": 121.10032000000004,
+      "tier": "candidate",
+      "score": 0.758,
+      "nearest_osm_m": 1096.7,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61924_121.10256",
+      "lat": 14.619239999999994,
+      "lon": 121.10256000000004,
+      "tier": "high",
+      "score": 0.857,
+      "nearest_osm_m": 1337.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62140_121.01968",
+      "lat": 14.621399999999994,
+      "lon": 121.01968000000002,
+      "tier": "candidate",
+      "score": 0.783,
+      "nearest_osm_m": 1246.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62140_121.02192",
+      "lat": 14.621399999999994,
+      "lon": 121.02192000000002,
+      "tier": "high",
+      "score": 0.981,
+      "nearest_osm_m": 1473.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62356_121.02192",
+      "lat": 14.623559999999994,
+      "lon": 121.02192000000002,
+      "tier": "candidate",
+      "score": 0.793,
+      "nearest_osm_m": 1418.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62356_121.11824",
+      "lat": 14.623559999999994,
+      "lon": 121.11824000000004,
+      "tier": "candidate",
+      "score": 0.769,
+      "nearest_osm_m": 1271.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62572_120.96368",
+      "lat": 14.625719999999994,
+      "lon": 120.96368000000001,
+      "tier": "candidate",
+      "score": 0.761,
+      "nearest_osm_m": 3379.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62572_121.00848",
+      "lat": 14.625719999999994,
+      "lon": 121.00848000000002,
+      "tier": "high",
+      "score": 0.953,
+      "nearest_osm_m": 27.3,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.62572_121.06224",
+      "lat": 14.625719999999994,
+      "lon": 121.06224000000003,
+      "tier": "high",
+      "score": 0.887,
+      "nearest_osm_m": 1089.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62572_121.08464",
+      "lat": 14.625719999999994,
+      "lon": 121.08464000000004,
+      "tier": "high",
+      "score": 0.958,
+      "nearest_osm_m": 703.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62572_121.12048",
+      "lat": 14.625719999999994,
+      "lon": 121.12048000000004,
+      "tier": "high",
+      "score": 0.995,
+      "nearest_osm_m": 1198.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62572_121.12272",
+      "lat": 14.625719999999994,
+      "lon": 121.12272000000004,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 1004.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62788_121.06672",
+      "lat": 14.627879999999994,
+      "lon": 121.06672000000003,
+      "tier": "candidate",
+      "score": 0.758,
+      "nearest_osm_m": 1616.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.63004_121.02416",
+      "lat": 14.630039999999994,
+      "lon": 121.02416000000002,
+      "tier": "candidate",
+      "score": 0.727,
+      "nearest_osm_m": 1721.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.63436_121.10480",
+      "lat": 14.634359999999994,
+      "lon": 121.10480000000004,
+      "tier": "high",
+      "score": 0.951,
+      "nearest_osm_m": 2120.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.63868_120.95472",
+      "lat": 14.638679999999994,
+      "lon": 120.95472000000001,
+      "tier": "high",
+      "score": 0.956,
+      "nearest_osm_m": 1962.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.63868_120.95920",
+      "lat": 14.638679999999994,
+      "lon": 120.95920000000001,
+      "tier": "candidate",
+      "score": 0.816,
+      "nearest_osm_m": 1903.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.63868_120.96816",
+      "lat": 14.638679999999994,
+      "lon": 120.96816000000001,
+      "tier": "high",
+      "score": 0.869,
+      "nearest_osm_m": 2135.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64084_121.02192",
+      "lat": 14.640839999999994,
+      "lon": 121.02192000000002,
+      "tier": "high",
+      "score": 0.98,
+      "nearest_osm_m": 922.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64084_121.03984",
+      "lat": 14.640839999999994,
+      "lon": 121.03984000000003,
+      "tier": "candidate",
+      "score": 0.72,
+      "nearest_osm_m": 709.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64084_121.07568",
+      "lat": 14.640839999999994,
+      "lon": 121.07568000000003,
+      "tier": "high",
+      "score": 0.948,
+      "nearest_osm_m": 2607.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64300_121.03984",
+      "lat": 14.642999999999994,
+      "lon": 121.03984000000003,
+      "tier": "candidate",
+      "score": 0.716,
+      "nearest_osm_m": 669.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64300_121.04656",
+      "lat": 14.642999999999994,
+      "lon": 121.04656000000003,
+      "tier": "high",
+      "score": 0.992,
+      "nearest_osm_m": 54.0,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.64300_121.07792",
+      "lat": 14.642999999999994,
+      "lon": 121.07792000000003,
+      "tier": "candidate",
+      "score": 0.708,
+      "nearest_osm_m": 2681.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64516_121.03984",
+      "lat": 14.645159999999994,
+      "lon": 121.03984000000003,
+      "tier": "candidate",
+      "score": 0.704,
+      "nearest_osm_m": 712.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64516_121.04880",
+      "lat": 14.645159999999994,
+      "lon": 121.04880000000003,
+      "tier": "candidate",
+      "score": 0.711,
+      "nearest_osm_m": 383.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64516_121.05104",
+      "lat": 14.645159999999994,
+      "lon": 121.05104000000003,
+      "tier": "candidate",
+      "score": 0.825,
+      "nearest_osm_m": 589.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64516_121.07568",
+      "lat": 14.645159999999994,
+      "lon": 121.07568000000003,
+      "tier": "candidate",
+      "score": 0.727,
+      "nearest_osm_m": 2455.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64516_121.08016",
+      "lat": 14.645159999999994,
+      "lon": 121.08016000000003,
+      "tier": "candidate",
+      "score": 0.733,
+      "nearest_osm_m": 2514.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64516_121.08240",
+      "lat": 14.645159999999994,
+      "lon": 121.08240000000004,
+      "tier": "candidate",
+      "score": 0.724,
+      "nearest_osm_m": 2577.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64732_120.95248",
+      "lat": 14.647319999999993,
+      "lon": 120.95248000000001,
+      "tier": "high",
+      "score": 0.963,
+      "nearest_osm_m": 1173.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64732_120.95472",
+      "lat": 14.647319999999993,
+      "lon": 120.95472000000001,
+      "tier": "candidate",
+      "score": 0.846,
+      "nearest_osm_m": 1050.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64732_121.04208",
+      "lat": 14.647319999999993,
+      "lon": 121.04208000000003,
+      "tier": "candidate",
+      "score": 0.729,
+      "nearest_osm_m": 646.7,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64948_120.99728",
+      "lat": 14.649479999999993,
+      "lon": 120.99728000000002,
+      "tier": "candidate",
+      "score": 0.836,
+      "nearest_osm_m": 2926.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64948_121.03536",
+      "lat": 14.649479999999993,
+      "lon": 121.03536000000003,
+      "tier": "candidate",
+      "score": 0.817,
+      "nearest_osm_m": 1022.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.64948_121.07568",
+      "lat": 14.649479999999993,
+      "lon": 121.07568000000003,
+      "tier": "candidate",
+      "score": 0.768,
+      "nearest_osm_m": 1975.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65164_121.03312",
+      "lat": 14.651639999999993,
+      "lon": 121.03312000000003,
+      "tier": "high",
+      "score": 0.987,
+      "nearest_osm_m": 706.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65164_121.11600",
+      "lat": 14.651639999999993,
+      "lon": 121.11600000000004,
+      "tier": "candidate",
+      "score": 0.821,
+      "nearest_osm_m": 110.0,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.65380_121.01072",
+      "lat": 14.653799999999993,
+      "lon": 121.01072000000002,
+      "tier": "high",
+      "score": 0.867,
+      "nearest_osm_m": 1639.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65380_121.02864",
+      "lat": 14.653799999999993,
+      "lon": 121.02864000000002,
+      "tier": "candidate",
+      "score": 0.723,
+      "nearest_osm_m": 498.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65596_120.98384",
+      "lat": 14.655959999999993,
+      "lon": 120.98384000000001,
+      "tier": "candidate",
+      "score": 0.728,
+      "nearest_osm_m": 2655.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65596_121.02192",
+      "lat": 14.655959999999993,
+      "lon": 121.02192000000002,
+      "tier": "high",
+      "score": 0.853,
+      "nearest_osm_m": 883.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65596_121.02864",
+      "lat": 14.655959999999993,
+      "lon": 121.02864000000002,
+      "tier": "high",
+      "score": 0.894,
+      "nearest_osm_m": 315.9,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65596_121.03312",
+      "lat": 14.655959999999993,
+      "lon": 121.03312000000003,
+      "tier": "high",
+      "score": 0.973,
+      "nearest_osm_m": 294.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65596_121.04432",
+      "lat": 14.655959999999993,
+      "lon": 121.04432000000003,
+      "tier": "candidate",
+      "score": 0.804,
+      "nearest_osm_m": 1443.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65812_120.96144",
+      "lat": 14.658119999999993,
+      "lon": 120.96144000000001,
+      "tier": "candidate",
+      "score": 0.779,
+      "nearest_osm_m": 349.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65812_120.98608",
+      "lat": 14.658119999999993,
+      "lon": 120.98608000000002,
+      "tier": "candidate",
+      "score": 0.77,
+      "nearest_osm_m": 2908.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65812_121.01296",
+      "lat": 14.658119999999993,
+      "lon": 121.01296000000002,
+      "tier": "high",
+      "score": 0.964,
+      "nearest_osm_m": 1671.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65812_121.01744",
+      "lat": 14.658119999999993,
+      "lon": 121.01744000000002,
+      "tier": "candidate",
+      "score": 0.741,
+      "nearest_osm_m": 1334.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.65812_121.02864",
+      "lat": 14.658119999999993,
+      "lon": 121.02864000000002,
+      "tier": "high",
+      "score": 0.903,
+      "nearest_osm_m": 258.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66028_120.98608",
+      "lat": 14.660279999999993,
+      "lon": 120.98608000000002,
+      "tier": "candidate",
+      "score": 0.702,
+      "nearest_osm_m": 2939.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66028_121.00848",
+      "lat": 14.660279999999993,
+      "lon": 121.00848000000002,
+      "tier": "candidate",
+      "score": 0.73,
+      "nearest_osm_m": 2200.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66028_121.01968",
+      "lat": 14.660279999999993,
+      "lon": 121.01968000000002,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 1251.6,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66028_121.05776",
+      "lat": 14.660279999999993,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.738,
+      "nearest_osm_m": 1545.7,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66244_121.00624",
+      "lat": 14.662439999999993,
+      "lon": 121.00624000000002,
+      "tier": "high",
+      "score": 0.904,
+      "nearest_osm_m": 2536.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66244_121.06448",
+      "lat": 14.662439999999993,
+      "lon": 121.06448000000003,
+      "tier": "candidate",
+      "score": 0.735,
+      "nearest_osm_m": 1115.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66244_121.11600",
+      "lat": 14.662439999999993,
+      "lon": 121.11600000000004,
+      "tier": "candidate",
+      "score": 0.735,
+      "nearest_osm_m": 1151.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66460_120.98160",
+      "lat": 14.664599999999993,
+      "lon": 120.98160000000001,
+      "tier": "high",
+      "score": 0.911,
+      "nearest_osm_m": 2605.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66460_121.00624",
+      "lat": 14.664599999999993,
+      "lon": 121.00624000000002,
+      "tier": "candidate",
+      "score": 0.816,
+      "nearest_osm_m": 2689.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66460_121.05776",
+      "lat": 14.664599999999993,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.741,
+      "nearest_osm_m": 1148.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66460_121.06448",
+      "lat": 14.664599999999993,
+      "lon": 121.06448000000003,
+      "tier": "candidate",
+      "score": 0.707,
+      "nearest_osm_m": 874.8,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66460_121.12720",
+      "lat": 14.664599999999993,
+      "lon": 121.12720000000004,
+      "tier": "candidate",
+      "score": 0.736,
+      "nearest_osm_m": 1769.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66460_121.12944",
+      "lat": 14.664599999999993,
+      "lon": 121.12944000000005,
+      "tier": "high",
+      "score": 0.954,
+      "nearest_osm_m": 1928.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.66676_121.07568",
+      "lat": 14.666759999999993,
+      "lon": 121.07568000000003,
+      "tier": "candidate",
+      "score": 0.807,
+      "nearest_osm_m": 82.4,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.66676_121.10032",
+      "lat": 14.666759999999993,
+      "lon": 121.10032000000004,
+      "tier": "candidate",
+      "score": 0.759,
+      "nearest_osm_m": 2175.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67108_120.95696",
+      "lat": 14.671079999999993,
+      "lon": 120.95696000000001,
+      "tier": "high",
+      "score": 0.864,
+      "nearest_osm_m": 1693.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67108_121.01296",
+      "lat": 14.671079999999993,
+      "lon": 121.01296000000002,
+      "tier": "candidate",
+      "score": 0.788,
+      "nearest_osm_m": 2447.6,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67108_121.01520",
+      "lat": 14.671079999999993,
+      "lon": 121.01520000000002,
+      "tier": "candidate",
+      "score": 0.814,
+      "nearest_osm_m": 2261.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67324_120.95696",
+      "lat": 14.673239999999993,
+      "lon": 120.95696000000001,
+      "tier": "high",
+      "score": 0.91,
+      "nearest_osm_m": 1931.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67756_121.08240",
+      "lat": 14.677559999999993,
+      "lon": 121.08240000000004,
+      "tier": "high",
+      "score": 0.9,
+      "nearest_osm_m": 553.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67756_121.08464",
+      "lat": 14.677559999999993,
+      "lon": 121.08464000000004,
+      "tier": "candidate",
+      "score": 0.775,
+      "nearest_osm_m": 658.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67972_120.95696",
+      "lat": 14.679719999999993,
+      "lon": 120.95696000000001,
+      "tier": "high",
+      "score": 0.973,
+      "nearest_osm_m": 2648.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67972_120.95920",
+      "lat": 14.679719999999993,
+      "lon": 120.95920000000001,
+      "tier": "high",
+      "score": 0.872,
+      "nearest_osm_m": 2639.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67972_120.97936",
+      "lat": 14.679719999999993,
+      "lon": 120.97936000000001,
+      "tier": "candidate",
+      "score": 0.732,
+      "nearest_osm_m": 3425.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.67972_121.11376",
+      "lat": 14.679719999999993,
+      "lon": 121.11376000000004,
+      "tier": "high",
+      "score": 0.952,
+      "nearest_osm_m": 3087.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.68620_120.97712",
+      "lat": 14.686199999999992,
+      "lon": 120.97712000000001,
+      "tier": "candidate",
+      "score": 0.742,
+      "nearest_osm_m": 3039.7,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.68620_121.08912",
+      "lat": 14.686199999999992,
+      "lon": 121.08912000000004,
+      "tier": "high",
+      "score": 0.863,
+      "nearest_osm_m": 1728.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69268_120.95248",
+      "lat": 14.692679999999992,
+      "lon": 120.95248000000001,
+      "tier": "candidate",
+      "score": 0.761,
+      "nearest_osm_m": 1802.9,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69268_121.09584",
+      "lat": 14.692679999999992,
+      "lon": 121.09584000000004,
+      "tier": "candidate",
+      "score": 0.79,
+      "nearest_osm_m": 2727.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69268_121.12720",
+      "lat": 14.692679999999992,
+      "lon": 121.12720000000004,
+      "tier": "candidate",
+      "score": 0.728,
+      "nearest_osm_m": 4641.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69700_120.96144",
+      "lat": 14.696999999999992,
+      "lon": 120.96144000000001,
+      "tier": "high",
+      "score": 0.851,
+      "nearest_osm_m": 1185.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69700_121.04656",
+      "lat": 14.696999999999992,
+      "lon": 121.04656000000003,
+      "tier": "high",
+      "score": 0.958,
+      "nearest_osm_m": 1919.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69700_121.08688",
+      "lat": 14.696999999999992,
+      "lon": 121.08688000000004,
+      "tier": "candidate",
+      "score": 0.777,
+      "nearest_osm_m": 2768.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69916_120.95248",
+      "lat": 14.699159999999992,
+      "lon": 120.95248000000001,
+      "tier": "candidate",
+      "score": 0.747,
+      "nearest_osm_m": 1183.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69916_120.96368",
+      "lat": 14.699159999999992,
+      "lon": 120.96368000000001,
+      "tier": "high",
+      "score": 0.959,
+      "nearest_osm_m": 1033.8,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69916_120.96816",
+      "lat": 14.699159999999992,
+      "lon": 120.96816000000001,
+      "tier": "high",
+      "score": 0.944,
+      "nearest_osm_m": 1322.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69916_120.97040",
+      "lat": 14.699159999999992,
+      "lon": 120.97040000000001,
+      "tier": "candidate",
+      "score": 0.805,
+      "nearest_osm_m": 1504.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69916_121.06672",
+      "lat": 14.699159999999992,
+      "lon": 121.06672000000003,
+      "tier": "candidate",
+      "score": 0.784,
+      "nearest_osm_m": 1986.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70132_120.95248",
+      "lat": 14.701319999999992,
+      "lon": 120.95248000000001,
+      "tier": "high",
+      "score": 0.954,
+      "nearest_osm_m": 1007.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70132_120.95472",
+      "lat": 14.701319999999992,
+      "lon": 120.95472000000001,
+      "tier": "high",
+      "score": 0.931,
+      "nearest_osm_m": 846.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70132_120.99504",
+      "lat": 14.701319999999992,
+      "lon": 120.99504000000002,
+      "tier": "high",
+      "score": 0.882,
+      "nearest_osm_m": 2968.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70348_120.95024",
+      "lat": 14.703479999999992,
+      "lon": 120.95024000000001,
+      "tier": "candidate",
+      "score": 0.706,
+      "nearest_osm_m": 1076.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70348_120.95248",
+      "lat": 14.703479999999992,
+      "lon": 120.95248000000001,
+      "tier": "high",
+      "score": 0.855,
+      "nearest_osm_m": 862.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70348_120.95472",
+      "lat": 14.703479999999992,
+      "lon": 120.95472000000001,
+      "tier": "candidate",
+      "score": 0.784,
+      "nearest_osm_m": 667.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70348_120.99504",
+      "lat": 14.703479999999992,
+      "lon": 120.99504000000002,
+      "tier": "candidate",
+      "score": 0.747,
+      "nearest_osm_m": 2905.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70564_120.95024",
+      "lat": 14.705639999999992,
+      "lon": 120.95024000000001,
+      "tier": "high",
+      "score": 0.922,
+      "nearest_osm_m": 1001.7,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70564_121.00176",
+      "lat": 14.705639999999992,
+      "lon": 121.00176000000002,
+      "tier": "candidate",
+      "score": 0.749,
+      "nearest_osm_m": 2148.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70564_121.06896",
+      "lat": 14.705639999999992,
+      "lon": 121.06896000000003,
+      "tier": "candidate",
+      "score": 0.757,
+      "nearest_osm_m": 1244.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70564_121.08240",
+      "lat": 14.705639999999992,
+      "lon": 121.08240000000004,
+      "tier": "high",
+      "score": 0.936,
+      "nearest_osm_m": 1836.7,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70780_120.95920",
+      "lat": 14.707799999999992,
+      "lon": 120.95920000000001,
+      "tier": "high",
+      "score": 0.943,
+      "nearest_osm_m": 41.0,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.70780_120.97264",
+      "lat": 14.707799999999992,
+      "lon": 120.97264000000001,
+      "tier": "candidate",
+      "score": 0.802,
+      "nearest_osm_m": 1428.7,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70780_120.98160",
+      "lat": 14.707799999999992,
+      "lon": 120.98160000000001,
+      "tier": "high",
+      "score": 0.868,
+      "nearest_osm_m": 2392.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70780_121.03760",
+      "lat": 14.707799999999992,
+      "lon": 121.03760000000003,
+      "tier": "high",
+      "score": 0.861,
+      "nearest_osm_m": 1685.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70996_120.97936",
+      "lat": 14.709959999999992,
+      "lon": 120.97936000000001,
+      "tier": "candidate",
+      "score": 0.828,
+      "nearest_osm_m": 2168.8,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.70996_120.98384",
+      "lat": 14.709959999999992,
+      "lon": 120.98384000000001,
+      "tier": "candidate",
+      "score": 0.704,
+      "nearest_osm_m": 2647.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.71212_120.95696",
+      "lat": 14.712119999999992,
+      "lon": 120.95696000000001,
+      "tier": "high",
+      "score": 0.874,
+      "nearest_osm_m": 578.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.71212_121.02640",
+      "lat": 14.712119999999992,
+      "lon": 121.02640000000002,
+      "tier": "candidate",
+      "score": 0.702,
+      "nearest_osm_m": 586.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.71428_120.97264",
+      "lat": 14.714279999999992,
+      "lon": 120.97264000000001,
+      "tier": "high",
+      "score": 0.88,
+      "nearest_osm_m": 1616.8,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.71428_121.02864",
+      "lat": 14.714279999999992,
+      "lon": 121.02864000000002,
+      "tier": "high",
+      "score": 0.855,
+      "nearest_osm_m": 921.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.71644_121.00176",
+      "lat": 14.716439999999992,
+      "lon": 121.00176000000002,
+      "tier": "high",
+      "score": 0.91,
+      "nearest_osm_m": 2240.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.71860_120.95920",
+      "lat": 14.718599999999991,
+      "lon": 120.95920000000001,
+      "tier": "candidate",
+      "score": 0.806,
+      "nearest_osm_m": 1238.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.71860_120.99280",
+      "lat": 14.718599999999991,
+      "lon": 120.99280000000002,
+      "tier": "candidate",
+      "score": 0.824,
+      "nearest_osm_m": 3230.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.71860_121.06896",
+      "lat": 14.718599999999991,
+      "lon": 121.06896000000003,
+      "tier": "candidate",
+      "score": 0.809,
+      "nearest_osm_m": 52.8,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.71860_121.10032",
+      "lat": 14.718599999999991,
+      "lon": 121.10032000000004,
+      "tier": "high",
+      "score": 0.973,
+      "nearest_osm_m": 3278.8,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.72076_121.07120",
+      "lat": 14.720759999999991,
+      "lon": 121.07120000000003,
+      "tier": "candidate",
+      "score": 0.765,
+      "nearest_osm_m": 322.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.72292_120.94128",
+      "lat": 14.722919999999991,
+      "lon": 120.94128,
+      "tier": "high",
+      "score": 0.902,
+      "nearest_osm_m": 70.7,
+      "nearest_osm_location": "surface",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.72292_120.98384",
+      "lat": 14.722919999999991,
+      "lon": 120.98384000000001,
+      "tier": "candidate",
+      "score": 0.706,
+      "nearest_osm_m": 3144.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.72508_120.93904",
+      "lat": 14.725079999999991,
+      "lon": 120.93904,
+      "tier": "high",
+      "score": 0.969,
+      "nearest_osm_m": 78.8,
+      "nearest_osm_location": "surface",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.72508_120.94128",
+      "lat": 14.725079999999991,
+      "lon": 120.94128,
+      "tier": "high",
+      "score": 0.915,
+      "nearest_osm_m": 27.2,
+      "nearest_osm_location": "surface",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.72508_120.97488",
+      "lat": 14.725079999999991,
+      "lon": 120.97488000000001,
+      "tier": "high",
+      "score": 0.906,
+      "nearest_osm_m": 2573.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.72508_121.00400",
+      "lat": 14.725079999999991,
+      "lon": 121.00400000000002,
+      "tier": "high",
+      "score": 0.906,
+      "nearest_osm_m": 2534.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.72724_120.93904",
+      "lat": 14.727239999999991,
+      "lon": 120.93904,
+      "tier": "high",
+      "score": 0.947,
+      "nearest_osm_m": 44.3,
+      "nearest_osm_location": "surface",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.72724_120.94128",
+      "lat": 14.727239999999991,
+      "lon": 120.94128,
+      "tier": "candidate",
+      "score": 0.797,
+      "nearest_osm_m": 145.5,
+      "nearest_osm_location": "surface",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.72724_120.98832",
+      "lat": 14.727239999999991,
+      "lon": 120.98832000000002,
+      "tier": "high",
+      "score": 0.933,
+      "nearest_osm_m": 3812.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.72724_120.99728",
+      "lat": 14.727239999999991,
+      "lon": 120.99728000000002,
+      "tier": "candidate",
+      "score": 0.846,
+      "nearest_osm_m": 3245.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.72724_121.05776",
+      "lat": 14.727239999999991,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.753,
+      "nearest_osm_m": 948.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.72940_121.04656",
+      "lat": 14.729399999999991,
+      "lon": 121.04656000000003,
+      "tier": "high",
+      "score": 0.971,
+      "nearest_osm_m": 31.1,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.73156_121.04432",
+      "lat": 14.731559999999991,
+      "lon": 121.04432000000003,
+      "tier": "candidate",
+      "score": 0.798,
+      "nearest_osm_m": 339.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.73372_121.05776",
+      "lat": 14.733719999999991,
+      "lon": 121.05776000000003,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 286.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.73372_121.06000",
+      "lat": 14.733719999999991,
+      "lon": 121.06000000000003,
+      "tier": "high",
+      "score": 0.967,
+      "nearest_osm_m": 462.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.73588_121.05552",
+      "lat": 14.735879999999991,
+      "lon": 121.05552000000003,
+      "tier": "high",
+      "score": 0.991,
+      "nearest_osm_m": 21.2,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.73588_121.05776",
+      "lat": 14.735879999999991,
+      "lon": 121.05776000000003,
+      "tier": "high",
+      "score": 0.956,
+      "nearest_osm_m": 128.6,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.73588_121.06000",
+      "lat": 14.735879999999991,
+      "lon": 121.06000000000003,
+      "tier": "candidate",
+      "score": 0.776,
+      "nearest_osm_m": 362.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.73588_121.06448",
+      "lat": 14.735879999999991,
+      "lon": 121.06448000000003,
+      "tier": "candidate",
+      "score": 0.737,
+      "nearest_osm_m": 842.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.73804_120.99504",
+      "lat": 14.738039999999991,
+      "lon": 120.99504000000002,
+      "tier": "candidate",
+      "score": 0.723,
+      "nearest_osm_m": 4238.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.73804_121.06000",
+      "lat": 14.738039999999991,
+      "lon": 121.06000000000003,
+      "tier": "candidate",
+      "score": 0.831,
+      "nearest_osm_m": 405.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.73804_121.07344",
+      "lat": 14.738039999999991,
+      "lon": 121.07344000000003,
+      "tier": "high",
+      "score": 0.861,
+      "nearest_osm_m": 1814.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.74236_120.98160",
+      "lat": 14.74235999999999,
+      "lon": 120.98160000000001,
+      "tier": "candidate",
+      "score": 0.792,
+      "nearest_osm_m": 3338.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.74452_120.97040",
+      "lat": 14.74451999999999,
+      "lon": 120.97040000000001,
+      "tier": "high",
+      "score": 0.951,
+      "nearest_osm_m": 2167.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.74884_120.95472",
+      "lat": 14.74883999999999,
+      "lon": 120.95472000000001,
+      "tier": "high",
+      "score": 0.904,
+      "nearest_osm_m": 718.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.75316_121.03984",
+      "lat": 14.75315999999999,
+      "lon": 121.03984000000003,
+      "tier": "candidate",
+      "score": 0.782,
+      "nearest_osm_m": 2535.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.75532_120.95472",
+      "lat": 14.75531999999999,
+      "lon": 120.95472000000001,
+      "tier": "candidate",
+      "score": 0.706,
+      "nearest_osm_m": 127.0,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.75532_120.98384",
+      "lat": 14.75531999999999,
+      "lon": 120.98384000000001,
+      "tier": "high",
+      "score": 0.92,
+      "nearest_osm_m": 3257.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.75748_120.97936",
+      "lat": 14.75747999999999,
+      "lon": 120.97936000000001,
+      "tier": "candidate",
+      "score": 0.822,
+      "nearest_osm_m": 2787.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.75748_121.05776",
+      "lat": 14.75747999999999,
+      "lon": 121.05776000000003,
+      "tier": "candidate",
+      "score": 0.797,
+      "nearest_osm_m": 2353.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.75964_120.97936",
+      "lat": 14.75963999999999,
+      "lon": 120.97936000000001,
+      "tier": "candidate",
+      "score": 0.73,
+      "nearest_osm_m": 2819.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.76612_121.00848",
+      "lat": 14.76611999999999,
+      "lon": 121.00848000000002,
+      "tier": "high",
+      "score": 0.933,
+      "nearest_osm_m": 5780.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.76612_121.01072",
+      "lat": 14.76611999999999,
+      "lon": 121.01072000000002,
+      "tier": "candidate",
+      "score": 0.739,
+      "nearest_osm_m": 5611.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.76828_121.00848",
+      "lat": 14.76827999999999,
+      "lon": 121.00848000000002,
+      "tier": "candidate",
+      "score": 0.828,
+      "nearest_osm_m": 5951.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.77044_120.98832",
+      "lat": 14.77043999999999,
+      "lon": 120.98832000000002,
+      "tier": "high",
+      "score": 0.862,
+      "nearest_osm_m": 4104.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.77044_120.99056",
+      "lat": 14.77043999999999,
+      "lon": 120.99056000000002,
+      "tier": "candidate",
+      "score": 0.747,
+      "nearest_osm_m": 4325.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.77260_120.96816",
+      "lat": 14.77259999999999,
+      "lon": 120.96816000000001,
+      "tier": "high",
+      "score": 0.866,
+      "nearest_osm_m": 2491.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.77476_120.96592",
+      "lat": 14.77475999999999,
+      "lon": 120.96592000000001,
+      "tier": "high",
+      "score": 0.987,
+      "nearest_osm_m": 2548.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.77908_121.07120",
+      "lat": 14.77907999999999,
+      "lon": 121.07120000000003,
+      "tier": "high",
+      "score": 0.959,
+      "nearest_osm_m": 295.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20108_121.13200",
+      "lat": 14.20108,
+      "lon": 121.13200000000005,
+      "tier": "high",
+      "score": 0.952,
+      "nearest_osm_m": 2008.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20324_120.95728",
+      "lat": 14.20324,
+      "lon": 120.95728000000001,
+      "tier": "high",
+      "score": 0.904,
+      "nearest_osm_m": 4743.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20324_120.95952",
+      "lat": 14.20324,
+      "lon": 120.95952000000001,
+      "tier": "high",
+      "score": 0.978,
+      "nearest_osm_m": 4657.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20324_120.96176",
+      "lat": 14.20324,
+      "lon": 120.96176000000001,
+      "tier": "candidate",
+      "score": 0.848,
+      "nearest_osm_m": 4581.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20324_121.08944",
+      "lat": 14.20324,
+      "lon": 121.08944000000004,
+      "tier": "high",
+      "score": 0.972,
+      "nearest_osm_m": 5818.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20324_121.09168",
+      "lat": 14.20324,
+      "lon": 121.09168000000004,
+      "tier": "high",
+      "score": 0.937,
+      "nearest_osm_m": 5584.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20324_121.15440",
+      "lat": 14.20324,
+      "lon": 121.15440000000005,
+      "tier": "candidate",
+      "score": 0.797,
+      "nearest_osm_m": 2018.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20324_121.15664",
+      "lat": 14.20324,
+      "lon": 121.15664000000005,
+      "tier": "candidate",
+      "score": 0.815,
+      "nearest_osm_m": 2190.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20540_120.96176",
+      "lat": 14.2054,
+      "lon": 120.96176000000001,
+      "tier": "candidate",
+      "score": 0.705,
+      "nearest_osm_m": 4352.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20540_121.08720",
+      "lat": 14.2054,
+      "lon": 121.08720000000004,
+      "tier": "high",
+      "score": 0.987,
+      "nearest_osm_m": 5997.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20540_121.08944",
+      "lat": 14.2054,
+      "lon": 121.08944000000004,
+      "tier": "high",
+      "score": 0.964,
+      "nearest_osm_m": 5761.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20540_121.09168",
+      "lat": 14.2054,
+      "lon": 121.09168000000004,
+      "tier": "high",
+      "score": 0.976,
+      "nearest_osm_m": 5526.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20756_121.15664",
+      "lat": 14.207559999999999,
+      "lon": 121.15664000000005,
+      "tier": "candidate",
+      "score": 0.715,
+      "nearest_osm_m": 1899.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20972_120.90576",
+      "lat": 14.209719999999999,
+      "lon": 120.90576,
+      "tier": "candidate",
+      "score": 0.819,
+      "nearest_osm_m": 5389.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20972_121.08048",
+      "lat": 14.209719999999999,
+      "lon": 121.08048000000004,
+      "tier": "high",
+      "score": 0.975,
+      "nearest_osm_m": 6288.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20972_121.08496",
+      "lat": 14.209719999999999,
+      "lon": 121.08496000000004,
+      "tier": "high",
+      "score": 0.961,
+      "nearest_osm_m": 6156.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20972_121.09168",
+      "lat": 14.209719999999999,
+      "lon": 121.09168000000004,
+      "tier": "high",
+      "score": 0.892,
+      "nearest_osm_m": 5438.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.20972_121.09392",
+      "lat": 14.209719999999999,
+      "lon": 121.09392000000004,
+      "tier": "candidate",
+      "score": 0.739,
+      "nearest_osm_m": 5199.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21188_120.96848",
+      "lat": 14.211879999999999,
+      "lon": 120.96848000000001,
+      "tier": "candidate",
+      "score": 0.846,
+      "nearest_osm_m": 3478.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21188_121.08048",
+      "lat": 14.211879999999999,
+      "lon": 121.08048000000004,
+      "tier": "high",
+      "score": 0.933,
+      "nearest_osm_m": 6047.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21188_121.08496",
+      "lat": 14.211879999999999,
+      "lon": 121.08496000000004,
+      "tier": "high",
+      "score": 0.962,
+      "nearest_osm_m": 6082.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21188_121.09168",
+      "lat": 14.211879999999999,
+      "lon": 121.09168000000004,
+      "tier": "high",
+      "score": 0.908,
+      "nearest_osm_m": 5410.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21188_121.09392",
+      "lat": 14.211879999999999,
+      "lon": 121.09392000000004,
+      "tier": "high",
+      "score": 0.904,
+      "nearest_osm_m": 5170.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21404_120.96848",
+      "lat": 14.214039999999999,
+      "lon": 120.96848000000001,
+      "tier": "high",
+      "score": 0.863,
+      "nearest_osm_m": 3242.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21404_121.08720",
+      "lat": 14.214039999999999,
+      "lon": 121.08720000000004,
+      "tier": "high",
+      "score": 0.95,
+      "nearest_osm_m": 5875.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21620_121.08720",
+      "lat": 14.216199999999999,
+      "lon": 121.08720000000004,
+      "tier": "candidate",
+      "score": 0.759,
+      "nearest_osm_m": 5639.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.21836_121.03568",
+      "lat": 14.218359999999999,
+      "lon": 121.03568000000003,
+      "tier": "candidate",
+      "score": 0.811,
+      "nearest_osm_m": 7059.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22052_121.10288",
+      "lat": 14.220519999999999,
+      "lon": 121.10288000000004,
+      "tier": "candidate",
+      "score": 0.759,
+      "nearest_osm_m": 4201.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22268_121.07152",
+      "lat": 14.222679999999999,
+      "lon": 121.07152000000004,
+      "tier": "high",
+      "score": 0.962,
+      "nearest_osm_m": 4905.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22268_121.07824",
+      "lat": 14.222679999999999,
+      "lon": 121.07824000000004,
+      "tier": "high",
+      "score": 0.906,
+      "nearest_osm_m": 4844.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22268_121.11184",
+      "lat": 14.222679999999999,
+      "lon": 121.11184000000004,
+      "tier": "candidate",
+      "score": 0.837,
+      "nearest_osm_m": 3284.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22268_121.11408",
+      "lat": 14.222679999999999,
+      "lon": 121.11408000000004,
+      "tier": "high",
+      "score": 0.872,
+      "nearest_osm_m": 3048.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22268_121.11632",
+      "lat": 14.222679999999999,
+      "lon": 121.11632000000004,
+      "tier": "candidate",
+      "score": 0.836,
+      "nearest_osm_m": 2814.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22268_121.14992",
+      "lat": 14.222679999999999,
+      "lon": 121.14992000000005,
+      "tier": "high",
+      "score": 0.858,
+      "nearest_osm_m": 1007.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22484_121.08720",
+      "lat": 14.224839999999999,
+      "lon": 121.08720000000004,
+      "tier": "high",
+      "score": 0.937,
+      "nearest_osm_m": 4694.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22484_121.11856",
+      "lat": 14.224839999999999,
+      "lon": 121.11856000000004,
+      "tier": "candidate",
+      "score": 0.831,
+      "nearest_osm_m": 2653.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22484_121.13648",
+      "lat": 14.224839999999999,
+      "lon": 121.13648000000005,
+      "tier": "high",
+      "score": 0.96,
+      "nearest_osm_m": 1006.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22484_121.13872",
+      "lat": 14.224839999999999,
+      "lon": 121.13872000000005,
+      "tier": "candidate",
+      "score": 0.808,
+      "nearest_osm_m": 886.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22700_121.08272",
+      "lat": 14.226999999999999,
+      "lon": 121.08272000000004,
+      "tier": "high",
+      "score": 0.911,
+      "nearest_osm_m": 4385.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.22700_121.13872",
+      "lat": 14.226999999999999,
+      "lon": 121.13872000000005,
+      "tier": "high",
+      "score": 0.983,
+      "nearest_osm_m": 1110.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23132_121.09392",
+      "lat": 14.231319999999998,
+      "lon": 121.09392000000004,
+      "tier": "candidate",
+      "score": 0.753,
+      "nearest_osm_m": 4216.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23132_121.09616",
+      "lat": 14.231319999999998,
+      "lon": 121.09616000000004,
+      "tier": "candidate",
+      "score": 0.787,
+      "nearest_osm_m": 4315.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23132_121.15664",
+      "lat": 14.231319999999998,
+      "lon": 121.15664000000005,
+      "tier": "high",
+      "score": 0.891,
+      "nearest_osm_m": 2182.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23348_121.05584",
+      "lat": 14.233479999999998,
+      "lon": 121.05584000000003,
+      "tier": "candidate",
+      "score": 0.724,
+      "nearest_osm_m": 4397.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23348_121.09392",
+      "lat": 14.233479999999998,
+      "lon": 121.09392000000004,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 3995.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23348_121.10512",
+      "lat": 14.233479999999998,
+      "lon": 121.10512000000004,
+      "tier": "high",
+      "score": 0.907,
+      "nearest_osm_m": 4351.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23564_121.03344",
+      "lat": 14.235639999999998,
+      "lon": 121.03344000000003,
+      "tier": "candidate",
+      "score": 0.748,
+      "nearest_osm_m": 5946.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23564_121.05360",
+      "lat": 14.235639999999998,
+      "lon": 121.05360000000003,
+      "tier": "high",
+      "score": 0.887,
+      "nearest_osm_m": 4346.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23564_121.09616",
+      "lat": 14.235639999999998,
+      "lon": 121.09616000000004,
+      "tier": "candidate",
+      "score": 0.798,
+      "nearest_osm_m": 3889.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.23564_121.11408",
+      "lat": 14.235639999999998,
+      "lon": 121.11408000000004,
+      "tier": "candidate",
+      "score": 0.741,
+      "nearest_osm_m": 3620.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.24212_120.96400",
+      "lat": 14.242119999999998,
+      "lon": 120.96400000000001,
+      "tier": "high",
+      "score": 0.888,
+      "nearest_osm_m": 1077.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.24212_120.97296",
+      "lat": 14.242119999999998,
+      "lon": 120.97296000000001,
+      "tier": "high",
+      "score": 0.881,
+      "nearest_osm_m": 127.9,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.24212_120.97520",
+      "lat": 14.242119999999998,
+      "lon": 120.97520000000002,
+      "tier": "high",
+      "score": 0.926,
+      "nearest_osm_m": 146.8,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.24212_121.13200",
+      "lat": 14.242119999999998,
+      "lon": 121.13200000000005,
+      "tier": "high",
+      "score": 0.937,
+      "nearest_osm_m": 2938.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.24212_121.13424",
+      "lat": 14.242119999999998,
+      "lon": 121.13424000000005,
+      "tier": "high",
+      "score": 0.874,
+      "nearest_osm_m": 2859.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.24428_121.05808",
+      "lat": 14.244279999999998,
+      "lon": 121.05808000000003,
+      "tier": "candidate",
+      "score": 0.748,
+      "nearest_osm_m": 3301.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.25292_121.06256",
+      "lat": 14.252919999999998,
+      "lon": 121.06256000000003,
+      "tier": "candidate",
+      "score": 0.712,
+      "nearest_osm_m": 2283.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.25508_121.05136",
+      "lat": 14.255079999999998,
+      "lon": 121.05136000000003,
+      "tier": "candidate",
+      "score": 0.788,
+      "nearest_osm_m": 3195.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.25724_120.91920",
+      "lat": 14.257239999999998,
+      "lon": 120.9192,
+      "tier": "high",
+      "score": 0.937,
+      "nearest_osm_m": 70.4,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.25724_120.92144",
+      "lat": 14.257239999999998,
+      "lon": 120.92144,
+      "tier": "candidate",
+      "score": 0.804,
+      "nearest_osm_m": 123.6,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.25724_121.05136",
+      "lat": 14.257239999999998,
+      "lon": 121.05136000000003,
+      "tier": "candidate",
+      "score": 0.823,
+      "nearest_osm_m": 3110.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.25724_121.12080",
+      "lat": 14.257239999999998,
+      "lon": 121.12080000000005,
+      "tier": "high",
+      "score": 0.984,
+      "nearest_osm_m": 4608.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.25940_121.00656",
+      "lat": 14.259399999999998,
+      "lon": 121.00656000000002,
+      "tier": "candidate",
+      "score": 0.786,
+      "nearest_osm_m": 2914.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.25940_121.11856",
+      "lat": 14.259399999999998,
+      "lon": 121.11856000000004,
+      "tier": "candidate",
+      "score": 0.763,
+      "nearest_osm_m": 4322.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.25940_121.12080",
+      "lat": 14.259399999999998,
+      "lon": 121.12080000000005,
+      "tier": "candidate",
+      "score": 0.732,
+      "nearest_osm_m": 4559.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.25940_121.12528",
+      "lat": 14.259399999999998,
+      "lon": 121.12528000000005,
+      "tier": "candidate",
+      "score": 0.764,
+      "nearest_osm_m": 4992.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26156_120.91920",
+      "lat": 14.261559999999998,
+      "lon": 120.9192,
+      "tier": "candidate",
+      "score": 0.801,
+      "nearest_osm_m": 471.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26156_120.92144",
+      "lat": 14.261559999999998,
+      "lon": 120.92144,
+      "tier": "candidate",
+      "score": 0.733,
+      "nearest_osm_m": 487.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26156_120.96848",
+      "lat": 14.261559999999998,
+      "lon": 120.96848000000001,
+      "tier": "high",
+      "score": 0.936,
+      "nearest_osm_m": 463.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26156_121.06480",
+      "lat": 14.261559999999998,
+      "lon": 121.06480000000003,
+      "tier": "candidate",
+      "score": 0.741,
+      "nearest_osm_m": 1584.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26156_121.11856",
+      "lat": 14.261559999999998,
+      "lon": 121.11856000000004,
+      "tier": "high",
+      "score": 0.863,
+      "nearest_osm_m": 4284.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26156_121.12080",
+      "lat": 14.261559999999998,
+      "lon": 121.12080000000005,
+      "tier": "candidate",
+      "score": 0.77,
+      "nearest_osm_m": 4523.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26372_120.91920",
+      "lat": 14.263719999999998,
+      "lon": 120.9192,
+      "tier": "candidate",
+      "score": 0.758,
+      "nearest_osm_m": 710.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26372_120.92144",
+      "lat": 14.263719999999998,
+      "lon": 120.92144,
+      "tier": "candidate",
+      "score": 0.74,
+      "nearest_osm_m": 721.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26372_121.05584",
+      "lat": 14.263719999999998,
+      "lon": 121.05584000000003,
+      "tier": "candidate",
+      "score": 0.775,
+      "nearest_osm_m": 2438.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26372_121.06032",
+      "lat": 14.263719999999998,
+      "lon": 121.06032000000003,
+      "tier": "high",
+      "score": 0.924,
+      "nearest_osm_m": 1966.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26372_121.06256",
+      "lat": 14.263719999999998,
+      "lon": 121.06256000000003,
+      "tier": "candidate",
+      "score": 0.841,
+      "nearest_osm_m": 1732.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26372_121.06480",
+      "lat": 14.263719999999998,
+      "lon": 121.06480000000003,
+      "tier": "high",
+      "score": 0.891,
+      "nearest_osm_m": 1501.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26372_121.12080",
+      "lat": 14.263719999999998,
+      "lon": 121.12080000000005,
+      "tier": "high",
+      "score": 0.901,
+      "nearest_osm_m": 4499.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_120.91248",
+      "lat": 14.265879999999997,
+      "lon": 120.91248,
+      "tier": "high",
+      "score": 0.869,
+      "nearest_osm_m": 1235.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_120.92144",
+      "lat": 14.265879999999997,
+      "lon": 120.92144,
+      "tier": "candidate",
+      "score": 0.762,
+      "nearest_osm_m": 959.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_120.92368",
+      "lat": 14.265879999999997,
+      "lon": 120.92368,
+      "tier": "high",
+      "score": 0.981,
+      "nearest_osm_m": 1019.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_121.00208",
+      "lat": 14.265879999999997,
+      "lon": 121.00208000000002,
+      "tier": "high",
+      "score": 0.895,
+      "nearest_osm_m": 2088.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_121.01104",
+      "lat": 14.265879999999997,
+      "lon": 121.01104000000002,
+      "tier": "candidate",
+      "score": 0.79,
+      "nearest_osm_m": 2486.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_121.01328",
+      "lat": 14.265879999999997,
+      "lon": 121.01328000000002,
+      "tier": "high",
+      "score": 0.981,
+      "nearest_osm_m": 2632.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_121.06256",
+      "lat": 14.265879999999997,
+      "lon": 121.06256000000003,
+      "tier": "candidate",
+      "score": 0.758,
+      "nearest_osm_m": 1683.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_121.06480",
+      "lat": 14.265879999999997,
+      "lon": 121.06480000000003,
+      "tier": "high",
+      "score": 0.85,
+      "nearest_osm_m": 1445.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_121.07824",
+      "lat": 14.265879999999997,
+      "lon": 121.07824000000004,
+      "tier": "candidate",
+      "score": 0.759,
+      "nearest_osm_m": 62.9,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.26588_121.11856",
+      "lat": 14.265879999999997,
+      "lon": 121.11856000000004,
+      "tier": "high",
+      "score": 0.97,
+      "nearest_osm_m": 4247.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26588_121.12080",
+      "lat": 14.265879999999997,
+      "lon": 121.12080000000005,
+      "tier": "high",
+      "score": 0.978,
+      "nearest_osm_m": 4488.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26804_121.00432",
+      "lat": 14.268039999999997,
+      "lon": 121.00432000000002,
+      "tier": "high",
+      "score": 0.941,
+      "nearest_osm_m": 1929.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26804_121.05360",
+      "lat": 14.268039999999997,
+      "lon": 121.05360000000003,
+      "tier": "candidate",
+      "score": 0.823,
+      "nearest_osm_m": 2634.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26804_121.05808",
+      "lat": 14.268039999999997,
+      "lon": 121.05808000000003,
+      "tier": "high",
+      "score": 0.895,
+      "nearest_osm_m": 2151.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26804_121.06032",
+      "lat": 14.268039999999997,
+      "lon": 121.06032000000003,
+      "tier": "high",
+      "score": 0.962,
+      "nearest_osm_m": 1909.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.26804_121.07824",
+      "lat": 14.268039999999997,
+      "lon": 121.07824000000004,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 9.9,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.26804_121.11856",
+      "lat": 14.268039999999997,
+      "lon": 121.11856000000004,
+      "tier": "high",
+      "score": 0.948,
+      "nearest_osm_m": 4249.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27020_120.91248",
+      "lat": 14.270199999999997,
+      "lon": 120.91248,
+      "tier": "candidate",
+      "score": 0.71,
+      "nearest_osm_m": 1409.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27020_121.01104",
+      "lat": 14.270199999999997,
+      "lon": 121.01104000000002,
+      "tier": "high",
+      "score": 0.909,
+      "nearest_osm_m": 2110.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27020_121.05808",
+      "lat": 14.270199999999997,
+      "lon": 121.05808000000003,
+      "tier": "high",
+      "score": 0.974,
+      "nearest_osm_m": 2165.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27020_121.07824",
+      "lat": 14.270199999999997,
+      "lon": 121.07824000000004,
+      "tier": "high",
+      "score": 0.949,
+      "nearest_osm_m": 196.0,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.27020_121.08048",
+      "lat": 14.270199999999997,
+      "lon": 121.08048000000004,
+      "tier": "candidate",
+      "score": 0.836,
+      "nearest_osm_m": 294.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27236_120.91472",
+      "lat": 14.272359999999997,
+      "lon": 120.91472,
+      "tier": "candidate",
+      "score": 0.794,
+      "nearest_osm_m": 1517.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27236_120.93936",
+      "lat": 14.272359999999997,
+      "lon": 120.93936000000001,
+      "tier": "high",
+      "score": 0.979,
+      "nearest_osm_m": 1814.8,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27236_121.01104",
+      "lat": 14.272359999999997,
+      "lon": 121.01104000000002,
+      "tier": "candidate",
+      "score": 0.796,
+      "nearest_osm_m": 1940.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27236_121.07824",
+      "lat": 14.272359999999997,
+      "lon": 121.07824000000004,
+      "tier": "candidate",
+      "score": 0.719,
+      "nearest_osm_m": 435.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27236_121.08496",
+      "lat": 14.272359999999997,
+      "lon": 121.08496000000004,
+      "tier": "candidate",
+      "score": 0.732,
+      "nearest_osm_m": 827.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27452_120.93712",
+      "lat": 14.274519999999997,
+      "lon": 120.93712000000001,
+      "tier": "candidate",
+      "score": 0.79,
+      "nearest_osm_m": 1537.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27452_121.05808",
+      "lat": 14.274519999999997,
+      "lon": 121.05808000000003,
+      "tier": "candidate",
+      "score": 0.827,
+      "nearest_osm_m": 2272.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27452_121.07376",
+      "lat": 14.274519999999997,
+      "lon": 121.07376000000004,
+      "tier": "high",
+      "score": 0.98,
+      "nearest_osm_m": 842.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27452_121.11184",
+      "lat": 14.274519999999997,
+      "lon": 121.11184000000004,
+      "tier": "high",
+      "score": 0.91,
+      "nearest_osm_m": 3628.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27668_120.89008",
+      "lat": 14.276679999999997,
+      "lon": 120.89008,
+      "tier": "candidate",
+      "score": 0.77,
+      "nearest_osm_m": 1233.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27668_120.97072",
+      "lat": 14.276679999999997,
+      "lon": 120.97072000000001,
+      "tier": "candidate",
+      "score": 0.722,
+      "nearest_osm_m": 83.1,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.27884_120.93488",
+      "lat": 14.278839999999997,
+      "lon": 120.93488,
+      "tier": "high",
+      "score": 0.859,
+      "nearest_osm_m": 1050.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27884_120.93712",
+      "lat": 14.278839999999997,
+      "lon": 120.93712000000001,
+      "tier": "candidate",
+      "score": 0.762,
+      "nearest_osm_m": 1060.9,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27884_120.94160",
+      "lat": 14.278839999999997,
+      "lon": 120.94160000000001,
+      "tier": "high",
+      "score": 0.852,
+      "nearest_osm_m": 1233.0,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27884_120.94608",
+      "lat": 14.278839999999997,
+      "lon": 120.94608000000001,
+      "tier": "candidate",
+      "score": 0.747,
+      "nearest_osm_m": 1543.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27884_121.05808",
+      "lat": 14.278839999999997,
+      "lon": 121.05808000000003,
+      "tier": "high",
+      "score": 0.974,
+      "nearest_osm_m": 2469.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27884_121.06704",
+      "lat": 14.278839999999997,
+      "lon": 121.06704000000003,
+      "tier": "high",
+      "score": 0.977,
+      "nearest_osm_m": 1685.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.27884_121.11632",
+      "lat": 14.278839999999997,
+      "lon": 121.11632000000004,
+      "tier": "candidate",
+      "score": 0.703,
+      "nearest_osm_m": 4222.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28100_120.89232",
+      "lat": 14.280999999999997,
+      "lon": 120.89232,
+      "tier": "candidate",
+      "score": 0.738,
+      "nearest_osm_m": 1081.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28100_120.93936",
+      "lat": 14.280999999999997,
+      "lon": 120.93936000000001,
+      "tier": "candidate",
+      "score": 0.746,
+      "nearest_osm_m": 905.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28100_121.06256",
+      "lat": 14.280999999999997,
+      "lon": 121.06256000000003,
+      "tier": "high",
+      "score": 0.979,
+      "nearest_osm_m": 2205.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28100_121.06928",
+      "lat": 14.280999999999997,
+      "lon": 121.06928000000003,
+      "tier": "candidate",
+      "score": 0.74,
+      "nearest_osm_m": 1709.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28100_121.07152",
+      "lat": 14.280999999999997,
+      "lon": 121.07152000000004,
+      "tier": "high",
+      "score": 0.959,
+      "nearest_osm_m": 1582.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28316_121.08496",
+      "lat": 14.283159999999997,
+      "lon": 121.08496000000004,
+      "tier": "high",
+      "score": 0.936,
+      "nearest_osm_m": 1780.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28316_121.08720",
+      "lat": 14.283159999999997,
+      "lon": 121.08720000000004,
+      "tier": "candidate",
+      "score": 0.739,
+      "nearest_osm_m": 1889.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28532_120.95728",
+      "lat": 14.285319999999997,
+      "lon": 120.95728000000001,
+      "tier": "candidate",
+      "score": 0.794,
+      "nearest_osm_m": 928.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28532_121.07600",
+      "lat": 14.285319999999997,
+      "lon": 121.07600000000004,
+      "tier": "candidate",
+      "score": 0.728,
+      "nearest_osm_m": 1894.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28748_120.98864",
+      "lat": 14.287479999999997,
+      "lon": 120.98864000000002,
+      "tier": "candidate",
+      "score": 0.821,
+      "nearest_osm_m": 86.5,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.28748_121.09392",
+      "lat": 14.287479999999997,
+      "lon": 121.09392000000004,
+      "tier": "candidate",
+      "score": 0.713,
+      "nearest_osm_m": 2695.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28964_120.89232",
+      "lat": 14.289639999999997,
+      "lon": 120.89232,
+      "tier": "candidate",
+      "score": 0.712,
+      "nearest_osm_m": 1709.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.28964_120.93264",
+      "lat": 14.289639999999997,
+      "lon": 120.93264,
+      "tier": "high",
+      "score": 0.864,
+      "nearest_osm_m": 99.3,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.28964_120.93488",
+      "lat": 14.289639999999997,
+      "lon": 120.93488,
+      "tier": "candidate",
+      "score": 0.813,
+      "nearest_osm_m": 18.7,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.28964_121.07824",
+      "lat": 14.289639999999997,
+      "lon": 121.07824000000004,
+      "tier": "candidate",
+      "score": 0.711,
+      "nearest_osm_m": 2356.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29180_120.92816",
+      "lat": 14.291799999999997,
+      "lon": 120.92816,
+      "tier": "candidate",
+      "score": 0.793,
+      "nearest_osm_m": 453.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29180_121.01328",
+      "lat": 14.291799999999997,
+      "lon": 121.01328000000002,
+      "tier": "high",
+      "score": 0.874,
+      "nearest_osm_m": 1868.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29180_121.02000",
+      "lat": 14.291799999999997,
+      "lon": 121.02000000000002,
+      "tier": "high",
+      "score": 0.966,
+      "nearest_osm_m": 2535.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29180_121.08496",
+      "lat": 14.291799999999997,
+      "lon": 121.08496000000004,
+      "tier": "high",
+      "score": 0.911,
+      "nearest_osm_m": 2690.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29180_121.10288",
+      "lat": 14.291799999999997,
+      "lon": 121.10288000000004,
+      "tier": "high",
+      "score": 0.899,
+      "nearest_osm_m": 3699.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29180_121.12304",
+      "lat": 14.291799999999997,
+      "lon": 121.12304000000005,
+      "tier": "candidate",
+      "score": 0.731,
+      "nearest_osm_m": 5463.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29396_120.88560",
+      "lat": 14.293959999999997,
+      "lon": 120.8856,
+      "tier": "candidate",
+      "score": 0.801,
+      "nearest_osm_m": 2196.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29396_120.91920",
+      "lat": 14.293959999999997,
+      "lon": 120.9192,
+      "tier": "candidate",
+      "score": 0.79,
+      "nearest_osm_m": 1432.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29396_120.99536",
+      "lat": 14.293959999999997,
+      "lon": 120.99536000000002,
+      "tier": "high",
+      "score": 0.927,
+      "nearest_osm_m": 939.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29396_121.02000",
+      "lat": 14.293959999999997,
+      "lon": 121.02000000000002,
+      "tier": "high",
+      "score": 0.936,
+      "nearest_osm_m": 2625.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29396_121.02224",
+      "lat": 14.293959999999997,
+      "lon": 121.02224000000002,
+      "tier": "high",
+      "score": 0.878,
+      "nearest_osm_m": 2727.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29612_121.02000",
+      "lat": 14.296119999999997,
+      "lon": 121.02000000000002,
+      "tier": "high",
+      "score": 0.958,
+      "nearest_osm_m": 2733.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29612_121.04016",
+      "lat": 14.296119999999997,
+      "lon": 121.04016000000003,
+      "tier": "candidate",
+      "score": 0.729,
+      "nearest_osm_m": 1662.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29612_121.08272",
+      "lat": 14.296119999999997,
+      "lon": 121.08272000000004,
+      "tier": "candidate",
+      "score": 0.784,
+      "nearest_osm_m": 3111.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29828_120.96624",
+      "lat": 14.298279999999997,
+      "lon": 120.96624000000001,
+      "tier": "high",
+      "score": 0.949,
+      "nearest_osm_m": 726.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.29828_121.09168",
+      "lat": 14.298279999999997,
+      "lon": 121.09168000000004,
+      "tier": "candidate",
+      "score": 0.78,
+      "nearest_osm_m": 3611.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.30044_120.95056",
+      "lat": 14.300439999999996,
+      "lon": 120.95056000000001,
+      "tier": "high",
+      "score": 0.973,
+      "nearest_osm_m": 184.0,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.30044_120.95728",
+      "lat": 14.300439999999996,
+      "lon": 120.95728000000001,
+      "tier": "high",
+      "score": 0.971,
+      "nearest_osm_m": 192.3,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.30260_120.95504",
+      "lat": 14.302599999999996,
+      "lon": 120.95504000000001,
+      "tier": "high",
+      "score": 0.91,
+      "nearest_osm_m": 87.2,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.30260_120.95728",
+      "lat": 14.302599999999996,
+      "lon": 120.95728000000001,
+      "tier": "high",
+      "score": 0.89,
+      "nearest_osm_m": 206.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.30260_120.99312",
+      "lat": 14.302599999999996,
+      "lon": 120.99312000000002,
+      "tier": "candidate",
+      "score": 0.763,
+      "nearest_osm_m": 1524.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.30476_121.10064",
+      "lat": 14.304759999999996,
+      "lon": 121.10064000000004,
+      "tier": "high",
+      "score": 0.92,
+      "nearest_osm_m": 3615.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.30692_121.07824",
+      "lat": 14.306919999999996,
+      "lon": 121.07824000000004,
+      "tier": "candidate",
+      "score": 0.712,
+      "nearest_osm_m": 2813.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31124_120.95280",
+      "lat": 14.311239999999996,
+      "lon": 120.95280000000001,
+      "tier": "candidate",
+      "score": 0.77,
+      "nearest_osm_m": 954.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31124_121.11408",
+      "lat": 14.311239999999996,
+      "lon": 121.11408000000004,
+      "tier": "candidate",
+      "score": 0.715,
+      "nearest_osm_m": 4133.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31124_121.11632",
+      "lat": 14.311239999999996,
+      "lon": 121.11632000000004,
+      "tier": "high",
+      "score": 0.97,
+      "nearest_osm_m": 4336.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31340_121.04912",
+      "lat": 14.313399999999996,
+      "lon": 121.04912000000003,
+      "tier": "high",
+      "score": 0.88,
+      "nearest_osm_m": 977.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31340_121.05136",
+      "lat": 14.313399999999996,
+      "lon": 121.05136000000003,
+      "tier": "candidate",
+      "score": 0.746,
+      "nearest_osm_m": 1211.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31340_121.09616",
+      "lat": 14.313399999999996,
+      "lon": 121.09616000000004,
+      "tier": "candidate",
+      "score": 0.728,
+      "nearest_osm_m": 2550.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31772_120.94384",
+      "lat": 14.317719999999996,
+      "lon": 120.94384000000001,
+      "tier": "high",
+      "score": 0.96,
+      "nearest_osm_m": 316.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31772_120.94608",
+      "lat": 14.317719999999996,
+      "lon": 120.94608000000001,
+      "tier": "candidate",
+      "score": 0.757,
+      "nearest_osm_m": 324.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31772_121.06928",
+      "lat": 14.317719999999996,
+      "lon": 121.06928000000003,
+      "tier": "high",
+      "score": 0.973,
+      "nearest_osm_m": 2099.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.31772_121.10736",
+      "lat": 14.317719999999996,
+      "lon": 121.10736000000004,
+      "tier": "candidate",
+      "score": 0.765,
+      "nearest_osm_m": 3137.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.32204_120.91248",
+      "lat": 14.322039999999996,
+      "lon": 120.91248,
+      "tier": "candidate",
+      "score": 0.71,
+      "nearest_osm_m": 3574.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.32420_120.94160",
+      "lat": 14.324199999999996,
+      "lon": 120.94160000000001,
+      "tier": "high",
+      "score": 0.963,
+      "nearest_osm_m": 1075.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.32420_121.06928",
+      "lat": 14.324199999999996,
+      "lon": 121.06928000000003,
+      "tier": "high",
+      "score": 0.888,
+      "nearest_osm_m": 1626.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.32636_120.93488",
+      "lat": 14.326359999999996,
+      "lon": 120.93488,
+      "tier": "candidate",
+      "score": 0.814,
+      "nearest_osm_m": 1654.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.32636_120.94160",
+      "lat": 14.326359999999996,
+      "lon": 120.94160000000001,
+      "tier": "candidate",
+      "score": 0.729,
+      "nearest_osm_m": 1295.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.32636_120.98416",
+      "lat": 14.326359999999996,
+      "lon": 120.98416000000002,
+      "tier": "high",
+      "score": 0.923,
+      "nearest_osm_m": 47.9,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.32636_121.07152",
+      "lat": 14.326359999999996,
+      "lon": 121.07152000000004,
+      "tier": "candidate",
+      "score": 0.807,
+      "nearest_osm_m": 1296.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.32852_120.95952",
+      "lat": 14.328519999999996,
+      "lon": 120.95952000000001,
+      "tier": "high",
+      "score": 0.984,
+      "nearest_osm_m": 685.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.33068_121.07376",
+      "lat": 14.330679999999996,
+      "lon": 121.07376000000004,
+      "tier": "high",
+      "score": 0.875,
+      "nearest_osm_m": 903.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.33284_121.08272",
+      "lat": 14.332839999999996,
+      "lon": 121.08272000000004,
+      "tier": "high",
+      "score": 0.855,
+      "nearest_osm_m": 62.8,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.33716_121.08496",
+      "lat": 14.337159999999995,
+      "lon": 121.08496000000004,
+      "tier": "high",
+      "score": 0.938,
+      "nearest_osm_m": 600.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.34364_121.01328",
+      "lat": 14.343639999999995,
+      "lon": 121.01328000000002,
+      "tier": "high",
+      "score": 0.987,
+      "nearest_osm_m": 3606.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.35228_120.98192",
+      "lat": 14.352279999999995,
+      "lon": 120.98192000000002,
+      "tier": "candidate",
+      "score": 0.818,
+      "nearest_osm_m": 2172.4,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.35228_121.04688",
+      "lat": 14.352279999999995,
+      "lon": 121.04688000000003,
+      "tier": "candidate",
+      "score": 0.749,
+      "nearest_osm_m": 1497.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.35228_121.06256",
+      "lat": 14.352279999999995,
+      "lon": 121.06256000000003,
+      "tier": "high",
+      "score": 0.984,
+      "nearest_osm_m": 2192.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.35444_120.89904",
+      "lat": 14.354439999999995,
+      "lon": 120.89904,
+      "tier": "candidate",
+      "score": 0.771,
+      "nearest_osm_m": 3720.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.35876_121.05808",
+      "lat": 14.358759999999995,
+      "lon": 121.05808000000003,
+      "tier": "candidate",
+      "score": 0.762,
+      "nearest_osm_m": 1357.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.36308_121.04464",
+      "lat": 14.363079999999995,
+      "lon": 121.04464000000003,
+      "tier": "high",
+      "score": 0.882,
+      "nearest_osm_m": 350.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.36524_121.04464",
+      "lat": 14.365239999999995,
+      "lon": 121.04464000000003,
+      "tier": "candidate",
+      "score": 0.822,
+      "nearest_osm_m": 196.9,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.36524_121.04688",
+      "lat": 14.365239999999995,
+      "lon": 121.04688000000003,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 61.3,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.36740_121.04464",
+      "lat": 14.367399999999995,
+      "lon": 121.04464000000003,
+      "tier": "high",
+      "score": 0.954,
+      "nearest_osm_m": 264.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.36740_121.04688",
+      "lat": 14.367399999999995,
+      "lon": 121.04688000000003,
+      "tier": "high",
+      "score": 0.974,
+      "nearest_osm_m": 100.8,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.37172_120.97968",
+      "lat": 14.371719999999994,
+      "lon": 120.97968000000002,
+      "tier": "candidate",
+      "score": 0.711,
+      "nearest_osm_m": 35.0,
+      "nearest_osm_location": null,
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.38252_120.97744",
+      "lat": 14.382519999999994,
+      "lon": 120.97744000000002,
+      "tier": "high",
+      "score": 0.976,
+      "nearest_osm_m": 289.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.38468_120.96176",
+      "lat": 14.384679999999994,
+      "lon": 120.96176000000001,
+      "tier": "candidate",
+      "score": 0.732,
+      "nearest_osm_m": 1932.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.38468_120.97744",
+      "lat": 14.384679999999994,
+      "lon": 120.97744000000002,
+      "tier": "high",
+      "score": 0.98,
+      "nearest_osm_m": 255.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.38468_120.97968",
+      "lat": 14.384679999999994,
+      "lon": 120.97968000000002,
+      "tier": "high",
+      "score": 0.975,
+      "nearest_osm_m": 80.9,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.38900_120.98192",
+      "lat": 14.388999999999994,
+      "lon": 120.98192000000002,
+      "tier": "candidate",
+      "score": 0.765,
+      "nearest_osm_m": 104.1,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.39116_120.93936",
+      "lat": 14.391159999999994,
+      "lon": 120.93936000000001,
+      "tier": "high",
+      "score": 0.906,
+      "nearest_osm_m": 82.1,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.39332_120.93712",
+      "lat": 14.393319999999994,
+      "lon": 120.93712000000001,
+      "tier": "candidate",
+      "score": 0.711,
+      "nearest_osm_m": 334.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.39548_120.91248",
+      "lat": 14.395479999999994,
+      "lon": 120.91248,
+      "tier": "candidate",
+      "score": 0.762,
+      "nearest_osm_m": 1271.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.39548_120.94384",
+      "lat": 14.395479999999994,
+      "lon": 120.94384000000001,
+      "tier": "candidate",
+      "score": 0.808,
+      "nearest_osm_m": 761.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.39980_120.93936",
+      "lat": 14.399799999999994,
+      "lon": 120.93936000000001,
+      "tier": "high",
+      "score": 0.857,
+      "nearest_osm_m": 1008.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42572_120.89232",
+      "lat": 14.425719999999993,
+      "lon": 120.89232,
+      "tier": "high",
+      "score": 0.95,
+      "nearest_osm_m": 1716.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.42788_120.89232",
+      "lat": 14.427879999999993,
+      "lon": 120.89232,
+      "tier": "candidate",
+      "score": 0.73,
+      "nearest_osm_m": 1840.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43220_120.89904",
+      "lat": 14.432199999999993,
+      "lon": 120.89904,
+      "tier": "candidate",
+      "score": 0.831,
+      "nearest_osm_m": 2700.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.43220_120.90128",
+      "lat": 14.432199999999993,
+      "lon": 120.90128,
+      "tier": "high",
+      "score": 0.886,
+      "nearest_osm_m": 2917.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.49484_121.21936",
+      "lat": 14.494839999999991,
+      "lon": 121.21936000000007,
+      "tier": "candidate",
+      "score": 0.847,
+      "nearest_osm_m": 7756.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.49700_121.21936",
+      "lat": 14.496999999999991,
+      "lon": 121.21936000000007,
+      "tier": "candidate",
+      "score": 0.728,
+      "nearest_osm_m": 7756.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53156_121.14992",
+      "lat": 14.53155999999999,
+      "lon": 121.14992000000005,
+      "tier": "high",
+      "score": 0.954,
+      "nearest_osm_m": 5835.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53588_121.13648",
+      "lat": 14.53587999999999,
+      "lon": 121.13648000000005,
+      "tier": "high",
+      "score": 0.927,
+      "nearest_osm_m": 4738.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.53588_121.21936",
+      "lat": 14.53587999999999,
+      "lon": 121.21936000000007,
+      "tier": "high",
+      "score": 0.94,
+      "nearest_osm_m": 6676.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54452_121.14768",
+      "lat": 14.54451999999999,
+      "lon": 121.14768000000005,
+      "tier": "candidate",
+      "score": 0.717,
+      "nearest_osm_m": 4381.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.54884_121.13872",
+      "lat": 14.54883999999999,
+      "lon": 121.13872000000005,
+      "tier": "candidate",
+      "score": 0.798,
+      "nearest_osm_m": 3739.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55100_121.21936",
+      "lat": 14.55099999999999,
+      "lon": 121.21936000000007,
+      "tier": "candidate",
+      "score": 0.827,
+      "nearest_osm_m": 5609.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.55532_121.13872",
+      "lat": 14.55531999999999,
+      "lon": 121.13872000000005,
+      "tier": "high",
+      "score": 0.988,
+      "nearest_osm_m": 3020.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.56612_121.14096",
+      "lat": 14.566119999999989,
+      "lon": 121.14096000000005,
+      "tier": "high",
+      "score": 0.973,
+      "nearest_osm_m": 1874.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.56828_121.14096",
+      "lat": 14.568279999999989,
+      "lon": 121.14096000000005,
+      "tier": "high",
+      "score": 0.986,
+      "nearest_osm_m": 1643.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57260_121.18352",
+      "lat": 14.572599999999989,
+      "lon": 121.18352000000006,
+      "tier": "high",
+      "score": 0.851,
+      "nearest_osm_m": 1070.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.57908_121.17232",
+      "lat": 14.579079999999989,
+      "lon": 121.17232000000006,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 366.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58340_121.13648",
+      "lat": 14.583399999999989,
+      "lon": 121.13648000000005,
+      "tier": "high",
+      "score": 0.862,
+      "nearest_osm_m": 92.5,
+      "nearest_osm_location": "roof",
+      "status": "confirmed"
+    },
+    {
+      "tile_id": "14.58340_121.17680",
+      "lat": 14.583399999999989,
+      "lon": 121.17680000000006,
+      "tier": "candidate",
+      "score": 0.735,
+      "nearest_osm_m": 545.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58556_121.17008",
+      "lat": 14.585559999999989,
+      "lon": 121.17008000000006,
+      "tier": "candidate",
+      "score": 0.71,
+      "nearest_osm_m": 981.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58988_121.13424",
+      "lat": 14.589879999999988,
+      "lon": 121.13424000000005,
+      "tier": "high",
+      "score": 0.924,
+      "nearest_osm_m": 774.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.58988_121.13648",
+      "lat": 14.589879999999988,
+      "lon": 121.13648000000005,
+      "tier": "candidate",
+      "score": 0.764,
+      "nearest_osm_m": 769.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59204_121.14320",
+      "lat": 14.592039999999988,
+      "lon": 121.14320000000005,
+      "tier": "candidate",
+      "score": 0.774,
+      "nearest_osm_m": 1294.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59420_121.17232",
+      "lat": 14.594199999999988,
+      "lon": 121.17232000000006,
+      "tier": "candidate",
+      "score": 0.711,
+      "nearest_osm_m": 1466.3,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59636_121.17232",
+      "lat": 14.596359999999988,
+      "lon": 121.17232000000006,
+      "tier": "high",
+      "score": 0.982,
+      "nearest_osm_m": 1235.6,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.59636_121.19696",
+      "lat": 14.596359999999988,
+      "lon": 121.19696000000006,
+      "tier": "high",
+      "score": 0.963,
+      "nearest_osm_m": 3021.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.61796_121.13200",
+      "lat": 14.617959999999988,
+      "lon": 121.13200000000005,
+      "tier": "candidate",
+      "score": 0.823,
+      "nearest_osm_m": 311.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62012_121.14992",
+      "lat": 14.620119999999988,
+      "lon": 121.14992000000005,
+      "tier": "candidate",
+      "score": 0.705,
+      "nearest_osm_m": 2159.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62012_121.15216",
+      "lat": 14.620119999999988,
+      "lon": 121.15216000000005,
+      "tier": "high",
+      "score": 0.95,
+      "nearest_osm_m": 2316.5,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62444_121.13648",
+      "lat": 14.624439999999987,
+      "lon": 121.13648000000005,
+      "tier": "candidate",
+      "score": 0.828,
+      "nearest_osm_m": 874.2,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.62444_121.21040",
+      "lat": 14.624439999999987,
+      "lon": 121.21040000000006,
+      "tier": "candidate",
+      "score": 0.811,
+      "nearest_osm_m": 4876.1,
+      "nearest_osm_location": null,
+      "status": "new"
+    },
+    {
+      "tile_id": "14.69356_121.14320",
+      "lat": 14.693559999999986,
+      "lon": 121.14320000000005,
+      "tier": "candidate",
+      "score": 0.703,
+      "nearest_osm_m": 5401.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.78212_120.96848",
+      "lat": 14.782119999999983,
+      "lon": 120.96848000000001,
+      "tier": "candidate",
+      "score": 0.823,
+      "nearest_osm_m": 3396.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.78212_120.97744",
+      "lat": 14.782119999999983,
+      "lon": 120.97744000000002,
+      "tier": "high",
+      "score": 0.98,
+      "nearest_osm_m": 3944.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.78428_120.96400",
+      "lat": 14.784279999999983,
+      "lon": 120.96400000000001,
+      "tier": "candidate",
+      "score": 0.724,
+      "nearest_osm_m": 3422.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.78428_120.97744",
+      "lat": 14.784279999999983,
+      "lon": 120.97744000000002,
+      "tier": "high",
+      "score": 0.901,
+      "nearest_osm_m": 4129.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.78428_121.01104",
+      "lat": 14.784279999999983,
+      "lon": 121.01104000000002,
+      "tier": "candidate",
+      "score": 0.746,
+      "nearest_osm_m": 6789.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.78644_121.08048",
+      "lat": 14.786439999999983,
+      "lon": 121.08048000000004,
+      "tier": "candidate",
+      "score": 0.746,
+      "nearest_osm_m": 1102.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.78860_120.96176",
+      "lat": 14.788599999999983,
+      "lon": 120.96176000000001,
+      "tier": "candidate",
+      "score": 0.806,
+      "nearest_osm_m": 3816.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.78860_120.99760",
+      "lat": 14.788599999999983,
+      "lon": 120.99760000000002,
+      "tier": "candidate",
+      "score": 0.725,
+      "nearest_osm_m": 6018.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.79076_120.99760",
+      "lat": 14.790759999999983,
+      "lon": 120.99760000000002,
+      "tier": "candidate",
+      "score": 0.713,
+      "nearest_osm_m": 6169.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.79292_120.93264",
+      "lat": 14.792919999999983,
+      "lon": 120.93264,
+      "tier": "candidate",
+      "score": 0.752,
+      "nearest_osm_m": 4753.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.80588_120.93936",
+      "lat": 14.805879999999982,
+      "lon": 120.93936000000001,
+      "tier": "high",
+      "score": 0.941,
+      "nearest_osm_m": 5836.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.81452_120.88560",
+      "lat": 14.814519999999982,
+      "lon": 120.8856,
+      "tier": "candidate",
+      "score": 0.815,
+      "nearest_osm_m": 4657.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.81452_121.07152",
+      "lat": 14.814519999999982,
+      "lon": 121.07152000000004,
+      "tier": "high",
+      "score": 0.884,
+      "nearest_osm_m": 3978.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.81884_120.88336",
+      "lat": 14.818839999999982,
+      "lon": 120.88336,
+      "tier": "candidate",
+      "score": 0.85,
+      "nearest_osm_m": 4131.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.81884_121.04240",
+      "lat": 14.818839999999982,
+      "lon": 121.04240000000003,
+      "tier": "candidate",
+      "score": 0.714,
+      "nearest_osm_m": 5594.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.82316_120.89904",
+      "lat": 14.823159999999982,
+      "lon": 120.89904,
+      "tier": "candidate",
+      "score": 0.784,
+      "nearest_osm_m": 5086.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.82316_121.01776",
+      "lat": 14.823159999999982,
+      "lon": 121.01776000000002,
+      "tier": "candidate",
+      "score": 0.845,
+      "nearest_osm_m": 7796.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.82532_120.89680",
+      "lat": 14.825319999999982,
+      "lon": 120.8968,
+      "tier": "high",
+      "score": 0.968,
+      "nearest_osm_m": 4754.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.82532_121.00432",
+      "lat": 14.825319999999982,
+      "lon": 121.00432000000002,
+      "tier": "high",
+      "score": 0.979,
+      "nearest_osm_m": 9096.7,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.82532_121.00656",
+      "lat": 14.825319999999982,
+      "lon": 121.00656000000002,
+      "tier": "high",
+      "score": 0.887,
+      "nearest_osm_m": 8899.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.83180_120.95504",
+      "lat": 14.831799999999982,
+      "lon": 120.95504000000001,
+      "tier": "candidate",
+      "score": 0.807,
+      "nearest_osm_m": 8518.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.83396_120.95728",
+      "lat": 14.833959999999982,
+      "lon": 120.95728000000001,
+      "tier": "candidate",
+      "score": 0.716,
+      "nearest_osm_m": 8765.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.83612_120.96176",
+      "lat": 14.836119999999982,
+      "lon": 120.96176000000001,
+      "tier": "candidate",
+      "score": 0.72,
+      "nearest_osm_m": 9040.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.83612_120.99984",
+      "lat": 14.836119999999982,
+      "lon": 120.99984000000002,
+      "tier": "high",
+      "score": 0.954,
+      "nearest_osm_m": 10200.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.83828_120.97968",
+      "lat": 14.838279999999981,
+      "lon": 120.97968000000002,
+      "tier": "high",
+      "score": 0.964,
+      "nearest_osm_m": 9655.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84044_120.89232",
+      "lat": 14.840439999999981,
+      "lon": 120.89232,
+      "tier": "candidate",
+      "score": 0.839,
+      "nearest_osm_m": 3663.0,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84260_121.00880",
+      "lat": 14.842599999999981,
+      "lon": 121.00880000000002,
+      "tier": "high",
+      "score": 0.955,
+      "nearest_osm_m": 9966.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84260_121.01104",
+      "lat": 14.842599999999981,
+      "lon": 121.01104000000002,
+      "tier": "high",
+      "score": 0.915,
+      "nearest_osm_m": 9798.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84260_121.01328",
+      "lat": 14.842599999999981,
+      "lon": 121.01328000000002,
+      "tier": "high",
+      "score": 0.894,
+      "nearest_osm_m": 9634.4,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84260_121.01552",
+      "lat": 14.842599999999981,
+      "lon": 121.01552000000002,
+      "tier": "high",
+      "score": 0.949,
+      "nearest_osm_m": 9473.1,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84260_121.01776",
+      "lat": 14.842599999999981,
+      "lon": 121.01776000000002,
+      "tier": "candidate",
+      "score": 0.842,
+      "nearest_osm_m": 9315.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84476_120.90352",
+      "lat": 14.844759999999981,
+      "lon": 120.90352,
+      "tier": "candidate",
+      "score": 0.749,
+      "nearest_osm_m": 4789.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84476_121.00880",
+      "lat": 14.844759999999981,
+      "lon": 121.00880000000002,
+      "tier": "high",
+      "score": 0.98,
+      "nearest_osm_m": 10138.9,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84476_121.01328",
+      "lat": 14.844759999999981,
+      "lon": 121.01328000000002,
+      "tier": "candidate",
+      "score": 0.782,
+      "nearest_osm_m": 9812.5,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84476_121.01552",
+      "lat": 14.844759999999981,
+      "lon": 121.01552000000002,
+      "tier": "high",
+      "score": 0.988,
+      "nearest_osm_m": 9654.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84476_121.01776",
+      "lat": 14.844759999999981,
+      "lon": 121.01776000000002,
+      "tier": "candidate",
+      "score": 0.726,
+      "nearest_osm_m": 9499.3,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84692_120.97072",
+      "lat": 14.846919999999981,
+      "lon": 120.97072000000001,
+      "tier": "high",
+      "score": 0.941,
+      "nearest_osm_m": 10363.6,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84692_120.97296",
+      "lat": 14.846919999999981,
+      "lon": 120.97296000000001,
+      "tier": "high",
+      "score": 0.969,
+      "nearest_osm_m": 10409.2,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    },
+    {
+      "tile_id": "14.84692_121.01552",
+      "lat": 14.846919999999981,
+      "lon": 121.01552000000002,
+      "tier": "high",
+      "score": 0.877,
+      "nearest_osm_m": 9837.8,
+      "nearest_osm_location": "roof",
+      "status": "new"
+    }
+  ]
+}

@@ -1,0 +1,551 @@
+[
+  {
+    "city": "Quezon City",
+    "province": "Metro Manila",
+    "n_high": 27,
+    "n_candidate": 62,
+    "n_buildings_solar": 54,
+    "sum_kwp": 10379.7,
+    "mean_kwp_per_building": 192.2
+  },
+  {
+    "city": "Valenzuela",
+    "province": "Metro Manila",
+    "n_high": 14,
+    "n_candidate": 24,
+    "n_buildings_solar": 25,
+    "sum_kwp": 4263.0,
+    "mean_kwp_per_building": 170.5
+  },
+  {
+    "city": "Malabon",
+    "province": "Metro Manila",
+    "n_high": 5,
+    "n_candidate": 3,
+    "n_buildings_solar": 18,
+    "sum_kwp": 3430.2,
+    "mean_kwp_per_building": 190.6
+  },
+  {
+    "city": "Paranaque",
+    "province": "Metro Manila",
+    "n_high": 6,
+    "n_candidate": 20,
+    "n_buildings_solar": 23,
+    "sum_kwp": 2453.7,
+    "mean_kwp_per_building": 106.7
+  },
+  {
+    "city": "Taguig",
+    "province": "Metro Manila",
+    "n_high": 7,
+    "n_candidate": 9,
+    "n_buildings_solar": 6,
+    "sum_kwp": 2225.3,
+    "mean_kwp_per_building": 370.9
+  },
+  {
+    "city": "Bacoor",
+    "province": "Cavite",
+    "n_high": 6,
+    "n_candidate": 3,
+    "n_buildings_solar": 8,
+    "sum_kwp": 1945.8,
+    "mean_kwp_per_building": 243.2
+  },
+  {
+    "city": "Pasay",
+    "province": "Metro Manila",
+    "n_high": 4,
+    "n_candidate": 19,
+    "n_buildings_solar": 8,
+    "sum_kwp": 1930.5,
+    "mean_kwp_per_building": 241.3
+  },
+  {
+    "city": "Bulacan",
+    "province": "Bulacan",
+    "n_high": 8,
+    "n_candidate": 11,
+    "n_buildings_solar": 19,
+    "sum_kwp": 1842.7,
+    "mean_kwp_per_building": 97.0
+  },
+  {
+    "city": "Las Pinas",
+    "province": "Metro Manila",
+    "n_high": 5,
+    "n_candidate": 6,
+    "n_buildings_solar": 3,
+    "sum_kwp": 1780.0,
+    "mean_kwp_per_building": 593.3
+  },
+  {
+    "city": "Antipolo",
+    "province": "Rizal",
+    "n_high": 2,
+    "n_candidate": 1,
+    "n_buildings_solar": 2,
+    "sum_kwp": 1654.4,
+    "mean_kwp_per_building": 827.2
+  },
+  {
+    "city": "Manila",
+    "province": "Metro Manila",
+    "n_high": 7,
+    "n_candidate": 30,
+    "n_buildings_solar": 12,
+    "sum_kwp": 1572.7,
+    "mean_kwp_per_building": 131.1
+  },
+  {
+    "city": "Marikina",
+    "province": "Metro Manila",
+    "n_high": 3,
+    "n_candidate": 5,
+    "n_buildings_solar": 16,
+    "sum_kwp": 1353.6,
+    "mean_kwp_per_building": 84.6
+  },
+  {
+    "city": "Pasig",
+    "province": "Metro Manila",
+    "n_high": 5,
+    "n_candidate": 23,
+    "n_buildings_solar": 17,
+    "sum_kwp": 1348.7,
+    "mean_kwp_per_building": 79.3
+  },
+  {
+    "city": "Meycauayan",
+    "province": "Bulacan",
+    "n_high": 5,
+    "n_candidate": 10,
+    "n_buildings_solar": 10,
+    "sum_kwp": 1108.9,
+    "mean_kwp_per_building": 110.9
+  },
+  {
+    "city": "Navotas",
+    "province": "Metro Manila",
+    "n_high": 3,
+    "n_candidate": 2,
+    "n_buildings_solar": 4,
+    "sum_kwp": 1027.0,
+    "mean_kwp_per_building": 256.7
+  },
+  {
+    "city": "Mandaluyong",
+    "province": "Metro Manila",
+    "n_high": 2,
+    "n_candidate": 8,
+    "n_buildings_solar": 7,
+    "sum_kwp": 907.4,
+    "mean_kwp_per_building": 129.6
+  },
+  {
+    "city": "Marilao",
+    "province": "Bulacan",
+    "n_high": 2,
+    "n_candidate": 1,
+    "n_buildings_solar": 9,
+    "sum_kwp": 733.8,
+    "mean_kwp_per_building": 81.5
+  },
+  {
+    "city": "Muntinlupa",
+    "province": "Metro Manila",
+    "n_high": 5,
+    "n_candidate": 14,
+    "n_buildings_solar": 5,
+    "sum_kwp": 524.9,
+    "mean_kwp_per_building": 105.0
+  },
+  {
+    "city": "San Mateo",
+    "province": "Rizal",
+    "n_high": 1,
+    "n_candidate": 1,
+    "n_buildings_solar": 1,
+    "sum_kwp": 493.7,
+    "mean_kwp_per_building": 493.7
+  },
+  {
+    "city": "Caloocan",
+    "province": "Metro Manila",
+    "n_high": 2,
+    "n_candidate": 7,
+    "n_buildings_solar": 2,
+    "sum_kwp": 478.3,
+    "mean_kwp_per_building": 239.1
+  },
+  {
+    "city": "San Juan",
+    "province": "Metro Manila",
+    "n_high": 1,
+    "n_candidate": 6,
+    "n_buildings_solar": 1,
+    "sum_kwp": 61.7,
+    "mean_kwp_per_building": 61.7
+  },
+  {
+    "city": "Makati",
+    "province": "Metro Manila",
+    "n_high": 1,
+    "n_candidate": 15,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Pateros",
+    "province": "Metro Manila",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "San Jose del Monte",
+    "province": "Bulacan",
+    "n_high": 1,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Bocaue",
+    "province": "Bulacan",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Obando",
+    "province": "Bulacan",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Cainta",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 5,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Taytay",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 1,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Angono",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Binangonan",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Rodriguez (Montalban)",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Teresa",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Cardona",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Baras",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Morong",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Pililla",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Tanay",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Jala-Jala",
+    "province": "Rizal",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Imus",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 4,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Dasmarinas",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Kawit",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 1,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Noveleta",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Rosario",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Cavite City",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Tanza",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Trece Martires",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Carmona",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "General Mariano Alvarez",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Silang",
+    "province": "Cavite",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Binan",
+    "province": "Laguna",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Cabuyao",
+    "province": "Laguna",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Calamba",
+    "province": "Laguna",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Los Banos",
+    "province": "Laguna",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "San Pedro",
+    "province": "Laguna",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Santa Rosa",
+    "province": "Laguna",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Bay",
+    "province": "Laguna",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Calauan",
+    "province": "Laguna",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Tanauan",
+    "province": "Batangas",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Santo Tomas",
+    "province": "Batangas",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Malvar",
+    "province": "Batangas",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  },
+  {
+    "city": "Lucban",
+    "province": "Quezon",
+    "n_high": 0,
+    "n_candidate": 0,
+    "n_buildings_solar": 0,
+    "sum_kwp": 0.0,
+    "mean_kwp_per_building": 0.0
+  }
+]

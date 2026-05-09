@@ -6,16 +6,16 @@ Sibling project to ghostwatch in the civic-tech-PH arc.
 
 ## What this is
 
-Two surfaces, one quarterly dataset:
+Three surfaces, two pipelines:
 
-- `/map` aggregates a multi-signal solar-presence index per city/municipality across Meralco's franchise (NCR plus parts of Bulacan, Cavite, Laguna, Rizal, Batangas, Quezon). Built on Sentinel-2, Landsat thermal, VIIRS nightlights, and ESA WorldCover, blended in Google Earth Engine. City-level resolution. No individual-rooftop claims.
-- `/me` is a homeowner lookup. Drop your address, type your monthly Meralco bill and your roof area, get your barangay's signal strength, your roof's PVGIS-derived solar potential, your LGU's permit cost and approval delay, and the registered-vs-guerrilla path comparison. All client-side, no backend.
+- `/` is a homeowner lookup. Drop an address, find the matching OpenStreetMap building, measure the roof from Esri imagery, run PVGIS-derived solar yield against the current Meralco rate. Surfaces verified case studies and CNN-detected rooftop solar within 1.5 km. All client-side, no backend.
+- `/map` aggregates a multi-signal solar-presence index per city/municipality across Meralco's franchise. Built on Sentinel-2, Landsat thermal, VIIRS nightlights, and ESA WorldCover, blended in Google Earth Engine. City-level resolution.
+- `detection/` is the per-roof CNN pipeline. Bootstraps a positive set from OpenStreetMap `power=generator + generator:source=solar` tags, trains a logistic-regression head on CLIP-ViT-L image embeddings, then tiles NCR on a 240m grid running the trained classifier. After an active-learning label cleanup pass (4 false-negative random tiles promoted to positives, 2 noisy case studies dropped), **clf_v3 hits F1 = 0.918, 99.1% precision at 70.5% recall** (5-fold group-aware CV, threshold 0.85). Full NCR scan: **114 high-confidence + 280 candidate detections, 79% NEW** (not in OSM). The v2.1 building-level layer (SAM + color signature + clf_v3 + OSM building footprints) outputs one polygon per OSM building with detected panels, with `kwp_estimate` and `panel_area_m2`. See `detection/README.md`.
 
 ## What this is not
 
-- Not an individual-rooftop detector. The signal is correlative, aggregated to city or robust-built-up barangay scale.
-- Not address-level data. No PII is ingested or published.
 - Not engineering advice. The homeowner tool is informational. Consult a certified installer.
+- Not address-level data. No PII is ingested or published.
 - Not a launch event. Per quiet-builder posture, this ships as reference documentation. People who care will find it.
 
 ## Quickstart
@@ -80,6 +80,37 @@ After link, the `.vercel/` directory is created locally and gitignored. Subseque
 Headers, caching, and CSP are in `site/vercel.json`. The pipeline data files (`/data/*.geojson`, `/data/*.json`) get a permissive CORS header so anyone can fetch them as a public dataset.
 
 CI (`/.github/workflows/ci.yml`) runs on every push and PR: type-check, build, pipeline syntax check, dry-run validation. Vercel handles the actual deploy on merge to `main`.
+
+### Detection pipeline (reproducible)
+
+The CNN detection pipeline (CLIP-ViT-L embeddings + logistic regression head + Platt calibration) ships with a Makefile, a Dockerfile, and pinned Python deps so the trained classifier is bit-exactly reproducible from the cached embeddings.
+
+```bash
+# Requires Python 3.11+ and the deps in requirements.txt at repo root.
+pip install -r requirements.txt
+
+# Train, calibrate, and verify deterministic hash from cached dataset_v4.npz
+make train
+make calibrate
+make hash    # should print: clf_v4.joblib sha256: 15564df477c961f2
+
+# Score a single tile through the calibrated bundle
+make demo
+
+# Full pipeline including the NCR scan (requires cached imagery in detection/scan/ncr_tiles/)
+make all
+```
+
+**Docker smoke test** — `docker build -t ghost-watts:latest . && docker run ghost-watts:latest` should print the same `15564df477c961f2` sha256 for `clf_v4.joblib`. The image bundles `dataset_v4.npz` (the CLIP-embedded training set, ~8 MB) but not the raw imagery; mount `detection/scan/ncr_tiles/` as a volume to re-run the NCR scan.
+
+```bash
+docker build -t ghost-watts:latest .
+docker run --rm ghost-watts:latest                        # prints classifier hash
+docker run --rm -v $(pwd)/detection/scan/ncr_tiles:/app/detection/scan/ncr_tiles \
+    ghost-watts:latest make scan aggregate                # re-classify cached tiles
+```
+
+Encoder is locked to `openai/clip-vit-large-patch14` after a Phase 3 ablation against `facebook/dinov2-large` and `satlas:Aerial_SwinB_SI` — both lost decisively (DINOv2 -4 pt F1, satlas -14 pt F1 on the calibrated holdout).
 
 ## Project layout
 
