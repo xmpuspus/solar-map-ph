@@ -1,0 +1,36 @@
+[seg] processing 266 high-confidence tiles
+[seg] loading SAM vit_b on mps
+[seg] loading CLIP on mps
+[seg] loaded clf: clf_v3.joblib  version=v3
+[seg] resume: skipping 114 tiles already in /Users/xavier/Desktop/ghost-watts/detection/scan/per_tile_segments.jsonl
+[seg] 5/266  kept=39  rate=0.08/s  elapsed=62s
+[seg] 10/266  kept=114  rate=0.08/s  elapsed=125s
+[seg] 15/266  kept=212  rate=0.08/s  elapsed=188s
+[seg] 20/266  kept=266  rate=0.08/s  elapsed=247s
+[seg] 25/266  kept=324  rate=0.08/s  elapsed=306s
+[seg] 30/266  kept=374  rate=0.08/s  elapsed=368s
+[seg] 35/266  kept=437  rate=0.08/s  elapsed=430s
+[seg] 40/266  kept=510  rate=0.08/s  elapsed=491s
+[seg] 45/266  kept=544  rate=0.08/s  elapsed=549s
+[seg] 50/266  kept=576  rate=0.08/s  elapsed=609s
+[seg] 55/266  kept=628  rate=0.08/s  elapsed=670s
+[seg] 60/266  kept=680  rate=0.08/s  elapsed=737s
+[seg] 65/266  kept=738  rate=0.08/s  elapsed=802s
+[seg] 70/266  kept=759  rate=0.08/s  elapsed=868s
+[seg] 75/266  kept=783  rate=0.08/s  elapsed=932s
+[seg] 80/266  kept=842  rate=0.08/s  elapsed=997s
+[seg] 85/266  kept=869  rate=0.08/s  elapsed=1059s
+[seg] 90/266  kept=898  rate=0.08/s  elapsed=1120s
+[seg] 95/266  kept=930  rate=0.08/s  elapsed=1185s
+[seg] 100/266  kept=965  rate=0.08/s  elapsed=1245s
+[seg] 105/266  kept=994  rate=0.08/s  elapsed=1303s
+[seg] 110/266  kept=1029  rate=0.08/s  elapsed=1363s
+[seg] 115/266  kept=1058  rate=0.08/s  elapsed=1424s
+[seg] 120/266  kept=1081  rate=0.08/s  elapsed=1482s
+[seg] 125/266  kept=1106  rate=0.08/s  elapsed=1544s
+[seg] 130/266  kept=1141  rate=0.08/s  elapsed=1603s
+[seg] 135/266  kept=1170  rate=0.08/s  elapsed=1662s
+[seg] 140/266  kept=1200  rate=0.08/s  elapsed=1724s
+[seg] 145/266  kept=1213  rate=0.08/s  elapsed=1781s
+[seg] 150/266  kept=1236  rate=0.08/s  elapsed=1843s
+[seg] DONE: 154 tiles, 1245 kept segments -> /Users/xavier/Desktop/ghost-watts/detection/scan/per_tile_segments.jsonl

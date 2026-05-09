@@ -1,0 +1,11 @@
+[per-building] overpass failed for 14.34364_121.01328: HTTP Error 504: Gateway Timeout
+[per-building] overpass failed for 14.27452_121.07376: HTTP Error 429: Too Many Requests
+[per-building] overpass failed for 14.30044_120.95728: HTTP Error 504: Gateway Timeout
+[per-building] overpass failed for 14.21188_121.08496: HTTP Error 429: Too Many Requests
+[per-building] overpass failed for 14.21188_121.08048: HTTP Error 504: Gateway Timeout
+[per-building] overpass failed for 14.53588_121.13648: HTTP Error 504: Gateway Timeout
+[per-building] overpass failed for 14.30260_120.95728: HTTP Error 429: Too Many Requests
+[per-building] overpass failed for 14.68620_121.08912: HTTP Error 504: Gateway Timeout
+[per-building] 416 unique buildings with detected solar from 2543 SAM segments across 268 tiles
+[per-building] 357 segments had no matching OSM building (likely informal structures or off-roof)
+[per-building] -> /Users/xavier/Desktop/ghost-watts/site/public/data/per_building_solar_ncr.geojson

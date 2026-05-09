@@ -26,6 +26,7 @@ GEOJSON_OUT = ROOT / "site" / "public" / "data" / "rooftop_solar_ncr.geojson"
 DELTA_OUT = ROOT / "detection" / "scan" / "v2_vs_v3_delta.json"
 OSM = ROOT / "detection" / "bootstrap" / "osm_solar_ncr_plus.geojson"
 MATCH_OUT = ROOT / "detection" / "scan" / "match_report.json"
+PER_BUILDING = ROOT / "site" / "public" / "data" / "per_building_solar_ncr.geojson"
 
 HIGH = 0.85
 CAND = 0.70
@@ -59,6 +60,48 @@ def load_scores(jsonl: Path) -> dict[str, dict]:
     return out
 
 
+def load_per_building_anchors() -> dict[str, tuple[float, float]]:
+    """Map tile_id -> (lat, lon) of the largest matched building's centroid.
+
+    Used to anchor tile-level Points to actual building locations when SAM has
+    already found one inside the tile. Falls through to tile center otherwise.
+    Where a building was matched to multiple tiles (the panel array spans several
+    high-conf cells), each tile_id resolves to the same building centroid — that's
+    fine, all those dots will visually cluster on top of the polygon.
+    """
+    if not PER_BUILDING.exists():
+        return {}
+    out: dict[str, tuple[float, float]] = {}
+    fc = json.loads(PER_BUILDING.read_text())
+    for f in fc.get("features", []):
+        geom = f.get("geometry", {})
+        if geom.get("type") != "Polygon":
+            continue
+        ring = geom["coordinates"][0]
+        if not ring:
+            continue
+        # Centroid via mean of exterior ring (good enough for visualization).
+        lons = [pt[0] for pt in ring]
+        lats = [pt[1] for pt in ring]
+        cen_lat = sum(lats) / len(lats)
+        cen_lon = sum(lons) / len(lons)
+        props = f.get("properties", {})
+        tids = props.get("tile_ids") or []
+        if not tids and props.get("tile_id"):
+            tids = [props["tile_id"]]
+        for tid in tids:
+            # If multiple buildings match the same tile, prefer the one with the
+            # largest panel area (most likely the "true" array for that cell).
+            existing = out.get(tid)
+            if existing is None:
+                out[tid] = (cen_lat, cen_lon, props.get("panel_area_m2", 0))  # type: ignore[assignment]
+            else:
+                if (props.get("panel_area_m2") or 0) > (existing[2] if len(existing) > 2 else 0):  # type: ignore[index]
+                    out[tid] = (cen_lat, cen_lon, props.get("panel_area_m2", 0))  # type: ignore[assignment]
+    # Drop the panel_area tiebreaker once decided
+    return {tid: (lat, lon) for tid, (lat, lon, _area) in out.items()}
+
+
 def main() -> int:
     if not V3_JSONL.exists():
         print(f"[agg] v3 jsonl missing: {V3_JSONL}", file=sys.stderr)
@@ -68,8 +111,12 @@ def main() -> int:
     print(f"[agg] v3 tiles: {len(v3)}    v2 tiles: {len(v2)}")
 
     # --- v3 GeoJSON ---
+    pb_anchors = load_per_building_anchors()
+    if pb_anchors:
+        print(f"[agg] per-building anchors loaded for {len(pb_anchors)} tile_ids")
+
     feats = []
-    n_high = n_cand = 0
+    n_high = n_cand = n_anchored = 0
     for tid, rec in v3.items():
         score = rec["score"]
         if score >= HIGH:
@@ -80,9 +127,20 @@ def main() -> int:
             n_cand += 1
         else:
             continue
+        # Anchor the dot to the SAM-matched building centroid when available so
+        # the tile-level point sits on top of its per-building polygon. Falls
+        # back to tile centroid when SAM didn't match a building.
+        anchor = pb_anchors.get(tid)
+        if anchor is not None:
+            point_lat, point_lon = anchor
+            anchored = True
+            n_anchored += 1
+        else:
+            point_lat, point_lon = rec["lat"], rec["lon"]
+            anchored = False
         feats.append({
             "type": "Feature",
-            "geometry": {"type": "Point", "coordinates": [rec["lon"], rec["lat"]]},
+            "geometry": {"type": "Point", "coordinates": [point_lon, point_lat]},
             "properties": {
                 "tile_id": tid,
                 "score": round(score, 3),
@@ -91,6 +149,8 @@ def main() -> int:
                     rec["lon"] - HALF_DEGREE, rec["lat"] - HALF_DEGREE,
                     rec["lon"] + HALF_DEGREE, rec["lat"] + HALF_DEGREE,
                 ],
+                "tile_center": [rec["lon"], rec["lat"]],
+                "anchored_to_building": anchored,
             },
         })
 
@@ -156,7 +216,7 @@ def main() -> int:
     }
     GEOJSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     GEOJSON_OUT.write_text(json.dumps(fc, indent=1))
-    print(f"[agg] v3 geojson: {n_high} high + {n_cand} candidate -> {GEOJSON_OUT}")
+    print(f"[agg] v3 geojson: {n_high} high + {n_cand} candidate ({n_anchored} anchored to buildings) -> {GEOJSON_OUT}")
 
     # Write match report
     MATCH_OUT.write_text(json.dumps({
