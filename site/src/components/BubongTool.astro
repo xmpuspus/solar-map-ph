@@ -510,26 +510,36 @@
       ),
     }));
     enriched.sort((a, b) => a.distanceKm - b.distanceKm);
-    let cityComposite: { city: string; rank: number; total: number; score: number } | null = null;
-    if (manifest?.latest_quarter) {
-      const fc = await loadJson(`/data/ghost_watts_${manifest.latest_quarter}.geojson`);
-      if (fc?.features) {
-        const features = fc.features.filter((f: any) => typeof f.properties?.metrics?.composite_solar_signal_score === "number");
-        // Find which feature contains this point; if none, just the closest by centroid
-        const containing = features.find((f: any) => {
-          const polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
-          return polys.some((poly: number[][][]) => booleanPointInPolygon({ type: "Point", coordinates: point } as any, { type: "Feature", geometry: { type: "Polygon", coordinates: poly } } as any));
-        });
-        if (containing) {
-          const sorted = [...features].sort((a, b) => b.properties.metrics.composite_solar_signal_score - a.properties.metrics.composite_solar_signal_score);
-          const rank = sorted.findIndex((f) => f.properties.psgc_code === containing.properties.psgc_code) + 1;
-          cityComposite = {
-            city: containing.properties.name,
-            rank,
-            total: sorted.length,
-            score: containing.properties.metrics.composite_solar_signal_score,
-          };
-        }
+    let cityComposite: {
+      city: string;
+      nHigh: number;
+      nNewHigh: number;
+      nCandidate: number;
+      densityRank: number;
+      densityTotal: number;
+    } | null = null;
+    // Use the franchise polygons to find the city the address falls inside,
+    // then look up detection counts from the clf_v4 survey.
+    const cities = await loadJson(`/data/franchise_cities_polygons.geojson`).catch(() => null);
+    const counts = await loadJson(`/data/city_detection_counts.json`).catch(() => null);
+    if (cities?.features && counts?.rows) {
+      const containing = cities.features.find((f: any) => {
+        const polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
+        return polys.some((poly: number[][][]) => booleanPointInPolygon({ type: "Point", coordinates: point } as any, { type: "Feature", geometry: { type: "Polygon", coordinates: poly } } as any));
+      });
+      if (containing) {
+        const cityName = containing.properties.name;
+        const row = counts.rows.find((r: any) => r.name === cityName);
+        const sortedDensity = [...counts.rows].filter((r: any) => r.high_per_km2 > 0).sort((a: any, b: any) => b.high_per_km2 - a.high_per_km2);
+        const densityRank = row ? sortedDensity.findIndex((r: any) => r.name === cityName) + 1 : 0;
+        cityComposite = {
+          city: cityName,
+          nHigh: row?.n_high ?? 0,
+          nNewHigh: row?.n_new_high ?? 0,
+          nCandidate: row?.n_candidate ?? 0,
+          densityRank: densityRank > 0 ? densityRank : 0,
+          densityTotal: sortedDensity.length,
+        };
       }
     }
     return { nearestCases: enriched.slice(0, 3), cityComposite, detections, perBuildingMap, saturation };
@@ -1058,9 +1068,11 @@
           <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">your city</p>
           ${r.cityComposite
             ? `<h3 class="text-xl text-ink-900 font-semibold mb-1">${r.cityComposite.city}</h3>
-               <p class="text-sm text-ink-700 leading-relaxed mb-3">Ranks <strong>${r.cityComposite.rank}</strong> of ${r.cityComposite.total} Meralco-franchise cities for rooftop change consistent with solar growth (composite ${r.cityComposite.score >= 0 ? "+" : ""}${r.cityComposite.score.toFixed(2)}).</p>
+               <p class="text-sm text-ink-700 leading-relaxed mb-3">${r.cityComposite.nHigh > 0
+                 ? `<strong>${r.cityComposite.nHigh}</strong> rooftop solar installations detected here (${r.cityComposite.nNewHigh} of them newly identified, not on prior public maps). ${r.cityComposite.densityRank > 0 ? `Ranks <strong>#${r.cityComposite.densityRank}</strong> of ${r.cityComposite.densityTotal} surveyed cities by detection density.` : ""}`
+                 : `No high-confidence rooftop solar detected here yet in our survey.`}</p>
                <a href="/map?city=${encodeURIComponent(r.cityComposite.city.toLowerCase().replace(/[^a-z0-9]+/g, "-"))}" class="text-xs font-mono uppercase tracking-wider text-accent-steel no-underline">see your city on the map &rarr;</a>`
-            : `<p class="text-sm text-ink-500">Outside Meralco's franchise area; we don't have city-level signal here.</p>`}
+            : `<p class="text-sm text-ink-500">Outside the surveyed franchise area; we don't have local detection counts here.</p>`}
         </div>
         <div class="border border-ink-300/40 bg-white p-6">
           <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">LGU permit</p>

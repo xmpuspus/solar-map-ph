@@ -287,7 +287,7 @@ flowchart TB
       <li>By area: <strong>NCR 130 high + 216 candidate</strong> · <strong>extended franchise 136 high + 135 candidate</strong>. Doubling the geographic footprint roughly doubled the high-confidence count.</li>
     </ul>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      This is a useful sanity check for the classifier. If almost every detection re-mapped an OSM point, the model would just be memorizing training data; if none did, the model would be hallucinating. The ~25% confirmed / ~75% new split at the high tier is consistent with a classifier that learned the visual signature of rooftop PV well enough to recognize it on buildings the OSM community has not yet mapped.
+      This is a useful sanity check for the classifier. If almost every detection re-mapped an OSM point, the model would just be memorizing training data; if none did, the model would be hallucinating. The ~15% confirmed / ~85% new split at the high tier is consistent with a classifier that learned the visual signature of rooftop PV well enough to recognize it on buildings the OSM community has not yet mapped, in a region where OSM rooftop-solar tagging is sparse.
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       The "candidate" tier is noisier: many genuine borderline cases plus more visually-ambiguous false positives. The high-confidence tier is the production set.
@@ -322,7 +322,7 @@ flowchart TB
   MATCH["Centroid-in-polygon<br/>or bbox overlap"]
   MERGE["Per-building merge<br/>sum panel area<br/>cap at footprint"]
   KWP["kWp estimate<br/>area_m2 divided by 6"]
-  OUT["per_building_solar_ncr.geojson<br/>231 buildings, 39.7 MW"]
+  OUT["per_building_solar_ncr.geojson<br/>416 buildings, 73.7 MWp"]
   TILE --&gt; SAM
   SAM --&gt; COLOR
   COLOR --&gt;|drops ~70% of masks| CROP

@@ -218,23 +218,26 @@
     address: string;
     cityName: string | null;
     cityProps: any;
+    cityDetections: any;
     kwp: number;
     annualKwh: number | null;
     monthlyBillPhp: number;
   }) {
-    const { address, cityName, cityProps, kwp, annualKwh, monthlyBillPhp } = opts;
+    const { address, cityName, cityProps, cityDetections, kwp, annualKwh, monthlyBillPhp } = opts;
     const annualSavings = annualKwh ? annualKwh * MERALCO_RATE_PHP_PER_KWH : 0;
     const installCost = kwp * INSTALL_COST_PHP_PER_KWP;
     const payback = annualKwh ? paybackYears(installCost, annualSavings) : null;
     const npv = annualKwh ? lifetimeNpv(annualKwh, MERALCO_RATE_PHP_PER_KWH, installCost) : null;
     const offsetPct = annualKwh ? Math.min(1, annualKwh / (monthlyBillPhp * 12 / MERALCO_RATE_PHP_PER_KWH)) : 0;
 
-    const composite = cityProps?.metrics?.composite_solar_signal_score;
-    const builtUp = cityProps?.metrics?.built_up_km2;
     const permitFee = cityProps?.policy?.lgu_permit_fee_php;
     const permitDays = cityProps?.policy?.lgu_permit_days_p50;
     const permitStatus = cityProps?.policy?.permit_data_status ?? "unverified";
-    const band = bandLabel(typeof composite === "number" ? composite : null);
+    const cityNHigh = cityDetections?.n_high ?? 0;
+    const cityNNew = cityDetections?.n_new_high ?? 0;
+    const cityDensityRank = cityDetections?.densityRank ?? 0;
+    const cityDensityTotal = cityDetections?.densityTotal ?? 0;
+    const cityKwp = cityDetections?.sum_kwp_high ?? 0;
 
     const root = document.getElementById("me-results")!;
     root.classList.remove("hidden");
@@ -259,7 +262,7 @@
           </div>
         </div>
         <p class="text-sm text-ink-700 mt-4 leading-relaxed border-t border-ink-300/30 pt-4">
-          You'd cover about <strong>${(offsetPct * 100).toFixed(0)}%</strong> of your current bill with a <strong>${kwp.toFixed(1)} kWp</strong> system on ~${(kwp / KWP_PER_M2).toFixed(0)} m&sup2; of roof. ${cityName ? `${cityName}'s rooftop satellite signal is <span class="${band.tone}">${band.label}</span>.` : ""}
+          You'd cover about <strong>${(offsetPct * 100).toFixed(0)}%</strong> of your current bill with a <strong>${kwp.toFixed(1)} kWp</strong> system on ~${(kwp / KWP_PER_M2).toFixed(0)} m&sup2; of roof. ${cityName && cityNHigh > 0 ? `Our survey already identified <strong>${cityNHigh}</strong> rooftop solar installations in ${cityName}.` : cityName ? `Our survey hasn't identified rooftop solar in ${cityName} yet, but the panels still pay back the same way.` : ""}
         </p>
         <p class="text-xs text-ink-300 mt-3">
           Estimates only. Yield from PVGIS PH average (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr). Talk to a certified installer before deciding.
@@ -269,16 +272,17 @@
       <div class="mt-6 grid gap-3">
         <details class="border border-ink-300/40 bg-paper-alt">
           <summary class="cursor-pointer px-5 py-3 text-sm font-medium text-ink-900 flex justify-between items-center">
-            <span>How your city compares <span class="text-ink-500 font-normal">(satellite signal, peer rank)</span></span>
-            <span class="font-mono tabular-nums text-xs text-ink-500">${composite !== undefined ? composite.toFixed(2) : "n/a"}</span>
+            <span>How your city compares <span class="text-ink-500 font-normal">(detection survey)</span></span>
+            <span class="font-mono tabular-nums text-xs text-ink-500">${cityNHigh > 0 ? `${cityNHigh} detected` : "n/a"}</span>
           </summary>
           <div class="px-5 pb-5 pt-2 text-sm text-ink-700 leading-relaxed">
-            <p class="mb-3"><strong>${cityName ?? "this city"}</strong>: ${band.label}. The composite score (${composite !== undefined ? composite.toFixed(2) : "n/a"}) blends near-infrared, short-wave-infrared, midday land surface temperature, and nightlight changes from 2022 to current quarter. Negative composite = roofs darkening + cooling like new solar arrays.</p>
+            <p class="mb-3"><strong>${cityName ?? "this city"}</strong>: our computer-vision survey identified ${cityNHigh > 0 ? `<strong>${cityNHigh}</strong> high-confidence rooftop solar installations${cityNNew > 0 ? ` (${cityNNew} of them not on prior public maps)` : ""}` : "no high-confidence installations yet"}. ${cityDensityRank > 0 ? `${cityName} ranks <strong>#${cityDensityRank}</strong> of ${cityDensityTotal} surveyed cities by detection density (per km²).` : ""}</p>
             <dl class="grid grid-cols-2 gap-y-1.5 gap-x-4 text-xs font-mono tabular-nums">
-              <dt class="text-ink-500">Composite signal</dt><dd class="text-right">${composite !== undefined ? composite.toFixed(2) : "n/a"}</dd>
-              <dt class="text-ink-500">Built-up area</dt><dd class="text-right">${builtUp !== undefined && builtUp !== null ? builtUp.toFixed(1) + " km²" : "n/a"}</dd>
+              <dt class="text-ink-500">Detections (high confidence)</dt><dd class="text-right">${cityNHigh}</dd>
+              <dt class="text-ink-500">Newly identified</dt><dd class="text-right">${cityNNew}</dd>
+              <dt class="text-ink-500">Aggregate capacity</dt><dd class="text-right">${cityKwp >= 1000 ? (cityKwp / 1000).toFixed(1) + " MWp" : Math.round(cityKwp) + " kWp"}</dd>
             </dl>
-            <p class="text-xs text-ink-500 mt-3">Full algorithm and signal breakdown on <a href="/methodology" class="text-accent-steel no-underline">/methodology</a>. <a href="/map?city=${(cityName || "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}" class="text-accent-steel no-underline">See on the map</a>.</p>
+            <p class="text-xs text-ink-500 mt-3">Methodology: <a href="/methodology" class="text-accent-steel no-underline">/methodology</a>. <a href="/map?city=${(cityName || "").toLowerCase().replace(/[^a-z0-9]+/g, "-")}" class="text-accent-steel no-underline">See on the map</a>.</p>
           </div>
         </details>
 
@@ -377,11 +381,22 @@
         }
       }
     }
+    let cityDetections: any = null;
+    try {
+      const counts = await fetch(`${DATA_BASE}/city_detection_counts.json`).then((r) => r.ok ? r.json() : null);
+      if (counts?.rows && cityName) {
+        const row = counts.rows.find((r: any) => r.name === cityName);
+        const sortedDensity = [...counts.rows].filter((r: any) => r.high_per_km2 > 0).sort((a: any, b: any) => b.high_per_km2 - a.high_per_km2);
+        const densityRank = row ? sortedDensity.findIndex((r: any) => r.name === cityName) + 1 : 0;
+        cityDetections = row ? { ...row, densityRank, densityTotal: sortedDensity.length } : null;
+      }
+    } catch {}
 
     renderResults({
       address: geo.display_name,
       cityName,
       cityProps,
+      cityDetections,
       kwp,
       annualKwh,
       monthlyBillPhp: bill,

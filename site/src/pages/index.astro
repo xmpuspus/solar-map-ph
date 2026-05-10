@@ -24,7 +24,7 @@ import BubongTool from "../components/BubongTool.astro";
           <li>Roof area + system size in kWp</li>
           <li>Payback in years for your bill</li>
           <li>Your LGU's permit cost</li>
-          <li>Verified case studies + CNN-detected rooftop solar near you</li>
+          <li>Detected rooftop solar near your block</li>
         </ul>
       </aside>
     </div>
@@ -36,10 +36,10 @@ import BubongTool from "../components/BubongTool.astro";
     <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">why this exists</p>
     <h2 class="text-2xl mb-4 leading-tight">PH solar is too important to leave to opaque sales pitches.</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-4">
-      Most Filipino homeowners considering solar have to navigate three asymmetries at once. Installer quotes vary 5x for the same system. LGU permit fees range ₱16K-153K for the same project. Net-metering has a 100kW cap, a 10-day approval target, and an opaque "guerrilla solar" enforcement debate. Meanwhile your Meralco bill keeps going up.
+      Most Filipino homeowners considering solar have to navigate three asymmetries at once. Installer quotes vary 5x for the same system. LGU permit fees range ₱16K-153K for the same project. Net-metering has a 100 kW cap, a 10-day approval target, and uneven LGU adoption of the new 3-day fast-track. Useful, neutral information is hard to come by.
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-4">
-      Bubong reads your address, finds your building from OpenStreetMap, measures your roof from satellite, runs the math against the current Meralco rate, and tells you what to do. It surfaces verified case studies of nearby installs, your city's rooftop-change signal from satellite (the ghost-watts research pipeline), and your LGU's permit cost where verified.
+      Bubong reads your address, finds your building from OpenStreetMap, measures your roof from satellite, runs the payback math against the current residential rate, and tells you what to do. It surfaces nearby rooftops where our computer-vision survey already detected solar, the local LGU's permit cost where verified, and the safety-and-process steps that make a real difference.
     </p>
     <p class="text-base text-ink-700 leading-relaxed">
       No installer is paid to recommend their system. No data leaves your browser. The math is open-source and reproducible. <a href="/methodology" class="no-underline text-accent-steel">How we computed everything &rarr;</a>
@@ -51,7 +51,7 @@ import BubongTool from "../components/BubongTool.astro";
       <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">research backplane</p>
       <h2 class="text-xl mb-2 text-ink-900">The map</h2>
       <p class="text-sm text-ink-500 mb-4 leading-relaxed">
-        Composite rooftop-change signal across 61 Meralco-franchise cities, refreshed quarterly. Six hand-verified solar installs as case studies. Built on Sentinel-2 + Landsat + VIIRS satellite imagery.
+        A computer-vision survey of rooftop solar across 61 cities in Greater Metro Manila. 617 detections so far, 416 localized to specific OSM building footprints with kWp estimates. Calibrated to 96% precision on a held-out validation set.
       </p>
       <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Open the map &rarr;</span>
     </a>
@@ -59,7 +59,7 @@ import BubongTool from "../components/BubongTool.astro";
       <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">how it works</p>
       <h2 class="text-xl mb-2 text-ink-900">Methodology</h2>
       <p class="text-sm text-ink-500 mb-4 leading-relaxed">
-        Every algorithm, every weight, every limitation. Includes the ground-truth validation pass that retired the original pin layer and re-positioned the project around per-roof estimates and verified case studies.
+        How the model was trained, calibrated, and validated. Active-learning rounds, encoder ablation, and the SAM segmentation step that turns tile-level detections into per-building panel polygons.
       </p>
       <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Read methodology &rarr;</span>
     </a>
