@@ -1,0 +1,752 @@
+{
+  "round": 4,
+  "source": "r2_r3_delta_audit",
+  "audit_date": "2026-05-10",
+  "positives_to_relabel": [
+    {
+      "tile_id": "14.24212_120.96400",
+      "label": "solar",
+      "reason": "Clear PV array with dark blue modular grid on central building roof."
+    },
+    {
+      "tile_id": "14.27884_120.93488",
+      "label": "solar",
+      "reason": "Clear PV array with dark grid pattern on the right-side industrial building roof."
+    },
+    {
+      "tile_id": "14.29396_121.02224",
+      "label": "solar",
+      "reason": "Visible PV grid pattern on the lower-left industrial building roof."
+    },
+    {
+      "tile_id": "14.33284_121.08272",
+      "label": "solar",
+      "reason": "Very large PV array clearly visible on the lower-left building, plus another smaller array."
+    },
+    {
+      "tile_id": "14.40756_120.92336",
+      "label": "solar",
+      "reason": "Large clear PV arrays on warehouse top-right and another bottom-right."
+    },
+    {
+      "tile_id": "14.40972_120.97264",
+      "label": "solar",
+      "reason": "Clear PV array with dark blue modular grid on the white warehouse roof."
+    },
+    {
+      "tile_id": "14.41404_120.96592",
+      "label": "solar",
+      "reason": "Massive clear PV installation covering most of the central warehouse."
+    },
+    {
+      "tile_id": "14.41620_121.03984",
+      "label": "solar",
+      "reason": "Multiple very clear large PV arrays on multiple commercial complex buildings."
+    },
+    {
+      "tile_id": "14.42268_121.03312",
+      "label": "solar",
+      "reason": "Very clear PV array with regular dark grid on the central building roof."
+    },
+    {
+      "tile_id": "14.42916_121.04208",
+      "label": "solar",
+      "reason": "Massive solar PV array clearly visible covering most of the green-roofed building."
+    },
+    {
+      "tile_id": "14.43132_120.96816",
+      "label": "solar",
+      "reason": "Multiple PV arrays visible across hospital complex roofs."
+    },
+    {
+      "tile_id": "14.43132_121.01072",
+      "label": "solar",
+      "reason": "Massive PV array on the warehouse roof at the top of the tile."
+    },
+    {
+      "tile_id": "14.43348_121.01072",
+      "label": "solar",
+      "reason": "Massive PV installation covering nearly the entire industrial roof."
+    },
+    {
+      "tile_id": "14.43348_121.01296",
+      "label": "solar",
+      "reason": "Visible PV array on the building lower-left."
+    },
+    {
+      "tile_id": "14.43348_121.04656",
+      "label": "solar",
+      "reason": "Clear PV arrays on the blue roofs at top-center."
+    },
+    {
+      "tile_id": "14.43564_121.00624",
+      "label": "solar",
+      "reason": "Massive clear PV installation on the right-side warehouse roof."
+    },
+    {
+      "tile_id": "14.44428_120.95024",
+      "label": "solar",
+      "reason": "Massive solar arrays on SM mall roof, very clear modular PV grid."
+    },
+    {
+      "tile_id": "14.44644_120.95472",
+      "label": "solar",
+      "reason": "Clear PV array with dark grid on the warehouse top-left."
+    },
+    {
+      "tile_id": "14.44860_120.95472",
+      "label": "solar",
+      "reason": "Clear PV array on the white warehouse roof on the left side."
+    },
+    {
+      "tile_id": "14.44860_121.04432",
+      "label": "solar",
+      "reason": "Massive solar PV installation on the bottom warehouse roof."
+    },
+    {
+      "tile_id": "14.45508_121.03536",
+      "label": "solar",
+      "reason": "Clear PV arrays on the red-roofed building on the left."
+    },
+    {
+      "tile_id": "14.46588_121.01520",
+      "label": "solar",
+      "reason": "Multiple PV arrays visible on SM mall and other buildings."
+    },
+    {
+      "tile_id": "14.47452_121.04432",
+      "label": "solar",
+      "reason": "Very clear large PV array on the bottom warehouse roof."
+    },
+    {
+      "tile_id": "14.47668_120.98384",
+      "label": "solar",
+      "reason": "Very clear PV array on the large red-roofed building."
+    },
+    {
+      "tile_id": "14.48100_120.99728",
+      "label": "solar",
+      "reason": "Very clear PV array on the large white industrial building."
+    },
+    {
+      "tile_id": "14.48100_121.03984",
+      "label": "solar",
+      "reason": "Massive PV array installation across multiple industrial buildings."
+    },
+    {
+      "tile_id": "14.48316_121.04656",
+      "label": "solar",
+      "reason": "Clear PV array on the long warehouse on the left side."
+    },
+    {
+      "tile_id": "14.50908_121.00848",
+      "label": "solar",
+      "reason": "Clear PV arrays on the long industrial warehouse roof in the center."
+    },
+    {
+      "tile_id": "14.51340_121.03536",
+      "label": "solar",
+      "reason": "Clear dark blue PV array on warehouse rooftop, regular grid pattern."
+    },
+    {
+      "tile_id": "14.51340_121.03760",
+      "label": "solar",
+      "reason": "Large PV array spanning warehouse roof with regular rectangular grid."
+    },
+    {
+      "tile_id": "14.51556_121.02416",
+      "label": "solar",
+      "reason": "Massive PV installation across multiple rooftop sections, very clear panel pattern."
+    },
+    {
+      "tile_id": "14.52420_120.99056",
+      "label": "solar",
+      "reason": "Large dark-blue PV array on the building to the right of the highway."
+    },
+    {
+      "tile_id": "14.53068_120.99056",
+      "label": "solar",
+      "reason": "Clear PV array with rectangular grid on commercial building roof."
+    },
+    {
+      "tile_id": "14.53068_121.07344",
+      "label": "solar",
+      "reason": "Multiple PV arrays clearly visible on rooftops in the scene."
+    },
+    {
+      "tile_id": "14.53284_120.98832",
+      "label": "solar",
+      "reason": "Large clear PV array on the lower-right building rooftop."
+    },
+    {
+      "tile_id": "14.55228_121.05776",
+      "label": "solar",
+      "reason": "Visible PV array on building roof, with another small one at top."
+    },
+    {
+      "tile_id": "14.55444_120.98160",
+      "label": "solar",
+      "reason": "PV arrays visible on building rooftop with characteristic grid texture."
+    },
+    {
+      "tile_id": "14.55444_120.98384",
+      "label": "solar",
+      "reason": "Multiple very clear PV arrays across several rooftops."
+    },
+    {
+      "tile_id": "14.55444_121.00848",
+      "label": "solar",
+      "reason": "PV arrays visible on center rooftop and bottom rooftop."
+    },
+    {
+      "tile_id": "14.55444_121.05776",
+      "label": "solar",
+      "reason": "Large curved PV array along covered walkway, very clear."
+    },
+    {
+      "tile_id": "14.55876_121.00848",
+      "label": "solar",
+      "reason": "Clear PV array on white rooftop in center-left of tile."
+    },
+    {
+      "tile_id": "14.57820_121.07792",
+      "label": "solar",
+      "reason": "Massive clear PV array covering warehouse rooftop."
+    },
+    {
+      "tile_id": "14.58036_121.06672",
+      "label": "solar",
+      "reason": "Clear PV array with regular grid pattern next to white roof."
+    },
+    {
+      "tile_id": "14.58468_121.08912",
+      "label": "solar",
+      "reason": "Multiple clear PV arrays on warehouse rooftops."
+    },
+    {
+      "tile_id": "14.58684_120.98384",
+      "label": "solar",
+      "reason": "Clear PV array on the central building rooftop."
+    },
+    {
+      "tile_id": "14.58684_120.98832",
+      "label": "solar",
+      "reason": "Massive PV array covering warehouse roof with clear panel rows."
+    },
+    {
+      "tile_id": "14.58684_121.04432",
+      "label": "solar",
+      "reason": "Massive PV array covering warehouse roof, very clear grid."
+    },
+    {
+      "tile_id": "14.58900_120.98384",
+      "label": "solar",
+      "reason": "Large PV array on SM mall rooftop."
+    },
+    {
+      "tile_id": "14.58900_121.04432",
+      "label": "solar",
+      "reason": "Multiple clear PV arrays on building rooftops."
+    },
+    {
+      "tile_id": "14.59116_121.09584",
+      "label": "solar",
+      "reason": "Large PV array on building at bottom of tile."
+    },
+    {
+      "tile_id": "14.59548_120.98832",
+      "label": "solar",
+      "reason": "Multiple PV arrays on warehouse roofs."
+    },
+    {
+      "tile_id": "14.59980_121.09808",
+      "label": "solar",
+      "reason": "Massive PV installation across multiple warehouse rooftops."
+    },
+    {
+      "tile_id": "14.60196_121.04880",
+      "label": "solar",
+      "reason": "Clear PV array on the lower-right rooftop."
+    },
+    {
+      "tile_id": "14.60412_121.08016",
+      "label": "solar",
+      "reason": "Multiple clear PV arrays on building rooftops."
+    },
+    {
+      "tile_id": "14.61492_121.09136",
+      "label": "solar",
+      "reason": "Clear PV array on small building near center-left of tile."
+    },
+    {
+      "tile_id": "14.61492_121.09360",
+      "label": "solar",
+      "reason": "Clear PV array on warehouse rooftop at top."
+    },
+    {
+      "tile_id": "14.61708_120.97712",
+      "label": "solar",
+      "reason": "Clear PV array on building at lower-left."
+    },
+    {
+      "tile_id": "14.61708_120.98608",
+      "label": "solar",
+      "reason": "Massive PV array on SM mall rooftop."
+    },
+    {
+      "tile_id": "14.61924_120.98608",
+      "label": "solar",
+      "reason": "Multiple clear PV arrays on warehouse rooftops at bottom."
+    },
+    {
+      "tile_id": "14.61924_121.05552",
+      "label": "solar",
+      "reason": "Multiple PV arrays on green rooftops and on left building."
+    },
+    {
+      "tile_id": "14.62140_121.02192",
+      "label": "solar",
+      "reason": "Clear large PV array on building to the left."
+    },
+    {
+      "tile_id": "14.62572_121.00848",
+      "label": "solar",
+      "reason": "Clear dark-blue rectangular PV array on white industrial roof in center of tile."
+    },
+    {
+      "tile_id": "14.62572_121.06224",
+      "label": "solar",
+      "reason": "Multiple distinct PV arrays visible: rooftop array top-left, large grid mid-right, and panels on lower roof."
+    },
+    {
+      "tile_id": "14.62572_121.08464",
+      "label": "solar",
+      "reason": "Large dark-blue grid PV array covering the warehouse roof at top of tile."
+    },
+    {
+      "tile_id": "14.62572_121.12048",
+      "label": "solar",
+      "reason": "Extensive PV arrays cover multiple sections of SM mall rooftop."
+    },
+    {
+      "tile_id": "14.62572_121.12272",
+      "label": "solar",
+      "reason": "Two clearly visible rooftop PV arrays: one mid-tile and one at left edge."
+    },
+    {
+      "tile_id": "14.63436_121.10480",
+      "label": "solar",
+      "reason": "Large dark grid PV array on warehouse roof bottom-right plus smaller arrays on building roofs at left."
+    },
+    {
+      "tile_id": "14.63868_120.95472",
+      "label": "solar",
+      "reason": "Large dark-blue grid PV array on industrial roof right side of tile."
+    },
+    {
+      "tile_id": "14.63868_120.96816",
+      "label": "solar",
+      "reason": "Multiple rooftop PV arrays on the riverside industrial buildings."
+    },
+    {
+      "tile_id": "14.64084_121.02192",
+      "label": "solar",
+      "reason": "Large rooftop PV array covering the white sloped roof in center of tile."
+    },
+    {
+      "tile_id": "14.64084_121.07568",
+      "label": "solar",
+      "reason": "PV arrays visible on multiple roofs: mall complex top and the building bottom-right."
+    },
+    {
+      "tile_id": "14.64300_121.04656",
+      "label": "solar",
+      "reason": "Distinct rectangular PV array on the large white industrial rooftop center-left."
+    },
+    {
+      "tile_id": "14.64732_120.95248",
+      "label": "solar",
+      "reason": "Large rooftop PV array covers most of the industrial complex on the right side."
+    },
+    {
+      "tile_id": "14.65164_121.03312",
+      "label": "solar",
+      "reason": "Large rooftop PV array on the building center-right plus smaller array on roof top-left."
+    },
+    {
+      "tile_id": "14.65596_121.02192",
+      "label": "solar",
+      "reason": "Large rooftop PV array clearly visible at top edge of tile."
+    },
+    {
+      "tile_id": "14.65596_121.02864",
+      "label": "solar",
+      "reason": "Distinct dark-blue PV array on the white roof top-left of tile."
+    },
+    {
+      "tile_id": "14.65596_121.03312",
+      "label": "solar",
+      "reason": "Large rooftop PV array on the complex top-left of tile."
+    },
+    {
+      "tile_id": "14.65812_121.01296",
+      "label": "solar",
+      "reason": "PV array visible on the building roof in upper-left and another on building center."
+    },
+    {
+      "tile_id": "14.66028_121.01968",
+      "label": "solar",
+      "reason": "Distinct dark rectangular PV array on the white industrial rooftop in center of tile."
+    },
+    {
+      "tile_id": "14.66244_121.00624",
+      "label": "solar",
+      "reason": "Rooftop PV array clearly visible on the warehouse roof at center-left of tile."
+    },
+    {
+      "tile_id": "14.66460_120.98160",
+      "label": "solar",
+      "reason": "Multiple dark-blue PV arrays on the cluster of industrial roofs in center-right."
+    },
+    {
+      "tile_id": "14.66460_121.12944",
+      "label": "solar",
+      "reason": "Multiple rooftop PV arrays visible on the industrial buildings center-left."
+    },
+    {
+      "tile_id": "14.67108_120.95696",
+      "label": "solar",
+      "reason": "Very large rooftop PV array covering the long warehouse on left side of tile."
+    },
+    {
+      "tile_id": "14.67324_120.95696",
+      "label": "solar",
+      "reason": "Massive rooftop PV array spanning the entire elongated warehouse roof."
+    },
+    {
+      "tile_id": "14.67756_121.08240",
+      "label": "solar",
+      "reason": "Small but distinct rectangular PV array on a small roof in the lower-right area."
+    },
+    {
+      "tile_id": "14.67972_120.95696",
+      "label": "solar",
+      "reason": "Massive rooftop PV arrays cover multiple large industrial buildings."
+    },
+    {
+      "tile_id": "14.67972_120.95920",
+      "label": "solar",
+      "reason": "Clear rooftop PV array on the building bottom-left of tile."
+    },
+    {
+      "tile_id": "14.67972_121.11376",
+      "label": "solar",
+      "reason": "Distinct hexagonal PV array on the SM mall rooftop in center of tile."
+    },
+    {
+      "tile_id": "14.68620_121.08912",
+      "label": "solar",
+      "reason": "Rooftop PV arrays visible on the building roof in center of tile."
+    },
+    {
+      "tile_id": "14.69700_120.96144",
+      "label": "solar",
+      "reason": "Clear rectangular PV array on the white industrial roof at top of tile."
+    },
+    {
+      "tile_id": "14.69700_121.04656",
+      "label": "solar",
+      "reason": "Multiple distinct PV arrays cover several industrial rooftops in center of tile."
+    },
+    {
+      "tile_id": "14.69916_120.96368",
+      "label": "solar",
+      "reason": "Rooftop PV array visible on the dark-roofed building in center-right of tile."
+    },
+    {
+      "tile_id": "14.69916_120.96816",
+      "label": "solar",
+      "reason": "Two large rooftop PV arrays clearly visible on industrial buildings."
+    },
+    {
+      "tile_id": "14.70132_120.95248",
+      "label": "solar",
+      "reason": "Massive ground-mounted utility-scale solar farm covering most of tile."
+    },
+    {
+      "tile_id": "14.70132_120.95472",
+      "label": "solar",
+      "reason": "Massive ground-mounted utility-scale solar farm covering most of tile."
+    },
+    {
+      "tile_id": "14.70132_120.99504",
+      "label": "solar",
+      "reason": "Large industrial roof with clear blue PV array in upper portion of tile."
+    },
+    {
+      "tile_id": "14.70348_120.95248",
+      "label": "solar",
+      "reason": "Large utility-scale solar farm on multiple sides of the residential block."
+    },
+    {
+      "tile_id": "14.70564_120.95024",
+      "label": "solar",
+      "reason": "Large utility-scale ground-mount PV arrays surround the village."
+    },
+    {
+      "tile_id": "14.70564_121.08240",
+      "label": "solar",
+      "reason": "White industrial roof on the right has a clear blue PV array."
+    },
+    {
+      "tile_id": "14.70780_120.95920",
+      "label": "solar",
+      "reason": "Industrial roof in center has visible blue PV panel array."
+    },
+    {
+      "tile_id": "14.71212_120.95696",
+      "label": "solar",
+      "reason": "Long industrial roof with clearly visible blue PV array running its length."
+    },
+    {
+      "tile_id": "14.71428_120.97264",
+      "label": "solar",
+      "reason": "Large blue PV array fills the lower-center industrial roof."
+    },
+    {
+      "tile_id": "14.71644_121.00176",
+      "label": "solar",
+      "reason": "Multiple large industrial roofs at top and right have visible blue PV arrays."
+    },
+    {
+      "tile_id": "14.71860_121.10032",
+      "label": "solar",
+      "reason": "Multiple institutional buildings have clear blue PV arrays on rooftops."
+    },
+    {
+      "tile_id": "14.72292_120.94128",
+      "label": "solar",
+      "reason": "Large utility-scale solar farm with regular rectangular PV rows."
+    },
+    {
+      "tile_id": "14.72508_120.93904",
+      "label": "solar",
+      "reason": "Utility-scale ground-mount solar farm dominates the right side of the tile."
+    },
+    {
+      "tile_id": "14.72508_120.94128",
+      "label": "solar",
+      "reason": "Tile is mostly filled with utility-scale ground-mount PV array."
+    },
+    {
+      "tile_id": "14.72724_120.93904",
+      "label": "solar",
+      "reason": "Large utility-scale ground-mount solar farm fills the tile."
+    },
+    {
+      "tile_id": "14.72724_120.98832",
+      "label": "solar",
+      "reason": "Large industrial roof in center clearly covered with blue PV panels."
+    },
+    {
+      "tile_id": "14.72940_121.04656",
+      "label": "solar",
+      "reason": "Central building has a large rooftop blue PV array clearly visible."
+    },
+    {
+      "tile_id": "14.73372_121.05776",
+      "label": "solar",
+      "reason": "SM City Mall roof has extensive blue PV arrays around the SM logo."
+    },
+    {
+      "tile_id": "14.73372_121.06000",
+      "label": "solar",
+      "reason": "Mall complex has multiple distinct rooftop PV arrays visible."
+    },
+    {
+      "tile_id": "14.73588_121.05552",
+      "label": "solar",
+      "reason": "Large industrial roof clearly covered with blue PV panel array."
+    },
+    {
+      "tile_id": "14.73588_121.05776",
+      "label": "solar",
+      "reason": "Industrial roof on left side has clear PV array visible."
+    },
+    {
+      "tile_id": "14.74452_120.97040",
+      "label": "solar",
+      "reason": "Central building has visible rooftop blue PV array."
+    },
+    {
+      "tile_id": "14.74884_120.95472",
+      "label": "solar",
+      "reason": "Large industrial roof clearly covered with blue PV panel array."
+    },
+    {
+      "tile_id": "14.75532_120.98384",
+      "label": "solar",
+      "reason": "Saw-tooth roof clearly fitted with blue PV panels along the slopes."
+    },
+    {
+      "tile_id": "14.76612_121.00848",
+      "label": "solar",
+      "reason": "Lower-right building has rooftop blue PV array with regular rectangular grid."
+    },
+    {
+      "tile_id": "14.77044_120.98832",
+      "label": "solar",
+      "reason": "Right building has clear blue PV array on rooftop."
+    },
+    {
+      "tile_id": "14.77260_120.96816",
+      "label": "solar",
+      "reason": "Massive industrial roof covered with extensive blue PV array."
+    },
+    {
+      "tile_id": "14.77476_120.96592",
+      "label": "solar",
+      "reason": "Multiple industrial roofs have visible blue PV arrays."
+    },
+    {
+      "tile_id": "14.82532_121.00656",
+      "label": "solar",
+      "reason": "Left industrial building has clear blue PV array along the side roof."
+    }
+  ],
+  "negatives_to_relabel": [
+    {
+      "tile_id": "14.42788_121.04464",
+      "label": "not-solar",
+      "reason": "Dark navy roofs are uniform painted/coated metal warehouse roofing without visible PV module separation; common industrial roof color in PH."
+    },
+    {
+      "tile_id": "14.54452_120.99312",
+      "label": "not-solar",
+      "reason": "School/residential complex with white roofs, sports courts, and pool; no PV panels visible."
+    },
+    {
+      "tile_id": "14.54884_120.99088",
+      "label": "not-solar",
+      "reason": "Red linear roof patterns are standing-seam metal roofing, not PV; no clear blue grid arrays."
+    },
+    {
+      "tile_id": "14.65684_121.04464",
+      "label": "not-solar",
+      "reason": "Dark gray-blue building has metal/painted roof seams, no PV grid pattern visible."
+    },
+    {
+      "tile_id": "14.71732_121.10064",
+      "label": "not-solar",
+      "reason": "Dark structures are water treatment basins; the upper-left building has roof patterning that may be PV but it is at the edge and the prominent dark grids in the tile are filtration tanks."
+    },
+    {
+      "tile_id": "14.77996_121.07152",
+      "label": "not-solar",
+      "reason": "Dark grid structures at bottom are wastewater/water treatment filtration basins, not PV panels."
+    },
+    {
+      "tile_id": "14.81884_120.88336",
+      "label": "not-solar",
+      "reason": "Large blue rooftops are uniform sheet-metal industrial roofing, no panel grid pattern visible."
+    }
+  ],
+  "summary": {
+    "n_positives": 122,
+    "n_negatives": 7,
+    "rationale": "Round-3 retrain (Claude pseudo-labels) shifted coverage. Net real-solar gain is small (+22 to +28 tiles). Dropouts contain 122 real-solar tiles to teach back. Newcomer FPs cluster on painted-metal-roof and water-treatment-basin patterns - shared blind spots between vision model and Claude pseudo-labels.",
+    "n_third_look": 17
+  },
+  "third_look": {
+    "ambiguous_dropouts": [
+      {
+        "tile_id": "14.27884_120.94160",
+        "label": "ambiguous",
+        "reason": "Long dark roofs in rows look like uniform metal poultry/housing roofs, lacking distinct PV modular grid."
+      },
+      {
+        "tile_id": "14.42052_121.03312",
+        "label": "ambiguous",
+        "reason": "Striped dark grid on lower-center building could be PV or shadecloth/striped roof material; not definitive."
+      },
+      {
+        "tile_id": "14.57820_120.97712",
+        "label": "ambiguous",
+        "reason": "Possible blue rectangular feature on rooftop but no clear PV grid texture, may be painted surface or pool."
+      },
+      {
+        "tile_id": "14.61492_121.03760",
+        "label": "ambiguous",
+        "reason": "Narrow blue strips on mall roof look more like skylights/glazing than PV grid pattern."
+      },
+      {
+        "tile_id": "14.65380_121.01072",
+        "label": "ambiguous",
+        "reason": "Bottom-right shows dark grid pattern that could be PV but resolution makes it unclear vs. skylights/dark roofing."
+      },
+      {
+        "tile_id": "14.65812_121.02864",
+        "label": "ambiguous",
+        "reason": "Dark right-side roof has linear pattern but resolution and angle make it unclear if PV or dark metal/skylights."
+      },
+      {
+        "tile_id": "14.70780_120.98160",
+        "label": "ambiguous",
+        "reason": "Dark central roof shows striped pattern that could be PV or skylights/vents."
+      },
+      {
+        "tile_id": "14.72508_120.97488",
+        "label": "ambiguous",
+        "reason": "Roof grid pattern likely skylights/vents rather than PV; very regular rectangular cells but light grey."
+      },
+      {
+        "tile_id": "14.72508_121.00400",
+        "label": "ambiguous",
+        "reason": "Roof has rectangular panel-like sections but appearance is more consistent with skylights/HVAC than PV."
+      },
+      {
+        "tile_id": "14.73804_121.07344",
+        "label": "ambiguous",
+        "reason": "Blue/red strips look more like stacked tarps or stored materials than rooftop PV."
+      },
+      {
+        "tile_id": "14.81452_121.07152",
+        "label": "ambiguous",
+        "reason": "Red roofs with darker rectangular sections; could be roof material variation/skylights rather than PV."
+      }
+    ],
+    "ambiguous_newcomers": [
+      {
+        "tile_id": "14.51860_121.02000",
+        "label": "ambiguous",
+        "reason": "Central buildings show linear roof patterns that could be skylights/translucent industrial roofing rather than PV; not clearly solar."
+      },
+      {
+        "tile_id": "14.55964_120.99536",
+        "label": "ambiguous",
+        "reason": "Reddish linear roof patterns could be ribbed metal roofing rather than PV; not clearly solar."
+      },
+      {
+        "tile_id": "14.55964_121.02224",
+        "label": "ambiguous",
+        "reason": "Mostly residential/condos with pools and tennis court; small dark patches uncertain, no clear PV grid."
+      },
+      {
+        "tile_id": "14.70652_120.97296",
+        "label": "ambiguous",
+        "reason": "Blue/teal patches on rooftops could be PV panels or painted metal roofing, grid pattern unclear."
+      },
+      {
+        "tile_id": "14.71300_120.97296",
+        "label": "ambiguous",
+        "reason": "Bright royal-blue rooftop with rectangular grid - color saturation atypical for PV but grid pattern consistent with large PV install."
+      },
+      {
+        "tile_id": "14.84260_121.01776",
+        "label": "ambiguous",
+        "reason": "Industrial roof has dark stripes that could be PV panels or skylights/ribbed roofing; pattern not clearly grid-like."
+      }
+    ],
+    "note": "Excluded from labeling queue; need a second human pass to disambiguate before they can become positives or negatives."
+  }
+}
