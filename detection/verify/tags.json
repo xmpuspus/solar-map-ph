@@ -81,7 +81,7 @@
     "lon": 121.13865153069305,
     "osm_nearest_m": 3061.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.84476_121.01552",
@@ -93,7 +93,7 @@
     "lon": 121.01554268358208,
     "osm_nearest_m": 9714.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.65164_121.03312",
@@ -129,7 +129,7 @@
     "lon": 121.08720000000004,
     "osm_nearest_m": 5997.8,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.34364_121.01328",
@@ -141,7 +141,7 @@
     "lon": 121.01328000000002,
     "osm_nearest_m": 3606.7,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.48100_121.03984",
@@ -165,7 +165,7 @@
     "lon": 121.14099511690141,
     "osm_nearest_m": 1617.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.25724_121.12080",
@@ -177,7 +177,7 @@
     "lon": 121.12005145643565,
     "osm_nearest_m": 4507.7,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.32852_120.95952",
@@ -189,7 +189,7 @@
     "lon": 120.96000999108911,
     "osm_nearest_m": 650.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.35228_121.06256",
@@ -201,7 +201,7 @@
     "lon": 121.06246245315315,
     "osm_nearest_m": 2224.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.60412_121.08016",
@@ -225,7 +225,7 @@
     "lon": 121.13935742844036,
     "osm_nearest_m": 1070.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.43348_121.01072",
@@ -309,7 +309,7 @@
     "lon": 121.09392000000004,
     "osm_nearest_m": 3995.8,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.26804_121.07824",
@@ -321,7 +321,7 @@
     "lon": 121.07782375633803,
     "osm_nearest_m": 69.5,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.36524_121.04688",
@@ -333,7 +333,7 @@
     "lon": 121.0460963991453,
     "osm_nearest_m": 36.6,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.57908_121.17232",
@@ -345,7 +345,7 @@
     "lon": 121.17291375164835,
     "osm_nearest_m": 304.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.59636_121.17232",
@@ -357,7 +357,7 @@
     "lon": 121.17277378415842,
     "osm_nearest_m": 1229.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.62140_121.02192",
@@ -381,7 +381,7 @@
     "lon": 120.92352207594936,
     "osm_nearest_m": 1034.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.26588_121.01328",
@@ -393,7 +393,7 @@
     "lon": 121.01328000000002,
     "osm_nearest_m": 2632.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.55444_121.05776",
@@ -441,7 +441,7 @@
     "lon": 121.07376000000004,
     "osm_nearest_m": 842.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.38468_120.97744",
@@ -453,7 +453,7 @@
     "lon": 120.97679631460674,
     "osm_nearest_m": 311.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.78212_120.97744",
@@ -465,7 +465,7 @@
     "lon": 120.976653453211,
     "osm_nearest_m": 3811.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.84476_121.00880",
@@ -477,7 +477,7 @@
     "lon": 121.00861305694444,
     "osm_nearest_m": 10149.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.27236_120.93936",
@@ -489,7 +489,7 @@
     "lon": 120.93851576075949,
     "osm_nearest_m": 1815.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.28100_121.06256",
@@ -501,7 +501,7 @@
     "lon": 121.06256000000003,
     "osm_nearest_m": 2205.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.82532_121.00432",
@@ -513,7 +513,7 @@
     "lon": 121.00432000000002,
     "osm_nearest_m": 9096.7,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.20324_120.95952",
@@ -525,7 +525,7 @@
     "lon": 120.96026974421054,
     "osm_nearest_m": 4637.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.26588_121.12080",
@@ -537,7 +537,7 @@
     "lon": 121.1217039084507,
     "osm_nearest_m": 4587.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.42268_121.03312",
@@ -561,7 +561,7 @@
     "lon": 121.06710530757576,
     "osm_nearest_m": 1672.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.51556_121.02416",
@@ -597,7 +597,7 @@
     "lon": 121.09168000000004,
     "osm_nearest_m": 5526.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.38252_120.97744",
@@ -609,7 +609,7 @@
     "lon": 120.97679631460674,
     "osm_nearest_m": 311.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.55444_121.00848",
@@ -633,7 +633,7 @@
     "lon": 121.07962105175439,
     "osm_nearest_m": 6171.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.38468_120.97968",
@@ -645,7 +645,7 @@
     "lon": 120.97935366451613,
     "osm_nearest_m": 46.4,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.27020_121.05808",
@@ -657,7 +657,7 @@
     "lon": 121.05856305841584,
     "osm_nearest_m": 2108.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.27884_121.05808",
@@ -669,7 +669,7 @@
     "lon": 121.05803970412371,
     "osm_nearest_m": 2483.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.36740_121.04688",
@@ -681,7 +681,7 @@
     "lon": 121.0460963991453,
     "osm_nearest_m": 36.6,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.45508_121.03536",
@@ -741,7 +741,7 @@
     "lon": 120.94958403466667,
     "osm_nearest_m": 290.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.31772_121.06928",
@@ -753,7 +753,7 @@
     "lon": 121.06969413472221,
     "osm_nearest_m": 2102.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.56612_121.14096",
@@ -765,7 +765,7 @@
     "lon": 121.14116702985075,
     "osm_nearest_m": 1932.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.20324_121.08944",
@@ -777,7 +777,7 @@
     "lon": 121.08916564507042,
     "osm_nearest_m": 5866.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.72940_121.04656",
@@ -801,7 +801,7 @@
     "lon": 120.95728000000001,
     "osm_nearest_m": 192.3,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.55444_120.98160",
@@ -825,7 +825,7 @@
     "lon": 121.11848124453782,
     "osm_nearest_m": 4238.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.31124_121.11632",
@@ -837,7 +837,7 @@
     "lon": 121.11632000000004,
     "osm_nearest_m": 4336.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.58900_121.04432",
@@ -873,7 +873,7 @@
     "lon": 120.97296000000001,
     "osm_nearest_m": 10409.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.58684_120.98832",
@@ -897,7 +897,7 @@
     "lon": 120.89698393571429,
     "osm_nearest_m": 4783.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.73372_121.06000",
@@ -921,7 +921,7 @@
     "lon": 121.01972818904109,
     "osm_nearest_m": 2543.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.65812_121.01296",
@@ -945,7 +945,7 @@
     "lon": 121.08969399189189,
     "osm_nearest_m": 5715.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.83828_120.97968",
@@ -957,7 +957,7 @@
     "lon": 120.97968000000002,
     "osm_nearest_m": 9655.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.64732_120.95248",
@@ -981,7 +981,7 @@
     "lon": 120.94160000000001,
     "osm_nearest_m": 1075.8,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.59636_121.19696",
@@ -993,7 +993,7 @@
     "lon": 121.19696000000006,
     "osm_nearest_m": 3021.6,
     "osm_status": "new",
-    "label": null
+    "label": "ambiguous"
   },
   {
     "tile_id": "14.21188_121.08496",
@@ -1005,7 +1005,7 @@
     "lon": 121.08496000000004,
     "osm_nearest_m": 6082.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.22268_121.07152",
@@ -1017,7 +1017,7 @@
     "lon": 121.07082655578948,
     "osm_nearest_m": 4802.7,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.26804_121.06032",
@@ -1029,7 +1029,7 @@
     "lon": 121.05956836857142,
     "osm_nearest_m": 1990.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.20972_121.08496",
@@ -1041,7 +1041,7 @@
     "lon": 121.08495164285715,
     "osm_nearest_m": 6168.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.22484_121.13648",
@@ -1053,7 +1053,7 @@
     "lon": 121.13698218016528,
     "osm_nearest_m": 1036.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.31772_120.94384",
@@ -1065,7 +1065,7 @@
     "lon": 120.94480337499999,
     "osm_nearest_m": 220.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.69916_120.96368",
@@ -1101,7 +1101,7 @@
     "lon": 121.07128070985917,
     "osm_nearest_m": 1570.8,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.62572_121.08464",
@@ -1137,7 +1137,7 @@
     "lon": 121.01983445,
     "osm_nearest_m": 2734.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.55444_120.98384",
@@ -1185,7 +1185,7 @@
     "lon": 121.00888689367089,
     "osm_nearest_m": 10001.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.66460_121.12944",
@@ -1221,7 +1221,7 @@
     "lon": 121.0439263,
     "osm_nearest_m": 276.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.53156_121.14992",
@@ -1233,7 +1233,7 @@
     "lon": 121.1492961112,
     "osm_nearest_m": 5763.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.83612_120.99984",
@@ -1245,7 +1245,7 @@
     "lon": 120.99984000000002,
     "osm_nearest_m": 10200.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.62572_121.00848",
@@ -1281,7 +1281,7 @@
     "lon": 121.13263256705883,
     "osm_nearest_m": 1977.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.61492_121.09360",
@@ -1329,7 +1329,7 @@
     "lon": 121.08792017468355,
     "osm_nearest_m": 5794.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.42572_120.89232",
@@ -1341,7 +1341,7 @@
     "lon": 120.89128468309859,
     "osm_nearest_m": 1629.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.62012_121.15216",
@@ -1353,7 +1353,7 @@
     "lon": 121.15148766,
     "osm_nearest_m": 2312.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.53068_121.07344",
@@ -1377,7 +1377,7 @@
     "lon": 121.07804331797753,
     "osm_nearest_m": 238.7,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.29828_120.96624",
@@ -1389,7 +1389,7 @@
     "lon": 120.96668601894736,
     "osm_nearest_m": 775.7,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.84260_121.01552",
@@ -1401,7 +1401,7 @@
     "lon": 121.015031689011,
     "osm_nearest_m": 9488.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.64084_121.07568",
@@ -1425,7 +1425,7 @@
     "lon": 121.11848124453782,
     "osm_nearest_m": 4238.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.72724_120.93904",
@@ -1509,7 +1509,7 @@
     "lon": 121.00432000000002,
     "osm_nearest_m": 1929.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.80588_120.93936",
@@ -1521,7 +1521,7 @@
     "lon": 120.93830612962962,
     "osm_nearest_m": 5847.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.84692_120.97072",
@@ -1533,7 +1533,7 @@
     "lon": 120.97072000000001,
     "osm_nearest_m": 10363.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.53588_121.21936",
@@ -1545,7 +1545,7 @@
     "lon": 121.21936000000007,
     "osm_nearest_m": 6676.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.41620_121.03984",
@@ -1581,7 +1581,7 @@
     "lon": 121.08457708068181,
     "osm_nearest_m": 548.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.46588_121.01520",
@@ -1605,7 +1605,7 @@
     "lon": 121.09168000000004,
     "osm_nearest_m": 5584.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.22484_121.08720",
@@ -1617,7 +1617,7 @@
     "lon": 121.08720000000004,
     "osm_nearest_m": 4694.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.24212_121.13200",
@@ -1629,7 +1629,7 @@
     "lon": 121.13292082058824,
     "osm_nearest_m": 2966.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.25724_120.91920",
@@ -1641,7 +1641,7 @@
     "lon": 120.91981114411765,
     "osm_nearest_m": 33.0,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.40972_120.97264",
@@ -1677,7 +1677,7 @@
     "lon": 120.96880764025974,
     "osm_nearest_m": 480.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.28316_121.08496",
@@ -1689,7 +1689,7 @@
     "lon": 121.08487601111112,
     "osm_nearest_m": 1784.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.29396_121.02000",
@@ -1701,7 +1701,7 @@
     "lon": 121.02088497228915,
     "osm_nearest_m": 2708.8,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.72724_120.98832",
@@ -1737,7 +1737,7 @@
     "lon": 121.08048000000004,
     "osm_nearest_m": 6047.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.42052_121.03312",
@@ -1773,7 +1773,7 @@
     "lon": 120.99472591034483,
     "osm_nearest_m": 881.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.53588_121.13648",
@@ -1785,7 +1785,7 @@
     "lon": 121.13648000000005,
     "osm_nearest_m": 4738.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.44860_120.95472",
@@ -1809,7 +1809,7 @@
     "lon": 120.97520000000002,
     "osm_nearest_m": 146.8,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.52420_120.99056",
@@ -1833,7 +1833,7 @@
     "lon": 121.06032000000003,
     "osm_nearest_m": 1966.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.58988_121.13424",
@@ -1845,7 +1845,7 @@
     "lon": 121.1344220185185,
     "osm_nearest_m": 811.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.32636_120.98416",
@@ -1857,7 +1857,7 @@
     "lon": 120.9840892051282,
     "osm_nearest_m": 20.0,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.70564_120.95024",
@@ -1893,7 +1893,7 @@
     "lon": 121.10064000000004,
     "osm_nearest_m": 3615.7,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.61924_120.98608",
@@ -1941,7 +1941,7 @@
     "lon": 121.00888689367089,
     "osm_nearest_m": 10001.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.47668_120.98384",
@@ -2037,7 +2037,7 @@
     "lon": 121.08350686857143,
     "osm_nearest_m": 4387.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.29180_121.08496",
@@ -2049,7 +2049,7 @@
     "lon": 121.08464418382354,
     "osm_nearest_m": 2630.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.67324_120.95696",
@@ -2085,7 +2085,7 @@
     "lon": 121.11184000000004,
     "osm_nearest_m": 3628.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.30260_120.95504",
@@ -2097,7 +2097,7 @@
     "lon": 120.95583576184211,
     "osm_nearest_m": 62.4,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.44644_120.95472",
@@ -2121,7 +2121,7 @@
     "lon": 121.01171157162163,
     "osm_nearest_m": 2164.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.21188_121.09168",
@@ -2133,7 +2133,7 @@
     "lon": 121.09152309466667,
     "osm_nearest_m": 5445.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.43348_121.01296",
@@ -2157,7 +2157,7 @@
     "lon": 121.10436493394495,
     "osm_nearest_m": 4382.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.72508_120.97488",
@@ -2193,7 +2193,7 @@
     "lon": 121.07790907042252,
     "osm_nearest_m": 4827.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.39116_120.93936",
@@ -2205,7 +2205,7 @@
     "lon": 120.93873065185186,
     "osm_nearest_m": 16.5,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.58684_120.98384",
@@ -2253,7 +2253,7 @@
     "lon": 120.95728000000001,
     "osm_nearest_m": 4743.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.21188_121.09392",
@@ -2265,7 +2265,7 @@
     "lon": 121.09245275999999,
     "osm_nearest_m": 5323.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.65812_121.02864",
@@ -2313,7 +2313,7 @@
     "lon": 121.1217039084507,
     "osm_nearest_m": 4587.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.78428_120.97744",
@@ -2325,7 +2325,7 @@
     "lon": 120.97744000000002,
     "osm_nearest_m": 4129.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.67756_121.08240",
@@ -2349,7 +2349,7 @@
     "lon": 121.10294288985507,
     "osm_nearest_m": 3640.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.59548_120.98832",
@@ -2385,7 +2385,7 @@
     "lon": 121.00208000000002,
     "osm_nearest_m": 2088.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.26804_121.05808",
@@ -2397,7 +2397,7 @@
     "lon": 121.05876755999999,
     "osm_nearest_m": 2079.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.65596_121.02864",
@@ -2421,7 +2421,7 @@
     "lon": 121.0142998945055,
     "osm_nearest_m": 9555.8,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.20972_121.09168",
@@ -2433,7 +2433,7 @@
     "lon": 121.09152309466667,
     "osm_nearest_m": 5445.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.23132_121.15664",
@@ -2445,7 +2445,7 @@
     "lon": 121.15664000000005,
     "osm_nearest_m": 2182.6,
     "osm_status": "new",
-    "label": null
+    "label": "false"
   },
   {
     "tile_id": "14.26372_121.06480",
@@ -2457,7 +2457,7 @@
     "lon": 121.06480000000003,
     "osm_nearest_m": 1501.8,
     "osm_status": "new",
-    "label": null
+    "label": "false"
   },
   {
     "tile_id": "14.30260_120.95728",
@@ -2469,7 +2469,7 @@
     "lon": 120.95728000000001,
     "osm_nearest_m": 206.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.24212_120.96400",
@@ -2481,7 +2481,7 @@
     "lon": 120.96416591486485,
     "osm_nearest_m": 1058.7,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.32420_121.06928",
@@ -2493,7 +2493,7 @@
     "lon": 121.06882253142857,
     "osm_nearest_m": 1683.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.62572_121.06224",
@@ -2517,7 +2517,7 @@
     "lon": 121.0543568688172,
     "osm_nearest_m": 4286.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.82532_121.00656",
@@ -2529,7 +2529,7 @@
     "lon": 121.00656000000002,
     "osm_nearest_m": 8899.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.43220_120.90128",
@@ -2541,7 +2541,7 @@
     "lon": 120.90042200097088,
     "osm_nearest_m": 2844.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.81452_121.07152",
@@ -2553,7 +2553,7 @@
     "lon": 121.07152000000004,
     "osm_nearest_m": 3978.8,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.43132_121.01072",
@@ -2589,7 +2589,7 @@
     "lon": 121.0449678872093,
     "osm_nearest_m": 391.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.24212_120.97296",
@@ -2601,7 +2601,7 @@
     "lon": 120.97398307789473,
     "osm_nearest_m": 11.0,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.71428_120.97264",
@@ -2613,7 +2613,7 @@
     "lon": 120.9726825140496,
     "osm_nearest_m": 1589.6,
     "osm_status": "new",
-    "label": null
+    "label": "false"
   },
   {
     "tile_id": "14.31340_121.04912",
@@ -2625,7 +2625,7 @@
     "lon": 121.05016891047619,
     "osm_nearest_m": 1072.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.29396_121.02224",
@@ -2637,7 +2637,7 @@
     "lon": 121.02088497228915,
     "osm_nearest_m": 2708.8,
     "osm_status": "new",
-    "label": null
+    "label": "false"
   },
   {
     "tile_id": "14.84692_121.01552",
@@ -2649,7 +2649,7 @@
     "lon": 121.01478241473684,
     "osm_nearest_m": 9939.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.33068_121.07376",
@@ -2661,7 +2661,7 @@
     "lon": 121.07376000000004,
     "osm_nearest_m": 903.4,
     "osm_status": "new",
-    "label": null
+    "label": "false"
   },
   {
     "tile_id": "14.71212_120.95696",
@@ -2685,7 +2685,7 @@
     "lon": 121.13374145394737,
     "osm_nearest_m": 2911.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.29180_121.01328",
@@ -2697,7 +2697,7 @@
     "lon": 121.01398247499999,
     "osm_nearest_m": 1913.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.61492_121.03760",
@@ -2733,7 +2733,7 @@
     "lon": 121.11323490666668,
     "osm_nearest_m": 3122.6,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.47452_121.04432",
@@ -2745,7 +2745,7 @@
     "lon": 121.04454200632912,
     "osm_nearest_m": 4505.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.63868_120.96816",
@@ -2769,7 +2769,7 @@
     "lon": 120.91248,
     "osm_nearest_m": 1235.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.70780_120.98160",
@@ -2805,7 +2805,7 @@
     "lon": 121.01167206883117,
     "osm_nearest_m": 1519.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.53068_120.99056",
@@ -2817,7 +2817,7 @@
     "lon": 120.99089886962025,
     "osm_nearest_m": 460.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.77260_120.96816",
@@ -2853,7 +2853,7 @@
     "lon": 120.93268306835444,
     "osm_nearest_m": 135.3,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.68620_121.08912",
@@ -2865,7 +2865,7 @@
     "lon": 121.08912000000004,
     "osm_nearest_m": 1728.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.21404_120.96848",
@@ -2877,7 +2877,7 @@
     "lon": 120.96788572803737,
     "osm_nearest_m": 3336.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.26156_121.11856",
@@ -2889,7 +2889,7 @@
     "lon": 121.11849159770114,
     "osm_nearest_m": 4293.4,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.59116_121.09584",
@@ -2901,7 +2901,7 @@
     "lon": 121.09617426344086,
     "osm_nearest_m": 1086.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.77044_120.98832",
@@ -2913,7 +2913,7 @@
     "lon": 120.98922815428573,
     "osm_nearest_m": 4173.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.58340_121.13648",
@@ -2925,7 +2925,7 @@
     "lon": 121.13626866,
     "osm_nearest_m": 11.3,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.70780_121.03760",
@@ -2937,7 +2937,7 @@
     "lon": 121.03760000000003,
     "osm_nearest_m": 1685.6,
     "osm_status": "new",
-    "label": null
+    "label": "false"
   },
   {
     "tile_id": "14.73804_121.07344",
@@ -2961,7 +2961,7 @@
     "lon": 120.92367501449276,
     "osm_nearest_m": 1612.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.27884_120.93488",
@@ -2973,7 +2973,7 @@
     "lon": 120.93488,
     "osm_nearest_m": 1050.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.60196_121.04880",
@@ -2997,7 +2997,7 @@
     "lon": 121.14992000000005,
     "osm_nearest_m": 1007.5,
     "osm_status": "new",
-    "label": null
+    "label": "ambiguous"
   },
   {
     "tile_id": "14.43348_121.04656",
@@ -3009,7 +3009,7 @@
     "lon": 121.04656000000003,
     "osm_nearest_m": 2222.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.61924_121.10256",
@@ -3021,7 +3021,7 @@
     "lon": 121.10256000000004,
     "osm_nearest_m": 1337.3,
     "osm_status": "new",
-    "label": null
+    "label": "false"
   },
   {
     "tile_id": "14.39980_120.93936",
@@ -3033,7 +3033,7 @@
     "lon": 120.93936000000001,
     "osm_nearest_m": 1008.7,
     "osm_status": "new",
-    "label": null
+    "label": "false"
   },
   {
     "tile_id": "14.55876_121.00848",
@@ -3045,7 +3045,7 @@
     "lon": 121.00792610212766,
     "osm_nearest_m": 456.8,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.70348_120.95248",
@@ -3057,7 +3057,7 @@
     "lon": 120.95318585679013,
     "osm_nearest_m": 865.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.71428_121.02864",
@@ -3081,7 +3081,7 @@
     "lon": 121.08240735121952,
     "osm_nearest_m": 18.1,
     "osm_status": "confirmed",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.61492_121.09136",
@@ -3105,7 +3105,7 @@
     "lon": 120.97614978656716,
     "osm_nearest_m": 2989.9,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.65596_121.02192",
@@ -3117,7 +3117,7 @@
     "lon": 121.02116463823529,
     "osm_nearest_m": 989.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.27884_120.94160",
@@ -3129,7 +3129,7 @@
     "lon": 120.94160000000001,
     "osm_nearest_m": 1233.0,
     "osm_status": "new",
-    "label": null
+    "label": "ambiguous"
   },
   {
     "tile_id": "14.44860_121.04432",
@@ -3141,7 +3141,7 @@
     "lon": 121.04426564285716,
     "osm_nearest_m": 2559.0,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.69700_120.96144",
@@ -3153,7 +3153,7 @@
     "lon": 120.96160935142858,
     "osm_nearest_m": 1117.3,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.57260_121.18352",
@@ -3165,7 +3165,7 @@
     "lon": 121.18352000000006,
     "osm_nearest_m": 1070.2,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.58036_121.06672",
@@ -3177,7 +3177,7 @@
     "lon": 121.06667179538462,
     "osm_nearest_m": 2343.5,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   },
   {
     "tile_id": "14.26588_121.06480",
@@ -3189,6 +3189,6 @@
     "lon": 121.06480000000003,
     "osm_nearest_m": 1445.1,
     "osm_status": "new",
-    "label": null
+    "label": "true"
   }
 ]

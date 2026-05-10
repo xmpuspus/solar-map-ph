@@ -1,9 +1,9 @@
 {
-  "generated_utc": "2026-05-10T07:23:21Z",
-  "n_pos_sources": 555,
-  "n_neg_sources": 204,
-  "n_rows_pos": 2775,
-  "n_rows_neg": 1020,
+  "generated_utc": "2026-05-09T06:37:39Z",
+  "n_pos_sources": 413,
+  "n_neg_sources": 197,
+  "n_rows_pos": 2065,
+  "n_rows_neg": 985,
   "promoted_rnegs": [
     "rneg_0074",
     "rneg_0086",
@@ -14,8 +14,8 @@
     "case_san_mateo",
     "case_valenzuela"
   ],
-  "user_tagged_true": 253,
-  "user_tagged_false": 8,
+  "user_tagged_true": 111,
+  "user_tagged_false": 1,
   "encoder": "openai/clip-vit-large-patch14",
   "feature_dim": 768
 }
