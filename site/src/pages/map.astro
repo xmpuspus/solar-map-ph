@@ -2,18 +2,18 @@
 import Base from "../layouts/Base.astro";
 import MapView from "../components/MapView.astro";
 ---
-<Base title="the map · ghost-watts" pathname="/map">
+<Base title="rooftop solar map · ghost-watts" pathname="/map">
   <section class="max-w-6xl mx-auto px-6 pt-8 pb-4">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-2 font-mono">map · 61 cities · refreshed quarterly</p>
-    <h1 class="text-3xl md:text-4xl mb-3 leading-tight">Where rooftop change consistent with solar is happening.</h1>
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-2 font-mono">rooftop solar · greater metro manila</p>
+    <h1 class="text-3xl md:text-4xl mb-3 leading-tight">Every rooftop solar install we could spot from space.</h1>
     <p class="text-ink-700 max-w-prose leading-relaxed">
-      We compare each Meralco-franchise city's rooftops to 2022 using free satellite data. New solar panels make rooftops <strong>darker</strong> and <strong>cooler at midday</strong>; cities where lots of roofs changed that way score high. <strong>Stronger blue = more change consistent with solar adoption.</strong> Below the map, <strong>6 hand-verified case studies</strong> show what confirmed installs look like at hi-res. The pin layer was retired after ground-truth showed pixel-level claims aren't specific enough at 10m resolution. <a href="/methodology#validation" class="no-underline text-accent-steel">Why we dropped pins</a>.
+      We taught an AI to spot solar panels in satellite photos, then pointed it at every neighborhood across NCR and the surrounding cities in Bulacan, Cavite, Rizal, and Laguna. It found <strong>617 rooftops with solar panels</strong>. About <strong>96% of the time it's right</strong>, and most of these rooftops aren't on any prior public map. Click any city to see how many. Zoom in and click any roof to see the panels for yourself.
     </p>
   </section>
 
   <MapView />
 
   <section class="max-w-6xl mx-auto px-6 py-6 text-xs text-ink-500">
-    Aggregate framing only. No address-level claims. No PII. Cite as: ghost-watts (YYYY-QN), https://github.com/xmpuspus/ghost-watts. CC-BY-4.0 on data.
+    These are AI findings, not official records. About 1 in 25 high-confidence picks may be wrong - treat the map as a starting point, not a permit list. Use freely with credit: ghost-watts (2026Q2), https://github.com/xmpuspus/ghost-watts. CC-BY-4.0 on data.
   </section>
 </Base>
