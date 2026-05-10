@@ -5,7 +5,7 @@
 // Sidebar leads with absolute counts + OSM-tag share + kWp estimate.
 const headerCopy = {
   intro:
-    "Each dot is a rooftop where we found solar panels in satellite photos. The orange ones aren't on any prior public map; the green ones are already documented. Color by city shows where solar is densest. Zoom all the way in to see the actual panel outline traced on each roof.",
+    "Each dot marks a rooftop where the model identified solar panels in satellite imagery. Orange dots aren't yet on any public map of solar; green dots are already documented. City color shows where solar is densest. Zoom in to see the actual panel area, segmented from the imagery, traced on each rooftop.",
 };
 ---
 <section class="max-w-6xl mx-auto px-6 mb-3">
@@ -13,7 +13,7 @@ const headerCopy = {
     <summary class="cursor-pointer px-4 py-2.5 text-sm font-medium text-ink-900">How to read this map</summary>
     <div class="px-4 pb-4 pt-1 text-sm text-ink-700 leading-relaxed space-y-2 max-w-prose">
       <p>{headerCopy.intro}</p>
-      <p><strong>What the colors mean:</strong> <span class="inline-block w-3 h-3 align-middle" style="background:#d97757"></span> orange = newly spotted (not on any public map of solar before); <span class="inline-block w-3 h-3 align-middle" style="background:#3a7d44"></span> green = already known on public maps; <span class="inline-block w-3 h-3 align-middle" style="background:#9ca3af"></span> gray = lower-confidence guess. Curious how the AI works? See <a href="/methodology" class="text-accent-steel no-underline">how it was built</a>.</p>
+      <p><strong>Color encoding:</strong> <span class="inline-block w-3 h-3 align-middle" style="background:#d97757"></span> orange = newly identified (not on any prior public map of solar); <span class="inline-block w-3 h-3 align-middle" style="background:#3a7d44"></span> green = corroborated by an existing public map; <span class="inline-block w-3 h-3 align-middle" style="background:#9ca3af"></span> gray = lower-confidence detection (below the high-confidence threshold). Full methodology: <a href="/methodology" class="text-accent-steel no-underline">how this map was built</a>.</p>
     </div>
   </details>
 </section>
@@ -21,24 +21,24 @@ const headerCopy = {
 <section class="max-w-6xl mx-auto px-6 mb-3">
   <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-ink-300/30 border border-ink-300/30">
     <div class="bg-paper p-4">
-      <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">solar rooftops found</div>
+      <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">rooftops detected</div>
       <div id="strip-total" class="font-mono tabular-nums text-2xl text-ink-900 mt-0.5">--</div>
-      <div class="text-[10px] text-ink-500 mt-0.5">across the whole region</div>
+      <div class="text-[10px] text-ink-500 mt-0.5">across all surveyed cities</div>
     </div>
     <div class="bg-paper p-4">
-      <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">newly spotted</div>
+      <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">newly identified</div>
       <div id="strip-new" class="font-mono tabular-nums text-2xl text-ink-900 mt-0.5">--</div>
       <div id="strip-new-pct" class="text-[10px] text-ink-500 mt-0.5">not on any prior public map</div>
     </div>
     <div class="bg-paper p-4">
-      <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">total panel power</div>
+      <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">aggregate capacity</div>
       <div id="strip-kwp" class="font-mono tabular-nums text-2xl text-ink-900 mt-0.5">--</div>
-      <div class="text-[10px] text-ink-500 mt-0.5">enough to run thousands of homes</div>
+      <div class="text-[10px] text-ink-500 mt-0.5">estimated installed peak power</div>
     </div>
     <div class="bg-paper p-4">
-      <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">cities with solar</div>
+      <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">cities with detections</div>
       <div id="strip-cities" class="font-mono tabular-nums text-2xl text-ink-900 mt-0.5">--</div>
-      <div class="text-[10px] text-ink-500 mt-0.5">out of 61 we scanned</div>
+      <div class="text-[10px] text-ink-500 mt-0.5">of 61 surveyed</div>
     </div>
   </div>
 </section>
@@ -47,31 +47,31 @@ const headerCopy = {
   <div class="relative">
     <div id="map" class="w-full h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
     <div id="legend" class="absolute bottom-3 left-3 bg-white/95 border border-ink-300/40 rounded p-3 text-xs shadow-sm">
-      <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1.5 font-mono">city color = high-conf detections per km²</div>
+      <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1.5 font-mono">detection density per city</div>
       <div id="legend-bar" class="w-56 h-2 rounded mb-1.5"></div>
       <div class="grid grid-cols-3 text-[10px] text-ink-500">
-        <span class="text-left">few</span>
-        <span class="text-center text-ink-900">average</span>
-        <span class="text-right">most</span>
+        <span class="text-left">low</span>
+        <span class="text-center text-ink-900">median</span>
+        <span class="text-right">high</span>
       </div>
       <div class="border-t border-ink-300/30 mt-2 pt-2">
-        <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1 font-mono">each rooftop</div>
+        <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1 font-mono">individual detections</div>
         <div class="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-0.5 text-[10px] text-ink-700">
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#d97757"></span><span>newly spotted</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#3a7d44"></span><span>already on public maps</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#9ca3af"></span><span>lower-confidence find</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#d97757"></span><span>newly identified</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#3a7d44"></span><span>corroborated by public maps</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#9ca3af"></span><span>lower-confidence</span>
         </div>
       </div>
-      <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">ghost-watts</div>
+      <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">ghost-watts · 96% precision on holdout</div>
     </div>
   </div>
 
   <aside id="side-panel" class="border border-ink-300/40 bg-white text-sm overflow-hidden">
     <div id="empty-state" class="p-5">
-      <p class="text-xs uppercase tracking-wider text-ink-500 mb-2 font-mono">click any city or rooftop</p>
-      <p class="text-ink-700 leading-relaxed">Pick a colored city to see how many solar roofs we found there. Zoom in to street level and click any rooftop to see the panels yourself in satellite imagery.</p>
+      <p class="text-xs uppercase tracking-wider text-ink-500 mb-2 font-mono">click any city or detection</p>
+      <p class="text-ink-700 leading-relaxed">Select a city to see its detection summary. Zoom in to street level and click any building footprint to inspect the rooftop in satellite imagery and view the model's per-detection metrics.</p>
       <div class="mt-5 pt-5 border-t border-ink-300/30">
-        <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">cities with the most solar</p>
+        <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">cities by detection count</p>
         <ol id="top-cities-list" class="space-y-1.5 text-[13px]"></ol>
       </div>
     </div>
@@ -86,26 +86,26 @@ const headerCopy = {
       <div class="px-5 pb-4">
         <div class="grid grid-cols-2 gap-3 mb-4">
           <div class="border border-ink-300/30 p-3">
-            <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">solar rooftops</div>
+            <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">high-confidence detections</div>
             <div id="city-high" class="font-mono tabular-nums text-3xl text-ink-900 mt-0.5">--</div>
-            <div class="text-[10px] text-ink-500" id="city-cand">+ -- lower-confidence finds</div>
+            <div class="text-[10px] text-ink-500" id="city-cand">+ -- lower-confidence detections</div>
           </div>
           <div class="border border-ink-300/30 p-3" style="background:#fff7f3">
-            <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">newly spotted</div>
+            <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">newly identified</div>
             <div id="city-new" class="font-mono tabular-nums text-3xl text-ink-900 mt-0.5">--</div>
-            <div class="text-[10px] text-ink-500" id="city-new-pct">-- % not on prior public maps</div>
+            <div class="text-[10px] text-ink-500" id="city-new-pct">-- % absent from prior public maps</div>
           </div>
         </div>
 
         <div class="border border-ink-300/30 p-3 mb-4">
-          <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">total panel power here</div>
+          <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">aggregate installed capacity</div>
           <div id="city-kwp" class="font-mono tabular-nums text-2xl text-ink-900 mt-0.5">--</div>
-          <div class="text-[10px] text-ink-500 mt-0.5">added up across every confident find</div>
+          <div class="text-[10px] text-ink-500 mt-0.5">summed estimate across high-confidence detections</div>
         </div>
 
         <div id="city-density-row" class="text-xs">
           <div class="flex items-baseline justify-between mb-1">
-            <span class="text-ink-500">solar density</span>
+            <span class="text-ink-500">density rank</span>
             <span id="city-density" class="font-mono tabular-nums text-ink-700"></span>
           </div>
           <div class="relative w-full h-1.5 bg-ink-300/20 rounded">
@@ -115,13 +115,13 @@ const headerCopy = {
       </div>
 
       <div class="px-5 py-3 border-t border-ink-300/30">
-        <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">biggest installs in this city</p>
+        <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-2">largest installations identified</p>
         <div id="city-thumbs" class="grid grid-cols-3 gap-1.5"></div>
       </div>
 
       <div class="px-5 py-3 border-t border-ink-300/30 flex gap-2">
-        <button id="city-zoom-btn" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">show me the rooftops &rarr;</button>
-        <a id="city-csv" class="inline-flex items-center justify-center px-3 py-2 border border-ink-300 text-ink-700 text-[11px] font-mono uppercase tracking-wider hover:bg-paper-alt" title="download list as spreadsheet" download>data</a>
+        <button id="city-zoom-btn" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">zoom to detections &rarr;</button>
+        <a id="city-csv" class="inline-flex items-center justify-center px-3 py-2 border border-ink-300 text-ink-700 text-[11px] font-mono uppercase tracking-wider hover:bg-paper-alt" title="download detections as CSV" download>csv</a>
       </div>
     </div>
 
@@ -136,16 +136,16 @@ const headerCopy = {
         <h3 id="det-headline" class="text-xl font-semibold tracking-tight text-ink-900 leading-tight mt-0.5 mb-2"></h3>
         <p id="det-desc" class="text-[12px] text-ink-700 leading-relaxed mb-3"></p>
         <dl class="grid grid-cols-2 gap-y-1 gap-x-3 text-[11px] font-mono tabular-nums">
-          <dt class="text-ink-500">AI confidence</dt><dd id="det-score" class="text-right text-ink-900"></dd>
-          <dt class="text-ink-500">est. capacity</dt><dd id="det-kwp" class="text-right text-ink-900"></dd>
-          <dt class="text-ink-500">type of building</dt><dd id="det-btype" class="text-right text-ink-900"></dd>
-          <dt class="text-ink-500">panel area</dt><dd id="det-area" class="text-right text-ink-900"></dd>
-          <dt class="text-ink-500">on public maps?</dt><dd id="det-osm" class="text-right text-ink-900"></dd>
+          <dt class="text-ink-500">model confidence</dt><dd id="det-score" class="text-right text-ink-900"></dd>
+          <dt class="text-ink-500">estimated capacity</dt><dd id="det-kwp" class="text-right text-ink-900"></dd>
+          <dt class="text-ink-500">building category</dt><dd id="det-btype" class="text-right text-ink-900"></dd>
+          <dt class="text-ink-500">segmented panel area</dt><dd id="det-area" class="text-right text-ink-900"></dd>
+          <dt class="text-ink-500">prior map record</dt><dd id="det-osm" class="text-right text-ink-900"></dd>
         </dl>
       </div>
       <div class="px-5 py-3 border-t border-ink-300/30 flex gap-2">
-        <a id="det-osm-link" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white" target="_blank" rel="noopener">see this rooftop &rarr;</a>
-        <a id="det-fp" class="inline-flex items-center justify-center px-3 py-2 border border-ink-300 text-ink-500 text-[11px] font-mono uppercase tracking-wider hover:text-ink-900 hover:border-ink-700" target="_blank" rel="noopener" title="not solar? let us know">looks wrong?</a>
+        <a id="det-osm-link" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white" target="_blank" rel="noopener">inspect on public map &rarr;</a>
+        <a id="det-fp" class="inline-flex items-center justify-center px-3 py-2 border border-ink-300 text-ink-500 text-[11px] font-mono uppercase tracking-wider hover:text-ink-900 hover:border-ink-700" target="_blank" rel="noopener" title="report a false positive">report fp</a>
       </div>
     </div>
   </aside>
@@ -154,10 +154,10 @@ const headerCopy = {
 <section class="max-w-6xl mx-auto px-6 mt-10">
   <div class="flex items-baseline justify-between mb-4 gap-4">
     <div>
-      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono">biggest finds</p>
-      <h2 class="text-2xl text-ink-900 mt-1">The six largest solar rooftops we found.</h2>
+      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono">largest detections by capacity</p>
+      <h2 class="text-2xl text-ink-900 mt-1">Top six rooftop installations identified.</h2>
       <p class="text-sm text-ink-500 mt-1 max-w-prose leading-relaxed">
-        Sorted by estimated panel size. These are real buildings - click any thumbnail to see the actual rooftop in satellite imagery.
+        Ranked by estimated installed capacity. Each detection corresponds to a building footprint from public mapping data; capacity is derived from the segmented panel area (panel area divided by 6 m² per kWp, capped at the building footprint).
       </p>
     </div>
   </div>
@@ -166,14 +166,14 @@ const headerCopy = {
 
 <section class="max-w-6xl mx-auto px-6 mt-10 mb-12 grid gap-6 md:grid-cols-2">
   <div>
-    <p class="text-xs uppercase tracking-wider text-ink-500 mb-3 font-mono">cities with the most solar rooftops</p>
+    <p class="text-xs uppercase tracking-wider text-ink-500 mb-3 font-mono">cities ranked by detection count</p>
     <ol id="top-by-count" class="space-y-2 text-sm"></ol>
   </div>
   <div>
-    <p class="text-xs uppercase tracking-wider text-ink-500 mb-3 font-mono">cities with the densest solar coverage</p>
+    <p class="text-xs uppercase tracking-wider text-ink-500 mb-3 font-mono">cities ranked by detection density</p>
     <ol id="top-by-density" class="space-y-2 text-sm"></ol>
     <p class="text-[11px] text-ink-500 mt-3 leading-relaxed">
-      Density compares cities of different sizes fairly. Smaller cities punching above their weight show up here. <a href="https://github.com/xmpuspus/ghost-watts" class="text-accent-steel no-underline">Get the raw data</a>.
+      Density (high-confidence detections per km² of city area) normalizes across cities of different sizes - smaller LGUs disproportionately represented in the dataset surface here. Raw data and reproducibility scripts: <a href="https://github.com/xmpuspus/ghost-watts" class="text-accent-steel no-underline">github.com/xmpuspus/ghost-watts</a>.
     </p>
   </div>
 </section>
@@ -254,10 +254,10 @@ const headerCopy = {
     const label = labels[t] || (t ? `${t} roof` : "new building");
     const article = articleFor(sizeWord);
     const tail = status === "confirmed"
-      ? " It's already on public maps of solar."
+      ? " Corroborated by an existing public map of solar."
       : status === "candidate"
-      ? " The AI is less sure about this one, so we're showing it for review."
-      : " It's not on any prior public map of solar.";
+      ? " Below our high-confidence threshold; included for further review."
+      : " Not on any prior public map of solar.";
     return `${article.charAt(0).toUpperCase() + article.slice(1)} ${sizeWord} ${label} with about ${Math.round(area).toLocaleString()} m² of solar panels.${tail}`;
   }
 
@@ -333,7 +333,6 @@ const headerCopy = {
 
     // Legend
     document.getElementById("legend-bar")!.style.background = buildLegendGradient(maxDensity);
-    document.getElementById("legend-source")!.textContent = `ghost-watts · 96% accuracy on a held-out check`;
 
     // ---- map setup -----------------------------------------------------
 
@@ -580,11 +579,11 @@ const headerCopy = {
       document.getElementById("city-name")!.textContent = row.name;
       document.getElementById("city-province")!.textContent = row.province || "Greater Metro Manila";
       document.getElementById("city-high")!.textContent = String(row.n_high);
-      document.getElementById("city-cand")!.textContent = `+ ${row.n_candidate} lower-confidence finds`;
+      document.getElementById("city-cand")!.textContent = `+ ${row.n_candidate} lower-confidence detections`;
       document.getElementById("city-new")!.textContent = String(row.n_new_high);
       const newPct = row.n_high > 0 ? Math.round((row.n_new_high / row.n_high) * 100) : 0;
       document.getElementById("city-new-pct")!.textContent =
-        row.n_high > 0 ? `${newPct}% of finds here are first-time spots` : "no rooftop solar found here yet";
+        row.n_high > 0 ? `${newPct}% absent from prior public maps` : "no high-confidence detections here yet";
       document.getElementById("city-kwp")!.textContent = fmtKwp(row.sum_kwp_high);
 
       // Density rank
@@ -594,8 +593,8 @@ const headerCopy = {
       const rankIdx = ranked.findIndex((r: any) => r.name === row.name);
       const rank = rankIdx >= 0 ? rankIdx + 1 : null;
       document.getElementById("city-density")!.textContent = rank
-        ? `#${rank} of ${ranked.length} cities`
-        : "no finds here yet";
+        ? `#${rank} of ${ranked.length} cities (per km²)`
+        : "no detections in this city";
       const bar = document.getElementById("city-density-bar")!;
       bar.style.width = rank ? `${100 - ((rank - 1) / ranked.length) * 100}%` : "0%";
 
@@ -665,7 +664,7 @@ const headerCopy = {
       const isOrphan = !!props._orphan;
       const status = props._status || (isOrphan ? (props.osm_status === "confirmed" ? "confirmed" : "new") : "new");
       const tierColor = status === "confirmed" ? "#3a7d44" : status === "candidate" ? "#9ca3af" : "#d97757";
-      const tierLabel = status === "confirmed" ? "ON PUBLIC MAPS" : status === "candidate" ? "LOWER CONFIDENCE" : "NEWLY SPOTTED";
+      const tierLabel = status === "confirmed" ? "CORROBORATED" : status === "candidate" ? "LOWER CONFIDENCE" : "NEWLY IDENTIFIED";
 
       const halfDeg = isOrphan ? 0.0011 : 0.0007;
       document.getElementById("det-thumb")!.setAttribute("src", esriThumbUrl(lat, lon, 360, halfDeg));
@@ -677,9 +676,9 @@ const headerCopy = {
         props.lgu_name || props.city || (isOrphan ? "tile-level (no building match)" : "");
 
       if (isOrphan) {
-        document.getElementById("det-headline")!.textContent = "Solar found here, but no building outline";
+        document.getElementById("det-headline")!.textContent = "Detection without a matching building footprint";
         document.getElementById("det-desc")!.textContent =
-          "The AI is confident there are panels at this spot, but the public map doesn't have a building outline for us to trace exactly. Could be a building no one's mapped yet, or panels on something other than a typical roof. Click 'see this rooftop' to view the satellite imagery.";
+          "The model identifies panels at this location, but our public-mapping data doesn't include a building outline here for the segmentation step to trace. Likely either an unmapped building or panels on a non-standard structure. Click 'see this rooftop' to inspect the satellite imagery directly.";
       } else {
         const kwp = Number(props.kwp_estimate);
         const buildingType = (props.building_type || "new").toString();
@@ -697,7 +696,7 @@ const headerCopy = {
         ? `${Math.round(Number(props.panel_area_m2))} m²`
         : "—";
       document.getElementById("det-osm")!.textContent =
-        status === "confirmed" ? "yes, already mapped" : status === "candidate" ? "lower-confidence" : "no, this is new";
+        status === "confirmed" ? "corroborated within 200 m" : status === "candidate" ? "below threshold" : "no prior record";
 
       const osmLink = document.getElementById("det-osm-link") as HTMLAnchorElement;
       osmLink.href = props.building_osm_id
@@ -718,7 +717,7 @@ const headerCopy = {
       const slug = r.name.toLowerCase().replace(/\s+/g, "-");
       return `<li class="grid grid-cols-[1fr_auto] items-baseline gap-2">
         <a href="?city=${encodeURIComponent(slug)}" class="text-ink-900 hover:text-accent-steel no-underline truncate" data-city="${r.name}">${r.name}</a>
-        <span class="font-mono tabular-nums text-ink-500 text-[11px]">${r.n_high} <span class="text-[#d97757]">(${r.n_new_high} new)</span></span>
+        <span class="font-mono tabular-nums text-ink-500 text-[11px]">${r.n_high} <span class="text-[#d97757]">(${r.n_new_high} newly identified)</span></span>
       </li>`;
     }).join("");
     topListEl.querySelectorAll("a[data-city]").forEach((a) => {

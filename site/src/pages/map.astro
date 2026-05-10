@@ -4,16 +4,16 @@ import MapView from "../components/MapView.astro";
 ---
 <Base title="rooftop solar map · ghost-watts" pathname="/map">
   <section class="max-w-6xl mx-auto px-6 pt-8 pb-4">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-2 font-mono">rooftop solar · greater metro manila</p>
-    <h1 class="text-3xl md:text-4xl mb-3 leading-tight">Every rooftop solar install we could spot from space.</h1>
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-2 font-mono">computer-vision survey · greater metro manila · 2026q2</p>
+    <h1 class="text-3xl md:text-4xl mb-3 leading-tight">A satellite-imagery survey of rooftop solar across Greater Metro Manila.</h1>
     <p class="text-ink-700 max-w-prose leading-relaxed">
-      We taught an AI to spot solar panels in satellite photos, then pointed it at every neighborhood across NCR and the surrounding cities in Bulacan, Cavite, Rizal, and Laguna. It found <strong>617 rooftops with solar panels</strong>. About <strong>96% of the time it's right</strong>, and most of these rooftops aren't on any prior public map. Click any city to see how many. Zoom in and click any roof to see the panels for yourself.
+      We trained a custom computer-vision model on labeled examples of rooftop solar from public mapping data, then validated it against held-out examples it had never seen during training - it identifies solar panels at <strong>96% precision</strong>. The model surveyed every neighborhood across NCR and the surrounding cities in Bulacan, Cavite, Rizal, and Laguna, examining tens of thousands of high-resolution satellite tiles. It identified <strong>617 rooftops with solar panels</strong>, and most of these aren't on any prior public map. Click any city for the count. Zoom in and click any rooftop to see the panels in satellite imagery.
     </p>
   </section>
 
   <MapView />
 
   <section class="max-w-6xl mx-auto px-6 py-6 text-xs text-ink-500">
-    These are AI findings, not official records. About 1 in 25 high-confidence picks may be wrong - treat the map as a starting point, not a permit list. Use freely with credit: ghost-watts (2026Q2), https://github.com/xmpuspus/ghost-watts. CC-BY-4.0 on data.
+    Model outputs, not official records. Calibrated to 96% precision on a held-out validation set; expect roughly 1 in 25 high-confidence detections to be incorrect. Treat as a research artifact for further verification, not a permit list. Cite as: ghost-watts (2026Q2), https://github.com/xmpuspus/ghost-watts. CC-BY-4.0 on data.
   </section>
 </Base>
