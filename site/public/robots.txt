@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Public data products are CC-BY-4.0; crawl freely.
+# Citation: SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph
+
+Sitemap: https://solar-map-ph.vercel.app/sitemap-index.xml

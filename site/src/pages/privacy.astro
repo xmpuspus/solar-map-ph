@@ -1,0 +1,96 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="Privacy & Responsible Use · SolarMap.PH" pathname="/privacy" description="How SolarMap.PH handles satellite imagery, OSM-tagged buildings, and the Philippines Data Privacy Act (RA 10173).">
+  <section class="max-w-prose mx-auto px-6 pt-10 pb-12">
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">privacy &amp; responsible use</p>
+    <h1 class="text-3xl mb-5 leading-tight text-ink-900 tracking-tight">What SolarMap.PH publishes, and what it doesn't.</h1>
+    <p class="text-base text-ink-700 leading-relaxed mb-6">
+      SolarMap.PH is a civic-tech research artifact. The published data is derived from publicly licensed satellite imagery plus public OpenStreetMap building tags, and is intended to inform public-interest reporting on solar adoption in the Philippines. This page describes the data-publication boundary, the legal posture under RA 10173 (Data Privacy Act), and how to request takedown.
+    </p>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">What we publish</h2>
+    <ul class="list-disc list-outside ml-5 text-ink-700 leading-relaxed space-y-1">
+      <li>City-level aggregates: detection counts, density per km², kWp totals, composite scores. No individual identification.</li>
+      <li>Per-building polygons for <strong>commercial, industrial, and public-purpose</strong> rooftops only. These buildings are legal persons or institutions, not natural persons.</li>
+      <li>Aggregated counts for residential rooftops: how many, by tag (house, apartments, residential), summed kWp. No geometry, no addresses.</li>
+      <li>The trained classifier, the training data embeddings, the calibration parameters, and the full reproducibility chain.</li>
+    </ul>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">What we don't publish</h2>
+    <ul class="list-disc list-outside ml-5 text-ink-700 leading-relaxed space-y-1">
+      <li>Individual residential roof polygons, addresses, or anything that would let a third party look up "does this specific house have solar."</li>
+      <li>Owner names, phone numbers, tax-declaration data, electric-meter numbers, or anything coupling a roof to a person.</li>
+      <li>High-resolution panel boundaries that could be used to infer specific household equipment.</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mt-3">
+      A residential-leak check runs against every published per-building dataset; the build fails if any feature with a residential OSM tag (<code class="text-sm">house</code>, <code class="text-sm">apartments</code>, <code class="text-sm">residential</code>, <code class="text-sm">detached</code>, etc.) reaches the public file. See <a href="https://github.com/xmpuspus/solar-map-ph/blob/main/scripts/check_no_residential_leaks.py" class="text-accent-steel no-underline">scripts/check_no_residential_leaks.py</a>.
+    </p>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">Data Privacy Act (RA 10173) posture</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Under §3(g) of RA 10173, personal information is "any information from which the identity of an individual is apparent or can be reasonably and directly ascertained ... or when put together with other information would directly and certainly identify an individual." A satellite-derived rooftop polygon, on its own, does not identify a natural person; we mitigate the "put together with other information" clause by withholding residential geometry entirely.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      For commercial, industrial, and public-purpose buildings, the relevant subjects are corporate or institutional entities, not natural persons. Publishing whether a warehouse has solar on its roof is treated the same as publishing whether a school has solar panels: institutionally observable, not individually identifying.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed">
+      NPC Circular 2024-02 (CCTV in public spaces) treats public-space image processing as DPA processing; SolarMap.PH does not record or republish raw Esri tiles, only model outputs derived from them. A privacy impact assessment is available at <a href="https://github.com/xmpuspus/solar-map-ph/blob/main/docs/privacy-impact-assessment.md" class="text-accent-steel no-underline">docs/privacy-impact-assessment.md</a>.
+    </p>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">Data Protection Officer</h2>
+    <p class="text-base text-ink-700 leading-relaxed">
+      Xavier Puspus is the self-designated DPO for SolarMap.PH. Reach the DPO at <a href="mailto:solarmap.ph@gmail.com?subject=DPO%20inquiry" class="text-accent-steel no-underline">solarmap.ph@gmail.com</a> (subject line: <em>DPO inquiry</em>). Formal NPC registration is in scope for the post-launch quarter; this designation does not substitute for an NPC advisory opinion.
+    </p>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">Takedown channel</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      If a published per-building feature appears to identify a private residence, or you believe a specific detection is incorrect and harmful to publish, request takedown via either:
+    </p>
+    <ul class="list-disc list-outside ml-5 text-ink-700 leading-relaxed space-y-1">
+      <li>Open a <a href="https://github.com/xmpuspus/solar-map-ph/issues/new?labels=takedown&amp;template=takedown.md" class="text-accent-steel no-underline">GitHub issue with the <code class="text-sm">takedown</code> label</a> (preferred, public audit trail).</li>
+      <li>Email <a href="mailto:solarmap.ph@gmail.com?subject=Takedown%20request" class="text-accent-steel no-underline">solarmap.ph@gmail.com</a> with subject <em>Takedown request</em> and the OSM way id or coordinates.</li>
+      <li>For an open security advisory (e.g. an active doxxing concern), use the GitHub Security tab: <a href="https://github.com/xmpuspus/solar-map-ph/security/advisories/new" class="text-accent-steel no-underline">private advisory form</a>.</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mt-3">
+      Acknowledgement within 5 working days. Feature removed within 14 working days from the published dataset, with a public note in the next quarterly release log unless removal pre-conditions confidentiality.
+    </p>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">Public-records framing</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      Data inputs derive from public records and public licensing arrangements: Esri World Imagery (publicly licensed for educational and non-commercial use, attribution-only), OpenStreetMap building footprints (ODbL), ESA WorldCover land cover (CC-BY-4.0), Microsoft GlobalMLBuildingFootprints (ODbL-equivalent), Sentinel-2 and Landsat (NASA/ESA, public domain), and VIIRS nightlights (NOAA, public domain). Detection counts and capacity estimates are statistical indicators derived from these public sources.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed">
+      Patterns shown may have legitimate explanations. The dataset does not constitute a permit registry, a tax record, or a code-compliance audit, and should not be cited as such.
+    </p>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">What the homeowner roof-lookup tool sees</h2>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      The roof-lookup tool runs entirely in your browser. No server operated by SolarMap.PH stores your address, your roof outline, or the payback figures shown to you. However, the address you type is queried against third-party geocoders to find your building footprint and a satellite image of your roof:
+    </p>
+    <ul class="list-disc list-outside ml-5 text-ink-700 leading-relaxed space-y-1">
+      <li><a href="https://photon.komoot.io" class="text-accent-steel no-underline">Photon / Komoot</a> (geocoding lookup, autocomplete).</li>
+      <li><a href="https://nominatim.openstreetmap.org" class="text-accent-steel no-underline">Nominatim / OpenStreetMap</a> (fallback geocoding).</li>
+      <li><a href="https://overpass-api.de" class="text-accent-steel no-underline">Overpass API</a> (building outline lookup).</li>
+      <li><a href="https://server.arcgisonline.com" class="text-accent-steel no-underline">Esri World Imagery</a> (the satellite picture rendered for your roof).</li>
+      <li><a href="https://re.jrc.ec.europa.eu/pvg_tools/en/" class="text-accent-steel no-underline">PVGIS</a> (European Commission JRC, solar irradiance lookup).</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mt-3">
+      These services see the address you type. Each has its own privacy policy. If you would prefer to inspect your roof manually without external queries, the README explains how to look up the OSM building id offline and render the Esri tile via a different client. The tool's <code class="text-sm">vercel.json</code> Content Security Policy explicitly enumerates these endpoints; nothing else is reachable from the browser.
+    </p>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">Telemetry, cookies, analytics</h2>
+    <p class="text-base text-ink-700 leading-relaxed">
+      No first-party cookies. No analytics scripts. No user accounts. No advertising. Vercel sets standard CDN cookies for cache routing; we do not read or use them. The site is served as a static build; there is no backend code path that records site visits.
+    </p>
+
+    <h2 class="text-xl mt-8 mb-3 text-ink-900">Verifiable history</h2>
+    <p class="text-base text-ink-700 leading-relaxed">
+      Every published dataset is reproducible from the committed embeddings and pinned dependencies. Every quarterly release is tagged in git. If a feature is removed via takedown, the version history preserves the audit trail of when, why, and which way id was affected.
+    </p>
+
+    <p class="text-[11px] text-ink-500 mt-12 pt-6 border-t border-ink-300/30">
+      All data sourced from public records (Esri World Imagery, OpenStreetMap, ESA, Microsoft, NOAA, NASA). SolarMap.PH computes statistical indicators only. Specific allegations, if any, require independent investigation and corroboration. Last reviewed 2026-05-13.
+    </p>
+  </section>
+</Base>

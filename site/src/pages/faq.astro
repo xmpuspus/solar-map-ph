@@ -1,0 +1,91 @@
+---
+import Base from "../layouts/Base.astro";
+
+const sections = [
+  {
+    title: "What is SolarMap.PH?",
+    body:
+      "A civic-tech research artifact: a computer-vision survey of rooftop solar across Greater Metro Manila plus a free homeowner roof-lookup tool. Built to inform the debate on the gap between informal rooftop solar and the formal net-metering registry. Open-source (MIT for code, CC-BY-4.0 for data).",
+  },
+  {
+    title: "How accurate is the detection model?",
+    body:
+      "F1 = 0.870 (precision 95.9%, recall 79.7%) at threshold 0.85 on an honest 20% held-out source-disjoint split. Calibration is Platt sigmoid on the same holdout. Detection counts are presented with their tier (high-confidence vs candidate); the calibration curve and per-tile confidence are visible in the data files. Expect roughly 1 in 25 high-confidence detections to be a false positive at this threshold.",
+  },
+  {
+    title: "Why might detections look 'off'?",
+    body:
+      "Three sources of error: (1) the model can mistake highly reflective non-PV surfaces (skylights, polished metal, water tanks) for panels at low confidence; we publish the confidence score for every detection. (2) Esri imagery has variable capture dates; a roof imaged before installation will not show panels. (3) The SAM segmentation step can over-segment large arrays into smaller polygons or miss panels under shadow. Report a false positive via the 'report fp' button on any detection card.",
+  },
+  {
+    title: "Does this dataset include my house?",
+    body:
+      "No. Residential roofs are intentionally excluded from the published per-building polygons. The only residential figure SolarMap.PH releases is an aggregate count (how many residential roofs with solar by tag, in total, no geometry, no addresses). The dataset is for commercial, industrial, and public-purpose roofs only at sub-building resolution. The homeowner roof-lookup tool is separate; the address you type into that tool stays in your browser.",
+  },
+  {
+    title: "Is this legal under the Data Privacy Act (RA 10173)?",
+    body:
+      "We treat residential rooftops as personal-information-adjacent: their geometry is not published. Commercial / industrial / public-purpose buildings are institutional subjects, not natural persons, and we treat them as legitimately observable from public satellite imagery. See <a class='text-accent-steel no-underline' href='/privacy'>/privacy</a> and the <a class='text-accent-steel no-underline' href='https://github.com/xmpuspus/solar-map-ph/blob/main/docs/privacy-impact-assessment.md'>Privacy Impact Assessment</a> for the full posture. An NPC voluntary advisory opinion is in scope for the post-launch quarter.",
+  },
+  {
+    title: "Where does the satellite imagery come from?",
+    body:
+      "Esri World Imagery, accessed via the publicly documented World_Imagery REST endpoint. Esri's posture on this layer is broadly permissive for academic and non-commercial use with attribution; Esri publishes its own pretrained solar-detection models on the same imagery base. Imagery tiles are model inputs only; we do not republish or cache raw tiles in the public release.",
+  },
+  {
+    title: "What's the difference between the map and the homeowner tool?",
+    body:
+      "The map is a research survey: aggregated detection counts and per-building polygons for non-residential roofs across NCR and surrounding cities. The homeowner tool is a free calculator that runs in your browser: type your address, see your specific roof on satellite, get a kWp estimate, payback math, and a check against published LGU permit data. The tool doesn't query our map; it queries third-party geocoders directly (Photon, Nominatim, Overpass, PVGIS).",
+  },
+  {
+    title: "Is the homeowner tool tracking me?",
+    body:
+      "No first-party tracking. No cookies set by SolarMap.PH. No analytics scripts. The address you type is sent to third-party geocoders (Photon, Nominatim) and to OpenStreetMap's Overpass for the building outline. The satellite image of your roof is fetched directly from Esri. SolarMap.PH runs no backend service that records what you looked up. The Content Security Policy on the site explicitly enumerates which endpoints the browser can reach.",
+  },
+  {
+    title: "Can I use this data for journalism or research?",
+    body:
+      "Yes, under CC-BY-4.0. Cite as: <code class='text-sm'>SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph</code>. For a methodology summary suitable for a press piece, see <a class='text-accent-steel no-underline' href='/methodology'>/methodology</a>. The data, the model weights, the training embeddings, and the full reproducibility chain are public.",
+  },
+  {
+    title: "How often does this update?",
+    body:
+      "About every quarter. The Earth Engine composite signal is recomputed each quarter; the detection model is retrained when active-learning round labels accumulate (current shipping classifier is clf_v4 round 3). Release notes are tagged in git and summarized in <a class='text-accent-steel no-underline' href='https://github.com/xmpuspus/solar-map-ph/blob/main/CHANGELOG.md'>CHANGELOG.md</a>.",
+  },
+  {
+    title: "Is SolarMap.PH affiliated with Meralco, DOE, NREB, or ICSC?",
+    body:
+      "No. SolarMap.PH is an independent open-source project authored by Xavier Puspus. Meralco is referenced as the regulated distribution utility for the franchise area covered by this dataset; that's the only relationship. SolarMap.PH is methodologically similar to ICSC's SPECTRUM (launched July 2025) but is a separate project; SPECTRUM has broader nationwide coverage, SolarMap.PH ships a fully reproducible open chain. Credit to both.",
+  },
+  {
+    title: "How do I request takedown of a published feature?",
+    body:
+      "Open a <a class='text-accent-steel no-underline' href='https://github.com/xmpuspus/solar-map-ph/issues/new?labels=takedown&template=takedown.md'>GitHub issue with the <code class='text-sm'>takedown</code> label</a>, or email <a class='text-accent-steel no-underline' href='mailto:solarmap.ph@gmail.com?subject=Takedown%20request'>solarmap.ph@gmail.com</a>. Acknowledged within 5 working days; removed within 14 working days from the next quarterly republish. For active doxxing concerns use the GitHub Security advisory form instead.",
+  },
+  {
+    title: "I found a bug or have a contribution.",
+    body:
+      "Open an issue or PR on <a class='text-accent-steel no-underline' href='https://github.com/xmpuspus/solar-map-ph'>github.com/xmpuspus/solar-map-ph</a>. Highest-value contributions are verified false-positive reports, LGU permit cost/delay data, and region extensions beyond NCR (Cebu, Davao, Iloilo, Cagayan de Oro). See <code class='text-sm'>CONTRIBUTING.md</code>.",
+  },
+];
+---
+<Base title="FAQ · SolarMap.PH" pathname="/faq" description="Frequently asked questions about SolarMap.PH detection accuracy, privacy posture under RA 10173, and the homeowner roof-lookup tool.">
+  <section class="max-w-prose mx-auto px-6 pt-10 pb-12">
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">frequently asked</p>
+    <h1 class="text-3xl mb-6 leading-tight text-ink-900 tracking-tight">Plain-language answers to the questions we hear most often.</h1>
+    <p class="text-base text-ink-700 leading-relaxed mb-8">
+      If your question isn't here, please open a <a href="https://github.com/xmpuspus/solar-map-ph/discussions" class="text-accent-steel no-underline">GitHub discussion</a> or email <a href="mailto:solarmap.ph@gmail.com" class="text-accent-steel no-underline">solarmap.ph@gmail.com</a>.
+    </p>
+
+    {sections.map((s, i) => (
+      <article class={`py-5 ${i < sections.length - 1 ? "border-b border-ink-300/30" : ""}`}>
+        <h2 class="text-lg text-ink-900 mb-2 leading-snug">{s.title}</h2>
+        <p class="text-base text-ink-700 leading-relaxed" set:html={s.body} />
+      </article>
+    ))}
+
+    <p class="text-[11px] text-ink-500 mt-10 pt-6 border-t border-ink-300/30">
+      All data sourced from public records (Esri World Imagery, OpenStreetMap, ESA, Microsoft, NOAA, NASA). SolarMap.PH computes statistical indicators derived from public data. Patterns may have legitimate explanations.
+    </p>
+  </section>
+</Base>
