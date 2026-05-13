@@ -37,3 +37,15 @@
     @apply block h-full;
   }
 }
+
+@layer utilities {
+  /* WCAG 1.4.1: inline anchors inside running text need a non-color visual
+     cue. Anchors with no-underline (used for compact lists, footers, hero copy)
+     get a dotted bottom-border when they appear inline in a text-block parent. */
+  p a.no-underline,
+  li a.no-underline,
+  dd a.no-underline,
+  td a.no-underline {
+    border-bottom: 1px dotted currentColor;
+  }
+}

@@ -25,6 +25,7 @@
         placeholder="Start typing -- pick from the list, or use a sample below"
         class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
         autocomplete="off"
+        role="combobox"
         aria-autocomplete="list"
         aria-controls="roof-address-suggest"
         aria-expanded="false"
@@ -367,8 +368,8 @@
     if (score >= 80) return { label: "excellent", color: "text-accent-steel font-semibold", advice: "Strong fit for solar. Worth getting quotes." };
     if (score >= 65) return { label: "good", color: "text-accent-steel", advice: "Likely worth installing if you stay 5+ years." };
     if (score >= 50) return { label: "fair", color: "text-ink-700", advice: "Possible, but check roof orientation and shading first." };
-    if (score >= 35) return { label: "limited", color: "text-accent-coral", advice: "Constrained by size or shading. Consider a smaller system or efficiency upgrades first." };
-    return { label: "poor fit", color: "text-accent-coral font-semibold", advice: "Solar is unlikely to pay back here. Try efficiency upgrades and time-shifting first." };
+    if (score >= 35) return { label: "limited", color: "text-accent-coral-dark", advice: "Constrained by size or shading. Consider a smaller system or efficiency upgrades first." };
+    return { label: "poor fit", color: "text-accent-coral-dark font-semibold", advice: "Solar is unlikely to pay back here. Try efficiency upgrades and time-shifting first." };
   }
 
   async function loadJson(path: string) {

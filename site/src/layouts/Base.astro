@@ -7,13 +7,21 @@ interface Props {
   title: string;
   description?: string;
   pathname?: string;
+  image?: string;
 }
+
+const SITE_URL = "https://solar-map-ph.vercel.app";
+const DEFAULT_IMAGE = "/og-preview.png";
 
 const {
   title,
   description = "A computer-vision survey of rooftop solar across Greater Metro Manila, paired with a homeowner tool that sizes your own roof against current electricity rates and local permit costs.",
   pathname = Astro.url.pathname,
+  image = DEFAULT_IMAGE,
 } = Astro.props;
+
+const canonical = `${SITE_URL}${pathname}`;
+const ogImage = image.startsWith("http") ? image : `${SITE_URL}${image}`;
 ---
 <!doctype html>
 <html lang="en">
@@ -22,11 +30,26 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0b3b58" />
+
+    <meta property="og:site_name" content="SolarMap.PH" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="SolarMap.PH map of detected rooftop solar across Greater Metro Manila" />
+    <meta property="og:locale" content="en_PH" />
+
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="SolarMap.PH map of detected rooftop solar across Greater Metro Manila" />
   </head>
   <body class="min-h-screen flex flex-col">
     <Header pathname={pathname} />

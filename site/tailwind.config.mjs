@@ -13,6 +13,7 @@ export default {
         accent: {
           steel: "#3a6ea5",
           coral: "#d97757",
+          "coral-dark": "#a8431e",
         },
         paper: {
           DEFAULT: "#fbfaf6",
