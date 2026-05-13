@@ -24,7 +24,7 @@ The Sentinel-2 pipeline in `pipeline/` is structurally too coarse (10m / pixel) 
 | `scan/sam_panel_segments.py` | v2.1: SAM auto-mask + color signature filter + CLIP+LR scoring per segment. Outputs `per_tile_segments.jsonl`. |
 | `scan/assemble_per_building.py` | v2.1: intersect SAM segments with OSM building footprints, group by building, emit `per_building_solar_ncr.geojson`. |
 | `verify/build_verification_sheets.py` | Active-learning UI: 3x3 PNG sheets of every high-confidence detection + tag template (`tags.json`). User edits the JSON to label true/false/ambiguous; `build_dataset_v3.py` reads the tags. |
-| `buildings/fetch_buildings.py` | Python port of BubongTool's Overpass building lookup. Used by `assemble_per_building.py`. |
+| `buildings/fetch_buildings.py` | Overpass-API building lookup (queries OSM building polygons within a radius). Used by `assemble_per_building.py` and shared with the site's `RoofLookup` component. |
 | `run_v3_pipeline.sh` | End-to-end orchestrator: rebuild dataset_v3, retrain, re-classify, aggregate, optionally re-run SAM + per-building. |
 
 ## Pipeline
@@ -60,7 +60,7 @@ OSM Overpass --> osm_solar_ncr_plus.geojson
           rooftop_solar_ncr.geojson  (Points at score >= 0.70, tiered)
                   |
                   v
-          BubongTool.astro  (per-address "solar detected near you" panel)
+          RoofLookup.astro  (per-address "solar detected near you" panel)
 ```
 
 ## Validation
@@ -75,14 +75,14 @@ OSM Overpass --> osm_solar_ncr_plus.geojson
 | 0.920 | 0.988 | 0.560 | 0.715 | Very high confidence |
 | 0.960 | 1.000 | 0.347 | 0.515 | Zero false positives in eval |
 
-**Caveat:** the LOSO precision is a lower bound. The 4 highest-scored "negatives" in the validation set all contain real visible rooftop solar arrays not in OSM — the classifier is discovering solar that the OSM community hasn't tagged yet.
+**Caveat:** the LOSO precision is a lower bound. The 4 highest-scored "negatives" in the validation set all contain real visible rooftop solar arrays not in OSM -- the classifier is discovering solar that the OSM community hasn't tagged yet.
 
 ## What didn't work
 
-1. **Stanford DeepSolar Mask2Former (HuggingFace).** `abdulsalama/SV-solar-mask2-swin-large-ade-200-deepsolar-2023060311` saturated the segmentation mask at 100% on every input — gave 35% precision regardless of content.
+1. **Stanford DeepSolar Mask2Former (HuggingFace).** `abdulsalama/SV-solar-mask2-swin-large-ade-200-deepsolar-2023060311` saturated the segmentation mask at 100% on every input -- gave 35% precision regardless of content.
 2. **CLIP zero-shot.** F1 ≈ 0.5. CLIP wasn't trained on overhead aerial imagery; the texture of solar panels from above is outside its semantic scope.
 3. **Linear-on-CLIP with 9 positives (case studies + GT solars only).** LOSO precision 17%. The dataset was too thin for the model to find the solar concept; it overfit to the augmentation distribution of the 9 positive sources.
-4. **One of the original 6 hand-verified case studies (`case_valenzuela`) does not show clearly visible solar in its tile.** The v2 classifier scored it 0.18 — reasonable. Single-pass vision-model labeling on ambiguous PH industrial roofs has noise; OSM-bootstrapped data is cleaner because community editors verify on the ground.
+4. **One of the original 6 hand-verified case studies (`case_valenzuela`) does not show clearly visible solar in its tile.** The v2 classifier scored it 0.18 -- reasonable. Single-pass vision-model labeling on ambiguous PH industrial roofs has noise; OSM-bootstrapped data is cleaner because community editors verify on the ground.
 
 ## Reproducibility
 

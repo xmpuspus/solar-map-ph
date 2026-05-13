@@ -1,9 +1,12 @@
-earthengine-api>=0.1.402
-geopandas>=0.14.4
-pandas>=2.2.0
-numpy>=1.26.0
-requests>=2.32.0
-shapely>=2.0.4
-pyarrow>=15.0.0
-beautifulsoup4>=4.12.3
-python-dateutil>=2.9.0
+# Pinned dependencies for the Earth Engine quarterly pipeline.
+# All versions == so a quarterly rerun a year from now uses the same EE API
+# semantics and produces the same per-city z-scored composite.
+#
+# Unused-by-pipeline dependencies (geopandas, pandas, pyarrow, shapely)
+# were removed; they were never imported. The detection pipeline's
+# requirements.txt at repo root covers the ML stack.
+
+earthengine-api==1.6.16
+requests==2.32.5
+beautifulsoup4==4.12.3
+pillow==11.3.0

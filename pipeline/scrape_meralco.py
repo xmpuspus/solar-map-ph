@@ -89,19 +89,37 @@ def manual_fallback() -> None:
 def main() -> int:
     extracted: dict[str, int | float | None] | None = None
     used_url: str | None = None
+    partial: dict[str, int | float | None] | None = None
     for url in CANDIDATE_URLS:
         text = fetch(url)
         if text is None:
             continue
         result = extract_numbers(text)
-        if result.get("registered_installations") and result.get("registered_capacity_mw_aggregate"):
+        installs = result.get("registered_installations")
+        mw = result.get("registered_capacity_mw_aggregate")
+        if installs and mw:
             extracted = result
             used_url = url
             break
+        # Record the best partial match seen so far so we can persist whichever
+        # field did come through. A partial match is more useful than no match
+        # plus it lets the human reviewer fill in the missing value.
+        if installs or mw:
+            if partial is None or sum(1 for v in result.values() if v) > sum(1 for v in partial.values() if v):
+                partial = result
+                used_url = url
 
     if extracted is None:
-        manual_fallback()
-        return 2
+        if partial is not None:
+            print(
+                "WARN: partial extraction. One of the two fields could not be parsed. "
+                "Persisting what we have; review and fill the missing field by hand.",
+                file=sys.stderr,
+            )
+            extracted = partial
+        else:
+            manual_fallback()
+            return 2
 
     with AGG_PATH.open() as f:
         agg = json.load(f)

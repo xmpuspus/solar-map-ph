@@ -120,6 +120,7 @@ def main() -> int:
     n_tiles = 0
     n_segs_in = 0
     n_unmatched = 0
+    _meta_tracker: dict = {}
 
     with SEGMENTS_JSONL.open() as f:
         for line in f:
@@ -137,14 +138,24 @@ def main() -> int:
             tile_id = tile_rec["tile_id"]
             tile_score = tile_rec["tile_score"]
 
+            cache_hit = (BUILDING_CACHE / f"{tile_lat:.5f}_{tile_lon:.5f}_r200.json").exists()
             try:
                 buildings = fetch_buildings_around(
                     tile_lat, tile_lon, radius_m=200, cache_dir=BUILDING_CACHE,
                 )
+                overpass_fetch_ok = True
             except Exception as exc:
                 print(f"[per-building] overpass failed for {tile_id}: {exc}", file=sys.stderr)
                 buildings = []
-            time.sleep(0.05)   # gentle rate limit
+                overpass_fetch_ok = False
+            # Only sleep when we actually hit Overpass (cache hits are free).
+            # 1.1 s respects the public Overpass guideline of 1 req/s sustained.
+            if not cache_hit:
+                time.sleep(1.1)
+            # Surface whether buildings == [] meant "no buildings here" vs "API failed"
+            if not overpass_fetch_ok:
+                # bump a counter visible in _meta so users can spot silent recall loss
+                _meta_tracker.setdefault("tiles_overpass_failed", []).append(tile_id)
 
             for seg in segs:
                 b = best_building_for_segment(seg, buildings)
@@ -177,6 +188,9 @@ def main() -> int:
 
     feats: list[dict] = []
     n_pairs = 0
+    n_suppressed_residential = 0
+    residential_aggregate: dict[str, int] = {}  # building_type -> count
+    residential_kwp_total = 0.0
     for osm_id, rec in by_building.items():
         b = rec["building"]
         segs = rec["segments"]
@@ -187,13 +201,26 @@ def main() -> int:
         # Confidence is the max single-segment score
         max_conf = max(s["confidence"] for s in segs)
         # Polygon: use the highest-confidence segment as the displayed polygon.
-        # (Multi-polygon merging is overkill for v2.1 - a single representative
-        # outline is what the BubongTool readout shows.)
+        # Multi-polygon merging is overkill for v2.1 - a single representative
+        # outline is enough for the site's per-building readout.
         best_seg = max(segs, key=lambda s: s["confidence"])
         polygon = best_seg["polygon"] or []
         if not polygon:
             continue
         kwp = round(total_panel / 6.0, 2)
+
+        # Privacy: residential rooftops are aggregated into counts only, not
+        # published as sub-meter polygons. A precise polygon plus building_type
+        # equals an addressable home; that is reidentifiable PII even when the
+        # underlying OSM data is public, because the aggregation is the harm.
+        # Commercial, industrial, public, and unclassified buildings are kept.
+        if b.is_residential:
+            n_suppressed_residential += 1
+            bt = b.building_type or "residential"
+            residential_aggregate[bt] = residential_aggregate.get(bt, 0) + 1
+            residential_kwp_total += kwp
+            continue
+
         feats.append({
             "type": "Feature",
             "geometry": {"type": "Polygon", "coordinates": [polygon]},
@@ -222,21 +249,44 @@ def main() -> int:
             "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "tiles_processed": n_tiles,
             "segments_total": n_segs_in,
-            "buildings_with_solar": n_pairs,
+            "buildings_with_solar_published": n_pairs,
+            "buildings_residential_suppressed": n_suppressed_residential,
             "segments_unmatched_to_building": n_unmatched,
             "kwp_per_m2": 1.0 / 6.0,
             "source_segments": str(SEGMENTS_JSONL.relative_to(ROOT)),
             "building_source": "OSM via Overpass (radius=200m around each tile)",
-            "scoring": "0.6*CLIP+LR (clf_v3) + 0.4*color signature; merged per-building",
+            "scoring": "0.6*CLIP+LR (clf_v4) + 0.4*color signature; merged per-building",
             "polygon_strategy": "highest-confidence segment per building",
             "area_strategy": "summed across segments, capped at building footprint area",
+            "privacy_policy": (
+                "Buildings tagged is_residential (house, apartments, residential, etc.) "
+                "are aggregated into counts only and not published as polygons. "
+                "See site/public/data/residential_solar_aggregate.json for the privacy-safe roll-up."
+            ),
+            "tiles_overpass_failed": len(_meta_tracker.get("tiles_overpass_failed", [])),
         },
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(fc, indent=1))
-    print(f"[per-building] {n_pairs} unique buildings with detected solar from {n_segs_in} SAM segments across {n_tiles} tiles")
+
+    # Privacy-safe residential aggregate (counts and totals, no geometry, no addresses).
+    aggregate_path = OUT.parent / "residential_solar_aggregate.json"
+    aggregate_path.write_text(json.dumps({
+        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "n_residential_buildings_with_solar": n_suppressed_residential,
+        "kwp_residential_total": round(residential_kwp_total, 2),
+        "by_building_type": dict(sorted(residential_aggregate.items())),
+        "policy": (
+            "Residential rooftops are intentionally not published as individual "
+            "polygons. This roll-up is the only residential-scoped figure ghost-watts releases."
+        ),
+    }, indent=2))
+
+    print(f"[per-building] {n_pairs} non-residential buildings published with detected solar")
+    print(f"[per-building] {n_suppressed_residential} residential buildings suppressed (counts in {aggregate_path.name})")
     print(f"[per-building] {n_unmatched} segments had no matching OSM building (likely informal structures or off-roof)")
     print(f"[per-building] -> {OUT}")
+    print(f"[per-building] -> {aggregate_path}")
     return 0
 
 

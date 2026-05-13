@@ -4,7 +4,7 @@ Targets Metro Manila + Bulacan + Cavite + Rizal + Laguna (the Meralco
 franchise approximation) for nodes/ways tagged power=generator with
 generator:source=solar OR generator:method=photovoltaic.
 
-OSM data is community-verified — these are real solar installations
+OSM data is community-verified -- these are real solar installations
 mapped by humans on the ground. Better than our case_studies.json which
 was labeled by a single vision pass.
 

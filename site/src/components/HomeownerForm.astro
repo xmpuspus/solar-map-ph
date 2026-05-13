@@ -247,17 +247,17 @@
         <div class="grid gap-6 md:grid-cols-3 items-baseline mb-3">
           <div>
             <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">payback</div>
-            <div class="text-5xl md:text-6xl font-mono font-semibold tabular-nums leading-none text-ink-900">${payback ? payback.toFixed(1) : "—"}</div>
+            <div class="text-5xl md:text-6xl font-mono font-semibold tabular-nums leading-none text-ink-900">${payback ? payback.toFixed(1) : "-"}</div>
             <div class="text-sm text-ink-500 mt-1">years to break even</div>
           </div>
           <div>
             <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">annual savings</div>
-            <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none text-ink-900">${annualKwh ? fmtCompact(annualSavings) : "—"}</div>
+            <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none text-ink-900">${annualKwh ? fmtCompact(annualSavings) : "-"}</div>
             <div class="text-sm text-ink-500 mt-1">at ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh</div>
           </div>
           <div>
             <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">25-year net</div>
-            <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none ${npv && npv > 0 ? "text-accent-steel" : "text-ink-900"}">${npv !== null ? fmtCompact(npv) : "—"}</div>
+            <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none ${npv && npv > 0 ? "text-accent-steel" : "text-ink-900"}">${npv !== null ? fmtCompact(npv) : "-"}</div>
             <div class="text-sm text-ink-500 mt-1">after ${fmtCompact(installCost)} install</div>
           </div>
         </div>

@@ -66,7 +66,7 @@ def load_per_building_anchors() -> dict[str, tuple[float, float]]:
     Used to anchor tile-level Points to actual building locations when SAM has
     already found one inside the tile. Falls through to tile center otherwise.
     Where a building was matched to multiple tiles (the panel array spans several
-    high-conf cells), each tile_id resolves to the same building centroid — that's
+    high-conf cells), each tile_id resolves to the same building centroid -- that's
     fine, all those dots will visually cluster on top of the polygon.
     """
     if not PER_BUILDING.exists():

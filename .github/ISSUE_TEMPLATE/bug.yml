@@ -1,0 +1,78 @@
+name: Bug report
+description: Something in ghost-watts is broken or producing wrong output.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. The more specific the report, the faster the fix.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: A clear, concrete description of the bug.
+      placeholder: "Running `make scan` on a clean clone errors after about 30 tiles..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      placeholder: "make scan should complete or resume cleanly..."
+    validations:
+      required: true
+
+  - type: input
+    id: command
+    attributes:
+      label: Exact command you ran
+      placeholder: "make scan"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error output / logs
+      description: Paste the relevant log lines. If long, attach a file instead.
+      render: shell
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - macOS (Apple silicon)
+        - macOS (Intel)
+        - Linux x86_64
+        - Linux aarch64
+        - Docker (which platform?)
+        - Windows / WSL
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      placeholder: "3.11.7"
+
+  - type: input
+    id: commit
+    attributes:
+      label: Commit SHA you reproduced on
+      placeholder: "git rev-parse HEAD"
+
+  - type: checkboxes
+    id: confirms
+    attributes:
+      label: Before submitting
+      options:
+        - label: I have checked that this is not already in the issue tracker.
+          required: true
+        - label: I have run `make hash-verify` to confirm my classifier is the canonical one.
+          required: false

@@ -45,7 +45,7 @@ TILE_DEG_LON = 0.00224
 # 300m halo around each cell center for "in your neighborhood" lookup
 HALO_M = 300.0
 
-# Tier thresholds — see module docstring
+# Tier thresholds -- see module docstring
 SATURATED_PANELS = 8
 SATURATED_KWP = 300
 GROWING_PANELS = 3
@@ -209,7 +209,7 @@ def main() -> int:
                 "growing_kwp_min": GROWING_KWP,
             },
             "interpretation": {
-                "early": "Few or no detected installs in 300m. You'd be a pioneer — fast approval likely.",
+                "early": "Few or no detected installs in 300m. You'd be a pioneer -- fast approval likely.",
                 "growing": "Adoption climbing in 300m. Expect more attention from Meralco engineers.",
                 "saturated": "High solar density in 300m. Your installer should request a hosting-capacity check before sizing.",
             },

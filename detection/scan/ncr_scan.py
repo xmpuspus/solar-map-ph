@@ -28,10 +28,27 @@ from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-import joblib
 import numpy as np
-import torch
-from PIL import Image
+
+# torch / joblib / PIL are heavy imports. Defer them so that test code and
+# the grid generators can `from detection.scan.ncr_scan import grid_centers`
+# without paying the cost (or even requiring torch to be installed).
+try:
+    import torch  # noqa: F401
+    DEVICE = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
+except ModuleNotFoundError:
+    torch = None  # type: ignore[assignment]
+    DEVICE = "cpu"
+
+# These are required for the inference path but cheap to import; the test
+# suite only touches `grid_centers`, which doesn't need them. If they're
+# missing we let module-import succeed and crash at use-site instead.
+try:
+    import joblib
+    from PIL import Image
+except ModuleNotFoundError:  # pragma: no cover - dev/test convenience
+    joblib = None  # type: ignore[assignment]
+    Image = None  # type: ignore[assignment]
 
 ROOT = Path(__file__).resolve().parents[2]
 SCAN_DIR = ROOT / "detection" / "scan"
@@ -41,7 +58,6 @@ RESULTS_JSONL = SCAN_DIR / "ncr_scan_results.jsonl"
 GEOJSON_OUT = ROOT / "site" / "public" / "data" / "rooftop_solar_ncr.geojson"
 CLF_PATH = ROOT / "detection" / "train" / "clf_v2.joblib"
 
-DEVICE = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
 ESRI_BASE = (
     "https://services.arcgisonline.com/arcgis/rest/services/"
     "World_Imagery/MapServer/export"
@@ -170,9 +186,12 @@ def main() -> int:
     results_jsonl = Path(args.results_jsonl)
 
     if args.reuse_tiles:
-        # Reset JSONL so we re-classify everything; cached JPGs stay
+        # Reset JSONL so we re-classify everything; cached JPGs stay.
+        # Timestamp the backup so two consecutive --reuse-tiles runs don't
+        # silently overwrite the previous backup.
         if results_jsonl.exists():
-            backup = results_jsonl.with_suffix(results_jsonl.suffix + ".bak")
+            stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+            backup = results_jsonl.with_suffix(f"{results_jsonl.suffix}.bak.{stamp}")
             results_jsonl.rename(backup)
             print(f"[scan] reuse-tiles: moved old JSONL to {backup}")
         done: set[str] = set()
@@ -225,7 +244,7 @@ def main() -> int:
             for fut_result in futures_iter:
                 tid, la, lo, p, ok = fut_result
                 if not ok:
-                    fjsonl.write(json.dumps({"tile_id": tid, "lat": la, "lon": lo, "fetch_ok": False}) + "\n")
+                    fjsonl.write(json.dumps({"tile_id": tid, "lat": la, "lon": lo, "fetch_ok": False, "error": "fetch_failed_or_tiny_response"}) + "\n")
                     n_fail += 1
                     continue
                 batch.append((tid, la, lo, p))
@@ -239,6 +258,7 @@ def main() -> int:
                             "score": float(sc),
                         }) + "\n")
                     fjsonl.flush()
+                    os.fsync(fjsonl.fileno())
                     n_ok += len(batch)
                     batch = []
                     if n_ok % 160 == 0:

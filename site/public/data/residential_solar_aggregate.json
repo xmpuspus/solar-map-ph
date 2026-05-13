@@ -1,0 +1,11 @@
+{
+  "generated_utc": "2026-05-12T10:02:31Z",
+  "n_residential_buildings_with_solar": 27,
+  "kwp_residential_total": 917.18,
+  "by_building_type": {
+    "apartments": 2,
+    "house": 23,
+    "residential": 2
+  },
+  "policy": "Residential rooftops are intentionally not published as individual polygons. This roll-up is the only residential-scoped figure ghost-watts releases."
+}

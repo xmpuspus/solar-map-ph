@@ -38,7 +38,7 @@ from rasterio.windows import from_bounds
 ROOT = Path(__file__).resolve().parents[2]
 WORLDCOVER_DIR = ROOT / "detection" / "scan" / "worldcover"
 WORLDCOVER_DIR.mkdir(parents=True, exist_ok=True)
-# Same stride as ncr_scan.py — must match exactly so tile_ids align with the
+# Same stride as ncr_scan.py -- must match exactly so tile_ids align with the
 # scan grid, otherwise validation against existing detections fails.
 TILE_DEG_LAT = 0.00216
 TILE_DEG_LON = 0.00224
@@ -83,7 +83,7 @@ def tiles_covering_bbox(s: float, w: float, n: float, e: float) -> list[str]:
 
 
 def grid_centers(bbox: tuple[float, float, float, float]) -> list[tuple[float, float]]:
-    """Same 240m stride as ncr_scan.py — must match exactly."""
+    """Same 240m stride as ncr_scan.py -- must match exactly."""
     s, w, n, e = bbox
     lats = np.arange(s + TILE_DEG_LAT / 2, n, TILE_DEG_LAT)
     lons = np.arange(w + TILE_DEG_LON / 2, e, TILE_DEG_LON)

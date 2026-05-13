@@ -1,6 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import BubongTool from "../components/BubongTool.astro";
+import RoofLookup from "../components/RoofLookup.astro";
 ---
 <Base title="ghost-watts · what can your roof do?" pathname="/">
   <section class="max-w-5xl mx-auto px-6 pt-14 pb-8">
@@ -30,7 +30,7 @@ import BubongTool from "../components/BubongTool.astro";
     </div>
   </section>
 
-  <BubongTool />
+  <RoofLookup />
 
   <section class="max-w-prose mx-auto px-6 py-12 mt-12 border-t border-ink-300/30">
     <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">why this exists</p>
@@ -39,7 +39,7 @@ import BubongTool from "../components/BubongTool.astro";
       Most Filipino homeowners considering solar have to navigate three asymmetries at once. Installer quotes vary 5x for the same system. LGU permit fees range ₱16K-153K for the same project. Net-metering has a 100 kW cap, a 10-day approval target, and uneven LGU adoption of the new 3-day fast-track. Useful, neutral information is hard to come by.
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-4">
-      Bubong reads your address, finds your building from OpenStreetMap, measures your roof from satellite, runs the payback math against the current residential rate, and tells you what to do. It surfaces nearby rooftops where our computer-vision survey already detected solar, the local LGU's permit cost where verified, and the safety-and-process steps that make a real difference.
+      The tool reads your address, finds your building from OpenStreetMap, measures your roof from satellite, runs the payback math against the current residential rate, and tells you what to do. It surfaces nearby rooftops where our computer-vision survey already detected solar, the local LGU's permit cost where verified, and the safety-and-process steps that make a real difference.
     </p>
     <p class="text-base text-ink-700 leading-relaxed">
       No installer is paid to recommend their system. No data leaves your browser. The math is open-source and reproducible. <a href="/methodology" class="no-underline text-accent-steel">How we computed everything &rarr;</a>

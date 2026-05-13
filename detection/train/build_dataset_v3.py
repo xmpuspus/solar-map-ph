@@ -40,10 +40,37 @@ TAGS = ROOT / "detection" / "verify" / "tags.json"
 OUT = ROOT / "detection" / "train" / "dataset_v3.npz"
 MANIFEST = ROOT / "detection" / "train" / "dataset_v3_manifest.json"
 
-DEVICE = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
+import os
+
+# Device selection.
+#
+# For the everyday "rebuild embeddings on my laptop" workflow, MPS or CUDA is
+# preferred (10-30x faster than CPU on CLIP-ViT-L). For the deterministic-hash
+# reproducibility recipe, force CPU because MPS does not yet expose the
+# deterministic-algorithms guarantees torch.use_deterministic_algorithms wants.
+#
+# Override with GHOSTWATTS_DEVICE=cpu | mps | cuda before invoking the script.
+_DEVICE_OVERRIDE = os.environ.get("GHOSTWATTS_DEVICE", "").lower()
+if _DEVICE_OVERRIDE in {"cpu", "mps", "cuda"}:
+    DEVICE = _DEVICE_OVERRIDE
+elif torch.backends.mps.is_available():
+    DEVICE = "mps"
+elif torch.cuda.is_available():
+    DEVICE = "cuda"
+else:
+    DEVICE = "cpu"
+
 SEED = 42
 random.seed(SEED)
 np.random.seed(SEED)
+torch.manual_seed(SEED)
+# Deterministic mode: same input bytes -> same output bytes, regardless of
+# whether torch picks a different cuDNN algorithm or autotune choice. Required
+# for the bit-exact dataset_v4.npz reproducibility claim. Combine with
+# GHOSTWATTS_DEVICE=cpu for the strongest cross-machine guarantee.
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+os.environ.setdefault("PYTHONHASHSEED", "0")
+torch.use_deterministic_algorithms(True, warn_only=True)
 
 # Known false-negatives (rnegs that are actually real solar -- see project memory)
 KNOWN_FN_RNEGS = {"rneg_0116", "rneg_0136", "rneg_0074", "rneg_0086"}
@@ -65,7 +92,12 @@ def dedupe_by_grid(items: list[dict], precision: int = 4) -> list[dict]:
 
 
 def augment(img: Image.Image, n: int) -> list[Image.Image]:
-    rng = random.Random(SEED + hash(img.tobytes()) % 10000)
+    # SHA-256 of the image bytes gives a deterministic seed across processes
+    # (Python's builtin hash() salts with PYTHONHASHSEED, which differs by run).
+    import hashlib
+    digest = hashlib.sha256(img.tobytes()).digest()
+    seed_int = int.from_bytes(digest[:8], "big") % 1_000_003
+    rng = random.Random(SEED + seed_int)
     out: list[Image.Image] = []
     seen = set()
     while len(out) < n:

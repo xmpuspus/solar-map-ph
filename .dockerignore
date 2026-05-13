@@ -1,20 +1,58 @@
-# Skip large directories that don't affect the deterministic hash.
+# What gets COPIED into the Docker image.
+# Block anything large, secret, or irrelevant to the deterministic build.
+
+# === Secrets (belt and suspenders to .gitignore) ===
+.env
+.env.*
+.ee-key.json
+*-key.json
+*.iam.gserviceaccount.com.json
+ee-key.json
+service-account*.json
+*-credentials*.json
+google-credentials.json
+gcp-credentials.json
+**/credentials/
+**/secrets/
+
+# === Heavy artifacts not needed in the image ===
 detection/scan/ncr_tiles/
-detection/bootstrap/tiles/
+detection/scan/sam_checkpoints/
+detection/scan/segment_thumbnails/
+detection/scan/per_building_thumbs/
+detection/scan/review_sheets/
+detection/scan/worldcover/
 detection/scan/per_tile_segments.jsonl
 detection/scan/ncr_scan_results*.jsonl
+detection/bootstrap/tiles/
+detection/bootstrap/sheets/
 detection/train/_baselines/
 detection/train/v4_calibrated/ablation/
+detection/train/random_neg_tiles/
 detection/verify/sheets/
 detection/verify/v3_new_sheets/
 docs/groundtruth/tiles/
+
+# === Site artifacts (the site is not run from the image) ===
 site/node_modules/
 site/dist/
 site/.astro/
 site/public/case_studies/
+site/public/imagery/
+
+# === Dev / CI scratch ===
 .git/
+.github/
+.vscode/
+.idea/
+.ruff_cache/
+.pytest_cache/
 node_modules/
 tmp/
 __pycache__/
 *.pyc
 .DS_Store
+Thumbs.db
+*.tif
+*.tiff
+*.zip

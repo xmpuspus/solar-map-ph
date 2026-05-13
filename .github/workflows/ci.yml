@@ -72,5 +72,62 @@ jobs:
           fc = json.load(open('../site/public/data/ghost_watts_2026Q2.geojson'))
           assert fc['type'] == 'FeatureCollection'
           assert fc['properties']['quarter'] == '2026Q2'
+          assert len(fc['features']) >= 1, 'no features in dry-run output'
+          for f in fc['features']:
+              for k in ('city', 'province', 'composite'):
+                  assert k in f['properties'], f'missing {k} in feature properties'
+              c = f['properties']['composite']
+              assert c is None or 0 <= c <= 1, f'composite out of [0,1]: {c}'
           print('OK: dry-run output valid')
           "
+
+  detection-hash:
+    name: detection (deterministic hash)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Verify dataset_v4.npz is present
+        run: |
+          test -f detection/train/dataset_v4.npz
+          ls -la detection/train/dataset_v4.npz
+
+      - name: Train clf_v4 from cached dataset
+        run: make train
+
+      - name: Verify deterministic classifier hash
+        run: make hash-verify
+
+      - name: Smoke-test the detection package import surface
+        run: python -c "import ghost_watts; print('ghost_watts version', ghost_watts.__version__)"
+
+  detection-tests:
+    name: detection (pytest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Run unit tests
+        run: pytest tests/ -q

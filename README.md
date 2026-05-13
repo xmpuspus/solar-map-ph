@@ -1,39 +1,103 @@
 # ghost-watts
 
-Detect the unmeasured rooftop solar capacity in Meralco's franchise area using free public satellite signals, expose the cross-subsidy and LGU-permit-friction story behind the "guerrilla solar" headlines, and give homeowners a single page to size their own roof against their own LGU's permit cost.
+[![CI](https://github.com/xmpuspus/ghost-watts/actions/workflows/ci.yml/badge.svg)](https://github.com/xmpuspus/ghost-watts/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
+[![Reproducible build](https://img.shields.io/badge/build-deterministic%20sha256%2056900722-success.svg)](#detection-pipeline-reproducible)
+[![F1 0.87](https://img.shields.io/badge/F1-0.87%20%40%20t%3D0.85-success.svg)](MODEL_CARD.md)
 
-Sibling project to ghostwatch in the civic-tech-PH arc.
+> Open-source rooftop solar detection from public satellite imagery across Greater Metro Manila. A frozen CLIP-ViT-L encoder plus a logistic-regression head, Platt-calibrated and bit-exact reproducible. F1 = 0.870 (precision 95.9%, recall 79.7%) at threshold 0.85 on an honest 20% held-out source-disjoint split.
 
-## What this is
+![ghost-watts map of detected rooftop solar across Greater Metro Manila](docs/screenshots/map-hero.gif)
 
-Three surfaces, two pipelines:
+<sub>Real recording of the `/map` page. (1) Survey of 515 rooftops across 41 cities (87% absent from any prior public solar map, 69.9 MWp aggregate). (2) Click into Quezon City and the sidebar surfaces 36 high-confidence detections, 27 newly identified, 15.6 MWp installed, plus thumbnails of the three largest installations the model found. (3) Zoom in further and click a single roof: per-building card returns kWp estimate, panel area, classifier confidence, OSM way id, and the link to confirm against the building footprint. No backend, all client-side.</sub>
 
-- `/` is a homeowner lookup. Drop an address, find the matching OpenStreetMap building, measure the roof from Esri imagery, run PVGIS-derived solar yield against the current Meralco rate. Surfaces verified case studies and CNN-detected rooftop solar within 1.5 km. All client-side, no backend.
-- `/map` aggregates a multi-signal solar-presence index per city/municipality across Meralco's franchise. Built on Sentinel-2, Landsat thermal, VIIRS nightlights, and ESA WorldCover, blended in Google Earth Engine. City-level resolution.
-- `detection/` is the per-roof CNN pipeline. Bootstraps a positive set from OpenStreetMap `power=generator + generator:source=solar` tags, trains a logistic-regression head on CLIP-ViT-L image embeddings, then tiles NCR on a 240m grid running the trained classifier. After an active-learning label cleanup pass (4 false-negative random tiles promoted to positives, 2 noisy case studies dropped), **clf_v3 hits F1 = 0.918, 99.1% precision at 70.5% recall** (5-fold group-aware CV, threshold 0.85). Full NCR scan: **114 high-confidence + 280 candidate detections, 79% NEW** (not in OSM). The v2.1 building-level layer (SAM + color signature + clf_v3 + OSM building footprints) outputs one polygon per OSM building with detected panels, with `kwp_estimate` and `panel_area_m2`. See `detection/README.md`.
+## What's in this repo
+
+- **`detection/`** -- the CNN detection pipeline. Bootstraps positives from OpenStreetMap, embeds 600x600 px Esri tiles with CLIP-ViT-L, trains a logistic-regression head with 5-fold group-aware CV, calibrates with Platt sigmoid on an honest 20% holdout, and tiles 16,544 cells across NCR on a 240 m grid. Four rounds of active learning on high-confidence false positives. Outputs per-building polygons via a SAM auto-mask + color-signature filter + OSM building intersection.
+- **`pipeline/`** -- the Earth Engine quarterly batch. Pulls Sentinel-2 NIR/SWIR median, Landsat thermal, and VIIRS nightlights over a region polygon, z-scores per signal across cities, blends into a composite, and emits a per-city GeoJSON. Independent of `detection/`; the two pipelines answer different questions at different resolutions.
+- **`site/`** -- the Astro static site. Three surfaces: a homeowner roof-lookup tool that runs entirely client-side, a city-level choropleth of detection density, and a methodology page.
+- **`scripts/plot_pr_curve.py`** -- regenerates PR + ROC + reliability diagrams from the calibration sweep. Run after every recalibration.
+- **`tests/`** -- pytest suite covering grid math, polygon helpers, quarter-to-date logic, and a classifier smoke test.
 
 ## What this is not
 
 - Not engineering advice. The homeowner tool is informational. Consult a certified installer.
-- Not address-level data. No PII is ingested or published.
-- Not a launch event. Per quiet-builder posture, this ships as reference documentation. People who care will find it.
+- Not address-level data. Polygons for buildings tagged `is_residential` are suppressed from the published per-building dataset; only commercial, industrial, and public-purpose roofs are released at sub-building resolution. The homeowner tool runs entirely client-side and never sees a server.
+- Not affiliated with Manila Electric Company. "Meralco" is referenced as the regulated distribution utility for the franchise area covered by this dataset.
 
-## Quickstart
+## Quickstart for researchers
 
-### Prerequisites
+The fastest path from `git clone` to a working classifier is under 5 minutes if you already have Python 3.11 and pip:
 
-- Python 3.11+
-- Node.js 20+ (for the Astro site)
-- A Google Earth Engine account with a service account credentials JSON. Sign up at https://earthengine.google.com if you don't have one.
+```bash
+git clone https://github.com/xmpuspus/ghost-watts
+cd ghost-watts
 
-### Run the quarterly pipeline
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# Train clf_v4 from the committed dataset_v4.npz embeddings.
+# Deterministic, no network, no GPU required. About 30 seconds on a laptop.
+make train
+make hash-verify        # asserts sha256 56900722a8427be4
+make calibrate          # fits Platt + isotonic, writes calibration.json
+make demo               # prints calibrated bundle summary
+pytest tests/ -q        # 11 tests, ~1 second
+```
+
+To render PR / ROC / reliability figures:
+
+```bash
+pip install matplotlib
+make plots              # writes to docs/figures/
+```
+
+## Quickstart for the site
+
+```bash
+cd site
+pnpm install
+pnpm dev                # http://localhost:4321
+pnpm typecheck
+pnpm build              # production build
+```
+
+## Detection pipeline (reproducible)
+
+The CNN detection pipeline (CLIP-ViT-L embeddings + logistic regression + Platt calibration) ships with a Makefile, a Dockerfile, and pinned Python dependencies. The trained classifier is bit-exact reproducible from the committed `detection/train/dataset_v4.npz` embeddings (~11 MB, in git).
+
+```bash
+# Local
+pip install -r requirements.txt
+make train
+make hash-verify        # asserts clf_v4.joblib sha256 prefix 56900722a8427be4
+
+# Docker
+docker build -t ghost-watts:latest .
+docker run --rm ghost-watts:latest                     # default: make hash
+docker run --rm ghost-watts:latest make hash-verify    # asserts the prefix
+docker run --rm -v $(pwd)/detection/scan/ncr_tiles:/app/detection/scan/ncr_tiles \
+    ghost-watts:latest make scan aggregate             # re-classify cached tiles
+```
+
+The image bundles `dataset_v4.npz` but not the raw NCR tile cache (~6.6 GB). Mount the cache as a volume for `make scan` and `make all`. See `Makefile` for every target.
+
+Encoder is locked to `openai/clip-vit-large-patch14` after an ablation against `facebook/dinov2-large` (4 pt F1 lower) and `allenai/satlas-pretrain` (14 pt F1 lower). See `MODEL_CARD.md` for the full table.
+
+Calibration is Platt sigmoid in production. Isotonic regression is run alongside and reported in `clf_v4_calibration.json` for comparison (isotonic has slightly lower Brier score; Platt wins on monotonicity and parameter count).
+
+## Earth Engine pipeline (quarterly)
+
+Quarterly batch that emits a per-city composite signal. Independent from the detection pipeline and only needed for the city-scale `/map` choropleth.
 
 ```bash
 cd pipeline
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# Set EE credentials
+# Set EE credentials (see .env.example)
 export EE_SERVICE_ACCOUNT="your-sa@your-project.iam.gserviceaccount.com"
 export EE_KEY_FILE="/path/to/your-key.json"
 
@@ -46,107 +110,64 @@ Outputs land in `site/public/data/`:
 - `ghost_watts_barangay_2026Q2.geojson` (drilldown for built-up barangays)
 - `ghost_watts_summary_2026Q2.json` (franchise totals)
 
-### Run the site locally
+See `site/public/data/SCHEMA.md` for the field-by-field schema and units.
 
-```bash
-cd site
-pnpm install
-pnpm dev
-```
+## Running on a different region
 
-Open http://localhost:4321.
-
-### Deploy (Vercel)
-
-One-time setup:
-
-```bash
-cd site
-pnpm install
-pnpm vercel link        # create the project, link this directory
-pnpm vercel --prod      # first manual deploy
-```
-
-When prompted by `vercel link`:
-
-- Set up and deploy: `Y`
-- Link to existing project: `N` (first time)
-- Project name: `ghost-watts`
-- In which directory is your code located: `./` (you're already inside `site/`)
-- Framework preset: Astro (auto-detected)
-
-After link, the `.vercel/` directory is created locally and gitignored. Subsequent deploys are automatic on push to `main`. Configure the GitHub integration in the Vercel dashboard so PR previews are also auto-built.
-
-Headers, caching, and CSP are in `site/vercel.json`. The pipeline data files (`/data/*.geojson`, `/data/*.json`) get a permissive CORS header so anyone can fetch them as a public dataset.
-
-CI (`/.github/workflows/ci.yml`) runs on every push and PR: type-check, build, pipeline syntax check, dry-run validation. Vercel handles the actual deploy on merge to `main`.
-
-### Detection pipeline (reproducible)
-
-The CNN detection pipeline (CLIP-ViT-L embeddings + logistic regression head + Platt calibration) ships with a Makefile, a Dockerfile, and pinned Python deps so the trained classifier is bit-exactly reproducible from the cached embeddings.
-
-```bash
-# Requires Python 3.11+ and the deps in requirements.txt at repo root.
-pip install -r requirements.txt
-
-# Train, calibrate, and verify deterministic hash from cached dataset_v4.npz
-make train
-make calibrate
-make hash    # should print: clf_v4.joblib sha256: 15564df477c961f2
-
-# Score a single tile through the calibrated bundle
-make demo
-
-# Full pipeline including the NCR scan (requires cached imagery in detection/scan/ncr_tiles/)
-make all
-```
-
-**Docker smoke test** — `docker build -t ghost-watts:latest . && docker run ghost-watts:latest` should print the same `15564df477c961f2` sha256 for `clf_v4.joblib`. The image bundles `dataset_v4.npz` (the CLIP-embedded training set, ~8 MB) but not the raw imagery; mount `detection/scan/ncr_tiles/` as a volume to re-run the NCR scan.
-
-```bash
-docker build -t ghost-watts:latest .
-docker run --rm ghost-watts:latest                        # prints classifier hash
-docker run --rm -v $(pwd)/detection/scan/ncr_tiles:/app/detection/scan/ncr_tiles \
-    ghost-watts:latest make scan aggregate                # re-classify cached tiles
-```
-
-Encoder is locked to `openai/clip-vit-large-patch14` after a Phase 3 ablation against `facebook/dinov2-large` and `satlas:Aerial_SwinB_SI` — both lost decisively (DINOv2 -4 pt F1, satlas -14 pt F1 on the calibrated holdout).
+The pipeline is decoupled from Meralco / NCR. To run it on any other Philippine region (Cebu, Davao, Iloilo, Cagayan de Oro) or any geography worldwide, supply a region polygon GeoJSON. See [`examples/run_on_new_region.md`](examples/run_on_new_region.md).
 
 ## Project layout
 
 ```
 ghost-watts/
-├── pipeline/
-│   ├── pipeline.py             # Earth Engine driver, multi-signal band math
-│   ├── validate.py             # Schema and sanity checks for quarterly outputs
-│   ├── scrape_meralco.py       # Public-page scraper with manual fallback
-│   ├── lgu_friction.json       # Hand-curated LGU permit cost and delay table
-│   ├── meralco_aggregates.json # Quarterly Meralco/DOE registered counts (sourced)
-│   ├── franchise_cities.json   # 50 cities/municipalities in Meralco's franchise
-│   └── requirements.txt
-├── site/                       # Astro static site, MapLibre + OSM
-│   ├── public/data/            # Quarterly GeoJSON drops
-│   └── src/
-│       ├── layouts/
-│       ├── pages/
-│       │   ├── index.astro
-│       │   ├── map.astro
-│       │   ├── me.astro
-│       │   ├── methodology.astro
-│       │   └── post/
-│       └── components/
-├── docs/
-│   ├── superpowers/specs/
-│   │   └── 2026-05-08-ghost-watts-design.md   # The locked design spec
-│   └── research/
-│       └── policy-context.md   # Source material for the writeup
-├── LICENSE                     # MIT for code, CC-BY-4.0 for data
-└── README.md
+|-- detection/
+|   |-- bootstrap/          # OSM Overpass + Esri tile fetch
+|   |-- buildings/          # Overpass building-lookup helper
+|   |-- train/              # CLIP embedding + LogisticRegression head
+|   |   `-- v4_calibrated/  # Honest 20% holdout + Platt + isotonic
+|   |-- scan/               # 240m-grid classifier + SAM segmentation
+|   |-- verify/             # Active-learning UI scaffolding
+|   `-- README.md
+|-- pipeline/               # Earth Engine quarterly batch
+|   |-- pipeline.py
+|   |-- validate.py
+|   |-- scrape_meralco.py
+|   |-- lgu_friction.json
+|   |-- franchise_cities.json
+|   |-- boundaries/
+|   `-- requirements.txt
+|-- site/                   # Astro static site, MapLibre + OSM
+|   |-- public/data/        # Quarterly GeoJSON drops + per-building polygons
+|   |   `-- SCHEMA.md       # Schema for every published file
+|   |-- src/
+|   |   |-- components/     # RoofLookup (roof tool), MapView, Header, Footer
+|   |   `-- pages/          # index, map, methodology, safety, post/
+|   `-- vercel.json         # CSP, headers, redirects
+|-- scripts/
+|   `-- plot_pr_curve.py    # PR + ROC + reliability figures
+|-- tests/                  # pytest suite (11 tests, no network)
+|-- docs/
+|   |-- figures/            # Regenerated by `make plots`
+|   |-- screenshots/        # README hero
+|   `-- research/           # Source material for the writeup
+|-- examples/
+|   `-- run_on_new_region.md
+|-- MODEL_CARD.md           # Intended use, biases, ethics, citation
+|-- CITATION.cff
+|-- CHANGELOG.md
+|-- CONTRIBUTING.md
+|-- CODE_OF_CONDUCT.md
+|-- SECURITY.md
+|-- Makefile                # train / calibrate / scan / aggregate / hash-verify / plots
+|-- Dockerfile              # Deterministic build, ships dataset_v4.npz
+|-- requirements.txt        # Detection pipeline deps (== pinned)
+|-- LICENSE                 # MIT (code) + CC-BY-4.0 (data)
+`-- README.md
 ```
 
 ## Quarterly refresh cadence
 
-Roughly six hours of work per quarter. Annual LGU table refresh adds three hours once a year.
+About six hours of work per quarter. Annual LGU table refresh adds three hours once a year.
 
 | Step | Time | Notes |
 |---|---|---|
@@ -157,28 +178,34 @@ Roughly six hours of work per quarter. Annual LGU table refresh adds three hours
 | 5. Write quarterly post | 1-3h | Optional. Skip if no story this quarter |
 | 6. Methodology review | 15m | Add new caveats if surfaced |
 | 7. Commit + deploy | 5m | `git push origin main`, Vercel auto-deploys. Tag release `ghost-watts-YYYYQN` |
-| 8. Distribution | 15m | Optional LinkedIn share, optional DM to ICSC. Skip HN/Reddit/X |
+| 8. Distribution | 15m | Optional LinkedIn share, optional issue/PR routing. Skip HN/Reddit/X |
 
 ## Methodology in one paragraph
 
-Every quarter, Earth Engine pulls Sentinel-2 NIR/SWIR median, Landsat 8/9 land surface temperature, and VIIRS DNB nightlights over the Meralco franchise polygon. Each signal is reduced to per-city statistics, z-scored across cities, and weighted (0.4 NIR, 0.3 SWIR, 0.2 LST, 0.1 nightlight) into a composite score. ESA WorldCover masks vegetation and water. Microsoft GlobalMLBuildingFootprints provides per-city building counts as a denominator. The composite score correlates with rooftop PV adoption but does not prove it; we are explicit that the signal is suggestive, not diagnostic, at city scale. See `/methodology` on the site for the full algorithm and caveats.
+Every quarter, Earth Engine pulls Sentinel-2 NIR/SWIR median, Landsat 8/9 land surface temperature, and VIIRS DNB nightlights over the region polygon. Each signal is reduced to per-city statistics, z-scored across cities, and weighted (0.4 NIR, 0.3 SWIR, 0.2 LST, 0.1 nightlight) into a composite score. ESA WorldCover masks vegetation and water. Microsoft GlobalMLBuildingFootprints provides per-city building counts as a denominator. The composite score correlates with rooftop PV adoption but does not prove it; we are explicit that the signal is suggestive, not diagnostic, at city scale. See `/methodology` on the site for the full algorithm and caveats.
 
 ## License
 
-Code: MIT. Data products in `site/public/data/`: CC-BY-4.0. Cite as "ghost-watts (YYYY-QN), https://github.com/xmpuspus/ghost-watts."
+Code: MIT. Data products in `site/public/data/`: CC-BY-4.0. Cite as `ghost-watts (YYYY-QN), https://github.com/xmpuspus/ghost-watts`. See `CITATION.cff` for the canonical citation, `MODEL_CARD.md` for intended use and biases, and `SECURITY.md` for the threat model.
+
+Author: Xavier Puspus.
 
 ## Contributing
 
-The LGU friction table is the highest-value contribution. If you have verified permit cost and delay data for a city or municipality in Meralco's franchise, open a PR against `pipeline/lgu_friction.json` with a source URL. See `pipeline/lgu_friction.json` for current coverage and gaps.
+Highest-value contributions, in priority order:
+
+1. Verified false-positive reports on detections in the published per-building dataset.
+2. LGU permit cost and delay data for cities not in `pipeline/lgu_friction.json`.
+3. Region extensions to another Philippine geography outside the Meralco franchise (e.g., Cebu, Davao, Iloilo, Cagayan de Oro).
+4. Encoder ablation submissions against Prithvi, SkySense, SatMAE, CLIPSeg.
+5. Code review and bug fixes.
+
+See `CONTRIBUTING.md` for the full dev setup and PR conventions, and `.github/ISSUE_TEMPLATE/` for issue templates.
 
 ## References
 
-- Manila Times, "A brewing solar controversy" (2026-05-07): https://www.manilatimes.net/2026/05/07/opinion/columns/a-brewing-solar-controversy/2337415
-- CleanTechnica, "Guerilla Solar Installations Discovered" (2026-05-04): https://cleantechnica.com/2026/05/04/guerilla-solar-installations-discovered-need-to-be-controlled-says-philippine-power-distributor/
-- Tribune, "Meralco Seeks Crackdown" (2026-05-07): https://tribune.net.ph/2026/05/07/meralco-seeks-crackdown-on-guerrilla-solar-installations
-- Inquirer Opinion, "Guerrilla solar installers in summer of discontent": https://opinion.inquirer.net/191526/guerrilla-solar-installers-in-summer-of-discontent
-- pv-magazine, "Philippines accelerates permits for solar net-metering" (2026-02-04): https://www.pv-magazine.com/2026/02/04/philippines-accelerates-permits-for-solar-net-metering/
-- Power Philippines, "Inconsistent LGU Permits Stalling Rooftop Solar Growth": https://powerphilippines.com/inconsistent-lgu-permits-stalling-rooftop-solar-growth-expert-warns/
-- Power Philippines (2019), "Meralco junks bid for full-rate compensation": https://powerphilippines.com/meralco-junks-bid-for-full-rate-compensation-to-net-metering-customers-warns-of-higher-generation-cost-to-other-end-users/
-- DeepSolar (Stanford), the methodology precedent: https://www.sciencedirect.com/science/article/pii/S2542435118305701
-- ICSC (Institute for Climate and Sustainable Cities): https://icsc.ngo
+- DeepSolar (Stanford), Joule 2018: https://www.sciencedirect.com/science/article/pii/S2542435118305701
+- ESA WorldCover v200: https://esa-worldcover.org
+- PVGIS, European Commission JRC: https://re.jrc.ec.europa.eu/pvg_tools/en/
+- Segment Anything (Meta, 2023): https://segment-anything.com
+- CLIP (OpenAI, 2021): https://openai.com/research/clip

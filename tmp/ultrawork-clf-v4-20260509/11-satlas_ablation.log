@@ -1,9 +1,0 @@
-[ablation] 412 pos sources, 196 neg sources
-[ablation] 3040 total rows assembled in 5.6s
-[ablation] loading encoder satlas:Aerial_SwinB_SI on mps
-[ablation] embedding 3040 images...
-[ablation] embed time: 322.6s; X.shape=(3040, 1024)
-[ablation] LOSO best F1: {'f1': 0.9223529411764706, 'threshold': 0.3746193193347789, 'tp': 392, 'fp': 46, 'fn': 20, 'tn': 150, 'precision': 0.8949771689497716, 'recall': 0.9514563106796117}
-[ablation] LOSO @t=0.85: {'threshold': 0.85, 'tp': 206, 'fp': 9, 'fn': 206, 'tn': 187, 'precision': 0.958139534883721, 'recall': 0.5, 'f1': 0.6570972886762361}
-[ablation] calibrated @t=0.85: {'threshold': 0.85, 'tp': 36, 'fp': 4, 'fn': 23, 'tn': 35, 'precision': 0.9, 'recall': 0.6101694915254238, 'f1': 0.7272727272727273}
-[ablation] saved -> /Users/xavier/Desktop/ghost-watts/detection/train/v4_calibrated/ablation/satlas_Aerial_SwinB_SI/metrics.json

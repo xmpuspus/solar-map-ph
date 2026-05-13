@@ -26,7 +26,9 @@ from pathlib import Path
 
 import joblib
 import numpy as np
+from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import brier_score_loss
 
 ROOT = Path(__file__).resolve().parents[3]
 DATASET = ROOT / "detection" / "train" / "dataset_v4.npz"
@@ -70,6 +72,20 @@ def main() -> int:
         return 1.0 / (1.0 + np.exp(-(A * raw + B)))
 
     cal_holdout = calibrate(raw_holdout)
+
+    # ===== 3b. Alternative: isotonic regression, for comparison =====
+    # Isotonic is non-parametric and often beats Platt when the decision
+    # function distribution isn't sigmoidal. We fit on the holdout and report
+    # Brier score for both methods. Production stays on Platt for now (smooth,
+    # monotone, fewer parameters), but the comparison is here to justify it.
+    iso = IsotonicRegression(out_of_bounds="clip")
+    iso.fit(raw_holdout, y_holdout)
+    iso_holdout = iso.predict(raw_holdout)
+    brier_platt = float(brier_score_loss(y_holdout, cal_holdout))
+    brier_iso = float(brier_score_loss(y_holdout, iso_holdout))
+    brier_uncal = float(brier_score_loss(y_holdout, uncal_holdout))
+    print(f"Brier score (lower=better): "
+          f"uncalibrated={brier_uncal:.4f}  Platt={brier_platt:.4f}  isotonic={brier_iso:.4f}")
 
     # ===== 4. Source-level holdout: max calibrated score per source =====
     src_max_cal = {}
@@ -136,6 +152,12 @@ def main() -> int:
 
     calib_summary = {
         "platt": {"A": A, "B": B, "formula": "P = sigmoid(A * decision_function(x) + B)"},
+        "brier_scores": {
+            "uncalibrated": brier_uncal,
+            "platt": brier_platt,
+            "isotonic": brier_iso,
+            "note": "Lower is better. Platt is shipped; isotonic shown for comparison.",
+        },
         "split_seed": json.loads(SPLIT.read_text())["seed"],
         "n_holdout_pos_sources": len(pos_cal),
         "n_holdout_neg_sources": len(neg_cal),

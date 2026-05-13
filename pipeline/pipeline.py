@@ -69,6 +69,23 @@ def parse_args() -> argparse.Namespace:
         help="Local scratch dir for intermediate artifacts",
     )
     p.add_argument("--dry-run", action="store_true", help="Skip EE auth and emit a stub manifest only")
+    p.add_argument(
+        "--region-polygons",
+        default=str(PIPELINE_DIR / "boundaries" / "franchise_cities_polygons.geojson"),
+        help=(
+            "Path to a GeoJSON FeatureCollection of city/region polygons. "
+            "Each feature must carry properties.name, properties.psgc_code, and properties.province "
+            "(or your region's equivalent admin keys). Defaults to the Meralco franchise polygons."
+        ),
+    )
+    p.add_argument(
+        "--region-cities-json",
+        default=str(PIPELINE_DIR / "franchise_cities.json"),
+        help=(
+            "Path to the cities/municipalities index JSON the pipeline iterates over. "
+            "Defaults to the Meralco franchise list. Replace with your own to run on a new region."
+        ),
+    )
     return p.parse_args()
 
 
@@ -104,9 +121,16 @@ def quarter_to_dates(quarter: str) -> tuple[date, date]:
     return start, end
 
 
-def load_franchise_cities() -> list[dict[str, Any]]:
-    path = PIPELINE_DIR / "franchise_cities.json"
-    with path.open() as f:
+def load_franchise_cities(path: Path | None = None) -> list[dict[str, Any]]:
+    """Load the list of cities/municipalities to scan.
+
+    Defaults to ``franchise_cities.json`` (Meralco), but accepts any JSON file
+    with the same shape: top-level keys map to either lists of city dicts or
+    metadata (any key starting with ``_`` is skipped).
+    """
+    if path is None:
+        path = PIPELINE_DIR / "franchise_cities.json"
+    with Path(path).open() as f:
         raw = json.load(f)
     cities: list[dict[str, Any]] = []
     for key, value in raw.items():
@@ -117,18 +141,22 @@ def load_franchise_cities() -> list[dict[str, Any]]:
     return cities
 
 
-def load_boundary_polygons() -> dict[str, dict[str, Any]]:
-    """Load city polygons from the locally-shipped GeoJSON.
+def load_boundary_polygons(path: Path | None = None) -> dict[str, dict[str, Any]]:
+    """Load city polygons from a GeoJSON FeatureCollection.
 
-    The repo ships ``boundaries/franchise_cities_polygons.geojson`` (fetched once
-    via ``fetch_boundaries.py`` from OSM Nominatim) because FAO/GAUL only exposes
-    province-level admin units for the Philippines. Returns dict keyed by PSGC code.
+    Defaults to ``boundaries/franchise_cities_polygons.geojson`` for the
+    Meralco franchise. Pass an explicit path to run the pipeline on a
+    different region (a custom FC with the same property keys works fine).
+    Returns dict keyed by PSGC (or whatever ``psgc_code`` field your region uses).
     """
-    if not BOUNDARIES_PATH.exists():
+    if path is None:
+        path = BOUNDARIES_PATH
+    path = Path(path)
+    if not path.exists():
         raise SystemExit(
-            f"Missing {BOUNDARIES_PATH}. Run: python fetch_boundaries.py first."
+            f"Missing {path}. Run: python fetch_boundaries.py first, or pass --region-polygons explicitly."
         )
-    with BOUNDARIES_PATH.open() as f:
+    with path.open() as f:
         fc = json.load(f)
     by_psgc: dict[str, dict[str, Any]] = {}
     for feat in fc.get("features", []):
@@ -306,7 +334,15 @@ def compute_signals_for_city(
     built_mask = get_built_up_mask(geom)
 
     baseline_start = date(baseline_year, quarter_start.month, 1)
-    baseline_end = date(baseline_year, quarter_end.month, quarter_end.day)
+    # Clamp the baseline end-of-month day to whatever the baseline-year month
+    # actually has. Without this, a leap-year quarter (Feb 29) against a
+    # non-leap baseline year throws ValueError on date(2022, 2, 29).
+    import calendar
+    baseline_end_day = min(
+        quarter_end.day,
+        calendar.monthrange(baseline_year, quarter_end.month)[1],
+    )
+    baseline_end = date(baseline_year, quarter_end.month, baseline_end_day)
 
     s2 = "COPERNICUS/S2_SR_HARMONIZED"
     landsat = "LANDSAT/LC09/C02/T1_L2"
@@ -504,9 +540,9 @@ def write_outputs(
     print(f"Updated {manifest_path}")
 
 
-def write_dry_run_stub(quarter: str, out_dir: Path) -> None:
+def write_dry_run_stub(quarter: str, out_dir: Path, cities_path: Path | None = None) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    cities = load_franchise_cities()
+    cities = load_franchise_cities(cities_path)
     fc = {
         "type": "FeatureCollection",
         "features": [],
@@ -528,33 +564,49 @@ def main() -> int:
     args = parse_args()
     out_dir = Path(args.out_dir)
     if args.dry_run:
-        write_dry_run_stub(args.quarter, out_dir)
+        write_dry_run_stub(args.quarter, out_dir, Path(args.region_cities_json))
         return 0
 
     initialize_ee()
     quarter_start, quarter_end = quarter_to_dates(args.quarter)
     baseline_year = int(args.baseline)
-    cities = load_franchise_cities()
-    polygons = load_boundary_polygons()
+    cities = load_franchise_cities(Path(args.region_cities_json))
+    polygons = load_boundary_polygons(Path(args.region_polygons))
     print(
         f"Processing {len(cities)} cities for {args.quarter} (baseline {args.baseline}), "
         f"{len(polygons)} polygons available"
     )
 
     results: list[CityResult] = []
+    n_failed = 0
     for i, city in enumerate(cities, start=1):
         print(f"[{i}/{len(cities)}] {city['name']}")
         try:
             r = compute_signals_for_city(city, quarter_start, quarter_end, baseline_year, polygons)
         except Exception as exc:
-            print(f"  failed: {exc}", file=sys.stderr)
+            print(f"  failed for {city['name']}: {type(exc).__name__}: {exc}", file=sys.stderr)
             r = None
+            n_failed += 1
         if r is not None:
             results.append(r)
 
     if not results:
         print("No city signals computed; bailing out.", file=sys.stderr)
         return 1
+
+    # Refuse a degraded run: if more than 20% of cities failed, the per-city
+    # composite distribution is no longer representative and downstream z-scores
+    # will be biased. Fail loud so the operator notices instead of shipping a
+    # half-empty GeoJSON that looks successful at a glance.
+    failure_rate = n_failed / max(1, len(cities))
+    if failure_rate > 0.20:
+        print(
+            f"degraded run: {n_failed}/{len(cities)} cities failed ({failure_rate:.0%}). "
+            "Fix the upstream issue (likely EE auth or quota) and re-run. "
+            "Re-runs are safe: results are recomputed from scratch.",
+            file=sys.stderr,
+        )
+        return 2
 
     compute_z_scores_and_composite(results)
     write_outputs(results, args.quarter, args.baseline, out_dir)

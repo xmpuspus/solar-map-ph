@@ -1,8 +1,14 @@
 {
   "platt": {
-    "A": 1.2543614558828584,
-    "B": 0.45274801495234507,
+    "A": 1.2543614558828626,
+    "B": 0.4527480149523417,
     "formula": "P = sigmoid(A * decision_function(x) + B)"
+  },
+  "brier_scores": {
+    "uncalibrated": 0.07942579682145832,
+    "platt": 0.07431758572400692,
+    "isotonic": 0.06699748402218865,
+    "note": "Lower is better. Platt is shipped; isotonic shown for comparison."
   },
   "split_seed": 4242,
   "n_holdout_pos_sources": 59,

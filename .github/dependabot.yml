@@ -1,0 +1,82 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      ml-stack:
+        patterns:
+          - "torch"
+          - "transformers"
+          - "scikit-learn"
+          - "joblib"
+          - "huggingface-hub"
+          - "safetensors"
+          - "tokenizers"
+      image-stack:
+        patterns:
+          - "pillow"
+          - "segment-anything"
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  - package-ecosystem: "pip"
+    directory: "/pipeline"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "pipeline"
+    commit-message:
+      prefix: "deps(pipeline)"
+
+  - package-ecosystem: "npm"
+    directory: "/site"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      astro:
+        patterns:
+          - "astro"
+          - "@astrojs/*"
+      map:
+        patterns:
+          - "maplibre-gl"
+          - "@turf/*"
+          - "d3-scale-chromatic"
+    labels:
+      - "dependencies"
+      - "site"
+    commit-message:
+      prefix: "deps(site)"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependencies"
+      - "ci"
+    commit-message:
+      prefix: "deps(ci)"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "deps(docker)"

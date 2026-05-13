@@ -1,0 +1,48 @@
+name: False-positive detection report
+description: A specific building in the published dataset that does not actually have solar.
+title: "[false-positive] osm_id="
+labels: ["false-positive", "data-quality"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We rely on the community to surface false positives. This is the single highest-value detection-quality contribution.
+
+  - type: input
+    id: osm-id
+    attributes:
+      label: Building OSM id
+      description: The `building_osm_id` from `site/public/data/per_building_solar_ncr.geojson`.
+      placeholder: "123456789"
+    validations:
+      required: true
+
+  - type: input
+    id: osm-type
+    attributes:
+      label: OSM type
+      placeholder: "way or relation"
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What you see at that location
+      description: A description of what's actually on that roof. A current photo or a recent satellite screenshot is ideal.
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Verification source
+      description: Recent street view, owner contact, ground-truth photo, or "I drove past it on YYYY-MM-DD".
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I have NOT included a private resident's address, name, or contact information in this report.
+          required: true

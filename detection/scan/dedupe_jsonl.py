@@ -4,13 +4,13 @@ Phase 5's extended-bbox scan (14.20,120.88,14.85,121.22) generates a 240m grid
 that is shifted ~100m from the original NCR grid (14.40,120.92,14.78,121.13).
 Inside the NCR area both grids coexist after the scan: the original 16,544
 NCR records + ~16,000 new-grid records covering the same NCR area at a 100m
-offset. This is NOT a duplicate — they're adjacent cells with full 240m
+offset. This is NOT a duplicate -- they're adjacent cells with full 240m
 extents that overlap. But for the public GeoJSON we want clean, non-overlapping
 NCR coverage at the original grid plus new coverage in the franchise extension.
 
 Strategy:
   - Keep every record whose lat,lon is OUTSIDE the original NCR bbox (these are
-    the new-franchise records — Bulacan, Cavite, Rizal, Laguna).
+    the new-franchise records -- Bulacan, Cavite, Rizal, Laguna).
   - For records INSIDE the original NCR bbox: keep only the ORIGINAL grid
     (the first batch of 16,544 records, identifiable by their grid origin).
 
@@ -77,7 +77,7 @@ def main() -> int:
                 continue
             lat, lon = r["lat"], r["lon"]
             if in_ncr(lat, lon) and not is_orig_grid(lat, lon):
-                # Inside NCR but on the new (offset) grid — drop, original grid covers this
+                # Inside NCR but on the new (offset) grid -- drop, original grid covers this
                 n_drop_ncr_offgrid += 1
                 continue
             seen_ids.add(tid)

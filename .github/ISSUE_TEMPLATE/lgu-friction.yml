@@ -1,0 +1,63 @@
+name: LGU permit data
+description: Verified permit cost or delay data for a Local Government Unit not yet in our table.
+title: "[lgu] "
+labels: ["lgu-friction", "data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Verified LGU permit data is the highest-value contribution to ghost-watts. Thank you.
+
+        Submit one LGU per issue so each can be reviewed and merged independently.
+
+  - type: input
+    id: city
+    attributes:
+      label: City or municipality
+      placeholder: "Quezon City"
+    validations:
+      required: true
+
+  - type: input
+    id: province
+    attributes:
+      label: Province
+      placeholder: "Metro Manila / Rizal / Laguna / etc."
+    validations:
+      required: true
+
+  - type: input
+    id: permit-cost
+    attributes:
+      label: Permit cost (PHP) for a typical 5 kWp residential installation
+      placeholder: "16000"
+    validations:
+      required: true
+
+  - type: input
+    id: typical-days
+    attributes:
+      label: Typical processing time (working days)
+      placeholder: "21"
+
+  - type: input
+    id: as-of
+    attributes:
+      label: Data as-of date (YYYY-MM-DD)
+      placeholder: "2026-05-01"
+    validations:
+      required: true
+
+  - type: input
+    id: source-url
+    attributes:
+      label: Source URL or document
+      description: Link to the LGU notice, a news article, or a verified social-media post.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Anything else reviewers should know (e.g., "fee waived for low-income housing", "30-day adoption of new DOE circular pending").

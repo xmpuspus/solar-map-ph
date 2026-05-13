@@ -2,7 +2,11 @@
 # Smoke test: `docker build -t ghost-watts:latest . && docker run ghost-watts:latest make hash`
 # should produce the same sha256 as the host build, given the same dataset_v4.npz.
 
-FROM python:3.12-slim
+# Pinned to a specific Debian + Python patch level for deterministic builds.
+# Refresh quarterly during the LGU table refresh. To bump:
+#   docker pull python:3.12-slim-bookworm
+#   docker image inspect python:3.12-slim-bookworm --format '{{index .RepoDigests 0}}'
+FROM python:3.12-slim-bookworm
 
 # System deps for sklearn/torch/PIL (libgomp1 for OpenMP, libgl1 for opencv-style stacks)
 RUN apt-get update && apt-get install -y --no-install-recommends \

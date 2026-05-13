@@ -1,11 +1,13 @@
-"""Python port of BubongTool's fetchBuildings/pickBuilding.
+"""Overpass-API building lookup for ghost-watts.
 
 Queries Overpass for OSM building polygons within a radius of a point.
-Returns shapely Polygons + metadata. Used by per-building solar localization.
+Returns shapely-style polygon records plus metadata. Used by the per-building
+solar localization stage and by the homeowner roof-lookup tool on the site.
 
-This is the source of truth for building geometry in ghost-watts. Microsoft
-Building Footprints would be a higher-coverage alternative, but BubongTool
-already uses Overpass + OSM and our user-facing UX is anchored to OSM IDs.
+OSM is the source of truth for building geometry in ghost-watts. Microsoft
+Building Footprints would be a higher-coverage alternative, but the
+user-facing site already keys off OSM building IDs, so we keep one canonical
+ID space across the pipeline and the UI.
 """
 
 from __future__ import annotations
@@ -48,7 +50,8 @@ class BuildingFeature:
         }
 
 
-# Same lists as BubongTool.astro
+# Shared with the site's RoofLookup component so building classification is
+# consistent across the pipeline and the homeowner UI.
 RESIDENTIAL_TAGS = {
     "house", "residential", "detached", "semidetached_house", "terrace",
     "apartments", "bungalow", "cabin", "dormitory", "barracks",
@@ -62,7 +65,7 @@ COMMERCIAL_TAGS = {
 
 
 def overpass_buildings(lat: float, lon: float, radius_m: float = 200) -> list[dict]:
-    """Run the Overpass query (same shape as BubongTool's fetchBuildings)."""
+    """Run the Overpass building-within-radius query."""
     query = (
         "[out:json][timeout:25];("
         f'way["building"](around:{radius_m},{lat},{lon});'

@@ -194,7 +194,7 @@ const headerCopy = {
     return interpolateRdYlBu(0.5 - t * 0.45);
   }
 
-  function buildLegendGradient(max: number): string {
+  function buildLegendGradient(_max: number): string {
     const stops: string[] = [];
     for (let i = 0; i <= 10; i++) {
       const t = i / 10;
@@ -433,7 +433,7 @@ const headerCopy = {
       // OSM-status (NEW vs CONFIRMED) so the dot layer adds information the
       // choropleth doesn't. Fades out at street zoom so the building polygons
       // become the primary representation.
-      const highFeatures = {
+      const highFeatures: any = {
         type: "FeatureCollection",
         features: detections.features.filter((f: any) => f.properties.tier === "high"),
       };
@@ -468,7 +468,7 @@ const headerCopy = {
       // Orphans: high-conf detections without a SAM building match. Dim ring
       // at tile center starting at z13 so the user can still click them at
       // street zoom and see the orphan-detection card.
-      const orphanFeatures = {
+      const orphanFeatures: any = {
         type: "FeatureCollection",
         features: detections.features
           .filter((f: any) => f.properties.tier === "high" && !f.properties.anchored_to_building),
@@ -487,7 +487,6 @@ const headerCopy = {
           "circle-color": "transparent",
           "circle-stroke-color": "#d97757",
           "circle-stroke-width": 1.4,
-          "circle-stroke-dasharray": [2, 2],
           "circle-stroke-opacity": 0.7,
         },
       });
@@ -687,14 +686,14 @@ const headerCopy = {
       }
 
       const score = Number(props.tile_score ?? props.score ?? 0);
-      document.getElementById("det-score")!.textContent = score ? `${Math.round(score * 100)}%` : "—";
+      document.getElementById("det-score")!.textContent = score ? `${Math.round(score * 100)}%` : "-";
       document.getElementById("det-kwp")!.textContent = props.kwp_estimate
         ? fmtKwp(Number(props.kwp_estimate))
-        : "—";
+        : "-";
       document.getElementById("det-btype")!.textContent = props.building_type || "unspecified";
       document.getElementById("det-area")!.textContent = props.panel_area_m2
         ? `${Math.round(Number(props.panel_area_m2))} m²`
-        : "—";
+        : "-";
       document.getElementById("det-osm")!.textContent =
         status === "confirmed" ? "corroborated within 200 m" : status === "candidate" ? "below threshold" : "no prior record";
 
@@ -790,7 +789,7 @@ const headerCopy = {
           <div class="absolute top-2 left-2 bg-[#d97757] text-white px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider">#${i + 1}</div>
         </div>
         <div class="p-4 flex-1 flex flex-col">
-          <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">${province || "—"}</p>
+          <p class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">${province || "-"}</p>
           <h3 class="text-lg font-semibold text-ink-900 mt-0.5 mb-1 leading-tight">${cityName}</h3>
           <p class="text-xs text-ink-500 mb-3 leading-relaxed">${buildingDescription(p, installStatus)}</p>
           <dl class="grid grid-cols-2 gap-y-1 gap-x-3 text-[11px] font-mono tabular-nums mt-auto">
