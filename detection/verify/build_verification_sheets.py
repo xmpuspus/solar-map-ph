@@ -90,7 +90,7 @@ def main() -> int:
     for page in range(pages):
         sheet = Image.new("RGB", (sheet_w, sheet_h), "white")
         draw = ImageDraw.Draw(sheet)
-        page_feats = high[page * page_size:(page + 1) * page_size]
+        page_feats = high[page * page_size : (page + 1) * page_size]
         for i, f in enumerate(page_feats):
             tid = f["properties"]["tile_id"]
             tile_path = TILES / f"{tid}.jpg"
@@ -128,18 +128,20 @@ def main() -> int:
             draw.text((x + 8, y + THUMB + 6), line1, fill="white", font=font)
             draw.text((x + 8, y + THUMB + 36), line2, fill="white", font=font_small)
 
-            tag_rows.append({
-                "tile_id": tid,
-                "idx": global_idx,
-                "page": page,
-                "cell": i,
-                "score": score,
-                "lat": lat,
-                "lon": lon,
-                "osm_nearest_m": osm_m,
-                "osm_status": status,
-                "label": existing.get(tid),
-            })
+            tag_rows.append(
+                {
+                    "tile_id": tid,
+                    "idx": global_idx,
+                    "page": page,
+                    "cell": i,
+                    "score": score,
+                    "lat": lat,
+                    "lon": lon,
+                    "osm_nearest_m": osm_m,
+                    "osm_status": status,
+                    "label": existing.get(tid),
+                }
+            )
         out_path = OUT_DIR / f"page_{page:02d}.png"
         sheet.save(out_path, optimize=True)
         print(f"[verify] wrote {out_path}")

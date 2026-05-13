@@ -138,21 +138,25 @@ def main() -> int:
         else:
             point_lat, point_lon = rec["lat"], rec["lon"]
             anchored = False
-        feats.append({
-            "type": "Feature",
-            "geometry": {"type": "Point", "coordinates": [point_lon, point_lat]},
-            "properties": {
-                "tile_id": tid,
-                "score": round(score, 3),
-                "tier": tier,
-                "tile_bbox": [
-                    rec["lon"] - HALF_DEGREE, rec["lat"] - HALF_DEGREE,
-                    rec["lon"] + HALF_DEGREE, rec["lat"] + HALF_DEGREE,
-                ],
-                "tile_center": [rec["lon"], rec["lat"]],
-                "anchored_to_building": anchored,
-            },
-        })
+        feats.append(
+            {
+                "type": "Feature",
+                "geometry": {"type": "Point", "coordinates": [point_lon, point_lat]},
+                "properties": {
+                    "tile_id": tid,
+                    "score": round(score, 3),
+                    "tier": tier,
+                    "tile_bbox": [
+                        rec["lon"] - HALF_DEGREE,
+                        rec["lat"] - HALF_DEGREE,
+                        rec["lon"] + HALF_DEGREE,
+                        rec["lat"] + HALF_DEGREE,
+                    ],
+                    "tile_center": [rec["lon"], rec["lat"]],
+                    "anchored_to_building": anchored,
+                },
+            }
+        )
 
     # OSM cross-match
     osm_pts = []
@@ -176,13 +180,18 @@ def main() -> int:
                 best = (d, oloc)
         nearest_d, nearest_loc = best
         confirmed = nearest_d <= DISTANCE_M_CONFIRMED
-        match_rows.append({
-            "tile_id": f["properties"]["tile_id"],
-            "lat": lat, "lon": lon, "tier": tier, "score": score,
-            "nearest_osm_m": round(nearest_d, 1),
-            "nearest_osm_location": nearest_loc,
-            "status": "confirmed" if confirmed else "new",
-        })
+        match_rows.append(
+            {
+                "tile_id": f["properties"]["tile_id"],
+                "lat": lat,
+                "lon": lon,
+                "tier": tier,
+                "score": score,
+                "nearest_osm_m": round(nearest_d, 1),
+                "nearest_osm_location": nearest_loc,
+                "status": "confirmed" if confirmed else "new",
+            }
+        )
         if tier == "high":
             confirmed_high += confirmed
             new_high += not confirmed
@@ -204,7 +213,12 @@ def main() -> int:
             "encoder": "openai/clip-vit-large-patch14",
             "classifier": "clf_v4.joblib",
             "training_set": "294 OSM-tagged + 4 case-study + 4 promoted-rneg + 111 v3conf (active-learning round 2) positives, 197 negatives (46 GT + 150 random NCR + 1 v3fp); 2 noisy cases dropped",
-            "v4_loso_at_t085": {"precision": 0.988, "recall": 0.772, "f1": 0.867, "from": "5-fold group-aware CV"},
+            "v4_loso_at_t085": {
+                "precision": 0.988,
+                "recall": 0.772,
+                "f1": 0.867,
+                "from": "5-fold group-aware CV",
+            },
             "v4_calibrated_holdout_at_t085": {
                 "precision": 0.959,
                 "recall": 0.797,
@@ -216,23 +230,32 @@ def main() -> int:
     }
     GEOJSON_OUT.parent.mkdir(parents=True, exist_ok=True)
     GEOJSON_OUT.write_text(json.dumps(fc, indent=1))
-    print(f"[agg] v3 geojson: {n_high} high + {n_cand} candidate ({n_anchored} anchored to buildings) -> {GEOJSON_OUT}")
+    print(
+        f"[agg] v3 geojson: {n_high} high + {n_cand} candidate ({n_anchored} anchored to buildings) -> {GEOJSON_OUT}"
+    )
 
     # Write match report
-    MATCH_OUT.write_text(json.dumps({
-        "n_detections": len(match_rows),
-        "n_high": n_high,
-        "n_candidate": n_cand,
-        "confirmed_distance_m": DISTANCE_M_CONFIRMED,
-        "summary": {
-            "confirmed_high": confirmed_high,
-            "new_high": new_high,
-            "confirmed_candidate": confirmed_cand,
-            "new_candidate": new_cand,
-        },
-        "rows": match_rows,
-    }, indent=2))
-    print(f"[agg] v3 OSM cross-match: high={confirmed_high} confirmed + {new_high} new ({100*new_high/max(1,n_high):.0f}% NEW)")
+    MATCH_OUT.write_text(
+        json.dumps(
+            {
+                "n_detections": len(match_rows),
+                "n_high": n_high,
+                "n_candidate": n_cand,
+                "confirmed_distance_m": DISTANCE_M_CONFIRMED,
+                "summary": {
+                    "confirmed_high": confirmed_high,
+                    "new_high": new_high,
+                    "confirmed_candidate": confirmed_cand,
+                    "new_candidate": new_cand,
+                },
+                "rows": match_rows,
+            },
+            indent=2,
+        )
+    )
+    print(
+        f"[agg] v3 OSM cross-match: high={confirmed_high} confirmed + {new_high} new ({100 * new_high / max(1, n_high):.0f}% NEW)"
+    )
     print(f"[agg]                     cand={confirmed_cand} confirmed + {new_cand} new")
 
     # --- v2 vs v3 delta ---
@@ -267,12 +290,17 @@ def main() -> int:
                 downgrades_from_high += 1
                 lost_high_total += 1
             if t2 != t3:
-                deltas.append({
-                    "tile_id": tid,
-                    "lat": v3[tid]["lat"], "lon": v3[tid]["lon"],
-                    "v2_score": round(s2, 3), "v3_score": round(s3, 3),
-                    "v2_tier": t2, "v3_tier": t3,
-                })
+                deltas.append(
+                    {
+                        "tile_id": tid,
+                        "lat": v3[tid]["lat"],
+                        "lon": v3[tid]["lon"],
+                        "v2_score": round(s2, 3),
+                        "v3_score": round(s3, 3),
+                        "v2_tier": t2,
+                        "v3_tier": t3,
+                    }
+                )
 
         # Top movers
         deltas.sort(key=lambda r: -(r["v3_score"] - r["v2_score"]))
@@ -293,10 +321,12 @@ def main() -> int:
                 "downgrades_from_high": downgrades_from_high,
                 "mean_score_diff_v3_minus_v2": round(avg_diff, 4),
             },
-            "tier_changes": deltas[:60],   # limit to top 60 for readability
+            "tier_changes": deltas[:60],  # limit to top 60 for readability
         }
         DELTA_OUT.write_text(json.dumps(delta_doc, indent=2))
-        print(f"[agg] delta: v2={n2_high}H/{n2_cand}C  ->  v3={n_high}H/{n_cand}C  ({upgrades_to_high} upgraded to H, {downgrades_from_high} lost)")
+        print(
+            f"[agg] delta: v2={n2_high}H/{n2_cand}C  ->  v3={n_high}H/{n_cand}C  ({upgrades_to_high} upgraded to H, {downgrades_from_high} lost)"
+        )
 
     return 0
 

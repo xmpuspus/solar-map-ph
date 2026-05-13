@@ -13,7 +13,6 @@ ID space across the pipeline and the UI.
 from __future__ import annotations
 
 import json
-import time
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
@@ -26,10 +25,10 @@ USER_AGENT = "solar-map-ph/2.1 (per-building-solar; +https://github.com/xmpuspus
 @dataclass
 class BuildingFeature:
     osm_id: int
-    osm_type: str           # "way" or "relation"
-    coords: list[list[float]]   # [[lon, lat], ...] outer ring, closed
-    centroid: tuple[float, float]   # (lon, lat)
-    bbox: tuple[float, float, float, float]   # (min_lon, min_lat, max_lon, max_lat)
+    osm_type: str  # "way" or "relation"
+    coords: list[list[float]]  # [[lon, lat], ...] outer ring, closed
+    centroid: tuple[float, float]  # (lon, lat)
+    bbox: tuple[float, float, float, float]  # (min_lon, min_lat, max_lon, max_lat)
     area_m2: float
     building_type: str | None
     is_residential: bool
@@ -53,14 +52,37 @@ class BuildingFeature:
 # Shared with the site's RoofLookup component so building classification is
 # consistent across the pipeline and the homeowner UI.
 RESIDENTIAL_TAGS = {
-    "house", "residential", "detached", "semidetached_house", "terrace",
-    "apartments", "bungalow", "cabin", "dormitory", "barracks",
+    "house",
+    "residential",
+    "detached",
+    "semidetached_house",
+    "terrace",
+    "apartments",
+    "bungalow",
+    "cabin",
+    "dormitory",
+    "barracks",
 }
 COMMERCIAL_TAGS = {
-    "commercial", "industrial", "warehouse", "supermarket", "retail",
-    "office", "school", "kindergarten", "university", "college", "hospital",
-    "church", "civic", "government", "public", "yes",  # 'yes' falls through
-    "transportation", "depot", "manufacture",
+    "commercial",
+    "industrial",
+    "warehouse",
+    "supermarket",
+    "retail",
+    "office",
+    "school",
+    "kindergarten",
+    "university",
+    "college",
+    "hospital",
+    "church",
+    "civic",
+    "government",
+    "public",
+    "yes",  # 'yes' falls through
+    "transportation",
+    "depot",
+    "manufacture",
 }
 
 
@@ -98,12 +120,10 @@ def _polygon_area_m2(coords: list[list[float]]) -> float:
     lons = [p[0] for p in coords]
     mean_lat = sum(lats) / len(lats)
     import math
+
     cos_lat = math.cos(math.radians(mean_lat))
     M_PER_DEG = 111_320.0
-    pts_m = [
-        ((lon - lons[0]) * M_PER_DEG * cos_lat, (lat - lats[0]) * M_PER_DEG)
-        for lon, lat in coords
-    ]
+    pts_m = [((lon - lons[0]) * M_PER_DEG * cos_lat, (lat - lats[0]) * M_PER_DEG) for lon, lat in coords]
     # Shoelace
     n = len(pts_m)
     s = 0.0
@@ -142,27 +162,32 @@ def parse_overpass_elements(elements: list[dict]) -> list[BuildingFeature]:
             continue
         tags = el.get("tags") or {}
         b_type_raw = tags.get("building")
-        b_type = b_type_raw if b_type_raw and b_type_raw != "yes" else (tags.get("amenity") or tags.get("shop"))
+        b_type = (
+            b_type_raw if b_type_raw and b_type_raw != "yes" else (tags.get("amenity") or tags.get("shop"))
+        )
         is_res = bool(b_type) and b_type in RESIDENTIAL_TAGS
         is_com = bool(b_type) and b_type in COMMERCIAL_TAGS
         lons = [p[0] for p in coords]
         lats = [p[1] for p in coords]
-        out.append(BuildingFeature(
-            osm_id=el["id"],
-            osm_type=el["type"],
-            coords=coords,
-            centroid=_centroid(coords),
-            bbox=(min(lons), min(lats), max(lons), max(lats)),
-            area_m2=area,
-            building_type=b_type,
-            is_residential=is_res,
-            is_commercial=is_com,
-        ))
+        out.append(
+            BuildingFeature(
+                osm_id=el["id"],
+                osm_type=el["type"],
+                coords=coords,
+                centroid=_centroid(coords),
+                bbox=(min(lons), min(lats), max(lons), max(lats)),
+                area_m2=area,
+                building_type=b_type,
+                is_residential=is_res,
+                is_commercial=is_com,
+            )
+        )
     return out
 
 
-def fetch_buildings_around(lat: float, lon: float, radius_m: float = 200,
-                            cache_dir: Path | None = None) -> list[BuildingFeature]:
+def fetch_buildings_around(
+    lat: float, lon: float, radius_m: float = 200, cache_dir: Path | None = None
+) -> list[BuildingFeature]:
     """Fetch + parse + cache. Cache key is rounded lat/lon/radius."""
     if cache_dir is not None:
         cache_dir.mkdir(parents=True, exist_ok=True)

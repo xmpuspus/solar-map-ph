@@ -21,7 +21,7 @@ import json
 import os
 import sys
 import time
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 from urllib.request import Request, urlopen
@@ -56,14 +56,14 @@ THUMB_DIM = 600
 # morphological opening, then connected-component vectorization. Size caps
 # reject neighborhood-scale drift and pixel-scale noise. Top 1 per city
 # (not 3) to keep precision high.
-HOTSPOT_LOCAL_RADIUS_M = 200      # focal mean radius for local-anomaly baseline
-HOTSPOT_NIR_DROP = -250           # NIR scaled units; multi-channel AND threshold
-HOTSPOT_SWIR_DROP = -250          # SWIR scaled units; multi-channel AND threshold
+HOTSPOT_LOCAL_RADIUS_M = 200  # focal mean radius for local-anomaly baseline
+HOTSPOT_NIR_DROP = -250  # NIR scaled units; multi-channel AND threshold
+HOTSPOT_SWIR_DROP = -250  # SWIR scaled units; multi-channel AND threshold
 HOTSPOT_LOCAL_ANOMALY_THRESHOLD = -150  # local-anomaly threshold on the AND mask
-HOTSPOT_MORPH_RADIUS_M = 30       # erode+dilate radius
-HOTSPOT_MIN_AREA_M2 = 2_000       # warehouse-scale floor
-HOTSPOT_MAX_AREA_M2 = 200_000     # 20 hectares; the v1.0 solar were 4-8 ha clusters, keep them
-HOTSPOT_TOP_K_PER_CITY = 1        # top 1 per city for higher per-pin confidence
+HOTSPOT_MORPH_RADIUS_M = 30  # erode+dilate radius
+HOTSPOT_MIN_AREA_M2 = 2_000  # warehouse-scale floor
+HOTSPOT_MAX_AREA_M2 = 200_000  # 20 hectares; the v1.0 solar were 4-8 ha clusters, keep them
+HOTSPOT_TOP_K_PER_CITY = 1  # top 1 per city for higher per-pin confidence
 
 
 def parse_args() -> argparse.Namespace:
@@ -74,7 +74,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--limit", type=int, help="Process at most N cities (for testing)")
     p.add_argument("--skip-imagery", action="store_true", help="Skip image export, just hot spots")
     p.add_argument("--skip-hotspots", action="store_true", help="Skip hot-spot extraction")
-    p.add_argument("--diff-only", action="store_true", help="Only regenerate diff PNGs (skip baseline+current RGB)")
+    p.add_argument(
+        "--diff-only", action="store_true", help="Only regenerate diff PNGs (skip baseline+current RGB)"
+    )
     return p.parse_args()
 
 
@@ -93,23 +95,13 @@ def quarter_to_dates(quarter: str) -> tuple[date, date]:
     year = int(quarter[:4])
     sm, em = QUARTER_TO_MONTHS[quarter[4:]]
     start = date(year, sm, 1)
-    end = (
-        date(year, 12, 31)
-        if em == 12
-        else date.fromordinal(date(year, em + 1, 1).toordinal() - 1)
-    )
+    end = date(year, 12, 31) if em == 12 else date.fromordinal(date(year, em + 1, 1).toordinal() - 1)
     return start, end
 
 
 def s2_cloud_mask(image: ee.Image) -> ee.Image:
     scl = image.select("SCL")
-    valid = (
-        scl.neq(1)
-        .And(scl.neq(3))
-        .And(scl.neq(8))
-        .And(scl.neq(9))
-        .And(scl.neq(10))
-    )
+    valid = scl.neq(1).And(scl.neq(3)).And(scl.neq(8)).And(scl.neq(9)).And(scl.neq(10))
     return image.updateMask(valid)
 
 
@@ -204,7 +196,8 @@ def export_city_imagery(
     try:
         url_diff = fingerprint.getThumbURL(
             {
-                "min": 0, "max": 1,
+                "min": 0,
+                "max": 1,
                 "palette": FINGERPRINT_PALETTE,
                 "region": geom,
                 "dimensions": THUMB_DIM,
@@ -234,16 +227,8 @@ def extract_hotspots(
 
     worldcover = ee.ImageCollection("ESA/WorldCover/v200").first()
     built_mask = worldcover.eq(50).clip(geom)
-    nir_diff = (
-        s2_current.select("B8")
-        .subtract(s2_baseline.select("B8"))
-        .updateMask(built_mask)
-    )
-    swir_diff = (
-        s2_current.select("B11")
-        .subtract(s2_baseline.select("B11"))
-        .updateMask(built_mask)
-    )
+    nir_diff = s2_current.select("B8").subtract(s2_baseline.select("B8")).updateMask(built_mask)
+    swir_diff = s2_current.select("B11").subtract(s2_baseline.select("B11")).updateMask(built_mask)
 
     # v1.1: multi-channel AND. A pixel must drop in BOTH NIR and SWIR to count.
     # Solar panels do both; reroofing/paint/shadows usually don't trip both.
@@ -274,9 +259,7 @@ def extract_hotspots(
             bestEffort=True,
             tileScale=4,
         )
-        patches_with_area = patches.map(
-            lambda f: f.set("area_m2", f.geometry().area(maxError=10))
-        )
+        patches_with_area = patches.map(lambda f: f.set("area_m2", f.geometry().area(maxError=10)))
         filtered = patches_with_area.filter(
             ee.Filter.And(
                 ee.Filter.gt("area_m2", HOTSPOT_MIN_AREA_M2),
@@ -358,7 +341,7 @@ def main() -> int:
                 failed_imagery.append(name)
                 print(f"    imagery partial: {results}")
             else:
-                print(f"    imagery ok")
+                print("    imagery ok")
 
         if not args.skip_hotspots:
             hotspots = extract_hotspots(props, geom, quarter_start, quarter_end, baseline_year)
@@ -373,7 +356,7 @@ def main() -> int:
             "properties": {
                 "quarter": args.quarter,
                 "baseline_year": str(baseline_year),
-                "generated_utc": datetime.now(timezone.utc).isoformat(),
+                "generated_utc": datetime.now(UTC).isoformat(),
                 "version": "v1.1_multichannel",
                 "nir_drop_threshold": HOTSPOT_NIR_DROP,
                 "swir_drop_threshold": HOTSPOT_SWIR_DROP,
@@ -389,7 +372,9 @@ def main() -> int:
         }
         with out_path.open("w") as f:
             json.dump(fc, f, indent=2)
-        print(f"\nWrote {len(all_hotspots)} hot-spots from {fc['properties']['city_count']} cities -> {out_path}")
+        print(
+            f"\nWrote {len(all_hotspots)} hot-spots from {fc['properties']['city_count']} cities -> {out_path}"
+        )
 
     if failed_imagery:
         print(f"\nImagery missing/partial for: {', '.join(failed_imagery)}", file=sys.stderr)

@@ -111,7 +111,9 @@ def main() -> int:
     unmatched = [e for e in enriched if e["inherited_label"] is None]
     label_counts = {"solar": 0, "not_solar": 0, "unclear": 0, "missing": 0, "unmatched": 0}
     for e in enriched:
-        label_counts[e["inherited_label"] or "unmatched"] = label_counts.get(e["inherited_label"] or "unmatched", 0) + 1
+        label_counts[e["inherited_label"] or "unmatched"] = (
+            label_counts.get(e["inherited_label"] or "unmatched", 0) + 1
+        )
 
     reviewable = label_counts["solar"] + label_counts["not_solar"] + label_counts["unclear"]
     strict = label_counts["solar"] / reviewable if reviewable else 0.0
@@ -131,7 +133,9 @@ def main() -> int:
         "delta": {
             "hotspots_kept_pct": round(total / len(idx_doc["hotspots"]), 3),
             "solar_kept_pct": (
-                round(label_counts["solar"] / sum(1 for r in labels_doc["labels"] if r["label"] == "solar"), 3)
+                round(
+                    label_counts["solar"] / sum(1 for r in labels_doc["labels"] if r["label"] == "solar"), 3
+                )
                 if sum(1 for r in labels_doc["labels"] if r["label"] == "solar") > 0
                 else None
             ),

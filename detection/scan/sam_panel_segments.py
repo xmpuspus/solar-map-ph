@@ -42,18 +42,18 @@ THUMBS = ROOT / "detection" / "scan" / "segment_thumbnails"
 
 DEVICE = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
 TILE_PX = 600
-HALF_DEGREE = 0.0011    # matches ncr_scan.py: tile_bbox = [lon-HALF, lat-HALF, lon+HALF, lat+HALF]
+HALF_DEGREE = 0.0011  # matches ncr_scan.py: tile_bbox = [lon-HALF, lat-HALF, lon+HALF, lat+HALF]
 
 SEG_KEEP_THRESH = 0.70
-MIN_SEG_AREA_PX = 250         # ~16x16 px = ~6x6 m at 0.4 m/px (single panel row)
-MAX_SEG_AREA_PX = 0.4 * TILE_PX * TILE_PX   # skip masks covering ~40%+ of tile
+MIN_SEG_AREA_PX = 250  # ~16x16 px = ~6x6 m at 0.4 m/px (single panel row)
+MAX_SEG_AREA_PX = 0.4 * TILE_PX * TILE_PX  # skip masks covering ~40%+ of tile
 
 # Solar panel color signature: dark grey to dark blue, R+G+B all moderate-low
 # In PH dusty conditions, panels often appear grey (close to neutral) rather than
 # blue-shifted. We accept anything from grey-dark to blue-dark.
-PANEL_RGB_MEAN_MAX = 140      # mean luminance must be below this (panels are dark-ish)
-PANEL_RGB_MEAN_MIN = 25       # avoid pure black (shadows, holes)
-PANEL_BLUE_BIAS_MIN = -25     # warmer-than-blue but still dark = OK (dusty panels)
+PANEL_RGB_MEAN_MAX = 140  # mean luminance must be below this (panels are dark-ish)
+PANEL_RGB_MEAN_MIN = 25  # avoid pure black (shadows, holes)
+PANEL_BLUE_BIAS_MIN = -25  # warmer-than-blue but still dark = OK (dusty panels)
 PANEL_BLUE_BIAS_MAX = 60
 
 
@@ -82,6 +82,7 @@ def mask_to_lonlat_polygon(
     # via PIL. We use a downsampled mask + bbox-corner approach if no library is available.
     try:
         from skimage import measure
+
         contours = measure.find_contours(mask.astype(np.uint8), 0.5)
         if not contours:
             return []
@@ -106,7 +107,11 @@ def mask_to_lonlat_polygon(
         x_min, x_max = int(xs.min()), int(xs.max())
         y_min, y_max = int(ys.min()), int(ys.max())
         corners = [
-            (x_min, y_min), (x_max, y_min), (x_max, y_max), (x_min, y_max), (x_min, y_min),
+            (x_min, y_min),
+            (x_max, y_min),
+            (x_max, y_max),
+            (x_min, y_max),
+            (x_min, y_min),
         ]
         ring = []
         for c, r in corners:
@@ -129,15 +134,15 @@ def panel_color_score(rgb: np.ndarray, mask: np.ndarray) -> dict:
     mean_rgb = pixels.mean(axis=0)
     r, g, b = float(mean_rgb[0]), float(mean_rgb[1]), float(mean_rgb[2])
     brightness = (r + g + b) / 3
-    blue_bias = b - r   # positive = blue, negative = red/warm
+    blue_bias = b - r  # positive = blue, negative = red/warm
     # Hard gates
     looks_panel_like = (
         PANEL_RGB_MEAN_MIN < brightness < PANEL_RGB_MEAN_MAX
         and PANEL_BLUE_BIAS_MIN < blue_bias < PANEL_BLUE_BIAS_MAX
     )
     # Soft score: closer to "ideal panel" (brightness ~70, slight blue bias) = higher
-    bright_diff = abs(brightness - 70) / 60   # 0 best, 1 = fully off
-    blue_diff = abs(blue_bias - 8) / 30       # 0 best around blue_bias=8
+    bright_diff = abs(brightness - 70) / 60  # 0 best, 1 = fully off
+    blue_diff = abs(blue_bias - 8) / 30  # 0 best around blue_bias=8
     color_score = max(0.0, 1.0 - 0.5 * bright_diff - 0.5 * blue_diff)
     return {
         "looks_panel_like": looks_panel_like,
@@ -196,9 +201,13 @@ def crop_with_mask(
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, help="Process only first N high-confidence tiles")
-    ap.add_argument("--geojson", type=str, default=str(GEOJSON), help="Detections geojson (default: production)")
+    ap.add_argument(
+        "--geojson", type=str, default=str(GEOJSON), help="Detections geojson (default: production)"
+    )
     ap.add_argument("--clf", type=str, default=str(CLF_PATH), help="LR classifier joblib")
-    ap.add_argument("--thresh", type=float, default=SEG_KEEP_THRESH, help="Score threshold for keeping segments")
+    ap.add_argument(
+        "--thresh", type=float, default=SEG_KEEP_THRESH, help="Score threshold for keeping segments"
+    )
     ap.add_argument("--save-thumbs", action="store_true", help="Save per-segment crop thumbnails for QA")
     ap.add_argument("--reset", action="store_true", help="Truncate output JSONL before running")
     ap.add_argument("--debug-scores", action="store_true", help="Print all segment scores (not just kept)")
@@ -220,13 +229,14 @@ def main() -> int:
 
     # SAM
     from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
+
     print(f"[seg] loading SAM vit_b on {DEVICE}")
     # MPS doesn't support all SAM ops; vit_b on CPU is ~3s/tile, MPS is ~1.5s/tile when supported
-    sam_device = DEVICE if DEVICE != "mps" else "cpu"   # safer default; some SAM ops crash MPS
+    sam_device = DEVICE if DEVICE != "mps" else "cpu"  # safer default; some SAM ops crash MPS
     sam = sam_model_registry["vit_b"](checkpoint=str(SAM_CKPT)).to(sam_device).eval()
     mask_gen = SamAutomaticMaskGenerator(
         sam,
-        points_per_side=16,        # default 32; lower = faster, fewer masks (~2x speedup vs 24)
+        points_per_side=16,  # default 32; lower = faster, fewer masks (~2x speedup vs 24)
         pred_iou_thresh=0.85,
         stability_score_thresh=0.92,
         min_mask_region_area=MIN_SEG_AREA_PX,
@@ -234,6 +244,7 @@ def main() -> int:
 
     # CLIP
     from transformers import CLIPModel, CLIPProcessor
+
     print(f"[seg] loading CLIP on {DEVICE}")
     proc = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14", use_fast=True)
     clip = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(DEVICE).eval()
@@ -315,7 +326,7 @@ def main() -> int:
                 batch_size = 8
                 scores = []
                 for i in range(0, len(crops), batch_size):
-                    batch = crops[i:i + batch_size]
+                    batch = crops[i : i + batch_size]
                     inputs = proc(images=batch, return_tensors="pt").to(DEVICE)
                     with torch.no_grad():
                         emb = clip.get_image_features(**inputs)
@@ -325,7 +336,9 @@ def main() -> int:
 
                 if args.debug_scores:
                     s_sorted = sorted(scores, reverse=True)
-                    print(f"[seg]   tile_id={tid} candidates={len(crops)} (area_skip={n_area_skip} color_skip={n_color_skip}) clip_top10: {[f'{s:.3f}' for s in s_sorted[:10]]}")
+                    print(
+                        f"[seg]   tile_id={tid} candidates={len(crops)} (area_skip={n_area_skip} color_skip={n_color_skip}) clip_top10: {[f'{s:.3f}' for s in s_sorted[:10]]}"
+                    )
                 for seg_idx, ((m, mask), score, color) in enumerate(zip(mask_metas, scores, color_metas)):
                     # Combined confidence: 0.6 weight on CLIP+LR (semantic),
                     # 0.4 weight on color match (panel signature)
@@ -352,24 +365,34 @@ def main() -> int:
                     if args.save_thumbs:
                         td = THUMBS / tid
                         td.mkdir(parents=True, exist_ok=True)
-                        crops[seg_idx].save(td / f"seg_{seg_idx:02d}_combined{combined:.2f}_c{color['color_score']:.2f}.jpg", quality=80)
+                        crops[seg_idx].save(
+                            td / f"seg_{seg_idx:02d}_combined{combined:.2f}_c{color['color_score']:.2f}.jpg",
+                            quality=80,
+                        )
 
             n_kept_total += len(kept_segments)
             n_proc += 1
-            fout.write(json.dumps({
-                "tile_id": tid,
-                "tile_lat": tile_lat,
-                "tile_lon": tile_lon,
-                "tile_score": tile_score,
-                "n_masks_total": len(masks),
-                "n_segments_kept": len(kept_segments),
-                "segments": kept_segments,
-            }) + "\n")
+            fout.write(
+                json.dumps(
+                    {
+                        "tile_id": tid,
+                        "tile_lat": tile_lat,
+                        "tile_lon": tile_lon,
+                        "tile_score": tile_score,
+                        "n_masks_total": len(masks),
+                        "n_segments_kept": len(kept_segments),
+                        "segments": kept_segments,
+                    }
+                )
+                + "\n"
+            )
             fout.flush()
             if n_proc % 5 == 0 or n_proc == len(high):
                 elapsed = time.time() - t0
                 rate = n_proc / max(0.1, elapsed)
-                print(f"[seg] {n_proc}/{len(high)}  kept={n_kept_total}  rate={rate:.2f}/s  elapsed={elapsed:.0f}s")
+                print(
+                    f"[seg] {n_proc}/{len(high)}  kept={n_kept_total}  rate={rate:.2f}/s  elapsed={elapsed:.0f}s"
+                )
 
     print(f"[seg] DONE: {n_proc} tiles, {n_kept_total} kept segments -> {OUT_JSONL}")
     return 0

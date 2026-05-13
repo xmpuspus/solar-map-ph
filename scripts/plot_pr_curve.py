@@ -31,7 +31,6 @@ import matplotlib
 matplotlib.use("Agg")  # headless
 import matplotlib.pyplot as plt
 
-
 ROOT = Path(__file__).resolve().parents[1]
 CALIB = ROOT / "detection" / "train" / "v4_calibrated" / "clf_v4_calibration.json"
 SCORES_CSV = ROOT / "detection" / "train" / "v4_calibrated" / "clf_v4_holdout_scores.csv"
@@ -60,17 +59,28 @@ def plot_pr_curve(sweep: list[dict], op: dict) -> None:
     ax.plot(r, p, color="#0b3b58", lw=2.2, label="clf_v4 calibrated")
     ax.fill_between(r, p, 0, color="#0b3b58", alpha=0.05)
     ax.scatter(
-        [op["recall"]], [op["precision"]],
-        color="#c84630", s=80, zorder=5, edgecolor="white", linewidth=1.5,
+        [op["recall"]],
+        [op["precision"]],
+        color="#c84630",
+        s=80,
+        zorder=5,
+        edgecolor="white",
+        linewidth=1.5,
         label=f"t=0.85 (production)  F1={op['f1']:.3f}",
     )
 
     best_idx = max(range(len(keep)), key=lambda i: f1[i])
     best = keep[best_idx]
     ax.scatter(
-        [best["recall"]], [best["precision"]],
-        color="#2c5f2d", s=70, zorder=5, edgecolor="white", linewidth=1.2,
-        marker="^", label=f"best F1 t={best['threshold']:.2f}  F1={best['f1']:.3f}",
+        [best["recall"]],
+        [best["precision"]],
+        color="#2c5f2d",
+        s=70,
+        zorder=5,
+        edgecolor="white",
+        linewidth=1.2,
+        marker="^",
+        label=f"best F1 t={best['threshold']:.2f}  F1={best['f1']:.3f}",
     )
 
     ax.set_xlabel("Recall", fontsize=11)
@@ -142,7 +152,6 @@ def plot_reliability(scores_csv: Path, n_bins: int = 10) -> None:
         print(f"[plot] WARN: reliability diagram skipped (no usable rows in {scores_csv.name})")
         return
 
-    bin_edges = [i / n_bins for i in range(n_bins + 1)]
     bin_pred: list[list[float]] = [[] for _ in range(n_bins)]
     bin_true: list[list[int]] = [[] for _ in range(n_bins)]
     for s, y in rows:

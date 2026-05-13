@@ -81,7 +81,7 @@ def main() -> int:
 
     print(f"[publish] done. View at https://huggingface.co/{args.repo}")
     print("[publish] downstream consumers can now run:")
-    print(f"  from huggingface_hub import hf_hub_download")
+    print("  from huggingface_hub import hf_hub_download")
     print(f"  hf_hub_download('{args.repo}', 'clf_v4.joblib')")
     return 0
 

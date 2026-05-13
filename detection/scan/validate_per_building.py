@@ -21,12 +21,20 @@ ROOT = Path(__file__).resolve().parents[2]
 GEOJSON = ROOT / "site" / "public" / "data" / "per_building_solar_ncr.geojson"
 
 REQUIRED_PROPS = {
-    "building_osm_id", "building_osm_type", "building_area_m2",
-    "panel_area_m2", "kwp_estimate", "confidence",
-    "n_segments_merged", "tile_id",
+    "building_osm_id",
+    "building_osm_type",
+    "building_area_m2",
+    "panel_area_m2",
+    "kwp_estimate",
+    "confidence",
+    "n_segments_merged",
+    "tile_id",
 }
 REQUIRED_META = {
-    "tiles_processed", "buildings_with_solar", "polygon_strategy", "area_strategy",
+    "tiles_processed",
+    "buildings_with_solar",
+    "polygon_strategy",
+    "area_strategy",
 }
 
 
@@ -50,7 +58,7 @@ def main() -> int:
 
     seen_ids = set()
     for i, f in enumerate(feats):
-        ctx = f"feature {i} (osm_id={f.get('properties',{}).get('building_osm_id')})"
+        ctx = f"feature {i} (osm_id={f.get('properties', {}).get('building_osm_id')})"
 
         # Geometry
         geom = f.get("geometry") or {}
@@ -95,7 +103,7 @@ def main() -> int:
         seen_ids.add(bid)
 
     # Summary
-    print(f"validated {len(feats)} features ({fc.get('_meta',{}).get('tiles_processed','?')} tiles)")
+    print(f"validated {len(feats)} features ({fc.get('_meta', {}).get('tiles_processed', '?')} tiles)")
     if fails:
         print(f"FAIL: {len(fails)} issues:")
         for f in fails[:30]:

@@ -28,8 +28,7 @@ def main():
     fc = json.loads(GEOJSON.read_text())
     feats = fc["features"]
 
-    by_area = {"ncr": {"high": [], "candidate": []},
-               "franchise": {"high": [], "candidate": []}}
+    by_area = {"ncr": {"high": [], "candidate": []}, "franchise": {"high": [], "candidate": []}}
     for f in feats:
         lon, lat = f["geometry"]["coordinates"]
         tier = f["properties"]["tier"]
@@ -40,16 +39,17 @@ def main():
     print(f"  NCR ({NCR[0]}-{NCR[2]} N, {NCR[1]}-{NCR[3]} E):")
     print(f"    high:      {len(by_area['ncr']['high']):4d}")
     print(f"    candidate: {len(by_area['ncr']['candidate']):4d}")
-    print(f"  Extended franchise (Bulacan/Cavite/Rizal/Laguna):")
+    print("  Extended franchise (Bulacan/Cavite/Rizal/Laguna):")
     print(f"    high:      {len(by_area['franchise']['high']):4d}")
     print(f"    candidate: {len(by_area['franchise']['candidate']):4d}")
     print()
     print(f"  Total high:      {len(by_area['ncr']['high']) + len(by_area['franchise']['high']):4d}")
-    print(f"  Total candidate: {len(by_area['ncr']['candidate']) + len(by_area['franchise']['candidate']):4d}")
+    print(
+        f"  Total candidate: {len(by_area['ncr']['candidate']) + len(by_area['franchise']['candidate']):4d}"
+    )
 
     # Top 10 highest-scoring franchise (non-NCR) detections
-    franchise_high = sorted(by_area["franchise"]["high"],
-                             key=lambda f: -f["properties"]["score"])[:10]
+    franchise_high = sorted(by_area["franchise"]["high"], key=lambda f: -f["properties"]["score"])[:10]
     print()
     print("Top 10 franchise high-conf detections:")
     for f in franchise_high:

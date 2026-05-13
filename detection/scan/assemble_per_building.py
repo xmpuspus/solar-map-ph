@@ -35,7 +35,9 @@ BUILDING_CACHE = ROOT / "detection" / "buildings" / "cache"
 
 sys.path.insert(0, str(ROOT))
 from detection.buildings.fetch_buildings import (
-    BuildingFeature, fetch_buildings_around, _polygon_area_m2,
+    BuildingFeature,
+    _polygon_area_m2,
+    fetch_buildings_around,
 )
 
 
@@ -141,7 +143,10 @@ def main() -> int:
             cache_hit = (BUILDING_CACHE / f"{tile_lat:.5f}_{tile_lon:.5f}_r200.json").exists()
             try:
                 buildings = fetch_buildings_around(
-                    tile_lat, tile_lon, radius_m=200, cache_dir=BUILDING_CACHE,
+                    tile_lat,
+                    tile_lon,
+                    radius_m=200,
+                    cache_dir=BUILDING_CACHE,
                 )
                 overpass_fetch_ok = True
             except Exception as exc:
@@ -171,19 +176,24 @@ def main() -> int:
                     mpd_lon, mpd_lat = m_per_deg(tile_lat)
                     panel_area_m2 = abs(bb[2] - bb[0]) * mpd_lon * abs(bb[3] - bb[1]) * mpd_lat
 
-                rec = by_building.setdefault(b.osm_id, {
-                    "building": b,
-                    "segments": [],
-                    "tiles": set(),
-                })
-                rec["segments"].append({
-                    "polygon": seg.get("polygon") or [],
-                    "panel_area_m2": panel_area_m2,
-                    "confidence": seg["score"],
-                    "tile_id": tile_id,
-                    "tile_score": tile_score,
-                    "seg_idx": seg["seg_idx"],
-                })
+                rec = by_building.setdefault(
+                    b.osm_id,
+                    {
+                        "building": b,
+                        "segments": [],
+                        "tiles": set(),
+                    },
+                )
+                rec["segments"].append(
+                    {
+                        "polygon": seg.get("polygon") or [],
+                        "panel_area_m2": panel_area_m2,
+                        "confidence": seg["score"],
+                        "tile_id": tile_id,
+                        "tile_score": tile_score,
+                        "seg_idx": seg["seg_idx"],
+                    }
+                )
                 rec["tiles"].add(tile_id)
 
     feats: list[dict] = []
@@ -221,25 +231,27 @@ def main() -> int:
             residential_kwp_total += kwp
             continue
 
-        feats.append({
-            "type": "Feature",
-            "geometry": {"type": "Polygon", "coordinates": [polygon]},
-            "properties": {
-                "building_osm_id": b.osm_id,
-                "building_osm_type": b.osm_type,
-                "building_area_m2": round(b.area_m2, 1),
-                "building_type": b.building_type,
-                "is_residential": b.is_residential,
-                "is_commercial": b.is_commercial,
-                "panel_area_m2": round(total_panel, 1),
-                "kwp_estimate": kwp,
-                "confidence": round(max_conf, 4),
-                "n_segments_merged": len(segs),
-                "tile_ids": sorted(rec["tiles"]),
-                "tile_id": best_seg["tile_id"],   # primary tile
-                "tile_score": best_seg["tile_score"],
-            },
-        })
+        feats.append(
+            {
+                "type": "Feature",
+                "geometry": {"type": "Polygon", "coordinates": [polygon]},
+                "properties": {
+                    "building_osm_id": b.osm_id,
+                    "building_osm_type": b.osm_type,
+                    "building_area_m2": round(b.area_m2, 1),
+                    "building_type": b.building_type,
+                    "is_residential": b.is_residential,
+                    "is_commercial": b.is_commercial,
+                    "panel_area_m2": round(total_panel, 1),
+                    "kwp_estimate": kwp,
+                    "confidence": round(max_conf, 4),
+                    "n_segments_merged": len(segs),
+                    "tile_ids": sorted(rec["tiles"]),
+                    "tile_id": best_seg["tile_id"],  # primary tile
+                    "tile_score": best_seg["tile_score"],
+                },
+            }
+        )
         n_pairs += 1
 
     fc = {
@@ -271,20 +283,29 @@ def main() -> int:
 
     # Privacy-safe residential aggregate (counts and totals, no geometry, no addresses).
     aggregate_path = OUT.parent / "residential_solar_aggregate.json"
-    aggregate_path.write_text(json.dumps({
-        "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "n_residential_buildings_with_solar": n_suppressed_residential,
-        "kwp_residential_total": round(residential_kwp_total, 2),
-        "by_building_type": dict(sorted(residential_aggregate.items())),
-        "policy": (
-            "Residential rooftops are intentionally not published as individual "
-            "polygons. This roll-up is the only residential-scoped figure SolarMap.PH releases."
-        ),
-    }, indent=2))
+    aggregate_path.write_text(
+        json.dumps(
+            {
+                "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "n_residential_buildings_with_solar": n_suppressed_residential,
+                "kwp_residential_total": round(residential_kwp_total, 2),
+                "by_building_type": dict(sorted(residential_aggregate.items())),
+                "policy": (
+                    "Residential rooftops are intentionally not published as individual "
+                    "polygons. This roll-up is the only residential-scoped figure SolarMap.PH releases."
+                ),
+            },
+            indent=2,
+        )
+    )
 
     print(f"[per-building] {n_pairs} non-residential buildings published with detected solar")
-    print(f"[per-building] {n_suppressed_residential} residential buildings suppressed (counts in {aggregate_path.name})")
-    print(f"[per-building] {n_unmatched} segments had no matching OSM building (likely informal structures or off-roof)")
+    print(
+        f"[per-building] {n_suppressed_residential} residential buildings suppressed (counts in {aggregate_path.name})"
+    )
+    print(
+        f"[per-building] {n_unmatched} segments had no matching OSM building (likely informal structures or off-roof)"
+    )
     print(f"[per-building] -> {OUT}")
     print(f"[per-building] -> {aggregate_path}")
     return 0

@@ -23,10 +23,7 @@ SRC = ROOT / "detection" / "bootstrap" / "osm_solar_ncr_plus.geojson"
 OUT_DIR = ROOT / "detection" / "bootstrap" / "tiles"
 OUT_INDEX = ROOT / "detection" / "bootstrap" / "tiles" / "index.json"
 
-ESRI_BASE = (
-    "https://services.arcgisonline.com/arcgis/rest/services/"
-    "World_Imagery/MapServer/export"
-)
+ESRI_BASE = "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export"
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives a ~240m view
 USER_AGENT = "solar-map-ph/2.0 (osm-solar-tiles; +https://github.com/xmpuspus/solar-map-ph)"
@@ -95,20 +92,22 @@ def main() -> int:
             n_ok += 1
         else:
             n_fail += 1
-        index.append({
-            "idx": i,
-            "lat": lat,
-            "lon": lon,
-            "osm_type": f["properties"].get("osm_type"),
-            "osm_id": f["properties"].get("osm_id"),
-            "location": f["properties"].get("location"),
-            "operator": f["properties"].get("operator"),
-            "rating": f["properties"].get("rating"),
-            "name": f["properties"].get("name"),
-            "fetch_ok": ok,
-        })
+        index.append(
+            {
+                "idx": i,
+                "lat": lat,
+                "lon": lon,
+                "osm_type": f["properties"].get("osm_type"),
+                "osm_id": f["properties"].get("osm_id"),
+                "location": f["properties"].get("location"),
+                "operator": f["properties"].get("operator"),
+                "rating": f["properties"].get("rating"),
+                "name": f["properties"].get("name"),
+                "fetch_ok": ok,
+            }
+        )
         if (i + 1) % 25 == 0:
-            print(f"[fetch] {i+1}/{len(feats)} ok={n_ok} fail={n_fail}")
+            print(f"[fetch] {i + 1}/{len(feats)} ok={n_ok} fail={n_fail}")
 
     OUT_INDEX.write_text(json.dumps(index, indent=2))
     print(f"\n[fetch] complete: ok={n_ok}/{len(feats)} fail={n_fail}")

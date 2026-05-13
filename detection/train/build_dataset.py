@@ -63,6 +63,7 @@ def augment(img: Image.Image, n: int) -> list[tuple[Image.Image, str]]:
 
 def load_clip():
     from transformers import CLIPModel, CLIPProcessor
+
     print("[ds] loading openai/clip-vit-large-patch14")
     processor = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14", use_fast=True)
     model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(DEVICE).eval()
@@ -72,7 +73,7 @@ def load_clip():
 def embed(processor, model, imgs: list[Image.Image], batch_size: int = 16) -> np.ndarray:
     embs = []
     for i in range(0, len(imgs), batch_size):
-        batch = imgs[i:i + batch_size]
+        batch = imgs[i : i + batch_size]
         inputs = processor(images=batch, return_tensors="pt").to(DEVICE)
         with torch.no_grad():
             e = model.get_image_features(**inputs)
@@ -125,7 +126,9 @@ def main() -> int:
         for aug_img, tag in augment(img, NEG_AUG_PER_SOURCE):
             rows.append((aug_img, 0, src, tag))
 
-    print(f"[ds] total rows: {len(rows)} (pos={sum(1 for r in rows if r[1]==1)} neg={sum(1 for r in rows if r[1]==0)})")
+    print(
+        f"[ds] total rows: {len(rows)} (pos={sum(1 for r in rows if r[1] == 1)} neg={sum(1 for r in rows if r[1] == 0)})"
+    )
 
     imgs = [r[0] for r in rows]
     print(f"[ds] embedding {len(imgs)} tiles via CLIP-ViT-L...")

@@ -48,10 +48,7 @@ def is_orig_grid(lat: float, lon: float, tol: float = 5e-5) -> bool:
     """Does this lat/lon sit on the original NCR grid?"""
     lat_off = (lat - ORIG_LAT_ORIGIN) / TILE_DEG_LAT
     lon_off = (lon - ORIG_LON_ORIGIN) / TILE_DEG_LON
-    return (
-        abs(lat_off - round(lat_off)) < tol
-        and abs(lon_off - round(lon_off)) < tol
-    )
+    return abs(lat_off - round(lat_off)) < tol and abs(lon_off - round(lon_off)) < tol
 
 
 def main() -> int:

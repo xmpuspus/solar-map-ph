@@ -30,12 +30,12 @@ OUT.parent.mkdir(parents=True, exist_ok=True)
 # Coords are (x0, y0, x1, y1) bounding the dominant panel array.
 # Eyeballed from inspection.
 PANEL_REGIONS = {
-    "meycauayan": (10, 320, 230, 540),     # panel array on left of warehouse
-    "carmona":    (180, 220, 380, 420),    # panel grid mid-frame
-    "dasmarinas": (200, 280, 460, 480),    # solar array on industrial roof
-    "makati":     (430, 320, 570, 460),    # blue-roof region (might be panel or paint)
-    "san_mateo":  (220, 240, 440, 440),    # roof with array
-    "valenzuela": (160, 240, 480, 460),    # warehouse panel region
+    "meycauayan": (10, 320, 230, 540),  # panel array on left of warehouse
+    "carmona": (180, 220, 380, 420),  # panel grid mid-frame
+    "dasmarinas": (200, 280, 460, 480),  # solar array on industrial roof
+    "makati": (430, 320, 570, 460),  # blue-roof region (might be panel or paint)
+    "san_mateo": (220, 240, 440, 440),  # roof with array
+    "valenzuela": (160, 240, 480, 460),  # warehouse panel region
 }
 
 
@@ -95,10 +95,16 @@ def main() -> int:
             "bg_hsv": stats(bg_hsv),
         }
         print(f"\n{case_id}:")
-        print(f"  panel rgb mean: {out[case_id]['panel_rgb']['mean']}  std: {out[case_id]['panel_rgb']['std']}")
+        print(
+            f"  panel rgb mean: {out[case_id]['panel_rgb']['mean']}  std: {out[case_id]['panel_rgb']['std']}"
+        )
         print(f"  bg    rgb mean: {out[case_id]['bg_rgb']['mean']}  std: {out[case_id]['bg_rgb']['std']}")
-        print(f"  panel hsv mean: H={out[case_id]['panel_hsv']['mean'][0]:.1f}  S={out[case_id]['panel_hsv']['mean'][1]:.3f}  V={out[case_id]['panel_hsv']['mean'][2]:.3f}")
-        print(f"  bg    hsv mean: H={out[case_id]['bg_hsv']['mean'][0]:.1f}  S={out[case_id]['bg_hsv']['mean'][1]:.3f}  V={out[case_id]['bg_hsv']['mean'][2]:.3f}")
+        print(
+            f"  panel hsv mean: H={out[case_id]['panel_hsv']['mean'][0]:.1f}  S={out[case_id]['panel_hsv']['mean'][1]:.3f}  V={out[case_id]['panel_hsv']['mean'][2]:.3f}"
+        )
+        print(
+            f"  bg    hsv mean: H={out[case_id]['bg_hsv']['mean'][0]:.1f}  S={out[case_id]['bg_hsv']['mean'][1]:.3f}  V={out[case_id]['bg_hsv']['mean'][2]:.3f}"
+        )
 
     OUT.write_text(json.dumps(out, indent=2))
     print(f"\n[chars] wrote {OUT}")

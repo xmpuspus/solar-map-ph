@@ -1,10 +1,12 @@
 """Aggregate r2->r3 delta audit results and decide rollback."""
-import json, os, sys
+
+import json
 from pathlib import Path
 
 VERIFY = Path(__file__).parent
 RESULTS = VERIFY / "audit_results"
 BATCHES = VERIFY / "audit_batches"
+
 
 def load_batch_inputs():
     inputs = {}
@@ -14,6 +16,7 @@ def load_batch_inputs():
                 inputs[fn.stem] = json.load(f)
     return inputs
 
+
 def load_results():
     out = {}
     for fn in sorted(RESULTS.iterdir()):
@@ -21,6 +24,7 @@ def load_results():
             with open(fn) as f:
                 out[fn.stem] = json.load(f)
     return out
+
 
 def main():
     inputs = load_batch_inputs()
@@ -118,6 +122,7 @@ def main():
     print(f"Wrote {out_path}")
 
     return decision, fp_rate
+
 
 if __name__ == "__main__":
     main()

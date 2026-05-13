@@ -9,7 +9,6 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import numpy as np
 import torch
 from PIL import Image
 from transformers import (
@@ -29,6 +28,7 @@ POSITIVES = [
 NEGATIVES = []
 GROUNDTRUTH_TILES = ROOT / "docs/groundtruth/tiles"
 import json
+
 with (ROOT / "docs/groundtruth/labels.json").open() as f:
     labels = json.load(f)["labels"]
 for it in labels:
@@ -77,7 +77,9 @@ def main() -> int:
             no_object_prob_per_query = cls_probs[0, :, -1]  # [Q]
             top_solar = torch.topk(solar_prob_per_query, k=10)
             print(f"    top-10 solar prob: {top_solar.values.cpu().numpy().round(3).tolist()}")
-            print(f"    those queries no-object prob: {no_object_prob_per_query[top_solar.indices].cpu().numpy().round(3).tolist()}")
+            print(
+                f"    those queries no-object prob: {no_object_prob_per_query[top_solar.indices].cpu().numpy().round(3).tolist()}"
+            )
 
             # For each high-confidence solar query, what fraction of pixels does its mask cover?
             top_idx = top_solar.indices
@@ -88,7 +90,9 @@ def main() -> int:
                 m = mask_probs[0, qi]  # [H', W']
                 bin_mask = (m > 0.5).float()
                 coverage = bin_mask.mean().item()
-                print(f"      query #{qi}: p_solar={solar_p:.3f} p_no_obj={no_obj_p:.3f} mask_coverage={coverage:.3f}")
+                print(
+                    f"      query #{qi}: p_solar={solar_p:.3f} p_no_obj={no_obj_p:.3f} mask_coverage={coverage:.3f}"
+                )
     return 0
 
 

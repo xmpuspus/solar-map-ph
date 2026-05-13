@@ -14,7 +14,6 @@ Outputs:
 from __future__ import annotations
 
 import json
-import math
 import random
 import sys
 import time
@@ -40,10 +39,7 @@ SEED = 42
 random.seed(SEED)
 np.random.seed(SEED)
 
-ESRI_BASE = (
-    "https://services.arcgisonline.com/arcgis/rest/services/"
-    "World_Imagery/MapServer/export"
-)
+ESRI_BASE = "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export"
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives a ~240m view
 USER_AGENT = "solar-map-ph/2.0 (random-neg-tiles; +https://github.com/xmpuspus/solar-map-ph)"
@@ -146,6 +142,7 @@ def augment(img: Image.Image, n: int) -> list[Image.Image]:
 
 def load_clip():
     from transformers import CLIPModel, CLIPProcessor
+
     print("[v2] loading openai/clip-vit-large-patch14")
     processor = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14", use_fast=True)
     model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(DEVICE).eval()
@@ -155,7 +152,7 @@ def load_clip():
 def embed(processor, model, imgs: list[Image.Image], batch_size: int = 8) -> np.ndarray:
     embs = []
     for i in range(0, len(imgs), batch_size):
-        batch = imgs[i:i + batch_size]
+        batch = imgs[i : i + batch_size]
         inputs = processor(images=batch, return_tensors="pt").to(DEVICE)
         with torch.no_grad():
             e = model.get_image_features(**inputs)
@@ -202,8 +199,8 @@ def main() -> int:
     print(f"[v2] total negative sources: {len(neg_paths)}")
 
     # Aug budget: positives get fewer aug copies because we now have many sources
-    POS_AUG = 4   # per source -> ~200*5 = 1000 positive rows
-    NEG_AUG = 4   # per source -> ~200*5 = 1000 negative rows
+    POS_AUG = 4  # per source -> ~200*5 = 1000 positive rows
+    NEG_AUG = 4  # per source -> ~200*5 = 1000 negative rows
 
     print(f"[v2] aug: pos {POS_AUG}/src, neg {NEG_AUG}/src")
     rows = []

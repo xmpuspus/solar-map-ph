@@ -23,10 +23,7 @@ PIPELINE_DIR = Path(__file__).parent
 OUT_DIR = PIPELINE_DIR.parent / "site" / "public" / "case_studies"
 OUT_INDEX = PIPELINE_DIR.parent / "site" / "public" / "data" / "case_studies.json"
 
-ESRI_BASE = (
-    "https://services.arcgisonline.com/arcgis/rest/services/"
-    "World_Imagery/MapServer/export"
-)
+ESRI_BASE = "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export"
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives a ~240m view
 USER_AGENT = "solar-map-ph/1.0 (case-studies; +https://github.com/xmpuspus/solar-map-ph)"

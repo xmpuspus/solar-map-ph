@@ -107,7 +107,7 @@ def main() -> int:
         result = query_one(c["name"], c["province"])
         if result is None:
             misses.append(c["name"])
-            print(f"  miss")
+            print("  miss")
             continue
         features.append(
             {

@@ -8,6 +8,7 @@ Also emit site/public/data/city_detection_counts.json with per-city aggregates:
 
 Run from repo root:  python3 site/scripts/enrich_detections.py
 """
+
 from __future__ import annotations
 
 import json
@@ -31,9 +32,7 @@ def point_in_ring(lon: float, lat: float, ring) -> bool:
     for i in range(n):
         xi, yi = ring[i][0], ring[i][1]
         xj, yj = ring[j][0], ring[j][1]
-        intersect = ((yi > lat) != (yj > lat)) and (
-            lon < (xj - xi) * (lat - yi) / ((yj - yi) or 1e-12) + xi
-        )
+        intersect = ((yi > lat) != (yj > lat)) and (lon < (xj - xi) * (lat - yi) / ((yj - yi) or 1e-12) + xi)
         if intersect:
             inside = not inside
         j = i
@@ -141,22 +140,30 @@ def main() -> None:
     for feat in franchise["features"]:
         bbox = bbox_of_geom(feat["geometry"])
         area = polygon_area_km2(feat["geometry"])
-        cities.append({
-            "name": feat["properties"]["name"],
-            "province": feat["properties"].get("province", ""),
-            "geometry": feat["geometry"],
-            "bbox": bbox,
-            "area_km2": area,
-        })
+        cities.append(
+            {
+                "name": feat["properties"]["name"],
+                "province": feat["properties"].get("province", ""),
+                "geometry": feat["geometry"],
+                "bbox": bbox,
+                "area_km2": area,
+            }
+        )
 
     n_with_status = 0
     n_with_city = 0
-    aggregates: dict[str, dict] = defaultdict(lambda: {
-        "n_high": 0, "n_candidate": 0,
-        "n_new_high": 0, "n_confirmed_high": 0,
-        "n_new_candidate": 0, "n_confirmed_candidate": 0,
-        "sum_kwp_high": 0.0, "sum_kwp_all": 0.0,
-    })
+    aggregates: dict[str, dict] = defaultdict(
+        lambda: {
+            "n_high": 0,
+            "n_candidate": 0,
+            "n_new_high": 0,
+            "n_confirmed_high": 0,
+            "n_new_candidate": 0,
+            "n_confirmed_candidate": 0,
+            "sum_kwp_high": 0.0,
+            "sum_kwp_all": 0.0,
+        }
+    )
     province_by_city: dict[str, str] = {}
     area_by_city: dict[str, float] = {}
     for c in cities:
@@ -218,42 +225,50 @@ def main() -> None:
     rows = []
     for name, agg in aggregates.items():
         area = area_by_city.get(name, 0.0)
-        rows.append({
-            "name": name,
-            "province": province_by_city.get(name, ""),
-            "n_high": agg["n_high"],
-            "n_candidate": agg["n_candidate"],
-            "n_new_high": agg["n_new_high"],
-            "n_confirmed_high": agg["n_confirmed_high"],
-            "n_new_candidate": agg["n_new_candidate"],
-            "n_confirmed_candidate": agg["n_confirmed_candidate"],
-            "sum_kwp_high": round(agg["sum_kwp_high"], 1),
-            "sum_kwp_all": round(agg["sum_kwp_all"], 1),
-            "area_km2": round(area, 2),
-            "high_per_km2": round(agg["n_high"] / area, 4) if area else 0.0,
-        })
+        rows.append(
+            {
+                "name": name,
+                "province": province_by_city.get(name, ""),
+                "n_high": agg["n_high"],
+                "n_candidate": agg["n_candidate"],
+                "n_new_high": agg["n_new_high"],
+                "n_confirmed_high": agg["n_confirmed_high"],
+                "n_new_candidate": agg["n_new_candidate"],
+                "n_confirmed_candidate": agg["n_confirmed_candidate"],
+                "sum_kwp_high": round(agg["sum_kwp_high"], 1),
+                "sum_kwp_all": round(agg["sum_kwp_all"], 1),
+                "area_km2": round(area, 2),
+                "high_per_km2": round(agg["n_high"] / area, 4) if area else 0.0,
+            }
+        )
     rows.sort(key=lambda r: r["n_high"], reverse=True)
-    OUT_COUNTS.write_text(json.dumps({
-        "_meta": {
-            "n_cities_with_detections": sum(1 for r in rows if r["n_high"] + r["n_candidate"] > 0),
-            "n_total_high": sum(r["n_high"] for r in rows),
-            "n_total_candidate": sum(r["n_candidate"] for r in rows),
-            "n_total_new_high": sum(r["n_new_high"] for r in rows),
-            "share_new_high": round(
-                sum(r["n_new_high"] for r in rows)
-                / max(sum(r["n_high"] for r in rows), 1),
-                3,
-            ),
-        },
-        "rows": rows,
-    }, indent=2))
+    OUT_COUNTS.write_text(
+        json.dumps(
+            {
+                "_meta": {
+                    "n_cities_with_detections": sum(1 for r in rows if r["n_high"] + r["n_candidate"] > 0),
+                    "n_total_high": sum(r["n_high"] for r in rows),
+                    "n_total_candidate": sum(r["n_candidate"] for r in rows),
+                    "n_total_new_high": sum(r["n_new_high"] for r in rows),
+                    "share_new_high": round(
+                        sum(r["n_new_high"] for r in rows) / max(sum(r["n_high"] for r in rows), 1),
+                        3,
+                    ),
+                },
+                "rows": rows,
+            },
+            indent=2,
+        )
+    )
 
     print(f"detections enriched: {n_with_status}/{len(detections['features'])} have osm_status")
     print(f"detections enriched: {n_with_city}/{len(detections['features'])} have lgu_name")
     print(f"city aggregates written: {len(rows)} cities")
     top = rows[:5]
     for r in top:
-        print(f"  {r['name']:18s} {r['n_high']:3d} high ({r['n_new_high']:3d} NEW), {r['n_candidate']:3d} cand, {r['sum_kwp_high']:.0f} kWp")
+        print(
+            f"  {r['name']:18s} {r['n_high']:3d} high ({r['n_new_high']:3d} NEW), {r['n_candidate']:3d} cand, {r['sum_kwp_high']:.0f} kWp"
+        )
 
 
 if __name__ == "__main__":

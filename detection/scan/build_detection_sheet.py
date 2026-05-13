@@ -51,7 +51,7 @@ def main() -> int:
         for page in range(pages):
             sheet = Image.new("RGB", (sheet_w, sheet_h), "white")
             draw = ImageDraw.Draw(sheet)
-            page_feats = tier_feats[page * page_size:(page + 1) * page_size]
+            page_feats = tier_feats[page * page_size : (page + 1) * page_size]
             for i, f in enumerate(page_feats):
                 tid = f["properties"]["tile_id"]
                 tile_path = TILES / f"{tid}.jpg"

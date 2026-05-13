@@ -57,13 +57,15 @@ def main() -> int:
         s2 = v2.get(tid, {}).get("score", 0)
         if s2 >= 0.85:
             continue
-        new_in_v3.append({
-            "tile_id": tid,
-            "lat": r3["lat"],
-            "lon": r3["lon"],
-            "v2_score": round(s2, 3),
-            "v3_score": round(s3, 3),
-        })
+        new_in_v3.append(
+            {
+                "tile_id": tid,
+                "lat": r3["lat"],
+                "lon": r3["lon"],
+                "v2_score": round(s2, 3),
+                "v3_score": round(s3, 3),
+            }
+        )
     new_in_v3.sort(key=lambda r: -r["v3_score"])
     print(f"[v3-new] {len(new_in_v3)} tiles newly promoted to high in v3")
 
@@ -91,7 +93,7 @@ def main() -> int:
     for page in range(pages):
         sheet = Image.new("RGB", (sheet_w, sheet_h), "white")
         draw = ImageDraw.Draw(sheet)
-        page_feats = new_in_v3[page * page_size:(page + 1) * page_size]
+        page_feats = new_in_v3[page * page_size : (page + 1) * page_size]
         for i, f in enumerate(page_feats):
             tid = f["tile_id"]
             tile_path = TILES / f"{tid}.jpg"
@@ -108,22 +110,24 @@ def main() -> int:
 
             global_idx = page * page_size + i
             draw.rectangle([x, y + THUMB, x + cell_w, y + cell_h], fill="black")
-            line1 = f"#{global_idx:02d}  v3={f['v3_score']:.3f}  v2={f['v2_score']:.3f}  Δ={f['v3_score']-f['v2_score']:+.3f}"
+            line1 = f"#{global_idx:02d}  v3={f['v3_score']:.3f}  v2={f['v2_score']:.3f}  Δ={f['v3_score'] - f['v2_score']:+.3f}"
             line2 = f"{f['lat']:.5f},{f['lon']:.5f}  page{page:02d}-cell{i}"
             draw.text((x + 8, y + THUMB + 6), line1, fill="white", font=font)
             draw.text((x + 8, y + THUMB + 36), line2, fill="white", font=font_small)
 
-            tag_rows.append({
-                "tile_id": tid,
-                "idx": global_idx,
-                "page": page,
-                "cell": i,
-                "v2_score": f["v2_score"],
-                "v3_score": f["v3_score"],
-                "lat": f["lat"],
-                "lon": f["lon"],
-                "label": existing.get(tid),
-            })
+            tag_rows.append(
+                {
+                    "tile_id": tid,
+                    "idx": global_idx,
+                    "page": page,
+                    "cell": i,
+                    "v2_score": f["v2_score"],
+                    "v3_score": f["v3_score"],
+                    "lat": f["lat"],
+                    "lon": f["lon"],
+                    "label": existing.get(tid),
+                }
+            )
         out_path = OUT_DIR / f"page_{page:02d}.png"
         sheet.save(out_path, optimize=True)
         print(f"[v3-new] wrote {out_path}")

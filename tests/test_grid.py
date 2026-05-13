@@ -5,8 +5,6 @@ These are pure-function tests, no network, no model load.
 
 from __future__ import annotations
 
-import math
-
 
 def test_grid_centers_in_bbox():
     from detection.scan.ncr_scan import grid_centers

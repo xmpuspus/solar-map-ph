@@ -152,29 +152,32 @@ def load_encoder(name: str):
     print(f"[ablation] loading encoder {name} on {DEVICE}")
     if name.startswith("openai/clip"):
         from transformers import CLIPModel, CLIPProcessor
+
         proc = CLIPProcessor.from_pretrained(name, use_fast=True)
         model = CLIPModel.from_pretrained(name).to(DEVICE).eval()
 
         def embed(imgs, batch_size=8):
             embs = []
             for i in range(0, len(imgs), batch_size):
-                batch = imgs[i:i + batch_size]
+                batch = imgs[i : i + batch_size]
                 inputs = proc(images=batch, return_tensors="pt").to(DEVICE)
                 with torch.no_grad():
                     e = model.get_image_features(**inputs)
                 e = e / e.norm(dim=-1, keepdim=True)
                 embs.append(e.cpu().numpy())
             return np.concatenate(embs, axis=0).astype(np.float32)
+
         return embed
     if name.startswith("facebook/dinov2"):
         from transformers import AutoImageProcessor, AutoModel
+
         proc = AutoImageProcessor.from_pretrained(name, use_fast=True)
         model = AutoModel.from_pretrained(name).to(DEVICE).eval()
 
         def embed(imgs, batch_size=8):
             embs = []
             for i in range(0, len(imgs), batch_size):
-                batch = imgs[i:i + batch_size]
+                batch = imgs[i : i + batch_size]
                 inputs = proc(images=batch, return_tensors="pt").to(DEVICE)
                 with torch.no_grad():
                     out = model(**inputs)
@@ -183,11 +186,13 @@ def load_encoder(name: str):
                 cls = cls / cls.norm(dim=-1, keepdim=True)
                 embs.append(cls.cpu().numpy())
             return np.concatenate(embs, axis=0).astype(np.float32)
+
         return embed
     if name.startswith("satlas:"):
         # name format: "satlas:Aerial_SwinB_SI"
         import satlaspretrain_models
         from torchvision import transforms
+
         identifier = name.split(":", 1)[1]
         wm = satlaspretrain_models.Weights()
         # Library hardcodes device='cuda' default; pass 'cpu' so map_location works on
@@ -199,15 +204,17 @@ def load_encoder(name: str):
         # Per satlas docs the input range is 0-255 cast to float and divided by 255.
         # The Swin model returns a list of feature maps from multiple stages; final
         # stage is index 3. We mean-pool that to a single vector per image.
-        prep = transforms.Compose([
-            transforms.Resize((512, 512)),
-            transforms.ToTensor(),  # 0-1 float
-        ])
+        prep = transforms.Compose(
+            [
+                transforms.Resize((512, 512)),
+                transforms.ToTensor(),  # 0-1 float
+            ]
+        )
 
         def embed(imgs, batch_size=4):
             embs = []
             for i in range(0, len(imgs), batch_size):
-                batch = imgs[i:i + batch_size]
+                batch = imgs[i : i + batch_size]
                 tensors = torch.stack([prep(img) for img in batch]).to(DEVICE)
                 with torch.no_grad():
                     out = model(tensors)
@@ -217,6 +224,7 @@ def load_encoder(name: str):
                 feat = feat / feat.norm(dim=-1, keepdim=True)
                 embs.append(feat.cpu().numpy())
             return np.concatenate(embs, axis=0).astype(np.float32)
+
         return embed
     raise ValueError(f"unsupported encoder: {name}")
 
@@ -268,13 +276,31 @@ def evaluate_loso(X, y, src):
     fn = sum(1 for s in pos_scores if s < fixed_t)
     tn = sum(1 for s in neg_scores if s < fixed_t)
     if tp + fp > 0:
-        fixed = {"threshold": fixed_t, "tp": tp, "fp": fp, "fn": fn, "tn": tn,
-                 "precision": tp/(tp+fp), "recall": tp/max(1,tp+fn),
-                 "f1": 2*(tp/(tp+fp))*(tp/max(1,tp+fn))/max(1e-9, tp/(tp+fp)+tp/max(1,tp+fn))}
+        fixed = {
+            "threshold": fixed_t,
+            "tp": tp,
+            "fp": fp,
+            "fn": fn,
+            "tn": tn,
+            "precision": tp / (tp + fp),
+            "recall": tp / max(1, tp + fn),
+            "f1": 2
+            * (tp / (tp + fp))
+            * (tp / max(1, tp + fn))
+            / max(1e-9, tp / (tp + fp) + tp / max(1, tp + fn)),
+        }
     f1, t, tp, fp, fn, tn = best
     return {
-        "best_f1": {"f1": f1, "threshold": t, "tp": tp, "fp": fp, "fn": fn, "tn": tn,
-                    "precision": tp/max(1,tp+fp), "recall": tp/max(1,tp+fn)},
+        "best_f1": {
+            "f1": f1,
+            "threshold": t,
+            "tp": tp,
+            "fp": fp,
+            "fn": fn,
+            "tn": tn,
+            "precision": tp / max(1, tp + fp),
+            "recall": tp / max(1, tp + fn),
+        },
         "at_threshold_0p85": fixed,
     }
 
@@ -315,11 +341,20 @@ def evaluate_calibrated(X, y, src, split):
     r085 = tp / max(1, tp + fn)
     f1085 = 2 * (p085 or 0) * r085 / max(1e-9, (p085 or 0) + r085) if p085 else 0.0
     return {
-        "platt_A": A, "platt_B": B,
+        "platt_A": A,
+        "platt_B": B,
         "n_holdout_pos_sources": len(pos_cal),
         "n_holdout_neg_sources": len(neg_cal),
-        "at_calibrated_t085": {"threshold": 0.85, "tp": tp, "fp": fp, "fn": fn, "tn": tn,
-                               "precision": p085, "recall": r085, "f1": f1085},
+        "at_calibrated_t085": {
+            "threshold": 0.85,
+            "tp": tp,
+            "fp": fp,
+            "fn": fn,
+            "tn": tn,
+            "precision": p085,
+            "recall": r085,
+            "f1": f1085,
+        },
     }
 
 
@@ -357,14 +392,14 @@ def main():
         rows.append((img.copy(), 0, src_name))
         for a in augment(img, args.neg_aug):
             rows.append((a, 0, src_name))
-    print(f"[ablation] {len(rows)} total rows assembled in {time.time()-t0:.1f}s")
+    print(f"[ablation] {len(rows)} total rows assembled in {time.time() - t0:.1f}s")
 
     embed = load_encoder(args.encoder)
     imgs = [r[0] for r in rows]
     print(f"[ablation] embedding {len(imgs)} images...")
     t0 = time.time()
     X = embed(imgs, batch_size=args.batch_size)
-    print(f"[ablation] embed time: {time.time()-t0:.1f}s; X.shape={X.shape}")
+    print(f"[ablation] embed time: {time.time() - t0:.1f}s; X.shape={X.shape}")
     y = np.array([r[1] for r in rows], dtype=np.int8)
     src = np.array([r[2] for r in rows])
 

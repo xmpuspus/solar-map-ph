@@ -34,10 +34,7 @@ DOCS_DIR = PIPELINE_DIR.parent / "docs" / "groundtruth"
 TILES_DIR = DOCS_DIR / "tiles"
 SHEETS_DIR = DOCS_DIR / "sheets"
 
-ESRI_BASE = (
-    "https://services.arcgisonline.com/arcgis/rest/services/"
-    "World_Imagery/MapServer/export"
-)
+ESRI_BASE = "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export"
 TILE_PX = 512
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives a ~240m view
 GRID_COLS = 5
@@ -117,7 +114,7 @@ def fetch_all(hotspots: list[dict]) -> list[dict]:
                 "fetched": ok,
             }
         )
-        print(f"[{i+1}/{len(hotspots)}] {name} ({psgc}): {'ok' if ok else 'FAILED'}")
+        print(f"[{i + 1}/{len(hotspots)}] {name} ({psgc}): {'ok' if ok else 'FAILED'}")
         time.sleep(0.6)  # respectful pacing
     index_path = DOCS_DIR / "index.json"
     with index_path.open("w") as f:

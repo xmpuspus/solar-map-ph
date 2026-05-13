@@ -25,7 +25,7 @@ from typing import Any
 
 import numpy as np
 import torch
-from PIL import Image, ImageDraw
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 CASE_STUDIES = ROOT / "site" / "public" / "case_studies"
@@ -80,6 +80,7 @@ def try_mask2former_swin_large() -> Any:
         AutoImageProcessor,
         Mask2FormerForUniversalSegmentation,
     )
+
     model_id = "abdulsalama/SV-solar-mask2-swin-large-ade-200-deepsolar-2023060311"
     print(f"[spike] loading {model_id}")
     processor = AutoImageProcessor.from_pretrained(model_id, use_fast=True)
@@ -92,6 +93,7 @@ def try_mask2former_swin_small() -> Any:
         AutoImageProcessor,
         Mask2FormerForUniversalSegmentation,
     )
+
     model_id = "abdulsalama/solar-mask2-swin-small-ade-200-deepsolar-2023060210"
     print(f"[spike] loading {model_id}")
     processor = AutoImageProcessor.from_pretrained(model_id, use_fast=True)
@@ -251,7 +253,9 @@ def main() -> int:
         # Drop id2label per-row to keep output compact
         r.pop("id2label", None)
         results["case_studies"].append(r)
-        print(f"  case {cid:14s} cov={r['coverage']:.4f} solar_px={r['solar_pixels']:6d} t={r['latency_ms']}ms")
+        print(
+            f"  case {cid:14s} cov={r['coverage']:.4f} solar_px={r['solar_pixels']:6d} t={r['latency_ms']}ms"
+        )
         save_overlay(path, model_tuple, SPIKE_OUT / f"case_{cid}_overlay.jpg")
 
     for idx, path in pos_gt:
@@ -283,15 +287,17 @@ def main() -> int:
 
     print()
     print(f"[spike] === AGGREGATE (threshold = {THRESH_PIXELS} solar px) ===")
-    print(f"  case studies (verified pos): {case_pos}/{n_cases} flagged ({case_pos/max(1,n_cases)*100:.0f}%)")
-    print(f"  gt positives (labels.json):  {pos_pos}/{n_pos} flagged ({pos_pos/max(1,n_pos)*100:.0f}%)")
-    print(f"  gt negatives (labels.json):  {neg_pos}/{n_neg} flagged ({neg_pos/max(1,n_neg)*100:.0f}%)")
+    print(
+        f"  case studies (verified pos): {case_pos}/{n_cases} flagged ({case_pos / max(1, n_cases) * 100:.0f}%)"
+    )
+    print(f"  gt positives (labels.json):  {pos_pos}/{n_pos} flagged ({pos_pos / max(1, n_pos) * 100:.0f}%)")
+    print(f"  gt negatives (labels.json):  {neg_pos}/{n_neg} flagged ({neg_pos / max(1, n_neg) * 100:.0f}%)")
     total_pos = case_pos + pos_pos
     total_pos_n = n_cases + n_pos
     if total_pos + neg_pos > 0:
         precision = total_pos / (total_pos + neg_pos)
         print(f"  combined precision: {precision:.3f}")
-    print(f"  combined recall (pos): {total_pos/max(1,total_pos_n):.3f}")
+    print(f"  combined recall (pos): {total_pos / max(1, total_pos_n):.3f}")
 
     out_path = SPIKE_OUT / "spike_results.json"
     with out_path.open("w") as f:

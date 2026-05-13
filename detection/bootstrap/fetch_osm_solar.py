@@ -44,10 +44,14 @@ out center tags;
 
 def fetch_overpass(query: str) -> dict:
     body = ("data=" + query).encode("utf-8")
-    req = Request(OVERPASS, data=body, headers={
-        "User-Agent": "solar-map-ph/2.0 (osm-solar-bootstrap; +https://github.com/xmpuspus/solar-map-ph)",
-        "Content-Type": "application/x-www-form-urlencoded",
-    })
+    req = Request(
+        OVERPASS,
+        data=body,
+        headers={
+            "User-Agent": "solar-map-ph/2.0 (osm-solar-bootstrap; +https://github.com/xmpuspus/solar-map-ph)",
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    )
     with urlopen(req, timeout=120) as resp:
         return json.loads(resp.read())
 
@@ -57,7 +61,7 @@ def main() -> int:
     t0 = time.time()
     data = fetch_overpass(QUERY)
     elements = data.get("elements", [])
-    print(f"[osm] got {len(elements)} elements in {time.time()-t0:.1f}s")
+    print(f"[osm] got {len(elements)} elements in {time.time() - t0:.1f}s")
 
     features = []
     for el in elements:
@@ -96,13 +100,17 @@ def main() -> int:
         seen.add(key)
         unique.append(f)
 
-    fc = {"type": "FeatureCollection", "features": unique, "_meta": {
-        "source": "OpenStreetMap via Overpass",
-        "query_bbox": BBOX,
-        "fetched_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "raw_count": len(features),
-        "unique_count": len(unique),
-    }}
+    fc = {
+        "type": "FeatureCollection",
+        "features": unique,
+        "_meta": {
+            "source": "OpenStreetMap via Overpass",
+            "query_bbox": BBOX,
+            "fetched_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "raw_count": len(features),
+            "unique_count": len(unique),
+        },
+    }
     OUT.write_text(json.dumps(fc, indent=2))
     print(f"[osm] wrote {OUT} (n={len(unique)})")
 
@@ -112,7 +120,9 @@ def main() -> int:
     for f in unique:
         p = f["properties"]
         by_loc[p.get("location") or "(none)"] = by_loc.get(p.get("location") or "(none)", 0) + 1
-        by_src[p.get("generator_source") or "(none)"] = by_src.get(p.get("generator_source") or "(none)", 0) + 1
+        by_src[p.get("generator_source") or "(none)"] = (
+            by_src.get(p.get("generator_source") or "(none)", 0) + 1
+        )
     print(f"\n[osm] location breakdown: {by_loc}")
     print(f"[osm] generator:source breakdown: {by_src}")
     return 0

@@ -20,7 +20,6 @@ from pathlib import Path
 import joblib
 import numpy as np
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import precision_recall_fscore_support
 
 ROOT = Path(__file__).resolve().parents[2]
 DS = ROOT / "detection" / "train" / "dataset.npz"
@@ -53,14 +52,18 @@ def main() -> int:
         true_label = int(y[val_mask][0])
         # Aggregate per-source: max score over all augs of that source
         pred_score = float(scores.max())
-        val_rows.append({
-            "source": held,
-            "true_label": true_label,
-            "max_score": pred_score,
-            "mean_score": float(scores.mean()),
-            "n_augs": int(val_mask.sum()),
-        })
-        print(f"  src={held:30s} true={true_label}  max_score={pred_score:.4f}  mean_score={scores.mean():.4f}")
+        val_rows.append(
+            {
+                "source": held,
+                "true_label": true_label,
+                "max_score": pred_score,
+                "mean_score": float(scores.mean()),
+                "n_augs": int(val_mask.sum()),
+            }
+        )
+        print(
+            f"  src={held:30s} true={true_label}  max_score={pred_score:.4f}  mean_score={scores.mean():.4f}"
+        )
 
     # Threshold sweep on per-source max_score
     pos_scores = sorted(r["max_score"] for r in val_rows if r["true_label"] == 1)
@@ -68,7 +71,9 @@ def main() -> int:
     print()
     print(f"[clf] LOSO results: {len(pos_scores)} positives, {len(neg_scores)} negatives")
     print(f"  pos max_scores: {[round(s, 3) for s in pos_scores]}")
-    print(f"  neg max_scores 5-num: min={min(neg_scores):.3f} q1={neg_scores[len(neg_scores)//4]:.3f} med={neg_scores[len(neg_scores)//2]:.3f} q3={neg_scores[3*len(neg_scores)//4]:.3f} max={max(neg_scores):.3f}")
+    print(
+        f"  neg max_scores 5-num: min={min(neg_scores):.3f} q1={neg_scores[len(neg_scores) // 4]:.3f} med={neg_scores[len(neg_scores) // 2]:.3f} q3={neg_scores[3 * len(neg_scores) // 4]:.3f} max={max(neg_scores):.3f}"
+    )
 
     # Threshold sweep
     all_scores = sorted(set(pos_scores + neg_scores))
@@ -105,9 +110,18 @@ def main() -> int:
         "precision": precision,
         "recall": recall,
         "f1": f1,
-        "tp": tp, "fp": fp, "fn": fn, "tn": tn,
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
+        "tn": tn,
         "pos_scores": pos_scores,
-        "neg_scores_5num": [min(neg_scores), neg_scores[len(neg_scores)//4], neg_scores[len(neg_scores)//2], neg_scores[3*len(neg_scores)//4], max(neg_scores)],
+        "neg_scores_5num": [
+            min(neg_scores),
+            neg_scores[len(neg_scores) // 4],
+            neg_scores[len(neg_scores) // 2],
+            neg_scores[3 * len(neg_scores) // 4],
+            max(neg_scores),
+        ],
     }
     METRICS_OUT.write_text(json.dumps(metrics, indent=2))
     print(f"[clf] saved metrics to {METRICS_OUT}")

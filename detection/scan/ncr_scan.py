@@ -19,11 +19,10 @@ from __future__ import annotations
 
 import argparse
 import json
-import math
 import os
 import sys
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -34,7 +33,8 @@ import numpy as np
 # the grid generators can `from detection.scan.ncr_scan import grid_centers`
 # without paying the cost (or even requiring torch to be installed).
 try:
-    import torch  # noqa: F401
+    import torch
+
     DEVICE = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
 except ModuleNotFoundError:
     torch = None  # type: ignore[assignment]
@@ -58,10 +58,7 @@ RESULTS_JSONL = SCAN_DIR / "ncr_scan_results.jsonl"
 GEOJSON_OUT = ROOT / "site" / "public" / "data" / "rooftop_solar_ncr.geojson"
 CLF_PATH = ROOT / "detection" / "train" / "clf_v2.joblib"
 
-ESRI_BASE = (
-    "https://services.arcgisonline.com/arcgis/rest/services/"
-    "World_Imagery/MapServer/export"
-)
+ESRI_BASE = "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export"
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives 240m view
 USER_AGENT = "solar-map-ph/2.0 (ncr-scan; +https://github.com/xmpuspus/solar-map-ph)"
@@ -107,7 +104,7 @@ def fetch_tile(lon: float, lat: float, out_path: Path, max_retries: int = 3) -> 
             out_path.parent.mkdir(parents=True, exist_ok=True)
             out_path.write_bytes(data)
             return True
-        except Exception as exc:
+        except Exception:
             if attempt < max_retries:
                 time.sleep(2 * attempt)
     return False
@@ -135,6 +132,7 @@ def load_already_done() -> set[str]:
 
 def load_clip():
     from transformers import CLIPModel, CLIPProcessor
+
     print("[scan] loading CLIP-ViT-L")
     processor = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14", use_fast=True)
     model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(DEVICE).eval()
@@ -164,14 +162,14 @@ def main() -> int:
         "--reuse-tiles",
         action="store_true",
         help="Skip fetch entirely; only re-classify already-cached jpgs in ncr_tiles/. "
-             "Resets JSONL output (results-only re-classification, ~3min not 13).",
+        "Resets JSONL output (results-only re-classification, ~3min not 13).",
     )
     ap.add_argument(
         "--results-jsonl",
         type=str,
         default=str(RESULTS_JSONL),
         help="JSONL output path (default ncr_scan_results.jsonl). Use a v3-tagged path "
-             "to keep v2 results around for delta comparison.",
+        "to keep v2 results around for delta comparison.",
     )
     args = ap.parse_args()
 
@@ -202,7 +200,9 @@ def main() -> int:
     clf_path = Path(args.clf)
     bundle = joblib.load(clf_path)
     clf = bundle["clf"]
-    print(f"[scan] loaded classifier: {clf_path.name}  encoder={bundle.get('encoder')}  version={bundle.get('version', 'v2')}")
+    print(
+        f"[scan] loaded classifier: {clf_path.name}  encoder={bundle.get('encoder')}  version={bundle.get('version', 'v2')}"
+    )
     processor, model = load_clip()
 
     BATCH = 16
@@ -244,7 +244,18 @@ def main() -> int:
             for fut_result in futures_iter:
                 tid, la, lo, p, ok = fut_result
                 if not ok:
-                    fjsonl.write(json.dumps({"tile_id": tid, "lat": la, "lon": lo, "fetch_ok": False, "error": "fetch_failed_or_tiny_response"}) + "\n")
+                    fjsonl.write(
+                        json.dumps(
+                            {
+                                "tile_id": tid,
+                                "lat": la,
+                                "lon": lo,
+                                "fetch_ok": False,
+                                "error": "fetch_failed_or_tiny_response",
+                            }
+                        )
+                        + "\n"
+                    )
                     n_fail += 1
                     continue
                 batch.append((tid, la, lo, p))
@@ -253,10 +264,18 @@ def main() -> int:
                     X = embed_batch(processor, model, imgs)
                     scores = clf.predict_proba(X)[:, 1]
                     for (t, lat_, lon_, _), sc in zip(batch, scores):
-                        fjsonl.write(json.dumps({
-                            "tile_id": t, "lat": lat_, "lon": lon_, "fetch_ok": True,
-                            "score": float(sc),
-                        }) + "\n")
+                        fjsonl.write(
+                            json.dumps(
+                                {
+                                    "tile_id": t,
+                                    "lat": lat_,
+                                    "lon": lon_,
+                                    "fetch_ok": True,
+                                    "score": float(sc),
+                                }
+                            )
+                            + "\n"
+                        )
                     fjsonl.flush()
                     os.fsync(fjsonl.fileno())
                     n_ok += len(batch)
@@ -266,17 +285,27 @@ def main() -> int:
                         rate = n_ok / max(1, elapsed)
                         remaining = len(todo) - n_ok - n_fail
                         eta = remaining / max(0.1, rate)
-                        print(f"[scan] {n_ok}/{len(todo)} ok  fail={n_fail}  rate={rate:.1f}/s  ETA={eta/60:.1f}min")
+                        print(
+                            f"[scan] {n_ok}/{len(todo)} ok  fail={n_fail}  rate={rate:.1f}/s  ETA={eta / 60:.1f}min"
+                        )
             # flush remainder
             if batch:
                 imgs = [Image.open(it[3]).convert("RGB") for it in batch]
                 X = embed_batch(processor, model, imgs)
                 scores = clf.predict_proba(X)[:, 1]
                 for (t, lat_, lon_, _), sc in zip(batch, scores):
-                    fjsonl.write(json.dumps({
-                        "tile_id": t, "lat": lat_, "lon": lon_, "fetch_ok": True,
-                        "score": float(sc),
-                    }) + "\n")
+                    fjsonl.write(
+                        json.dumps(
+                            {
+                                "tile_id": t,
+                                "lat": lat_,
+                                "lon": lon_,
+                                "fetch_ok": True,
+                                "score": float(sc),
+                            }
+                        )
+                        + "\n"
+                    )
                 fjsonl.flush()
                 n_ok += len(batch)
 
@@ -288,8 +317,13 @@ def main() -> int:
         # Run OSM cross-match if both inputs are available
         try:
             import subprocess
-            subprocess.run([sys.executable, str(ROOT / "detection" / "scan" / "match_against_osm.py")], check=False)
-            subprocess.run([sys.executable, str(ROOT / "detection" / "scan" / "build_detection_sheet.py")], check=False)
+
+            subprocess.run(
+                [sys.executable, str(ROOT / "detection" / "scan" / "match_against_osm.py")], check=False
+            )
+            subprocess.run(
+                [sys.executable, str(ROOT / "detection" / "scan" / "build_detection_sheet.py")], check=False
+            )
         except Exception as exc:
             print(f"[scan] post-aggregation steps failed: {exc}", file=sys.stderr)
     return 0
@@ -323,16 +357,23 @@ def aggregate_to_geojson(results_jsonl: Path = RESULTS_JSONL, clf_label: str = "
                 n_cand += 1
             else:
                 continue
-            feats.append({
-                "type": "Feature",
-                "geometry": {"type": "Point", "coordinates": [rec["lon"], rec["lat"]]},
-                "properties": {
-                    "tile_id": rec["tile_id"],
-                    "score": round(float(score), 3),
-                    "tier": tier,
-                    "tile_bbox": [rec["lon"] - HALF, rec["lat"] - HALF, rec["lon"] + HALF, rec["lat"] + HALF],
-                },
-            })
+            feats.append(
+                {
+                    "type": "Feature",
+                    "geometry": {"type": "Point", "coordinates": [rec["lon"], rec["lat"]]},
+                    "properties": {
+                        "tile_id": rec["tile_id"],
+                        "score": round(float(score), 3),
+                        "tier": tier,
+                        "tile_bbox": [
+                            rec["lon"] - HALF,
+                            rec["lat"] - HALF,
+                            rec["lon"] + HALF,
+                            rec["lat"] + HALF,
+                        ],
+                    },
+                }
+            )
     fc = {
         "type": "FeatureCollection",
         "features": feats,

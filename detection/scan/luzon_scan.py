@@ -60,10 +60,7 @@ DEFAULT_RESULTS = SCAN_DIR / "luzon_scan_results.jsonl"
 CLF_DEFAULT = ROOT / "detection" / "train" / "clf_v4.joblib"
 
 # Reuse the same constants as ncr_scan so tile_ids line up.
-ESRI_BASE = (
-    "https://services.arcgisonline.com/arcgis/rest/services/"
-    "World_Imagery/MapServer/export"
-)
+ESRI_BASE = "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/export"
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives 240m view
 USER_AGENT = "solar-map-ph/2.0 (luzon-scan; +https://github.com/xmpuspus/solar-map-ph)"
@@ -76,11 +73,7 @@ TILE_DEG_LON = 0.00224
 # wider rectangle and run multiple passes per island group.
 LUZON_BBOX = (12.30, 119.70, 18.65, 124.30)
 
-DEVICE = (
-    "mps" if torch.backends.mps.is_available()
-    else "cuda" if torch.cuda.is_available()
-    else "cpu"
-)
+DEVICE = "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def grid_centers(bbox: tuple[float, float, float, float]) -> list[tuple[float, float]]:
@@ -135,13 +128,10 @@ def _load_done(jsonl_path: Path) -> set[str]:
 
 def load_clip():
     from transformers import CLIPModel, CLIPProcessor
+
     print("[luzon-scan] loading CLIP-ViT-L")
-    processor = CLIPProcessor.from_pretrained(
-        "openai/clip-vit-large-patch14", use_fast=True
-    )
-    model = CLIPModel.from_pretrained(
-        "openai/clip-vit-large-patch14"
-    ).to(DEVICE).eval()
+    processor = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14", use_fast=True)
+    model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(DEVICE).eval()
     return processor, model
 
 
@@ -174,6 +164,7 @@ def _prefilter_centers(
         by_tile.setdefault(name, []).append((lat, lon))
 
     import rasterio
+
     kept: list[tuple[float, float]] = []
     skipped: list[tuple[float, float]] = []
     for name, pts in by_tile.items():
@@ -202,34 +193,45 @@ def _prefilter_centers(
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument(
-        "--bbox", type=str,
+        "--bbox",
+        type=str,
         help=f"south,west,north,east. Default Luzon mainland: {LUZON_BBOX}",
     )
     ap.add_argument("--limit", type=int, help="Cap on number of tiles (smoke test)")
     ap.add_argument(
-        "--clf", type=str, default=str(CLF_DEFAULT),
+        "--clf",
+        type=str,
+        default=str(CLF_DEFAULT),
         help="Classifier joblib (default clf_v4.joblib)",
     )
     ap.add_argument(
-        "--results-jsonl", type=str, default=str(DEFAULT_RESULTS),
+        "--results-jsonl",
+        type=str,
+        default=str(DEFAULT_RESULTS),
         help="Streaming JSONL output (resumable)",
     )
     ap.add_argument(
-        "--score-floor", type=float, default=0.50,
+        "--score-floor",
+        type=float,
+        default=0.50,
         help="Only emit JSONL records with score >= this floor. Below-floor "
-             "tiles still consume an embed but the output stays compact. "
-             "(For Luzon, 0.50 is roughly 1.5%% of tiles -> ~17K rows out of 1.15M scanned.)",
+        "tiles still consume an embed but the output stays compact. "
+        "(For Luzon, 0.50 is roughly 1.5%% of tiles -> ~17K rows out of 1.15M scanned.)",
     )
     ap.add_argument(
-        "--builtup-threshold", type=float, default=0.05,
+        "--builtup-threshold",
+        type=float,
+        default=0.05,
         help="ESA WorldCover built-up fraction floor for prefilter (0-1).",
     )
     ap.add_argument(
-        "--no-prefilter", action="store_true",
+        "--no-prefilter",
+        action="store_true",
         help="Skip the WorldCover prefilter entirely (run on every grid cell).",
     )
     ap.add_argument(
-        "--workers", type=int,
+        "--workers",
+        type=int,
         default=int(os.environ.get("SOLAR_MAP_PH_FETCH_WORKERS", "32")),
         help="Concurrent fetch workers. 32 is the sweet spot against Esri.",
     )
@@ -243,14 +245,13 @@ def main() -> int:
         centers = centers_all
         skipped_prefilter: list[tuple[float, float]] = []
     else:
-        print("[luzon-scan] applying WorldCover built-up prefilter "
-              f"(threshold={args.builtup_threshold})")
+        print(f"[luzon-scan] applying WorldCover built-up prefilter (threshold={args.builtup_threshold})")
         t0 = time.time()
         centers, skipped_prefilter = _prefilter_centers(centers_all, args.builtup_threshold)
         print(
             f"[luzon-scan] prefilter kept {len(centers)}/{len(centers_all)} "
-            f"({100*len(centers)/max(1,len(centers_all)):.1f}%) "
-            f"in {time.time()-t0:.0f}s"
+            f"({100 * len(centers) / max(1, len(centers_all)):.1f}%) "
+            f"in {time.time() - t0:.0f}s"
         )
 
     if args.limit:
@@ -266,10 +267,17 @@ def main() -> int:
     if skipped_prefilter and not skipped_jsonl.exists():
         with skipped_jsonl.open("w") as f:
             for lat, lon in skipped_prefilter:
-                f.write(json.dumps({
-                    "tile_id": f"{lat:.5f}_{lon:.5f}", "lat": lat, "lon": lon,
-                    "skipped_reason": "builtup_below_threshold",
-                }) + "\n")
+                f.write(
+                    json.dumps(
+                        {
+                            "tile_id": f"{lat:.5f}_{lon:.5f}",
+                            "lat": lat,
+                            "lon": lon,
+                            "skipped_reason": "builtup_below_threshold",
+                        }
+                    )
+                    + "\n"
+                )
         print(f"[luzon-scan] wrote {len(skipped_prefilter)} prefilter skips -> {skipped_jsonl.name}")
 
     bundle = joblib.load(Path(args.clf))
@@ -308,9 +316,17 @@ def main() -> int:
             batch: list[tuple[str, float, float, Image.Image]] = []
             for tid, la, lo, img in pool.map(_fetch_one, todo):
                 if img is None:
-                    fout.write(json.dumps({
-                        "tile_id": tid, "lat": la, "lon": lo, "fetch_ok": False,
-                    }) + "\n")
+                    fout.write(
+                        json.dumps(
+                            {
+                                "tile_id": tid,
+                                "lat": la,
+                                "lon": lo,
+                                "fetch_ok": False,
+                            }
+                        )
+                        + "\n"
+                    )
                     n_fail += 1
                     continue
                 batch.append((tid, la, lo, img))
@@ -321,10 +337,18 @@ def main() -> int:
                     for (t, lat_, lon_, _), sc in zip(batch, scores):
                         sc = float(sc)
                         if sc >= args.score_floor:
-                            fout.write(json.dumps({
-                                "tile_id": t, "lat": lat_, "lon": lon_,
-                                "fetch_ok": True, "score": sc,
-                            }) + "\n")
+                            fout.write(
+                                json.dumps(
+                                    {
+                                        "tile_id": t,
+                                        "lat": lat_,
+                                        "lon": lon_,
+                                        "fetch_ok": True,
+                                        "score": sc,
+                                    }
+                                )
+                                + "\n"
+                            )
                             n_emit += 1
                     fout.flush()
                     n_ok += len(batch)
@@ -336,7 +360,7 @@ def main() -> int:
                         eta = remaining / max(0.1, rate)
                         print(
                             f"[luzon-scan] {n_ok}/{len(todo)} ok  fail={n_fail}  "
-                            f"emit={n_emit}  rate={rate:.1f}/s  ETA={eta/60:.1f}min"
+                            f"emit={n_emit}  rate={rate:.1f}/s  ETA={eta / 60:.1f}min"
                         )
             if batch:
                 imgs = [b[3] for b in batch]
@@ -345,10 +369,18 @@ def main() -> int:
                 for (t, lat_, lon_, _), sc in zip(batch, scores):
                     sc = float(sc)
                     if sc >= args.score_floor:
-                        fout.write(json.dumps({
-                            "tile_id": t, "lat": lat_, "lon": lon_,
-                            "fetch_ok": True, "score": sc,
-                        }) + "\n")
+                        fout.write(
+                            json.dumps(
+                                {
+                                    "tile_id": t,
+                                    "lat": lat_,
+                                    "lon": lon_,
+                                    "fetch_ok": True,
+                                    "score": sc,
+                                }
+                            )
+                            + "\n"
+                        )
                         n_emit += 1
                 fout.flush()
                 n_ok += len(batch)
@@ -356,8 +388,8 @@ def main() -> int:
     elapsed = time.time() - t_start
     print(
         f"[luzon-scan] complete: {n_ok} ok, {n_fail} fail, {n_emit} above floor "
-        f"in {elapsed/60:.1f}min "
-        f"({n_ok/max(1,elapsed):.1f} t/s)"
+        f"in {elapsed / 60:.1f}min "
+        f"({n_ok / max(1, elapsed):.1f} t/s)"
     )
     print(f"[luzon-scan] results -> {results_jsonl}")
     return 0

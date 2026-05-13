@@ -28,7 +28,7 @@ def main() -> int:
     X = data["X"]
     y = data["y"]
     src = data["src"]
-    print(f"[v3-train] X={X.shape}  pos={int((y==1).sum())}  neg={int((y==0).sum())}")
+    print(f"[v3-train] X={X.shape}  pos={int((y == 1).sum())}  neg={int((y == 0).sum())}")
     unique_sources = sorted(set(src.tolist()))
     print(f"[v3-train] unique sources: {len(unique_sources)}")
 
@@ -71,7 +71,9 @@ def main() -> int:
 
         n_held_pos = sum(1 for s in held if y[src == s][0] == 1)
         n_held_neg = sum(1 for s in held if y[src == s][0] == 0)
-        print(f"  fold {fold}: train={train_mask.sum()} val={val_mask.sum()} held_pos={n_held_pos} held_neg={n_held_neg}")
+        print(
+            f"  fold {fold}: train={train_mask.sum()} val={val_mask.sum()} held_pos={n_held_pos} held_neg={n_held_neg}"
+        )
 
     pos_results = [r for r in per_source_results.values() if r["true_label"] == 1]
     neg_results = [r for r in per_source_results.values() if r["true_label"] == 0]
@@ -80,9 +82,13 @@ def main() -> int:
     print()
     print(f"[v3-train] CV pos sources: {len(pos_scores)}  neg sources: {len(neg_scores)}")
     if pos_scores:
-        print(f"  pos max_score 5-num: min={min(pos_scores):.3f} q1={pos_scores[len(pos_scores)//4]:.3f} med={pos_scores[len(pos_scores)//2]:.3f} q3={pos_scores[3*len(pos_scores)//4]:.3f} max={max(pos_scores):.3f}")
+        print(
+            f"  pos max_score 5-num: min={min(pos_scores):.3f} q1={pos_scores[len(pos_scores) // 4]:.3f} med={pos_scores[len(pos_scores) // 2]:.3f} q3={pos_scores[3 * len(pos_scores) // 4]:.3f} max={max(pos_scores):.3f}"
+        )
     if neg_scores:
-        print(f"  neg max_score 5-num: min={min(neg_scores):.3f} q1={neg_scores[len(neg_scores)//4]:.3f} med={neg_scores[len(neg_scores)//2]:.3f} q3={neg_scores[3*len(neg_scores)//4]:.3f} max={max(neg_scores):.3f}")
+        print(
+            f"  neg max_score 5-num: min={min(neg_scores):.3f} q1={neg_scores[len(neg_scores) // 4]:.3f} med={neg_scores[len(neg_scores) // 2]:.3f} q3={neg_scores[3 * len(neg_scores) // 4]:.3f} max={max(neg_scores):.3f}"
+        )
 
     all_scores = sorted(set(pos_scores + neg_scores))
     best_f1 = (-1.0, None, 0, 0, 0, 0)
@@ -114,39 +120,67 @@ def main() -> int:
         p_85 = tp / (tp + fp)
         r_85 = tp / max(1, tp + fn)
         f_85 = 2 * p_85 * r_85 / max(1e-9, p_85 + r_85)
-        fixed_metrics = {"threshold": fixed_t, "precision": p_85, "recall": r_85, "f1": f_85,
-                         "tp": tp, "fp": fp, "fn": fn, "tn": tn}
+        fixed_metrics = {
+            "threshold": fixed_t,
+            "precision": p_85,
+            "recall": r_85,
+            "f1": f_85,
+            "tp": tp,
+            "fp": fp,
+            "fn": fn,
+            "tn": tn,
+        }
 
     f1, t, tp, fp, fn, tn = best_f1
     precision = tp / max(1, tp + fp)
     recall = tp / max(1, tp + fn)
     print()
-    print(f"[v3-train] BEST F1: t={t:.4f}  TP={tp} FP={fp} FN={fn} TN={tn}  precision={precision:.3f} recall={recall:.3f} F1={f1:.3f}")
+    print(
+        f"[v3-train] BEST F1: t={t:.4f}  TP={tp} FP={fp} FN={fn} TN={tn}  precision={precision:.3f} recall={recall:.3f} F1={f1:.3f}"
+    )
     if fixed_metrics is not None:
-        print(f"[v3-train] @ t=0.85: P={fixed_metrics['precision']:.3f} R={fixed_metrics['recall']:.3f} F1={fixed_metrics['f1']:.3f}")
+        print(
+            f"[v3-train] @ t=0.85: P={fixed_metrics['precision']:.3f} R={fixed_metrics['recall']:.3f} F1={fixed_metrics['f1']:.3f}"
+        )
     if high_precision_thresh is not None:
         ht, hp, hr, htp, hfp, hfn, htn = high_precision_thresh
         print(f"[v3-train] HIGH-PRECISION (P>=0.9, R>=0.5): t={ht:.4f}  precision={hp:.3f} recall={hr:.3f}")
 
     final = LogisticRegression(max_iter=2000, C=1.0, class_weight="balanced", random_state=42)
     final.fit(X, y)
-    joblib.dump({
-        "clf": final,
-        "threshold_best_f1": float(t) if t else None,
-        "threshold_high_precision": float(high_precision_thresh[0]) if high_precision_thresh else None,
-        "feature_dim": int(X.shape[1]),
-        "encoder": "openai/clip-vit-large-patch14",
-        "version": "v3",
-    }, CLF)
+    joblib.dump(
+        {
+            "clf": final,
+            "threshold_best_f1": float(t) if t else None,
+            "threshold_high_precision": float(high_precision_thresh[0]) if high_precision_thresh else None,
+            "feature_dim": int(X.shape[1]),
+            "encoder": "openai/clip-vit-large-patch14",
+            "version": "v3",
+        },
+        CLF,
+    )
     print(f"[v3-train] saved -> {CLF}")
 
     metrics = {
-        "best_f1": {"f1": f1, "threshold": t, "tp": tp, "fp": fp, "fn": fn, "tn": tn,
-                    "precision": precision, "recall": recall},
+        "best_f1": {
+            "f1": f1,
+            "threshold": t,
+            "tp": tp,
+            "fp": fp,
+            "fn": fn,
+            "tn": tn,
+            "precision": precision,
+            "recall": recall,
+        },
         "at_threshold_0p85": fixed_metrics,
         "high_precision": (
-            {"threshold": high_precision_thresh[0], "precision": high_precision_thresh[1], "recall": high_precision_thresh[2]}
-            if high_precision_thresh else None
+            {
+                "threshold": high_precision_thresh[0],
+                "precision": high_precision_thresh[1],
+                "recall": high_precision_thresh[2],
+            }
+            if high_precision_thresh
+            else None
         ),
         "n_pos_sources": len(pos_scores),
         "n_neg_sources": len(neg_scores),

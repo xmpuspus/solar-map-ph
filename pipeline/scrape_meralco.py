@@ -105,7 +105,9 @@ def main() -> int:
         # field did come through. A partial match is more useful than no match
         # plus it lets the human reviewer fill in the missing value.
         if installs or mw:
-            if partial is None or sum(1 for v in result.values() if v) > sum(1 for v in partial.values() if v):
+            if partial is None or sum(1 for v in result.values() if v) > sum(
+                1 for v in partial.values() if v
+            ):
                 partial = result
                 used_url = url
 

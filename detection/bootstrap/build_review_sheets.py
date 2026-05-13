@@ -49,7 +49,7 @@ def main() -> int:
     for page in range(pages):
         sheet = Image.new("RGB", (sheet_w, sheet_h), "white")
         draw = ImageDraw.Draw(sheet)
-        page_items = items[page * page_size:(page + 1) * page_size]
+        page_items = items[page * page_size : (page + 1) * page_size]
         for i, it in enumerate(page_items):
             row = i // GRID
             col = i % GRID

@@ -93,15 +93,17 @@ def main() -> int:
             n_b += 1
             sum_kwp += f["properties"]["kwp_estimate"]
 
-        rollup.append({
-            "city": city_name,
-            "province": province,
-            "n_high": n_high,
-            "n_candidate": n_cand,
-            "n_buildings_solar": n_b,
-            "sum_kwp": round(sum_kwp, 1),
-            "mean_kwp_per_building": round(sum_kwp / n_b, 1) if n_b else 0.0,
-        })
+        rollup.append(
+            {
+                "city": city_name,
+                "province": province,
+                "n_high": n_high,
+                "n_candidate": n_cand,
+                "n_buildings_solar": n_b,
+                "sum_kwp": round(sum_kwp, 1),
+                "mean_kwp_per_building": round(sum_kwp / n_b, 1) if n_b else 0.0,
+            }
+        )
 
     rollup.sort(key=lambda r: -r["sum_kwp"])
     OUT.write_text(json.dumps(rollup, indent=2))
@@ -109,12 +111,16 @@ def main() -> int:
     print()
     print("Top 10 by total installed kWp:")
     for r in rollup[:10]:
-        print(f"  {r['city']:<25} {r['n_high']:>3}H {r['n_candidate']:>3}C  {r['n_buildings_solar']:>3}bldg  {r['sum_kwp']:>8.0f} kWp")
+        print(
+            f"  {r['city']:<25} {r['n_high']:>3}H {r['n_candidate']:>3}C  {r['n_buildings_solar']:>3}bldg  {r['sum_kwp']:>8.0f} kWp"
+        )
     print()
     print("Bottom 10 (cities with detections but smallest installed):")
     nonzero = [r for r in rollup if r["sum_kwp"] > 0]
     for r in nonzero[-10:]:
-        print(f"  {r['city']:<25} {r['n_high']:>3}H {r['n_candidate']:>3}C  {r['n_buildings_solar']:>3}bldg  {r['sum_kwp']:>8.1f} kWp")
+        print(
+            f"  {r['city']:<25} {r['n_high']:>3}H {r['n_candidate']:>3}C  {r['n_buildings_solar']:>3}bldg  {r['sum_kwp']:>8.1f} kWp"
+        )
     return 0
 
 

@@ -112,11 +112,17 @@ def built_up_fraction(ds, lat: float, lon: float) -> float:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bbox", required=True, help="south,west,north,east")
-    ap.add_argument("--threshold", type=float, default=0.05,
-                    help="Min built-up fraction to keep tile (default: 0.05 = 5%%)")
+    ap.add_argument(
+        "--threshold",
+        type=float,
+        default=0.05,
+        help="Min built-up fraction to keep tile (default: 0.05 = 5%%)",
+    )
     ap.add_argument("--out", required=True, help="Output JSON: {tile_id: builtup_fraction}")
-    ap.add_argument("--validate-against",
-                    help="Optional: GeoJSON with high-conf tiles to verify pre-filter doesn't drop them")
+    ap.add_argument(
+        "--validate-against",
+        help="Optional: GeoJSON with high-conf tiles to verify pre-filter doesn't drop them",
+    )
     args = ap.parse_args()
 
     bbox = tuple(float(x) for x in args.bbox.split(","))
@@ -156,17 +162,24 @@ def main():
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps({
-        "bbox": bbox,
-        "threshold": args.threshold,
-        "n_total": len(out_map),
-        "n_kept": n_kept,
-        "n_dropped": n_dropped,
-        "drop_rate": n_dropped / max(1, len(out_map)),
-        "by_tile": out_map,
-    }, indent=2))
+    out_path.write_text(
+        json.dumps(
+            {
+                "bbox": bbox,
+                "threshold": args.threshold,
+                "n_total": len(out_map),
+                "n_kept": n_kept,
+                "n_dropped": n_dropped,
+                "drop_rate": n_dropped / max(1, len(out_map)),
+                "by_tile": out_map,
+            },
+            indent=2,
+        )
+    )
     print(f"[prefilter] wrote {out_path}")
-    print(f"[prefilter] kept {n_kept}/{len(out_map)} ({100*n_kept/max(1,len(out_map)):.1f}%) threshold={args.threshold}")
+    print(
+        f"[prefilter] kept {n_kept}/{len(out_map)} ({100 * n_kept / max(1, len(out_map)):.1f}%) threshold={args.threshold}"
+    )
 
     # Validation: if a high-conf GeoJSON is supplied, ensure none of its tiles are dropped
     if args.validate_against:
@@ -179,9 +192,15 @@ def main():
             tid = f"{lat:.5f}_{lon:.5f}"
             f_val = out_map.get(tid)
             if f_val is None or f_val < args.threshold:
-                dropped_high.append({"tile_id": tid, "lat": lat, "lon": lon,
-                                     "score": h["properties"].get("score"),
-                                     "builtup": f_val})
+                dropped_high.append(
+                    {
+                        "tile_id": tid,
+                        "lat": lat,
+                        "lon": lon,
+                        "score": h["properties"].get("score"),
+                        "builtup": f_val,
+                    }
+                )
         print(f"[prefilter] validation: {len(high)} high-conf tiles checked")
         if dropped_high:
             print(f"[prefilter] DROPPED {len(dropped_high)} high-conf tiles by pre-filter:")

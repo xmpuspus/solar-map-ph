@@ -48,7 +48,9 @@ def main() -> int:
     holdout_mask = np.array([s in holdout for s in src])
     train_mask = ~holdout_mask
     print(f"train rows: {train_mask.sum()}  holdout rows: {holdout_mask.sum()}")
-    print(f"  holdout pos rows: {(y[holdout_mask] == 1).sum()}  holdout neg rows: {(y[holdout_mask] == 0).sum()}")
+    print(
+        f"  holdout pos rows: {(y[holdout_mask] == 1).sum()}  holdout neg rows: {(y[holdout_mask] == 0).sum()}"
+    )
 
     # ===== 1. Train base LR on 80% =====
     base = LogisticRegression(max_iter=2000, C=1.0, class_weight="balanced", random_state=42)
@@ -84,8 +86,10 @@ def main() -> int:
     brier_platt = float(brier_score_loss(y_holdout, cal_holdout))
     brier_iso = float(brier_score_loss(y_holdout, iso_holdout))
     brier_uncal = float(brier_score_loss(y_holdout, uncal_holdout))
-    print(f"Brier score (lower=better): "
-          f"uncalibrated={brier_uncal:.4f}  Platt={brier_platt:.4f}  isotonic={brier_iso:.4f}")
+    print(
+        f"Brier score (lower=better): "
+        f"uncalibrated={brier_uncal:.4f}  Platt={brier_platt:.4f}  isotonic={brier_iso:.4f}"
+    )
 
     # ===== 4. Source-level holdout: max calibrated score per source =====
     src_max_cal = {}
@@ -102,9 +106,13 @@ def main() -> int:
     neg_cal = sorted([src_max_cal[s] for s in src_max_cal if src_label[s] == 0])
     print(f"holdout pos sources: {len(pos_cal)}  neg sources: {len(neg_cal)}")
     if pos_cal:
-        print(f"  pos cal 5-num: min={min(pos_cal):.3f} med={pos_cal[len(pos_cal)//2]:.3f} max={max(pos_cal):.3f}")
+        print(
+            f"  pos cal 5-num: min={min(pos_cal):.3f} med={pos_cal[len(pos_cal) // 2]:.3f} max={max(pos_cal):.3f}"
+        )
     if neg_cal:
-        print(f"  neg cal 5-num: min={min(neg_cal):.3f} med={neg_cal[len(neg_cal)//2]:.3f} max={max(neg_cal):.3f}")
+        print(
+            f"  neg cal 5-num: min={min(neg_cal):.3f} med={neg_cal[len(neg_cal) // 2]:.3f} max={max(neg_cal):.3f}"
+        )
 
     sweep = []
     for t in [round(x * 0.01, 2) for x in range(0, 101)]:
@@ -118,8 +126,9 @@ def main() -> int:
             p = tp / (tp + fp)
         r = tp / max(1, tp + fn)
         f1 = 2 * (p or 0) * r / max(1e-9, (p or 0) + r) if p is not None else 0.0
-        sweep.append({"threshold": t, "tp": tp, "fp": fp, "fn": fn, "tn": tn,
-                      "precision": p, "recall": r, "f1": f1})
+        sweep.append(
+            {"threshold": t, "tp": tp, "fp": fp, "fn": fn, "tn": tn, "precision": p, "recall": r, "f1": f1}
+        )
 
     # Find threshold that yields >=0.99 precision (closest to user's 99.5% target)
     high_p_target = None

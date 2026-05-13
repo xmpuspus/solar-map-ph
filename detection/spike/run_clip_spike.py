@@ -11,10 +11,8 @@ from __future__ import annotations
 
 import json
 import sys
-import time
 from pathlib import Path
 
-import numpy as np
 import torch
 from PIL import Image
 
@@ -46,6 +44,7 @@ NOT_SOLAR_PROMPTS = [
 
 def load_clip():
     from transformers import CLIPModel, CLIPProcessor
+
     model_id = "openai/clip-vit-large-patch14"
     print(f"[clip] loading {model_id}")
     processor = CLIPProcessor.from_pretrained(model_id)
@@ -61,7 +60,9 @@ def encode_text_prompts(processor, model, prompts: list[str]) -> torch.Tensor:
     return text_emb.mean(dim=0, keepdim=True)  # [1, D] - average across the prompt ensemble
 
 
-def score_image(processor, model, img: Image.Image, solar_emb: torch.Tensor, not_solar_emb: torch.Tensor) -> dict:
+def score_image(
+    processor, model, img: Image.Image, solar_emb: torch.Tensor, not_solar_emb: torch.Tensor
+) -> dict:
     inputs = processor(images=img, return_tensors="pt").to(DEVICE)
     with torch.no_grad():
         img_emb = model.get_image_features(**inputs)
@@ -125,21 +126,26 @@ def main() -> int:
     for source, label, idx, path in targets:
         img = Image.open(path).convert("RGB")
         full = score_image(processor, model, img, solar_emb, not_solar_emb)
-        sub_scores = [score_image(processor, model, sub, solar_emb, not_solar_emb)
-                      for sub in crop_tiles(img, n=3)]
+        sub_scores = [
+            score_image(processor, model, sub, solar_emb, not_solar_emb) for sub in crop_tiles(img, n=3)
+        ]
         max_sub_margin = max(s["margin"] for s in sub_scores)
         max_sub_solar = max(s["sim_solar"] for s in sub_scores)
-        rows.append({
-            "source": source,
-            "label": label,
-            "idx": idx,
-            "file": path.name,
-            "full_sim_solar": full["sim_solar"],
-            "full_margin": full["margin"],
-            "max_sub_margin": max_sub_margin,
-            "max_sub_solar": max_sub_solar,
-        })
-        print(f"  [{source}/{label}] {idx:14s} full_margin={full['margin']:+.4f} max_sub_margin={max_sub_margin:+.4f}")
+        rows.append(
+            {
+                "source": source,
+                "label": label,
+                "idx": idx,
+                "file": path.name,
+                "full_sim_solar": full["sim_solar"],
+                "full_margin": full["margin"],
+                "max_sub_margin": max_sub_margin,
+                "max_sub_solar": max_sub_solar,
+            }
+        )
+        print(
+            f"  [{source}/{label}] {idx:14s} full_margin={full['margin']:+.4f} max_sub_margin={max_sub_margin:+.4f}"
+        )
 
     # Find best threshold on full_margin and max_sub_margin
     pos_rows = [r for r in rows if r["label"] == "solar"]
@@ -168,8 +174,12 @@ def main() -> int:
         recall = tp / max(1, tp + fn)
         print(f"\n  metric={metric}: best F1={f1:.3f} at threshold={t:+.4f}")
         print(f"    TP={tp} FP={fp} FN={fn}  precision={precision:.3f} recall={recall:.3f}")
-        print(f"    pos values: min={min(vals_p):+.4f} med={vals_p[len(vals_p)//2]:+.4f} max={max(vals_p):+.4f}")
-        print(f"    neg values: min={min(vals_n):+.4f} med={vals_n[len(vals_n)//2]:+.4f} max={max(vals_n):+.4f}")
+        print(
+            f"    pos values: min={min(vals_p):+.4f} med={vals_p[len(vals_p) // 2]:+.4f} max={max(vals_p):+.4f}"
+        )
+        print(
+            f"    neg values: min={min(vals_n):+.4f} med={vals_n[len(vals_n) // 2]:+.4f} max={max(vals_n):+.4f}"
+        )
 
     out_path = OUT_DIR / "clip_spike_results.json"
     with out_path.open("w") as f:

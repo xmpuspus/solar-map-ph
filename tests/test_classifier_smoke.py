@@ -39,5 +39,5 @@ def test_classifier_round_trip_on_known_positive():
     X, y = d["X"], d["y"]
     # Pick the first positive row in the training set
     pos_idx = int(np.argmax(y == 1))
-    score = float(clf.predict_proba(X[pos_idx:pos_idx + 1])[0, 1])
+    score = float(clf.predict_proba(X[pos_idx : pos_idx + 1])[0, 1])
     assert score > 0.5, f"classifier scored a known positive at {score:.3f}, expected > 0.5"

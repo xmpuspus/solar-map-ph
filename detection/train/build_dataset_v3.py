@@ -19,7 +19,6 @@ Outputs:
 from __future__ import annotations
 
 import json
-import math
 import random
 import sys
 import time
@@ -95,6 +94,7 @@ def augment(img: Image.Image, n: int) -> list[Image.Image]:
     # SHA-256 of the image bytes gives a deterministic seed across processes
     # (Python's builtin hash() salts with PYTHONHASHSEED, which differs by run).
     import hashlib
+
     digest = hashlib.sha256(img.tobytes()).digest()
     seed_int = int.from_bytes(digest[:8], "big") % 1_000_003
     rng = random.Random(SEED + seed_int)
@@ -120,6 +120,7 @@ def augment(img: Image.Image, n: int) -> list[Image.Image]:
 
 def load_clip():
     from transformers import CLIPModel, CLIPProcessor
+
     print("[v3] loading openai/clip-vit-large-patch14")
     processor = CLIPProcessor.from_pretrained("openai/clip-vit-large-patch14", use_fast=True)
     model = CLIPModel.from_pretrained("openai/clip-vit-large-patch14").to(DEVICE).eval()
@@ -129,7 +130,7 @@ def load_clip():
 def embed(processor, model, imgs: list[Image.Image], batch_size: int = 8) -> np.ndarray:
     embs = []
     for i in range(0, len(imgs), batch_size):
-        batch = imgs[i:i + batch_size]
+        batch = imgs[i : i + batch_size]
         inputs = processor(images=batch, return_tensors="pt").to(DEVICE)
         with torch.no_grad():
             e = model.get_image_features(**inputs)

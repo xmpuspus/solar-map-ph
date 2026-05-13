@@ -90,16 +90,22 @@ def main() -> int:
     pb_fc = json.loads(PER_BUILDING.read_text()) if PER_BUILDING.exists() else {"features": []}
 
     # Build numpy arrays of detection lat/lon for fast neighborhood lookup
-    high_pts = np.array([
-        (f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0])
-        for f in tile_fc["features"]
-        if f["properties"]["tier"] == "high"
-    ], dtype=np.float64)
-    cand_pts = np.array([
-        (f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0])
-        for f in tile_fc["features"]
-        if f["properties"]["tier"] == "candidate"
-    ], dtype=np.float64)
+    high_pts = np.array(
+        [
+            (f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0])
+            for f in tile_fc["features"]
+            if f["properties"]["tier"] == "high"
+        ],
+        dtype=np.float64,
+    )
+    cand_pts = np.array(
+        [
+            (f["geometry"]["coordinates"][1], f["geometry"]["coordinates"][0])
+            for f in tile_fc["features"]
+            if f["properties"]["tier"] == "candidate"
+        ],
+        dtype=np.float64,
+    )
 
     # Per-building points + kwp (use the polygon centroid)
     pb_pts = []
@@ -130,7 +136,7 @@ def main() -> int:
 
     # Pre-build: convert the halo (300m) to a coarse degree budget so we can pre-filter
     # candidates per cell (avoid O(n_cells * n_pts) haversine).
-    deg_budget = HALO_M / 111_320.0 * 1.5   # generous
+    deg_budget = HALO_M / 111_320.0 * 1.5  # generous
 
     for la in lats:
         # Pre-filter all points within deg_budget of THIS lat row to avoid scanning all per cell
@@ -159,7 +165,10 @@ def main() -> int:
                     return np.zeros(0, dtype=bool)
                 lat_diff = np.radians(arr[:, 0] - la)
                 lon_diff = np.radians(arr[:, 1] - lo)
-                a = np.sin(lat_diff / 2) ** 2 + np.cos(np.radians(la)) * np.cos(np.radians(arr[:, 0])) * np.sin(lon_diff / 2) ** 2
+                a = (
+                    np.sin(lat_diff / 2) ** 2
+                    + np.cos(np.radians(la)) * np.cos(np.radians(arr[:, 0])) * np.sin(lon_diff / 2) ** 2
+                )
                 d = 2 * 6_371_000.0 * np.arcsin(np.sqrt(np.clip(a, 0, 1)))
                 return d <= HALO_M
 
@@ -178,19 +187,21 @@ def main() -> int:
                 continue
 
             tier = tier_for(n_high, sum_kwp)
-            feats.append({
-                "type": "Feature",
-                "geometry": {"type": "Polygon", "coordinates": [cell_polygon(float(la), float(lo))]},
-                "properties": {
-                    "cell_lat": round(float(la), 5),
-                    "cell_lon": round(float(lo), 5),
-                    "n_panels_high": n_high,
-                    "n_panels_candidate": n_cand,
-                    "n_buildings_solar": n_buildings,
-                    "sum_kwp_installed": round(sum_kwp, 1),
-                    "tier": tier,
-                },
-            })
+            feats.append(
+                {
+                    "type": "Feature",
+                    "geometry": {"type": "Polygon", "coordinates": [cell_polygon(float(la), float(lo))]},
+                    "properties": {
+                        "cell_lat": round(float(la), 5),
+                        "cell_lon": round(float(lo), 5),
+                        "n_panels_high": n_high,
+                        "n_panels_candidate": n_cand,
+                        "n_buildings_solar": n_buildings,
+                        "sum_kwp_installed": round(sum_kwp, 1),
+                        "tier": tier,
+                    },
+                }
+            )
             n_emit += 1
 
     fc = {
@@ -221,8 +232,9 @@ def main() -> int:
     }
     OUT.write_text(json.dumps(fc, indent=1))
     print(f"[sat] wrote {n_emit} cells (dropped {n_drop} empty) -> {OUT}")
-    print(f"[sat] tier distribution:")
+    print("[sat] tier distribution:")
     from collections import Counter
+
     c = Counter(f["properties"]["tier"] for f in feats)
     for t in ("early", "growing", "saturated"):
         print(f"  {t}: {c.get(t, 0)}")

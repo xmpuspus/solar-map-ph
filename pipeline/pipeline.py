@@ -17,7 +17,7 @@ import math
 import os
 import sys
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -187,11 +187,7 @@ def median_band(
     geometry: ee.Geometry,
     cloud_mask_fn=None,
 ) -> ee.Image:
-    coll = (
-        ee.ImageCollection(collection_id)
-        .filterDate(str(start), str(end))
-        .filterBounds(geometry)
-    )
+    coll = ee.ImageCollection(collection_id).filterDate(str(start), str(end)).filterBounds(geometry)
     if cloud_mask_fn is not None:
         coll = coll.map(cloud_mask_fn)
     return coll.select(band).median()
@@ -200,13 +196,7 @@ def median_band(
 def s2_cloud_mask(image: ee.Image) -> ee.Image:
     scl = image.select("SCL")
     # Mask out clouds (8, 9), cirrus (10), saturated (1), shadow (3)
-    valid = (
-        scl.neq(1)
-        .And(scl.neq(3))
-        .And(scl.neq(8))
-        .And(scl.neq(9))
-        .And(scl.neq(10))
-    )
+    valid = scl.neq(1).And(scl.neq(3)).And(scl.neq(8)).And(scl.neq(9)).And(scl.neq(10))
     return image.updateMask(valid)
 
 
@@ -276,11 +266,7 @@ def collection_size(
     end: date,
     geometry: ee.Geometry,
 ) -> int:
-    coll = (
-        ee.ImageCollection(collection_id)
-        .filterDate(str(start), str(end))
-        .filterBounds(geometry)
-    )
+    coll = ee.ImageCollection(collection_id).filterDate(str(start), str(end)).filterBounds(geometry)
     try:
         return int(coll.size().getInfo())
     except Exception:
@@ -309,8 +295,12 @@ def signal_delta(
         return None
     if collection_size(collection_id, baseline_start, baseline_end, geom) == 0:
         return None
-    curr_img = median_band(collection_id, band, quarter_start, quarter_end, geom, cloud_mask_fn).updateMask(built_mask)
-    base_img = median_band(collection_id, band, baseline_start, baseline_end, geom, cloud_mask_fn).updateMask(built_mask)
+    curr_img = median_band(collection_id, band, quarter_start, quarter_end, geom, cloud_mask_fn).updateMask(
+        built_mask
+    )
+    base_img = median_band(collection_id, band, baseline_start, baseline_end, geom, cloud_mask_fn).updateMask(
+        built_mask
+    )
     curr_value = reduce_mean(curr_img, geom, scale=scale)
     base_value = reduce_mean(base_img, geom, scale=scale)
     if curr_value is None or base_value is None:
@@ -338,6 +328,7 @@ def compute_signals_for_city(
     # actually has. Without this, a leap-year quarter (Feb 29) against a
     # non-leap baseline year throws ValueError on date(2022, 2, 29).
     import calendar
+
     baseline_end_day = min(
         quarter_end.day,
         calendar.monthrange(baseline_year, quarter_end.month)[1],
@@ -348,10 +339,54 @@ def compute_signals_for_city(
     landsat = "LANDSAT/LC09/C02/T1_L2"
     viirs = "NOAA/VIIRS/DNB/MONTHLY_V1/VCMSLCFG"
 
-    nir_delta = signal_delta(s2, "B8", geom, built_mask, quarter_start, quarter_end, baseline_start, baseline_end, scale=10, cloud_mask_fn=s2_cloud_mask)
-    swir_delta = signal_delta(s2, "B11", geom, built_mask, quarter_start, quarter_end, baseline_start, baseline_end, scale=10, cloud_mask_fn=s2_cloud_mask)
-    lst_anomaly = signal_delta(landsat, "ST_B10", geom, built_mask, quarter_start, quarter_end, baseline_start, baseline_end, scale=30, cloud_mask_fn=landsat_cloud_mask)
-    nightlight_delta = signal_delta(viirs, "avg_rad", geom, built_mask, quarter_start, quarter_end, baseline_start, baseline_end, scale=500, cloud_mask_fn=None)
+    nir_delta = signal_delta(
+        s2,
+        "B8",
+        geom,
+        built_mask,
+        quarter_start,
+        quarter_end,
+        baseline_start,
+        baseline_end,
+        scale=10,
+        cloud_mask_fn=s2_cloud_mask,
+    )
+    swir_delta = signal_delta(
+        s2,
+        "B11",
+        geom,
+        built_mask,
+        quarter_start,
+        quarter_end,
+        baseline_start,
+        baseline_end,
+        scale=10,
+        cloud_mask_fn=s2_cloud_mask,
+    )
+    lst_anomaly = signal_delta(
+        landsat,
+        "ST_B10",
+        geom,
+        built_mask,
+        quarter_start,
+        quarter_end,
+        baseline_start,
+        baseline_end,
+        scale=30,
+        cloud_mask_fn=landsat_cloud_mask,
+    )
+    nightlight_delta = signal_delta(
+        viirs,
+        "avg_rad",
+        geom,
+        built_mask,
+        quarter_start,
+        quarter_end,
+        baseline_start,
+        baseline_end,
+        scale=500,
+        cloud_mask_fn=None,
+    )
     built_km2 = built_up_km2(geom)
 
     return CityResult(
@@ -479,7 +514,7 @@ def write_outputs(
         "properties": {
             "quarter": quarter,
             "baseline_year": baseline,
-            "generated_utc": datetime.now(timezone.utc).isoformat(),
+            "generated_utc": datetime.now(UTC).isoformat(),
             "weights": SIGNAL_WEIGHTS,
         },
     }
@@ -491,12 +526,10 @@ def write_outputs(
     summary = {
         "quarter": quarter,
         "baseline_year": baseline,
-        "generated_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_utc": datetime.now(UTC).isoformat(),
         "city_count": len(results),
         "city_count_with_signal": len(composites),
-        "composite_score_franchise_mean": (
-            sum(composites) / len(composites) if composites else None
-        ),
+        "composite_score_franchise_mean": (sum(composites) / len(composites) if composites else None),
         "composite_score_max": max(composites) if composites else None,
         "composite_score_min": min(composites) if composites else None,
         "top5_strongest_signal": [
@@ -548,7 +581,7 @@ def write_dry_run_stub(quarter: str, out_dir: Path, cities_path: Path | None = N
         "features": [],
         "properties": {
             "quarter": quarter,
-            "generated_utc": datetime.now(timezone.utc).isoformat(),
+            "generated_utc": datetime.now(UTC).isoformat(),
             "dry_run": True,
             "city_count_planned": len(cities),
             "note": "Dry-run output. Run with EE auth to populate features.",
