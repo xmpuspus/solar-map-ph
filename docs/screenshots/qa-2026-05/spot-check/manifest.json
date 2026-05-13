@@ -1,0 +1,92 @@
+[
+  {
+    "idx": 0,
+    "kwp": 2.83,
+    "btype": "untagged",
+    "osm_id": 603197454,
+    "lat": 14.532731623140496,
+    "lon": 121.148979553719,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-00-2kwp-603197454.jpg"
+  },
+  {
+    "idx": 1,
+    "kwp": 3.35,
+    "btype": "untagged",
+    "osm_id": 93692815,
+    "lat": 14.30119324625,
+    "lon": 120.95853520124999,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-01-3kwp-93692815.jpg"
+  },
+  {
+    "idx": 2,
+    "kwp": 4.92,
+    "btype": "untagged",
+    "osm_id": 794241324,
+    "lat": 14.713156259036143,
+    "lon": 121.01879092771084,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-02-4kwp-794241324.jpg"
+  },
+  {
+    "idx": 3,
+    "kwp": 13.84,
+    "btype": "untagged",
+    "osm_id": 291112963,
+    "lat": 14.696059208433734,
+    "lon": 120.95257015180724,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-03-13kwp-291112963.jpg"
+  },
+  {
+    "idx": 4,
+    "kwp": 24.84,
+    "btype": "industrial",
+    "osm_id": 560661498,
+    "lat": 14.84212785934066,
+    "lon": 121.014543389011,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-04-24kwp-560661498.jpg"
+  },
+  {
+    "idx": 5,
+    "kwp": 64.02,
+    "btype": "untagged",
+    "osm_id": 907364694,
+    "lat": 14.266590789705884,
+    "lon": 121.0773588,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-05-64kwp-907364694.jpg"
+  },
+  {
+    "idx": 6,
+    "kwp": 222.54,
+    "btype": "commercial",
+    "osm_id": 589048233,
+    "lat": 14.590267871578947,
+    "lon": 121.09565283789473,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-06-222kwp-589048233.jpg"
+  },
+  {
+    "idx": 7,
+    "kwp": 1449.9,
+    "btype": "industrial",
+    "osm_id": 540113410,
+    "lat": 14.208251811428571,
+    "lon": 121.08494327714286,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-07-1449kwp-540113410.jpg"
+  },
+  {
+    "idx": 8,
+    "kwp": 1627.94,
+    "btype": "untagged",
+    "osm_id": 30543948,
+    "lat": 14.657042126190477,
+    "lon": 121.02103746904761,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-08-1627kwp-30543948.jpg"
+  },
+  {
+    "idx": 9,
+    "kwp": 2370.04,
+    "btype": "untagged",
+    "osm_id": 575535343,
+    "lat": 14.70161443432836,
+    "lon": 120.95324960597016,
+    "file": "docs/screenshots/qa-2026-05/spot-check/spotcheck-09-2370kwp-575535343.jpg"
+  }
+]

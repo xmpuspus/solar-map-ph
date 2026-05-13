@@ -8,6 +8,23 @@ All notable changes to SolarMap.PH are documented here. The format follows [Keep
 
 - Rebranded from `ghost-watts` to `SolarMap.PH`. Python package renamed `ghost_watts` -> `solar_map_ph`. Repo slug, Docker image tag, and HuggingFace artifact moved to `solar-map-ph`. Data product filenames renamed (`solar_map_ph_2026Q2.geojson`, `solar_map_ph_summary_2026Q2.json`). No model changes: classifier `clf_v4.joblib` sha256 prefix `56900722a8427be4` is preserved.
 - Tagline now includes explicit coverage caveat: "Current coverage: Greater Metro Manila." Quarterly releases will expand to additional Philippine distribution-utility franchises (VECO, DLPC, MORE, CEPALCO).
+- README, `/map`, `/methodology`, and `/safety` now reconcile to the canonical scan numbers (515 detections, 280 high-confidence, 384 per-building polygons, 69.9 MWp aggregate, 41 cities). The "87% absent from prior public map" claim now carries an explicit 200 m proximity-threshold footnote referencing DeepSolar (Stanford, 2018) and SPECTRUM (ICSC, 2025).
+- Homeowner-tool privacy posture restated to be honest about third-party geocoder visibility: address queries reach Photon, Nominatim, Overpass, Esri, and PVGIS directly from the browser. No server operated by SolarMap.PH logs the address; the CSP enumerates the only endpoints the browser can reach.
+- Ruff configuration adds `per-file-ignores` for research/scripts directories (`detection/**`, `pipeline/**`, `scripts/**`, `examples/**`, `site/scripts/**`) to keep the lint-strictness floor on library code while tolerating stylistic nits in one-off research scripts.
+
+### Added
+
+- `/privacy` page documenting publication boundary, RA 10173 §3(g) posture, DPO (self-designated), takedown channel (5 working days ack, 14 working days removal), CSP-enumerated third-party endpoints, and a no-telemetry statement.
+- `docs/privacy-impact-assessment.md`: full Privacy Impact Assessment under RA 10173 with risk/mitigation table, data lifecycle, and review cadence. Self-conducted PIA; formal NPC voluntary advisory opinion deferred to the post-launch quarter.
+- `/faq` page with 13 plain-language questions covering accuracy, error sources, residential-exclusion policy, RA 10173 posture, imagery licensing, homeowner-tool data flow, contribution paths, takedown.
+- `.github/ISSUE_TEMPLATE/takedown.md` for structured takedown requests with a public audit trail.
+- `scripts/check_no_residential_leaks.py`: build-time sanity check that no residential roofs leak into `per_building_solar_ncr.geojson`. Exits non-zero on any leak.
+- `scripts/verify_clf.py`: hash-verify a classifier `.joblib` before invoking `joblib.load`. Recommended for any classifier file received from a third party.
+- `docs/research/related-work.md`: credit and context for related projects in the same space, including SPECTRUM (ICSC, July 2025), DeepSolar (Stanford, 2018), PV_Pipeline, Global Solar Atlas, REMap (DOE/NREB), and the input/encoder dependency chain.
+- Footer privacy-and-takedown panel and public-records disclaimer block. Header now exposes `/faq` and `/privacy` routes.
+- MapView corner attribution credit line ("Imagery © Esri, Maxar, Earthstar Geographics. Buildings © OpenStreetMap contributors.").
+- `site/public/robots.txt` (allow all).
+- Self-designated DPO contact: `solarmap.ph@gmail.com`.
 
 ## [1.0.0] - 2026-05-12 - inaugural public release
 
