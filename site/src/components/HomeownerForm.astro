@@ -210,8 +210,8 @@
     if (score >= 1.0) return { label: "strong solar-growth signal vs peer cities", tone: "text-accent-steel font-semibold" };
     if (score >= 0.5) return { label: "above-average signal vs peer cities", tone: "text-accent-steel" };
     if (score > -0.5) return { label: "near the franchise baseline", tone: "text-ink-500" };
-    if (score > -1.0) return { label: "below the franchise baseline", tone: "text-accent-coral" };
-    return { label: "well below the franchise baseline", tone: "text-accent-coral font-semibold" };
+    if (score > -1.0) return { label: "below the franchise baseline", tone: "text-accent-coral-dark" };
+    return { label: "well below the franchise baseline", tone: "text-accent-coral-dark font-semibold" };
   }
 
   function renderResults(opts: {

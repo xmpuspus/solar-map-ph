@@ -2,7 +2,7 @@
 const year = new Date().getFullYear();
 ---
 <footer class="border-t border-ink-300/30 bg-paper-alt mt-12">
-  <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-ink-500 grid gap-4 md:grid-cols-3">
+  <div class="max-w-6xl mx-auto px-6 py-8 text-sm text-ink-500 grid gap-4 md:grid-cols-4">
     <div>
       <p class="text-ink-700 font-medium">SolarMap.PH</p>
       <p>
@@ -18,13 +18,24 @@ const year = new Date().getFullYear();
     <div>
       <p class="text-ink-700 font-medium">Found a bug?</p>
       <p>
-        Open an issue or PR on
-        <a href="https://github.com/xmpuspus/solar-map-ph" class="no-underline text-ink-700 hover:text-ink-900">GitHub</a>.
-        Especially welcome: verified rooftop solar locations not in our case studies, LGU permit data not in our table, missing addresses.
+        Open an issue or PR on <a href="https://github.com/xmpuspus/solar-map-ph" class="no-underline text-ink-700 hover:text-ink-900">GitHub</a>. Especially welcome: verified rooftop solar locations not in our case studies, LGU permit data not in our table, missing addresses.
       </p>
     </div>
-    <div class="md:col-span-3 text-xs text-ink-300 pt-4 border-t border-ink-300/20">
-      &copy; {year} SolarMap.PH. Cite as: SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph.
+    <div>
+      <p class="text-ink-700 font-medium">Privacy &amp; takedown</p>
+      <p>
+        <a href="/privacy" class="no-underline text-ink-700 hover:text-ink-900">Privacy &amp; responsible use</a> &middot;
+        <a href="/faq" class="no-underline text-ink-700 hover:text-ink-900">FAQ</a> &middot;
+        <a href="https://github.com/xmpuspus/solar-map-ph/issues/new?labels=takedown&amp;template=takedown.md" class="no-underline text-ink-700 hover:text-ink-900">request takedown</a>. DPO: solarmap.ph@gmail.com.
+      </p>
+    </div>
+    <div class="md:col-span-4 text-xs text-ink-500 pt-4 border-t border-ink-300/20 leading-relaxed">
+      <p class="mb-1">
+        All data sourced from public records (Esri World Imagery, OpenStreetMap, ESA, Microsoft, NOAA, NASA). SolarMap.PH computes statistical indicators only. Patterns may have legitimate explanations. Imagery &copy; Esri, Maxar, Earthstar Geographics. Building data &copy; OpenStreetMap contributors. ODbL.
+      </p>
+      <p>
+        &copy; {year} SolarMap.PH. Cite as: SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph.
+      </p>
     </div>
   </div>
 </footer>

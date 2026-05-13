@@ -1,55 +1,48 @@
 ---
 layout: ../../layouts/Post.astro
 title: "2026-Q2: inaugural release | SolarMap.PH"
-description: "First quarterly run of the SolarMap.PH pipeline. Headline numbers from the Earth Engine multi-signal composite over Meralco's franchise area, baseline 2022."
+description: "First quarterly run of the SolarMap.PH pipeline. Headline numbers from the Earth Engine multi-signal composite over Meralco's franchise area, baseline 2022, plus the parallel computer-vision survey of NCR rooftops."
 pubDate: 2026-05-08
-status: draft
+status: published
 ---
 
 # 2026-Q2: inaugural release
 
-DRAFT. This post becomes final once the first quarterly Earth Engine pipeline runs and the headline numbers are confirmed. Until then, the framing below is the planned structure.
+ICSC says roughly one-third of rooftop solar in Meralco's franchise is unregistered. Manila Times calls it "guerrilla solar." Sen. Sherwin Gatchalian wants the permitting fixed. Sen. Grace Poe pushed cap-raise legislation as far back as 2018. ERC has historically opposed it. LGUs charge ten times more for the same permit depending on which side of the same province you live on.
 
-## Hook
+Where, exactly? Here is one answer, computed from public satellite data.
 
-ICSC says one-third of rooftop solar in Meralco's franchise is unregistered. Manila Times calls it "guerrilla solar." Sen. Sherwin Gatchalian wants the permitting fixed. Sen. Grace Poe pushed cap-raise legislation as far back as 2018. ERC has historically opposed it. LGUs charge ten times more for the same permit depending on which side of the same province you live on.
+## What we found
 
-Where, exactly?
+Two parallel pipelines over the Meralco franchise area (50 cities and municipalities plus surrounding cities in Bulacan, Cavite, Rizal, and Laguna, about 9,300 km², roughly 22 million people):
 
-Here is one answer, computed from public satellite data.
+1. **The detection pipeline** (CLIP + logistic regression at sub-tile resolution): 515 rooftops with detected solar across 41 cities. 280 high-confidence detections at the 0.85 score threshold. 87% of the high-confidence detections (242 of 277 that fall inside a city polygon) are not on any prior public map of solar at the time of the scan. After SAM segmentation, 384 rooftops localize to a specific OSM building footprint with a per-roof panel polygon and a kWp estimate, for an aggregate of 69.9 MWp identified at sub-building resolution.
+2. **The Earth Engine composite signal** (Sentinel-2 NIR/SWIR, Landsat 8/9 LST, VIIRS DNB) over 61 cities, baseline 2022. Top 3 cities by composite signal strength this quarter: **Valenzuela** (z = 1.23), **Malabon** (z = 0.91), **Baras** (z = 0.72). Antipolo and Teresa round out the top 5.
 
-## The aggregate finding
-
-(Filled on first pipeline run.)
-
-Across Meralco's franchise area (50 cities and municipalities, ~9,300 km<sup>2</sup>, ~22 million people), the composite solar signal moved from baseline to current quarter as follows:
-
-- **Top 3 cities by signal strength**: TBD on first run
-- **Top 3 cities by quarter-over-quarter delta**: TBD on first run
-- **Cities with verified LGU permit data**: TBD as the friction table fills
-
-What our composite says, stated cautiously: the signal is consistent with broad rooftop solar adoption concentrated in [TBD], at a scale that aligns with ICSC's 1/3-unregistered estimate and Meralco's reported ~170 MW registered capacity. We do not claim to have detected individual installations, and the signal is correlative, not diagnostic.
+For context, Meralco's public reports place the formal net-metering registry at roughly 170 MW aggregate across ~20,000 installations. ICSC's estimate of ~33% unregistered implies a much larger informal-solar tail. The 69.9 MWp our per-building pipeline identified is a lower bound on the visible rooftop solar across the cities we surveyed; the survey only covers Greater Metro Manila, not the full franchise, and the SAM segmentation cannot localize every detection to an OSM building.
 
 ## Five takeaways
 
-1. **Where the signal is strongest**: TBD (top 3 cities by composite score).
-2. **LGU permit friction is the under-reported story**: same 520 kWp commercial rooftop costs ₱153,000 in permit fees in Rizal vs ₱16,000 in Laguna. (Source: Power Philippines, citing solar-developer comparisons.) That kind of variance is why guerrilla solar exists. The blame isn't all on Meralco.
-3. **The duck curve is forming in Luzon WESM data**. April 2026 generation charge hit ₱8.39/kWh, and supply tightness drove rates higher. Midday solar growth means real wholesale-price effects, but the 100kW net-metering cap and the ERC's caution about cap-raise leave most of the rooftop generation outside the formal market.
-4. **Cross-subsidy direction is structural, not malicious**. Net metering at full retail rate (~12.5 ₱/kWh as of Q2 2026) means non-solar Meralco customers cross-subsidize solar exporters, because the retail rate bundles distribution and transmission services that the solar exporter doesn't provide back. This is the same fight playing out in California and Australia. Meralco's resistance to full-retail compensation is structurally rational from a utility-economics standpoint, even if the public framing is "the utility is blocking solar."
-5. **The "guerrilla" framing oversimplifies**. Meralco's specific asks (anti-islanding compliance, equipment certification, installer accreditation) are technically legitimate. The bottleneck is LGU permitting variance and the 100kW cap, not Meralco resistance. Politicians who "block solar" are mostly an oversimplification; the legislature has been pushing streamlining for almost a decade. ERC and LGU friction are the actual structural constraints.
+1. **The map points to where solar already is, not where it should be.** Valenzuela, Malabon, and Baras top the composite signal this quarter. The detection pipeline corroborates with high counts in Quezon City, Pasig, Taguig, and Antipolo. These are not exactly the same cities, because the two pipelines answer different questions at different resolutions: composite-signal-by-spectral-bands is city-aggregate, detection-counts-by-tile is per-building.
+2. **LGU permit friction is the under-reported story.** The same 520 kWp commercial rooftop costs about ₱153,000 in permit fees in one Rizal LGU and about ₱16,000 in a Laguna LGU. (Source: Power Philippines, citing solar-developer comparisons.) That kind of variance is the structural reason informal solar exists. The blame isn't all on Meralco.
+3. **The duck curve is forming in Luzon WESM data.** April 2026 generation charge hit ₱8.39/kWh, and supply tightness drove rates higher. Midday solar growth means real wholesale-price effects, but the 100 kW net-metering cap and the ERC's caution about cap-raise leave most of the rooftop generation outside the formal market.
+4. **Cross-subsidy direction is structural, not malicious.** Net metering at full retail rate (~₱12.5/kWh as of Q2 2026) means non-solar Meralco customers cross-subsidize solar exporters, because the retail rate bundles distribution and transmission services that the solar exporter doesn't provide back. This is the same fight playing out in California and Australia. Meralco's resistance to full-retail compensation is structurally rational from a utility-economics standpoint, even if the public framing is "the utility is blocking solar."
+5. **The "guerrilla" framing oversimplifies.** Meralco's specific asks (anti-islanding compliance, equipment certification, installer accreditation) are technically legitimate. The bottleneck is LGU permitting variance and the 100 kW cap, not Meralco resistance. Politicians who "block solar" are mostly a misread; the legislature has been pushing streamlining for almost a decade. ERC and LGU friction are the actual structural constraints.
 
 ## Methodology in one paragraph
 
-Every quarter, Earth Engine pulls Sentinel-2 NIR/SWIR median, Landsat 8/9 land surface temperature, and VIIRS DNB nightlights over the Meralco franchise polygon. Each signal is reduced to per-city statistics, z-scored across cities, and weighted (0.4 NIR, 0.3 SWIR, 0.2 LST, 0.1 nightlight) into a composite score. ESA WorldCover masks vegetation and water. Microsoft GlobalMLBuildingFootprints provides per-city building counts as a denominator. The composite score correlates with rooftop PV adoption but does not prove it; we are explicit that the signal is suggestive, not diagnostic, at city scale. See [/methodology](/methodology) for the full algorithm and caveats.
+Two pipelines, two resolutions. **Detection pipeline**: 600x600 px Esri World Imagery tiles are embedded with a frozen `openai/clip-vit-large-patch14` encoder; a logistic-regression head trained on 294 OSM-tagged positives plus four active-learning rounds (and Platt-calibrated on a 20% source-disjoint holdout) emits per-tile probability scores; tiles above 0.85 are routed through SAM auto-mask segmentation, color-signature filter, and OSM building intersection to produce per-building panel polygons. Calibrated F1 = 0.870, precision 95.9%, recall 79.7% on the holdout. **Earth Engine pipeline**: Sentinel-2 NIR/SWIR median, Landsat 8/9 land surface temperature, and VIIRS DNB nightlights are reduced to per-city statistics, z-scored across cities, and weighted (0.4 NIR, 0.3 SWIR, 0.2 LST, 0.1 nightlight) into a composite score. ESA WorldCover masks vegetation and water; Microsoft GlobalMLBuildingFootprints provides per-city building counts as a denominator. The composite score correlates with rooftop PV adoption but does not prove it; the signal is suggestive, not diagnostic, at city scale. See [/methodology](/methodology) for the full algorithm and caveats.
 
 ## Limitations (read these)
 
-- 10m Sentinel-2 resolution caps inference at city/barangay aggregation, never individual rooftops.
+- 10m Sentinel-2 resolution caps the composite-signal pipeline at city/barangay aggregation, never individual rooftops.
 - Composite weights are v1 priors, not validated against ground truth.
 - Cloud-heavy quarters introduce noise; broadening the date window helps, doesn't eliminate.
 - Baseline 2022 means installs prior to 2022 are in the baseline, not the delta.
 - Aggregate Meralco counts come from public reports, not audited filings.
 - LGU friction table is hand-curated and small. Most cities are still "unverified."
+- The detection pipeline covers Greater Metro Manila; the full Meralco franchise (50 cities and municipalities) is not yet scanned at sub-tile resolution.
+- 87% of high-confidence detections not appearing on a prior public map is computed against OSM features tagged `generator:source=solar` within 200 m of the detected tile centroid; this is the same proximity convention used by DeepSolar (Stanford, 2018) and SPECTRUM (ICSC, 2025).
 
 ## What you can do with this
 
@@ -62,6 +55,7 @@ Every quarter, Earth Engine pulls Sentinel-2 NIR/SWIR median, Landsat 8/9 land s
 ## References
 
 - ICSC: https://icsc.ngo
+- ICSC SPECTRUM solar mapper (2025): https://icsc.ngo/solar-mapper/
 - Manila Times, "A brewing solar controversy" (2026-05-07): https://www.manilatimes.net/2026/05/07/opinion/columns/a-brewing-solar-controversy/2337415
 - Inquirer Opinion, "Guerrilla solar installers in summer of discontent": https://opinion.inquirer.net/191526/guerrilla-solar-installers-in-summer-of-discontent
 - CleanTechnica (2026-05-04): https://cleantechnica.com/2026/05/04/guerilla-solar-installations-discovered-need-to-be-controlled-says-philippine-power-distributor/
@@ -70,3 +64,5 @@ Every quarter, Earth Engine pulls Sentinel-2 NIR/SWIR median, Landsat 8/9 land s
 - Power Philippines, LGU permit friction: https://powerphilippines.com/inconsistent-lgu-permits-stalling-rooftop-solar-growth-expert-warns/
 - Power Philippines (2019), Meralco vs full-rate compensation: https://powerphilippines.com/meralco-junks-bid-for-full-rate-compensation-to-net-metering-customers-warns-of-higher-generation-cost-to-other-end-users/
 - DeepSolar (Stanford), the precedent: https://www.sciencedirect.com/science/article/pii/S2542435118305701
+
+*Statistical indicators derived from public data (Esri World Imagery, OpenStreetMap, ESA, Microsoft, NOAA, NASA). Patterns may have legitimate explanations.*

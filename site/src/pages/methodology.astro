@@ -112,7 +112,7 @@ flowchart LR
         <tbody class="font-mono tabular-nums">
           <tr class="border-b border-ink-300/40"><td class="py-1.5 text-accent-steel font-semibold not-mono">solar</td><td class="text-right py-1.5">6</td><td class="text-right py-1.5">3.6%</td></tr>
           <tr class="border-b border-ink-300/40"><td class="py-1.5 not-mono">unclear</td><td class="text-right py-1.5">16</td><td class="text-right py-1.5">9.5%</td></tr>
-          <tr class="border-b border-ink-300/40"><td class="py-1.5 text-accent-coral not-mono">not_solar</td><td class="text-right py-1.5">147</td><td class="text-right py-1.5">87.0%</td></tr>
+          <tr class="border-b border-ink-300/40"><td class="py-1.5 text-accent-coral-dark not-mono">not_solar</td><td class="text-right py-1.5">147</td><td class="text-right py-1.5">87.0%</td></tr>
           <tr class="border-b-2 border-ink-300"><td class="py-1.5 text-ink-500 not-mono italic">missing imagery</td><td class="text-right py-1.5">12</td><td class="text-right py-1.5">excluded</td></tr>
           <tr class="font-semibold"><td class="py-1.5 not-mono">total</td><td class="text-right py-1.5">181</td><td class="text-right py-1.5">169 reviewable</td></tr>
         </tbody>
@@ -199,7 +199,7 @@ flowchart TB
     SCORE["clf_v3 score per tile"]
     HIGH["high tier<br/>score 0.85 and up"]
     CAND["candidate tier<br/>score 0.70 to 0.85"]
-    GEO["rooftop_solar_ncr.geojson<br/>114 high + 280 candidate"]
+    GEO["rooftop_solar_ncr.geojson<br/>280 high + 235 candidate"]
     GRID --&gt; SCANEMB
     SCANEMB --&gt; SCORE
     SCORE --&gt; HIGH
@@ -279,15 +279,15 @@ flowchart TB
 
     <h3 class="text-lg mt-6 mb-2">Cross-match against OpenStreetMap</h3>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      For every CNN detection we look up the nearest OSM-tagged solar location and treat detections within 200 m as "confirmed by OSM" (model rediscovers known solar) and detections farther away as "new" (model proposes solar OSM has not tagged). On the full v4 Meralco-franchise scan (45,752 tiles covering NCR + Bulacan/Cavite/Rizal/Laguna industrial belts, 617 detections):
+      For every CNN detection we look up the nearest OSM-tagged solar location and treat detections within 200 m as "confirmed by OSM" (model rediscovers known solar) and detections farther away as "new" (model proposes solar OSM has not tagged). On the production v4 round-3 NCR scan (16,544 tiles on a 240 m grid, 515 detections; a franchise extension to the Bulacan / Cavite / Rizal / Laguna industrial belts is queued for a future quarter):
     </p>
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
-      <li>HIGH-CONFIDENCE TIER (266 detections, score ≥ 0.85): <strong>40 confirmed by OSM (15%) · 226 new (85%)</strong></li>
-      <li>CANDIDATE TIER (351 detections, score 0.70-0.85): <strong>22 confirmed (6%) · 329 new (94%)</strong></li>
-      <li>By area: <strong>NCR 130 high + 216 candidate</strong> · <strong>extended franchise 136 high + 135 candidate</strong>. Doubling the geographic footprint roughly doubled the high-confidence count.</li>
+      <li>HIGH-CONFIDENCE TIER (280 detections, score &ge; 0.85): <strong>36 confirmed by OSM (13%) &middot; 244 new (87%)</strong>. 277 of these 280 land inside a city polygon; 3 fall on LGU borders.</li>
+      <li>CANDIDATE TIER (235 detections, score 0.70-0.85): <strong>20 confirmed (9%) &middot; 215 new (91%)</strong>.</li>
+      <li>Per-building polygons after SAM segmentation + residential suppression: <strong>384 buildings, 69.9 MWp aggregate</strong>. The published per-building dataset is non-residential only by policy; see <a href="/privacy" class="no-underline text-accent-steel">/privacy</a>.</li>
     </ul>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      This is a useful sanity check for the classifier. If almost every detection re-mapped an OSM point, the model would just be memorizing training data; if none did, the model would be hallucinating. The ~15% confirmed / ~85% new split at the high tier is consistent with a classifier that learned the visual signature of rooftop PV well enough to recognize it on buildings the OSM community has not yet mapped, in a region where OSM rooftop-solar tagging is sparse.
+      This is a useful sanity check for the classifier. If almost every detection re-mapped an OSM point, the model would just be memorizing training data; if none did, the model would be hallucinating. The ~13% confirmed / ~87% new split at the high tier is consistent with a classifier that learned the visual signature of rooftop PV well enough to recognize it on buildings the OSM community has not yet mapped, in a region where OSM rooftop-solar tagging is sparse. "Within 200 m" is the same proximity convention used by DeepSolar (Stanford, 2018) and SPECTRUM (ICSC, 2025).
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       The "candidate" tier is noisier: many genuine borderline cases plus more visually-ambiguous false positives. The high-confidence tier is the production set.
@@ -295,7 +295,7 @@ flowchart TB
 
     <h3 class="text-lg mt-6 mb-2">Coverage scan</h3>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      We tile the Meralco franchise (14.20–14.85 N, 120.88–121.22 E) on a 240 m grid, no overlap. 45,752 tiles after the Phase 5 extension (NCR's original 16,544 + Bulacan/Cavite/Rizal/Laguna industrial belts). Each tile is fetched from Esri, embedded with CLIP-ViT-L, and scored by the classifier. Results at score ≥ 0.70 are written to <code>site/public/data/rooftop_solar_ncr.geojson</code> with a <em>tier</em> property (<code>high</code> for ≥ 0.85, <code>candidate</code> otherwise). The "your roof" page surfaces detections within 1.5 km of the user's geocoded address.
+      We tile NCR (14.20-14.85 N, 120.88-121.22 E) on a 240 m grid, no overlap: 16,544 tiles. A Phase 5 extension to the Bulacan / Cavite / Rizal / Laguna industrial belts (45,752 tiles total) is staged in <code>detection/scan/luzon_scan.py</code> and queued for a future quarter. Each tile is fetched from Esri, embedded with CLIP-ViT-L, and scored by the classifier. Results at score ≥ 0.70 are written to <code>site/public/data/rooftop_solar_ncr.geojson</code> with a <em>tier</em> property (<code>high</code> for ≥ 0.85, <code>candidate</code> otherwise). The "your roof" page surfaces detections within 1.5 km of the user's geocoded address.
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       The base detection layer outputs tile-level Points (the 240 m square center). v2.1 (next section) localizes panels at building-polygon resolution.
@@ -322,7 +322,7 @@ flowchart TB
   MATCH["Centroid-in-polygon<br/>or bbox overlap"]
   MERGE["Per-building merge<br/>sum panel area<br/>cap at footprint"]
   KWP["kWp estimate<br/>area_m2 divided by 6"]
-  OUT["per_building_solar_ncr.geojson<br/>416 buildings, 73.7 MWp"]
+  OUT["per_building_solar_ncr.geojson<br/>384 buildings, 69.9 MWp"]
   TILE --&gt; SAM
   SAM --&gt; COLOR
   COLOR --&gt;|drops ~70% of masks| CROP

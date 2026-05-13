@@ -105,7 +105,7 @@ const top15 = (cities as CityRow[])
 
     <h2 id="data" class="text-xl mt-10 mb-2 text-ink-900">Your neighborhood's saturation, measured from satellite</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      We took the 266 high-confidence rooftop-solar detections our computer-vision survey identified across Greater Metro Manila (<a href="/methodology#cnn-detection" class="no-underline text-accent-steel">methodology</a>), then ran SAM panel segmentation + OSM building intersection to get <strong>416 distinct OSM buildings with detected solar, totaling about 73.7 MWp</strong>. From those installs we computed a per-240m-cell saturation index: how many existing panels and how much installed kWp sit within 300m of every point.
+      We took the 280 high-confidence rooftop-solar detections our computer-vision survey identified across Greater Metro Manila (<a href="/methodology#cnn-detection" class="no-underline text-accent-steel">methodology</a>), then ran SAM panel segmentation + OSM building intersection to get <strong>384 distinct OSM buildings with detected solar, totaling about 69.9 MWp</strong> (commercial / industrial / public-purpose only; residential rooftops are aggregated to counts per <a href="/privacy" class="no-underline text-accent-steel">/privacy</a>). From those installs we computed a per-240m-cell saturation index: how many existing panels and how much installed kWp sit within 300m of every point.
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       Three tiers, defined by both panel count and installed capacity within 300m:

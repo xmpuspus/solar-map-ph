@@ -14,7 +14,7 @@ import RoofLookup from "../components/RoofLookup.astro";
           Drop your address. We pull a satellite picture of your specific roof, measure it, and tell you whether solar is worth it for you.
         </p>
         <p class="text-sm text-ink-500 leading-relaxed">
-          Free. No signup. Nothing about your address leaves your browser. Built for Filipino homeowners on Meralco.
+          Free. No signup. SolarMap.PH runs no backend; the address you type is queried against third-party geocoders directly (Photon, Nominatim, Overpass, Esri tiles, PVGIS) and never reaches a server we control. Built for Filipino homeowners on Meralco. <a href="/privacy" class="no-underline text-accent-steel">What gets seen by whom &rarr;</a>
         </p>
       </div>
       <aside class="border-l-2 border-ink-900 pl-5 text-sm text-ink-700 leading-relaxed">
@@ -51,7 +51,7 @@ import RoofLookup from "../components/RoofLookup.astro";
       <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">research backplane</p>
       <h2 class="text-xl mb-2 text-ink-900">The map</h2>
       <p class="text-sm text-ink-500 mb-4 leading-relaxed">
-        A computer-vision survey of rooftop solar across 61 cities in Greater Metro Manila. 617 detections so far, 416 localized to specific OSM building footprints with kWp estimates. Calibrated to 96% precision on a held-out validation set.
+        A computer-vision survey of rooftop solar across 41 cities in Greater Metro Manila. 515 detections, 280 high-confidence above a 0.85 score; 384 buildings with per-roof panel polygons after segmentation. Calibrated to 96% precision on a held-out validation set.
       </p>
       <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Open the map &rarr;</span>
     </a>
