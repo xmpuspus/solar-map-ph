@@ -46,7 +46,7 @@ ESRI_BASE = (
 )
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives a ~240m view
-USER_AGENT = "ghost-watts/2.0 (random-neg-tiles; +https://github.com/xmpuspus/ghost-watts)"
+USER_AGENT = "solar-map-ph/2.0 (random-neg-tiles; +https://github.com/xmpuspus/solar-map-ph)"
 
 # NCR bounding box (rough)
 NCR_BBOX = (14.4, 120.92, 14.78, 121.13)

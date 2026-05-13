@@ -45,7 +45,7 @@ out center tags;
 def fetch_overpass(query: str) -> dict:
     body = ("data=" + query).encode("utf-8")
     req = Request(OVERPASS, data=body, headers={
-        "User-Agent": "ghost-watts/2.0 (osm-solar-bootstrap; +https://github.com/xmpuspus/ghost-watts)",
+        "User-Agent": "solar-map-ph/2.0 (osm-solar-bootstrap; +https://github.com/xmpuspus/solar-map-ph)",
         "Content-Type": "application/x-www-form-urlencoded",
     })
     with urlopen(req, timeout=120) as resp:

@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ghost-watts"
+name = "solar-map-ph"
 version = "1.0.0"
 description = "Open-source rooftop solar detection from public satellite imagery."
 readme = "README.md"
@@ -49,21 +49,21 @@ sam = [
   "segment-anything==1.0",
 ]
 all = [
-  "ghost-watts[ml,plots,test,sam]",
+  "solar-map-ph[ml,plots,test,sam]",
 ]
 
 [project.urls]
-Homepage = "https://github.com/xmpuspus/ghost-watts"
-Documentation = "https://github.com/xmpuspus/ghost-watts/blob/main/MODEL_CARD.md"
-Issues = "https://github.com/xmpuspus/ghost-watts/issues"
-Repository = "https://github.com/xmpuspus/ghost-watts"
-Changelog = "https://github.com/xmpuspus/ghost-watts/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/xmpuspus/solar-map-ph"
+Documentation = "https://github.com/xmpuspus/solar-map-ph/blob/main/MODEL_CARD.md"
+Issues = "https://github.com/xmpuspus/solar-map-ph/issues"
+Repository = "https://github.com/xmpuspus/solar-map-ph"
+Changelog = "https://github.com/xmpuspus/solar-map-ph/blob/main/CHANGELOG.md"
 
 [tool.setuptools]
-packages = ["ghost_watts"]
+packages = ["solar_map_ph"]
 
 [tool.setuptools.package-data]
-ghost_watts = ["py.typed"]
+solar_map_ph = ["py.typed"]
 
 [tool.ruff]
 line-length = 110

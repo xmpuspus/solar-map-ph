@@ -1,6 +1,6 @@
 """Shared pytest fixtures and path setup.
 
-Adds the repo root to sys.path so tests can `import ghost_watts` and reach
+Adds the repo root to sys.path so tests can `import solar_map_ph` and reach
 into `detection/` and `pipeline/` directly without requiring an editable
 install.
 """

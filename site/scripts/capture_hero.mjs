@@ -5,8 +5,10 @@
 import { chromium } from "playwright";
 import { execSync } from "node:child_process";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = "/Users/xavier/Desktop/ghost-watts";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, "../..");
 const OUT_PNG = path.join(ROOT, "docs/screenshots/map-hero.png");
 
 async function main() {

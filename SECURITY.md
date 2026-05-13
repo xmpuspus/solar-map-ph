@@ -3,14 +3,14 @@
 ## Reporting a vulnerability
 
 Open a private security advisory via the GitHub Security tab:
-https://github.com/xmpuspus/ghost-watts/security/advisories/new
+https://github.com/xmpuspus/solar-map-ph/security/advisories/new
 
 Do not open a public issue. Acknowledged within 5 working days.
 
 ## In scope
 
 - Code execution via crafted inputs to any script in `detection/` or `pipeline/`.
-- Cross-site scripting on `ghost-watts.vercel.app` or any deployed preview.
+- Cross-site scripting on `solar-map-ph.vercel.app` or any deployed preview.
 - CSP bypass on the homeowner roof-lookup tool.
 - Path traversal in the tile-cache lookup paths.
 - Supply-chain issues against the pinned dependencies in `requirements.txt` and `pipeline/requirements.txt`.
@@ -31,7 +31,7 @@ Do not open a public issue. Acknowledged within 5 working days.
 
 **Only run `joblib.load` against classifier files you trust.** The shipped `detection/train/clf_v4.joblib` is verifiable via `make hash-verify` (sha256 prefix `56900722a8427be4`). If you fork the repo and someone sends you a classifier file, verify its sha256 against a known-good source before invoking any `make` target that loads it.
 
-The published model is also released on HuggingFace as `xmpuspus/ghost-watts-clf-v4`; the HF release uses signed model cards with the same hash for cross-verification.
+The published model is also released on HuggingFace as `xmpuspus/solar-map-ph-clf-v4`; the HF release uses signed model cards with the same hash for cross-verification.
 
 ## Data publication boundaries
 

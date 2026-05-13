@@ -44,7 +44,7 @@ GRID_COLS = 5
 GRID_ROWS = 5
 THUMB_PX = 256  # downsized for the review grid
 LABEL_HEIGHT = 36
-USER_AGENT = "ghost-watts/1.0 (groundtruth research; +https://github.com/xmpuspus/ghost-watts)"
+USER_AGENT = "solar-map-ph/1.0 (groundtruth research; +https://github.com/xmpuspus/solar-map-ph)"
 
 
 def parse_args() -> argparse.Namespace:

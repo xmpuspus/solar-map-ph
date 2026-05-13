@@ -69,7 +69,7 @@ jobs:
         run: |
           python -c "
           import json
-          fc = json.load(open('../site/public/data/ghost_watts_2026Q2.geojson'))
+          fc = json.load(open('../site/public/data/solar_map_ph_2026Q2.geojson'))
           assert fc['type'] == 'FeatureCollection'
           assert fc['properties']['quarter'] == '2026Q2'
           assert len(fc['features']) >= 1, 'no features in dry-run output'
@@ -109,7 +109,7 @@ jobs:
         run: make hash-verify
 
       - name: Smoke-test the detection package import surface
-        run: python -c "import ghost_watts; print('ghost_watts version', ghost_watts.__version__)"
+        run: python -c "import solar_map_ph; print('solar_map_ph version', solar_map_ph.__version__)"
 
   detection-tests:
     name: detection (pytest)

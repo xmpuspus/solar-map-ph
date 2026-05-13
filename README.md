@@ -1,15 +1,15 @@
-# ghost-watts
+# SolarMap.PH
 
-[![CI](https://github.com/xmpuspus/ghost-watts/actions/workflows/ci.yml/badge.svg)](https://github.com/xmpuspus/ghost-watts/actions/workflows/ci.yml)
+[![CI](https://github.com/xmpuspus/solar-map-ph/actions/workflows/ci.yml/badge.svg)](https://github.com/xmpuspus/solar-map-ph/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![Reproducible build](https://img.shields.io/badge/build-deterministic%20sha256%2056900722-success.svg)](#detection-pipeline-reproducible)
 [![F1 0.87](https://img.shields.io/badge/F1-0.87%20%40%20t%3D0.85-success.svg)](MODEL_CARD.md)
 
-> Open-source rooftop solar detection from public satellite imagery across Greater Metro Manila. A frozen CLIP-ViT-L encoder plus a logistic-regression head, Platt-calibrated and bit-exact reproducible. F1 = 0.870 (precision 95.9%, recall 79.7%) at threshold 0.85 on an honest 20% held-out source-disjoint split.
+> SolarMap.PH: open-source rooftop solar detection from public satellite imagery. Current coverage: Greater Metro Manila. A frozen CLIP-ViT-L encoder plus a logistic-regression head, Platt-calibrated and bit-exact reproducible. F1 = 0.870 (precision 95.9%, recall 79.7%) at threshold 0.85 on an honest 20% held-out source-disjoint split.
 
-![ghost-watts map of detected rooftop solar across Greater Metro Manila](docs/screenshots/map-hero.gif)
+![SolarMap.PH map of detected rooftop solar across Greater Metro Manila](docs/screenshots/map-hero.gif)
 
 <sub>Real recording of the `/map` page. (1) Survey of 515 rooftops across 41 cities (87% absent from any prior public solar map, 69.9 MWp aggregate). (2) Click into Quezon City and the sidebar surfaces 36 high-confidence detections, 27 newly identified, 15.6 MWp installed, plus thumbnails of the three largest installations the model found. (3) Zoom in further and click a single roof: per-building card returns kWp estimate, panel area, classifier confidence, OSM way id, and the link to confirm against the building footprint. No backend, all client-side.</sub>
 
@@ -32,8 +32,8 @@
 The fastest path from `git clone` to a working classifier is under 5 minutes if you already have Python 3.11 and pip:
 
 ```bash
-git clone https://github.com/xmpuspus/ghost-watts
-cd ghost-watts
+git clone https://github.com/xmpuspus/solar-map-ph
+cd solar-map-ph
 
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -75,11 +75,11 @@ make train
 make hash-verify        # asserts clf_v4.joblib sha256 prefix 56900722a8427be4
 
 # Docker
-docker build -t ghost-watts:latest .
-docker run --rm ghost-watts:latest                     # default: make hash
-docker run --rm ghost-watts:latest make hash-verify    # asserts the prefix
+docker build -t solar-map-ph:latest .
+docker run --rm solar-map-ph:latest                     # default: make hash
+docker run --rm solar-map-ph:latest make hash-verify    # asserts the prefix
 docker run --rm -v $(pwd)/detection/scan/ncr_tiles:/app/detection/scan/ncr_tiles \
-    ghost-watts:latest make scan aggregate             # re-classify cached tiles
+    solar-map-ph:latest make scan aggregate             # re-classify cached tiles
 ```
 
 The image bundles `dataset_v4.npz` but not the raw NCR tile cache (~6.6 GB). Mount the cache as a volume for `make scan` and `make all`. See `Makefile` for every target.
@@ -106,9 +106,9 @@ python validate.py --quarter 2026Q2
 ```
 
 Outputs land in `site/public/data/`:
-- `ghost_watts_2026Q2.geojson` (one feature per city)
-- `ghost_watts_barangay_2026Q2.geojson` (drilldown for built-up barangays)
-- `ghost_watts_summary_2026Q2.json` (franchise totals)
+- `solar_map_ph_2026Q2.geojson` (one feature per city)
+- `solar_map_ph_barangay_2026Q2.geojson` (drilldown for built-up barangays)
+- `solar_map_ph_summary_2026Q2.json` (franchise totals)
 
 See `site/public/data/SCHEMA.md` for the field-by-field schema and units.
 
@@ -119,7 +119,7 @@ The pipeline is decoupled from Meralco / NCR. To run it on any other Philippine 
 ## Project layout
 
 ```
-ghost-watts/
+solar-map-ph/
 |-- detection/
 |   |-- bootstrap/          # OSM Overpass + Esri tile fetch
 |   |-- buildings/          # Overpass building-lookup helper
@@ -177,7 +177,7 @@ About six hours of work per quarter. Annual LGU table refresh adds three hours o
 | 4. Move data into site | 15m | Copy outputs to `site/public/data/`, bump `manifest.json` |
 | 5. Write quarterly post | 1-3h | Optional. Skip if no story this quarter |
 | 6. Methodology review | 15m | Add new caveats if surfaced |
-| 7. Commit + deploy | 5m | `git push origin main`, Vercel auto-deploys. Tag release `ghost-watts-YYYYQN` |
+| 7. Commit + deploy | 5m | `git push origin main`, Vercel auto-deploys. Tag release `solar-map-ph-YYYYQN` |
 | 8. Distribution | 15m | Optional LinkedIn share, optional issue/PR routing. Skip HN/Reddit/X |
 
 ## Methodology in one paragraph
@@ -186,7 +186,7 @@ Every quarter, Earth Engine pulls Sentinel-2 NIR/SWIR median, Landsat 8/9 land s
 
 ## License
 
-Code: MIT. Data products in `site/public/data/`: CC-BY-4.0. Cite as `ghost-watts (YYYY-QN), https://github.com/xmpuspus/ghost-watts`. See `CITATION.cff` for the canonical citation, `MODEL_CARD.md` for intended use and biases, and `SECURITY.md` for the threat model.
+Code: MIT. Data products in `site/public/data/`: CC-BY-4.0. Cite as `SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph`. See `CITATION.cff` for the canonical citation, `MODEL_CARD.md` for intended use and biases, and `SECURITY.md` for the threat model.
 
 Author: Xavier Puspus.
 

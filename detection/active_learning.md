@@ -1,6 +1,6 @@
 # Active-learning protocol
 
-ghost-watts ran four rounds of active learning between `clf_v2` and `clf_v4`. This page documents the protocol so a researcher running on a new region can apply the same recipe.
+SolarMap.PH ran four rounds of active learning between `clf_v2` and `clf_v4`. This page documents the protocol so a researcher running on a new region can apply the same recipe.
 
 ## Protocol
 

@@ -1,4 +1,4 @@
-ghost-watts is dual-licensed.
+SolarMap.PH is dual-licensed.
 
 CODE: MIT License
 
@@ -26,8 +26,8 @@ DATA PRODUCTS (everything under site/public/data/): CC-BY-4.0
 
 You are free to share and adapt the data for any purpose, including
 commercially, under the following terms:
-- Attribution: you must give appropriate credit ("ghost-watts (YYYY-QN),
-  https://github.com/xmpuspus/ghost-watts"), provide a link to the license,
+- Attribution: you must give appropriate credit ("SolarMap.PH (YYYY-QN),
+  https://github.com/xmpuspus/solar-map-ph"), provide a link to the license,
   and indicate if changes were made.
 - No additional restrictions.
 

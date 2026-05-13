@@ -62,7 +62,7 @@ const headerCopy = {
           <span class="inline-block w-3 h-3 rounded-sm" style="background:#9ca3af"></span><span>lower-confidence</span>
         </div>
       </div>
-      <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">ghost-watts · 96% precision on holdout</div>
+      <div id="legend-source" class="text-[10px] text-ink-300 mt-1.5 font-mono">SolarMap.PH · 96% precision on holdout</div>
     </div>
   </div>
 
@@ -173,7 +173,7 @@ const headerCopy = {
     <p class="text-xs uppercase tracking-wider text-ink-500 mb-3 font-mono">cities ranked by detection density</p>
     <ol id="top-by-density" class="space-y-2 text-sm"></ol>
     <p class="text-[11px] text-ink-500 mt-3 leading-relaxed">
-      Density (high-confidence detections per km² of city area) normalizes across cities of different sizes - smaller LGUs disproportionately represented in the dataset surface here. Raw data and reproducibility scripts: <a href="https://github.com/xmpuspus/ghost-watts" class="text-accent-steel no-underline">github.com/xmpuspus/ghost-watts</a>.
+      Density (high-confidence detections per km² of city area) normalizes across cities of different sizes - smaller LGUs disproportionately represented in the dataset surface here. Raw data and reproducibility scripts: <a href="https://github.com/xmpuspus/solar-map-ph" class="text-accent-steel no-underline">github.com/xmpuspus/solar-map-ph</a>.
     </p>
   </div>
 </section>
@@ -184,7 +184,7 @@ const headerCopy = {
   import { interpolateRdYlBu } from "d3-scale-chromatic";
 
   const DATA_BASE = "/data";
-  const GITHUB_REPO = "https://github.com/xmpuspus/ghost-watts";
+  const GITHUB_REPO = "https://github.com/xmpuspus/solar-map-ph";
 
   // ---- helpers --------------------------------------------------------
 
@@ -358,7 +358,7 @@ const headerCopy = {
       zoom: 9,
     });
     map.addControl(new maplibregl.NavigationControl(), "top-right");
-    if (typeof window !== "undefined") (window as any).__ghostWattsMap = map;
+    if (typeof window !== "undefined") (window as any).__solarMapPHMap = map;
 
     map.on("load", () => {
       // City choropleth
@@ -646,7 +646,7 @@ const headerCopy = {
         return [f.properties.tile_id, f.properties.score, f.properties.tier, f.properties.osm_status, lat, lon, f.properties.kwp_estimate || ""].join(",");
       }).join("\n");
       csv.href = `data:text/csv;charset=utf-8,${encodeURIComponent(csvText)}`;
-      csv.download = `ghost-watts-${row.name.toLowerCase().replace(/\s+/g, "-")}.csv`;
+      csv.download = `solar-map-ph-${row.name.toLowerCase().replace(/\s+/g, "-")}.csv`;
 
       if (!fromUrl) {
         const url = new URL(location.href);

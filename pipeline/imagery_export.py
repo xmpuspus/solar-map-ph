@@ -67,7 +67,7 @@ HOTSPOT_TOP_K_PER_CITY = 1        # top 1 per city for higher per-pin confidence
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="ghost-watts imagery + hot-spot exporter")
+    p = argparse.ArgumentParser(description="SolarMap.PH imagery + hot-spot exporter")
     p.add_argument("--quarter", required=True, help="Quarter, e.g. 2026Q2")
     p.add_argument("--baseline", default="2022", help="Baseline year")
     p.add_argument("--only", help="Only export this PSGC code (for testing)")
@@ -133,7 +133,7 @@ def download(url: str, out_path: Path, max_retries: int = 3) -> bool:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     for attempt in range(1, max_retries + 1):
         try:
-            req = Request(url, headers={"User-Agent": "ghost-watts/1.0"})
+            req = Request(url, headers={"User-Agent": "solar-map-ph/1.0"})
             with urlopen(req, timeout=120) as resp:
                 data = resp.read()
             out_path.write_bytes(data)

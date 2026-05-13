@@ -1,8 +1,8 @@
-# ghost-watts data product schema
+# SolarMap.PH data product schema
 
 Every file in `site/public/data/` is published under CC-BY-4.0. Cite as:
 
-> ghost-watts (YYYY-QN), https://github.com/xmpuspus/ghost-watts
+> SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph
 
 All geometry is in EPSG:4326 (WGS84). All distances are meters unless noted.
 
@@ -14,9 +14,9 @@ All geometry is in EPSG:4326 (WGS84). All distances are meters unless noted.
 | `residential_solar_aggregate.json` | Counts only, no geometry | `/safety` |
 | `rooftop_solar_ncr.geojson` | Per 240m tile center | `/map` |
 | `city_solar_saturation.json` | Per 240m cell, summed across NCR | `/safety` saturation index |
-| `ghost_watts_YYYYQN.geojson` | Per city | `/map` choropleth |
-| `ghost_watts_barangay_YYYYQN.geojson` | Per barangay, urban-area drilldown | `/map` |
-| `ghost_watts_summary_YYYYQN.json` | Franchise-wide totals | `/methodology` |
+| `solar_map_ph_YYYYQN.geojson` | Per city | `/map` choropleth |
+| `solar_map_ph_barangay_YYYYQN.geojson` | Per barangay, urban-area drilldown | `/map` |
+| `solar_map_ph_summary_YYYYQN.json` | Franchise-wide totals | `/methodology` |
 | `manifest.json` | Index of available quarters | site bootstrap |
 
 ## per_building_solar_ncr.geojson
@@ -69,7 +69,7 @@ One Feature per OSM building with detected rooftop solar. Residential roofs are 
 }
 ```
 
-No geometry, no addresses, no per-building entries. This is the only residential-scoped figure ghost-watts releases.
+No geometry, no addresses, no per-building entries. This is the only residential-scoped figure SolarMap.PH releases.
 
 ## rooftop_solar_ncr.geojson
 
@@ -107,7 +107,7 @@ One row per 240m cell across NCR with a count of high-confidence detections with
 ]
 ```
 
-## ghost_watts_YYYYQN.geojson (city-level composite)
+## solar_map_ph_YYYYQN.geojson (city-level composite)
 
 Earth Engine multi-signal composite, one polygon per franchise city.
 
@@ -135,4 +135,4 @@ The composite is correlative, not diagnostic. See `/methodology` on the site for
 
 ## License and citation
 
-All files: CC-BY-4.0. Cite as `ghost-watts (YYYY-QN), https://github.com/xmpuspus/ghost-watts`. Citing the software itself: see `CITATION.cff` at repo root.
+All files: CC-BY-4.0. Cite as `SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph`. Citing the software itself: see `CITATION.cff` at repo root.

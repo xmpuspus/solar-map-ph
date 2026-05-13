@@ -1,4 +1,4 @@
-# Contributing to ghost-watts
+# Contributing to SolarMap.PH
 
 Thanks for considering a contribution. This repo welcomes:
 
@@ -11,8 +11,8 @@ Thanks for considering a contribution. This repo welcomes:
 ## Dev setup
 
 ```bash
-git clone https://github.com/xmpuspus/ghost-watts
-cd ghost-watts
+git clone https://github.com/xmpuspus/solar-map-ph
+cd solar-map-ph
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 pip install pytest matplotlib
@@ -60,7 +60,7 @@ Never silence a failing test by editing the assertion. If the test was wrong, do
 
 ## Reporting a security issue
 
-Do not open a public issue. Use the [GitHub Security Advisory form](https://github.com/xmpuspus/ghost-watts/security/advisories/new). See [SECURITY.md](SECURITY.md) for what's in scope.
+Do not open a public issue. Use the [GitHub Security Advisory form](https://github.com/xmpuspus/solar-map-ph/security/advisories/new). See [SECURITY.md](SECURITY.md) for what's in scope.
 
 ## Code of conduct
 

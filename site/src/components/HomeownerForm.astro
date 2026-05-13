@@ -151,7 +151,7 @@
   }
 
   async function loadGeoJSON(quarter: string) {
-    const r = await fetch(`${DATA_BASE}/ghost_watts_${quarter}.geojson`);
+    const r = await fetch(`${DATA_BASE}/solar_map_ph_${quarter}.geojson`);
     if (!r.ok) return null;
     return r.json();
   }
@@ -299,7 +299,7 @@
             </dl>
             ${permitStatus === "verified"
               ? `<p class="text-xs text-ink-500">From hand-curated LGU friction table. Verify on your LGU's website before filing.</p>`
-              : `<p class="text-xs text-ink-500">${cityName}'s permit data is not yet verified in our table. Most LGUs publish their fee schedules online; or <a href="https://github.com/xmpuspus/ghost-watts" class="text-accent-steel no-underline">contribute a source</a>. April 2026 DOE circular targets a 3-day permit ceiling.</p>`}
+              : `<p class="text-xs text-ink-500">${cityName}'s permit data is not yet verified in our table. Most LGUs publish their fee schedules online; or <a href="https://github.com/xmpuspus/solar-map-ph" class="text-accent-steel no-underline">contribute a source</a>. April 2026 DOE circular targets a 3-day permit ceiling.</p>`}
           </div>
         </details>
 

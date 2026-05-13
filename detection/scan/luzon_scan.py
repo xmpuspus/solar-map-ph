@@ -66,7 +66,7 @@ ESRI_BASE = (
 )
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives 240m view
-USER_AGENT = "ghost-watts/2.0 (luzon-scan; +https://github.com/xmpuspus/ghost-watts)"
+USER_AGENT = "solar-map-ph/2.0 (luzon-scan; +https://github.com/xmpuspus/solar-map-ph)"
 
 TILE_DEG_LAT = 0.00216
 TILE_DEG_LON = 0.00224
@@ -230,7 +230,7 @@ def main() -> int:
     )
     ap.add_argument(
         "--workers", type=int,
-        default=int(os.environ.get("GHOST_WATTS_FETCH_WORKERS", "32")),
+        default=int(os.environ.get("SOLAR_MAP_PH_FETCH_WORKERS", "32")),
         help="Concurrent fetch workers. 32 is the sweet spot against Esri.",
     )
     args = ap.parse_args()

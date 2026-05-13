@@ -1,6 +1,6 @@
 # PH solar policy context (research notes, 2026-05-08)
 
-Source material gathered during the ghost-watts design phase. Use as inputs for the inaugural post and the methodology page. Direct quotes are flagged with the source URL.
+Source material gathered during the SolarMap.PH design phase. Use as inputs for the inaugural post and the methodology page. Direct quotes are flagged with the source URL.
 
 ## The five-actor map
 
@@ -75,7 +75,7 @@ The Energy Storage Systems Act (HB 6676, passed early 2026) addresses storage bu
 - Method: CNN classifier on tile-level satellite imagery, trained on 366,467 weakly labeled images
 - Resolution requirement: ~30cm-60cm (high-res aerial), works on Bing/Google Static Maps. Sentinel-2 at 10m is too coarse for individual residential.
 
-For ghost-watts (no GPU, free-tier compute):
+For SolarMap.PH (no GPU, free-tier compute):
 - Sentinel-2 at 10m: aggregate-only signal, neighborhood-scale, free, weekly
 - Landsat 8/9 thermal: 30m, free, ~16-day cadence
 - VIIRS DNB nightlights: 500m, free, monthly

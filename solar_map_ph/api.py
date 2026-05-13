@@ -1,4 +1,4 @@
-"""Stable Python API for ghost-watts.
+"""Stable Python API for SolarMap.PH.
 
 The repo's training and scan scripts live under `detection/` and are organized
 for batch execution. This module gives researchers a single import surface for

@@ -62,7 +62,7 @@ def download_tile(name: str) -> Path:
         return out
     url = f"{WC_BASE}/ESA_WorldCover_10m_2021_v200_{name}_Map.tif"
     print(f"[wc] downloading {url}")
-    req = Request(url, headers={"User-Agent": "ghost-watts/1.0"})
+    req = Request(url, headers={"User-Agent": "solar-map-ph/1.0"})
     with urlopen(req, timeout=300) as r:
         out.write_bytes(r.read())
     print(f"[wc]   -> {out} ({out.stat().st_size / 1e6:.1f} MB)")

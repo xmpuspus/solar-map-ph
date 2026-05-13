@@ -16,11 +16,13 @@ import { chromium } from "playwright";
 import { execSync } from "node:child_process";
 import { mkdirSync, readdirSync, statSync, unlinkSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = "/Users/xavier/Desktop/ghost-watts";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, "../..");
 const OUT_GIF = path.join(ROOT, "docs/screenshots/map-hero.gif");
-const VIDEO_DIR = "/tmp/ghost-watts-hero-video";
-const SITE_URL = "http://localhost:4322/map";
+const VIDEO_DIR = "/tmp/solar-map-ph-hero-video";
+const SITE_URL = "http://localhost:4321/map";
 
 // Real high-confidence retail rooftop, OSM way 48173643.
 // Properties: kWp 1265.93, panel area 7595.6 m^2, confidence 0.961,
@@ -35,7 +37,7 @@ const WIDE = { lng: 121.05, lat: 14.6, zoom: 9.5 };
 
 async function settleMap(page) {
   await page.evaluate(() => {
-    const m = window.__ghostWattsMap;
+    const m = window.__solarMapPHMap;
     if (m && m.resize) m.resize();
     window.dispatchEvent(new Event("resize"));
   });
@@ -57,7 +59,7 @@ async function settleMap(page) {
 async function clickLngLat(page, lng, lat) {
   const mapBox = await page.locator(".maplibregl-map").first().boundingBox();
   const screen = await page.evaluate(({ lng, lat }) => {
-    const p = window.__ghostWattsMap.project([lng, lat]);
+    const p = window.__solarMapPHMap.project([lng, lat]);
     return { x: p.x, y: p.y };
   }, { lng, lat });
   // Hover for ~150ms before clicking so MapLibre's mouseenter handler swaps
@@ -88,7 +90,7 @@ async function main() {
 
   // CSS injection after load -- by the time we reach here, the map and
   // sidebar DOM elements exist. The map instance is created during Astro
-  // hydration, exposed as window.__ghostWattsMap.
+  // hydration, exposed as window.__solarMapPHMap.
   // Tight hero crop: keep the stats strip (4 KPI cells) + map + sidebar.
   // Hide the page header, footer, the long description paragraph, and the
   // collapsible "How to read this map" so the data + interactivity is what
@@ -108,7 +110,7 @@ async function main() {
     `,
   });
 
-  await page.waitForFunction(() => window.__ghostWattsMap !== undefined, { timeout: 15000 });
+  await page.waitForFunction(() => window.__solarMapPHMap !== undefined, { timeout: 15000 });
   await settleMap(page);
   const canvasSize = await page.evaluate(() => {
     const c = document.querySelector(".maplibregl-canvas");
@@ -120,7 +122,7 @@ async function main() {
   // ===== Stage A: wide overview =========================================
   console.log("[gif] A wide overview");
   await page.evaluate((c) => {
-    window.__ghostWattsMap.jumpTo({ center: [c.lng, c.lat], zoom: c.zoom });
+    window.__solarMapPHMap.jumpTo({ center: [c.lng, c.lat], zoom: c.zoom });
   }, WIDE);
   await page.waitForTimeout(2000);
 
@@ -138,7 +140,7 @@ async function main() {
   // ===== Stage C: flyTo retail building =================================
   console.log("[gif] C flyTo retail building");
   await page.evaluate((b) => {
-    window.__ghostWattsMap.flyTo({
+    window.__solarMapPHMap.flyTo({
       center: [b.lng, b.lat], zoom: 16.5, duration: 1500, essential: true,
     });
   }, BUILDING);
@@ -149,7 +151,7 @@ async function main() {
   // Wait until buildings-fill has the target feature rendered.
   await page.waitForFunction(
     (b) => {
-      const m = window.__ghostWattsMap;
+      const m = window.__solarMapPHMap;
       if (!m.getLayer("buildings-fill")) return false;
       const feats = m.queryRenderedFeatures(m.project([b.lng, b.lat]), {
         layers: ["buildings-fill"],
@@ -171,7 +173,7 @@ async function main() {
   // ===== Stage E: zoom back out =========================================
   console.log("[gif] E flyTo wide");
   await page.evaluate((c) => {
-    window.__ghostWattsMap.flyTo({
+    window.__solarMapPHMap.flyTo({
       center: [c.lng, c.lat], zoom: c.zoom, duration: 1500, essential: true,
     });
   }, WIDE);

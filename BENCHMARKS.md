@@ -1,6 +1,6 @@
 # Benchmarks
 
-ghost-watts publishes one canonical operating point and a precision-recall sweep on an honest 20% held-out source-disjoint split. This page tracks how the shipped classifier compares to alternatives and to other published rooftop solar detectors.
+SolarMap.PH publishes one canonical operating point and a precision-recall sweep on an honest 20% held-out source-disjoint split. This page tracks how the shipped classifier compares to alternatives and to other published rooftop solar detectors.
 
 ## Headline (clf_v4 calibrated)
 
@@ -36,11 +36,11 @@ To run an encoder against the calibrated holdout, see `detection/train/v4_calibr
 
 ## Cross-method comparison (sketch)
 
-This section is a placeholder for community-driven cross-method comparison. The benchmarks below have not yet been run head-to-head against `clf_v4`; they are listed so that a researcher comparing against ghost-watts knows where the rigorous comparison sits.
+This section is a placeholder for community-driven cross-method comparison. The benchmarks below have not yet been run head-to-head against `clf_v4`; they are listed so that a researcher comparing against SolarMap.PH knows where the rigorous comparison sits.
 
 | Method | Region | Reported F1 | Test set | Notes |
 |---|---|---|---|---|
-| ghost-watts clf_v4 (this work) | Greater Metro Manila | 0.870 | 98-source honest holdout | this README |
+| SolarMap.PH clf_v4 (this work) | Greater Metro Manila | 0.870 | 98-source honest holdout | this README |
 | Stanford DeepSolar (2018) | California, USA | ~0.94 | 5,000-image curated test | rooftop + ground-mount mixed, different imagery |
 | Microsoft Planetary Computer solar | global | (research, no single F1) | various | open methodology |
 | Google Sunroof (2015) | USA | (product, not research) | proprietary | no public test set |

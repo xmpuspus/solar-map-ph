@@ -1,4 +1,4 @@
-"""ghost-watts quarterly pipeline.
+"""SolarMap.PH quarterly pipeline.
 
 Pulls multi-signal solar-presence indicators from Earth Engine over Meralco's
 franchise area and emits a city-level GeoJSON with composite scores.
@@ -59,7 +59,7 @@ class CityResult:
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="ghost-watts quarterly pipeline")
+    p = argparse.ArgumentParser(description="SolarMap.PH quarterly pipeline")
     p.add_argument("--quarter", required=True, help="Quarter, e.g. 2026Q2")
     p.add_argument("--baseline", default="2022", help="Baseline year for delta computation")
     p.add_argument("--out-dir", default=str(SITE_DATA_DIR), help="Output directory for GeoJSON")
@@ -483,7 +483,7 @@ def write_outputs(
             "weights": SIGNAL_WEIGHTS,
         },
     }
-    geojson_path = out_dir / f"ghost_watts_{quarter}.geojson"
+    geojson_path = out_dir / f"solar_map_ph_{quarter}.geojson"
     with geojson_path.open("w") as f:
         json.dump(fc, f, indent=2)
 
@@ -515,7 +515,7 @@ def write_outputs(
             "as_of": aggregates.get("as_of"),
         },
     }
-    summary_path = out_dir / f"ghost_watts_summary_{quarter}.json"
+    summary_path = out_dir / f"solar_map_ph_summary_{quarter}.json"
     with summary_path.open("w") as f:
         json.dump(summary, f, indent=2)
 
@@ -554,7 +554,7 @@ def write_dry_run_stub(quarter: str, out_dir: Path, cities_path: Path | None = N
             "note": "Dry-run output. Run with EE auth to populate features.",
         },
     }
-    path = out_dir / f"ghost_watts_{quarter}.geojson"
+    path = out_dir / f"solar_map_ph_{quarter}.geojson"
     with path.open("w") as f:
         json.dump(fc, f, indent=2)
     print(f"Wrote dry-run stub to {path}")

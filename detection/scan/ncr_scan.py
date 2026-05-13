@@ -64,7 +64,7 @@ ESRI_BASE = (
 )
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives 240m view
-USER_AGENT = "ghost-watts/2.0 (ncr-scan; +https://github.com/xmpuspus/ghost-watts)"
+USER_AGENT = "solar-map-ph/2.0 (ncr-scan; +https://github.com/xmpuspus/solar-map-ph)"
 
 # NCR extent
 NCR_BBOX = (14.40, 120.92, 14.78, 121.13)
@@ -209,7 +209,7 @@ def main() -> int:
     # Bumped from 12 → 32 for the Meralco-franchise scan; Esri serves at ~1.8s/req
     # round-trip from this Mac, so 32-way parallelism gives ~17 fetches/sec ceiling
     # which is closer to the ~14 t/s embed throughput.
-    FETCH_WORKERS = int(os.environ.get("GHOST_WATTS_FETCH_WORKERS", "32"))
+    FETCH_WORKERS = int(os.environ.get("SOLAR_MAP_PH_FETCH_WORKERS", "32"))
 
     todo: list[tuple[str, float, float, Path]] = []
     for lat, lon in centers:

@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We pledge to make participation in ghost-watts a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+We pledge to make participation in SolarMap.PH a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
@@ -26,7 +26,7 @@ Examples of unacceptable behavior:
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the maintainer by opening a private security advisory at https://github.com/xmpuspus/ghost-watts/security/advisories/new. All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the maintainer by opening a private security advisory at https://github.com/xmpuspus/solar-map-ph/security/advisories/new. All complaints will be reviewed and investigated promptly and fairly.
 
 ## Attribution
 

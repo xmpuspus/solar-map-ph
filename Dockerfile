@@ -1,5 +1,5 @@
-# Ghost-watts deterministic build image.
-# Smoke test: `docker build -t ghost-watts:latest . && docker run ghost-watts:latest make hash`
+# SolarMap.PH deterministic build image.
+# Smoke test: `docker build -t solar-map-ph:latest . && docker run solar-map-ph:latest make hash`
 # should produce the same sha256 as the host build, given the same dataset_v4.npz.
 
 # Pinned to a specific Debian + Python patch level for deterministic builds.
@@ -30,6 +30,6 @@ COPY Makefile /app/Makefile
 COPY detection/ /app/detection/
 COPY docs/ /app/docs/
 
-# Default command: print the deterministic hash. Use `docker run ghost-watts make all`
-# for the full pipeline (requires raw imagery volume) or `docker run -v $(pwd)/detection/scan/ncr_tiles:/app/detection/scan/ncr_tiles ghost-watts make scan` to re-classify cached tiles.
+# Default command: print the deterministic hash. Use `docker run solar-map-ph make all`
+# for the full pipeline (requires raw imagery volume) or `docker run -v $(pwd)/detection/scan/ncr_tiles:/app/detection/scan/ncr_tiles solar-map-ph make scan` to re-classify cached tiles.
 CMD ["make", "hash"]

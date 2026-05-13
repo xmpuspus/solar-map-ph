@@ -1,4 +1,4 @@
-# Pinned dependencies for ghost-watts detection pipeline.
+# Pinned dependencies for SolarMap.PH detection pipeline.
 # All versions == not >= so docker build → docker run produces a deterministic
 # clf_v4.joblib hash from the same dataset_v4.npz embeddings.
 

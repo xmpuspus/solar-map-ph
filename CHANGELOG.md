@@ -1,8 +1,13 @@
 # Changelog
 
-All notable changes to ghost-watts are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+All notable changes to SolarMap.PH are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- Rebranded from `ghost-watts` to `SolarMap.PH`. Python package renamed `ghost_watts` -> `solar_map_ph`. Repo slug, Docker image tag, and HuggingFace artifact moved to `solar-map-ph`. Data product filenames renamed (`solar_map_ph_2026Q2.geojson`, `solar_map_ph_summary_2026Q2.json`). No model changes: classifier `clf_v4.joblib` sha256 prefix `56900722a8427be4` is preserved.
+- Tagline now includes explicit coverage caveat: "Current coverage: Greater Metro Manila." Quarterly releases will expand to additional Philippine distribution-utility franchises (VECO, DLPC, MORE, CEPALCO).
 
 ## [1.0.0] - 2026-05-12 - inaugural public release
 

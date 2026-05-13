@@ -8,7 +8,7 @@ Run once per public release. Requires:
 
 Usage:
 
-    python scripts/publish_to_huggingface.py --repo xmpuspus/ghost-watts-clf-v4
+    python scripts/publish_to_huggingface.py --repo xmpuspus/solar-map-ph-clf-v4
 
 The repo on HF gets four files plus the MODEL_CARD.md:
     clf_v4.joblib
@@ -19,7 +19,7 @@ The repo on HF gets four files plus the MODEL_CARD.md:
 After uploading, the assets are available via:
 
     from huggingface_hub import hf_hub_download
-    path = hf_hub_download("xmpuspus/ghost-watts-clf-v4", "clf_v4.joblib")
+    path = hf_hub_download("xmpuspus/solar-map-ph-clf-v4", "clf_v4.joblib")
 """
 
 from __future__ import annotations
@@ -54,7 +54,7 @@ def verify_hashes() -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--repo", required=True, help="HuggingFace repo id, e.g. xmpuspus/ghost-watts-clf-v4")
+    ap.add_argument("--repo", required=True, help="HuggingFace repo id, e.g. xmpuspus/solar-map-ph-clf-v4")
     ap.add_argument("--private", action="store_true", help="Create the repo private (default: public)")
     args = ap.parse_args()
 

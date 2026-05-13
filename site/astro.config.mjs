@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://ghost-watts.org",
+  site: "https://solar-map-ph.org",
   integrations: [tailwind(), mdx(), sitemap()],
   output: "static",
   vite: {

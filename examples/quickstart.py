@@ -20,14 +20,14 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import ghost_watts
+import solar_map_ph
 
 
 def main() -> int:
-    print(f"ghost-watts {ghost_watts.__version__}\n")
+    print(f"SolarMap.PH {solar_map_ph.__version__}\n")
 
     # 1. Load the shipped, hash-verified classifier bundle.
-    bundle = ghost_watts.load_classifier_bundle(verify_hash=True)
+    bundle = solar_map_ph.load_classifier_bundle(verify_hash=True)
     print("classifier bundle loaded:")
     print(f"  encoder       = {bundle.get('encoder')}")
     print(f"  feature_dim   = {bundle.get('feature_dim', 768)}")
@@ -41,7 +41,7 @@ def main() -> int:
     sample_idx = rng.choice(np.arange(len(X)), size=10, replace=False)
 
     # 3. Score them. Calibrated -> [0, 1] probability of "contains rooftop solar".
-    scores = ghost_watts.score_features(X[sample_idx], bundle, calibrated=True)
+    scores = solar_map_ph.score_features(X[sample_idx], bundle, calibrated=True)
 
     print("source                              label  calibrated_p   verdict")
     print("-" * 70)

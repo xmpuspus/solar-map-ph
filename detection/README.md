@@ -1,6 +1,6 @@
 # detection/
 
-CNN-based per-roof solar detection layer for ghost-watts.
+CNN-based per-roof solar detection layer for SolarMap.PH.
 
 The Sentinel-2 pipeline in `pipeline/` is structurally too coarse (10m / pixel) to claim solar at a specific roof. This module bootstraps a hi-res Esri + CLIP + logistic-regression detector that gives defensible per-roof predictions over Metro Manila.
 

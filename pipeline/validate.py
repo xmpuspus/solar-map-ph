@@ -1,4 +1,4 @@
-"""ghost-watts output validator.
+"""SolarMap.PH output validator.
 
 Reads the GeoJSON and summary written by pipeline.py for a given quarter and
 checks invariants. Exits non-zero on any failure.
@@ -30,7 +30,7 @@ Z_SCORE_BOUND = 5.0  # Anything beyond is suspicious
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="ghost-watts validator")
+    p = argparse.ArgumentParser(description="SolarMap.PH validator")
     p.add_argument("--quarter", required=True)
     p.add_argument("--data-dir", default=str(SITE_DATA_DIR))
     return p.parse_args()
@@ -47,8 +47,8 @@ def warn(msg: str) -> None:
 def main() -> int:
     args = parse_args()
     data_dir = Path(args.data_dir)
-    geojson_path = data_dir / f"ghost_watts_{args.quarter}.geojson"
-    summary_path = data_dir / f"ghost_watts_summary_{args.quarter}.json"
+    geojson_path = data_dir / f"solar_map_ph_{args.quarter}.geojson"
+    summary_path = data_dir / f"solar_map_ph_summary_{args.quarter}.json"
 
     failures: list[str] = []
 

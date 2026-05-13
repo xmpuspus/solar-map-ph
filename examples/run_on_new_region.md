@@ -1,4 +1,4 @@
-# Running ghost-watts on a new region
+# Running SolarMap.PH on a new region
 
 This recipe shows how to apply the detection pipeline to any geography outside the Meralco franchise without code changes. The Earth Engine quarterly pipeline already accepts a `--region-polygons` path; the detection scan uses a bbox flag.
 
@@ -13,7 +13,7 @@ The natural extension is to other Philippine LGUs outside the Meralco franchise:
 ## 1. Generate the tile grid
 
 ```python
-from ghost_watts import grid_centers
+from solar_map_ph import grid_centers
 
 # Cebu Metro: Cebu City + Mandaue + Lapu-Lapu, roughly the urban core
 centers = grid_centers((10.28, 123.85, 10.42, 124.00), tile_meters=240.0)
@@ -41,7 +41,7 @@ Esri World Imagery licensing permits research use under the rate cap (~5 req/s).
 import numpy as np
 from PIL import Image
 
-from ghost_watts import score_features
+from solar_map_ph import score_features
 from detection.train.build_dataset_v3 import load_clip, embed
 
 processor, model = load_clip()
@@ -90,4 +90,4 @@ Each utility publishes its franchise polygon in annual reports; OpenStreetMap co
 
 ## Citation
 
-If your paper uses ghost-watts on a new region, please cite both the model (`CITATION.cff`) and note the threshold + recalibration setup in your methods section.
+If your paper uses SolarMap.PH on a new region, please cite both the model (`CITATION.cff`) and note the threshold + recalibration setup in your methods section.

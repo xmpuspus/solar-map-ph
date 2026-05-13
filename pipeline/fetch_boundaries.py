@@ -24,7 +24,7 @@ OUT_PATH = PIPELINE_DIR / "boundaries" / "franchise_cities_polygons.geojson"
 SOURCE_PATH = PIPELINE_DIR / "franchise_cities.json"
 
 NOMINATIM = "https://nominatim.openstreetmap.org/search"
-USER_AGENT = "ghost-watts/1.0 (+https://github.com/xmpuspus/ghost-watts)"
+USER_AGENT = "solar-map-ph/1.0 (+https://github.com/xmpuspus/solar-map-ph)"
 RATE_LIMIT_S = 1.1  # Nominatim: 1 req/sec, leave headroom
 
 

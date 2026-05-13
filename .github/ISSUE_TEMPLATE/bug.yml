@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in ghost-watts is broken or producing wrong output.
+description: Something in SolarMap.PH is broken or producing wrong output.
 title: "[bug] "
 labels: ["bug"]
 body:

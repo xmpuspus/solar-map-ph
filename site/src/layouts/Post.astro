@@ -9,7 +9,7 @@ interface Frontmatter {
 }
 
 const { frontmatter } = Astro.props as { frontmatter?: Frontmatter };
-const title = frontmatter?.title ?? "ghost-watts";
+const title = frontmatter?.title ?? "SolarMap.PH";
 const description = frontmatter?.description;
 const pubDate = frontmatter?.pubDate
   ? typeof frontmatter.pubDate === "string"

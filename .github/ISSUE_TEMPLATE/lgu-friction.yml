@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Verified LGU permit data is the highest-value contribution to ghost-watts. Thank you.
+        Verified LGU permit data is the highest-value contribution to SolarMap.PH. Thank you.
 
         Submit one LGU per issue so each can be reviewed and merged independently.
 

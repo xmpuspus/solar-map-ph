@@ -1,4 +1,4 @@
-# Model card: ghost-watts clf_v4 calibrated
+# Model card: SolarMap.PH clf_v4 calibrated
 
 | Field | Value |
 |---|---|
@@ -63,7 +63,7 @@ Training tiles are Esri World Imagery at 600x600 px (~240 m view, ~0.4 m/px). Im
 
 - Published per-building dataset suppresses residential roofs. Only commercial, industrial, public, and unclassified buildings are released as polygons. See `SECURITY.md`.
 - The Meralco franchise area is named in the dataset because the dataset describes that geography. The project is not affiliated with Manila Electric Company.
-- Citation: `ghost-watts (YYYY-QN), https://github.com/xmpuspus/ghost-watts`. See `CITATION.cff`.
+- Citation: `SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph`. See `CITATION.cff`.
 
 ## Encoder ablation
 
@@ -109,10 +109,10 @@ Pinned dependencies (`scikit-learn==1.7.2`, `joblib==1.5.2`, `numpy==1.26.4`) ma
 If you use this model, please cite:
 
 ```bibtex
-@software{puspus_ghost_watts_2026,
+@software{puspus_solar_map_ph_2026,
   author       = {Puspus, Xavier},
-  title        = {ghost-watts: open-source rooftop solar detection from satellite imagery},
+  title        = {SolarMap.PH: open-source rooftop solar detection from satellite imagery},
   year         = 2026,
-  url          = {https://github.com/xmpuspus/ghost-watts},
+  url          = {https://github.com/xmpuspus/solar-map-ph},
 }
 ```

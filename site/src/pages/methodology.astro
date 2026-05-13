@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 ---
-<Base title="methodology · ghost-watts" pathname="/methodology">
+<Base title="methodology · SolarMap.PH" pathname="/methodology">
   <article class="max-w-prose mx-auto px-6 pt-8 pb-12 prose prose-sm">
     <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">methodology · v1 · 2026-05</p>
     <h1 class="text-3xl mb-2">From four satellite channels to one map color.</h1>
@@ -32,7 +32,7 @@ flowchart LR
       <figcaption class="text-[11px] text-ink-500 font-mono mt-2">fig 01 · 4 raw signals, z-scored across 61 cities, weighted, mapped. Negative weights on NIR / SWIR / LST encode that darker or cooler imagery indicates more solar; the composite always reads higher = more solar-like.</figcaption>
     </figure>
 
-    <h2 class="text-xl mt-10 mb-2">What ghost-watts measures</h2>
+    <h2 class="text-xl mt-10 mb-2">What SolarMap.PH measures</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       A composite of four satellite-derived signals computed at city/municipality scale across Meralco's franchise area, each quarter:
     </p>
@@ -63,7 +63,7 @@ flowchart LR
       City/municipality level is the headline scale (~50 polygons). Barangay drilldown is computed only where built-up area exceeds 1 km<sup>2</sup>; below that, signal is too noisy for a useful claim.
     </p>
 
-    <h2 class="text-xl mt-6 mb-2">What ghost-watts does not claim</h2>
+    <h2 class="text-xl mt-6 mb-2">What SolarMap.PH does not claim</h2>
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
       <li>No individual-rooftop detection. We do not, and will not, identify any specific home or building as solar.</li>
       <li>No address-level data. No PII is ingested or published.</li>
@@ -150,7 +150,7 @@ flowchart LR
       <li><strong>Dropped</strong>: the per-pin hot-spot layer. The data is still produced by the pipeline (<code>hot_spots_*.geojson</code>) for researchers who want to inspect candidate locations themselves, but it is no longer rendered on the public map.</li>
     </ul>
 
-    <h3 class="text-lg mt-6 mb-2">How to use ghost-watts honestly</h3>
+    <h3 class="text-lg mt-6 mb-2">How to use SolarMap.PH honestly</h3>
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
       <li>Cite the <strong>composite score per city</strong> as a directional indicator of rooftop change consistent with solar growth. Don't claim per-pin solar.</li>
       <li>Cite the <strong>6 confirmed case studies</strong> as concrete evidence that satellite-detectable solar adoption is happening at warehouse scale in the franchise.</li>

@@ -29,7 +29,7 @@ ESRI_BASE = (
 )
 TILE_PX = 600
 HALF_DEGREE = 0.0011  # ~120m at lat 14.6, gives a ~240m view
-USER_AGENT = "ghost-watts/2.0 (osm-solar-tiles; +https://github.com/xmpuspus/ghost-watts)"
+USER_AGENT = "solar-map-ph/2.0 (osm-solar-tiles; +https://github.com/xmpuspus/solar-map-ph)"
 
 
 def fetch_tile(lon: float, lat: float, out_path: Path, max_retries: int = 3) -> bool:

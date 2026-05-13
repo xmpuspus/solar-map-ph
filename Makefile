@@ -1,4 +1,4 @@
-# ghost-watts pipeline targets.
+# SolarMap.PH pipeline targets.
 # Targets are ordered so `make all` reproduces clf_v4 + the calibrated
 # bundle from a clean checkout; `make train` is the deterministic subset
 # that runs from the cached dataset_v4.npz embeddings (no network).
@@ -21,7 +21,7 @@ GEOJSON := $(DATA)/rooftop_solar_ncr.geojson
 .PHONY: all train calibrate scan aggregate verify-sheets demo hash hash-verify plots status sam test clean help
 
 help:
-	@echo "Ghost-watts pipeline targets:"
+	@echo "SolarMap.PH pipeline targets:"
 	@echo "  make all          Full pipeline: dataset to train to calibrate to scan to aggregate"
 	@echo "  make train        Train clf_v4 from cached dataset_v4.npz (deterministic, no network)"
 	@echo "  make calibrate    Holdout split + Platt sigmoid (+ isotonic comparison)"
@@ -120,7 +120,7 @@ clean:
 # Inventory of partial state. Useful after a crash to see what's pending.
 SAM_CKPT := $(SCAN)/sam_checkpoints/sam_vit_b_01ec64.pth
 status:
-	@echo "ghost-watts state inventory"
+	@echo "SolarMap.PH state inventory"
 	@echo "  dataset_v4.npz       : $$(test -f $(DATASET) && stat -f '%Sm %z' -t '%Y-%m-%dT%H:%MZ' $(DATASET) 2>/dev/null || echo 'missing')"
 	@echo "  clf_v4.joblib        : $$(test -f $(CLF) && stat -f '%Sm %z' -t '%Y-%m-%dT%H:%MZ' $(CLF) 2>/dev/null || echo 'missing')"
 	@echo "  clf_v4 sha256        : $$(test -f $(CLF) && $(PY) -c "import hashlib; print(hashlib.sha256(open('$(CLF)','rb').read()).hexdigest()[:16])" 2>/dev/null || echo 'missing')"

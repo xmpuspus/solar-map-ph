@@ -1,13 +1,13 @@
 cff-version: 1.2.0
-title: "ghost-watts: open-source rooftop solar detection from satellite imagery"
-message: "If you use ghost-watts in research, please cite it using these metadata."
+title: "SolarMap.PH: open-source rooftop solar detection from satellite imagery"
+message: "If you use SolarMap.PH in research, please cite it using these metadata."
 type: software
 authors:
   - given-names: Xavier
     family-names: Puspus
     orcid: "https://orcid.org/0009-0000-0000-0000"
-repository-code: "https://github.com/xmpuspus/ghost-watts"
-url: "https://github.com/xmpuspus/ghost-watts"
+repository-code: "https://github.com/xmpuspus/solar-map-ph"
+url: "https://github.com/xmpuspus/solar-map-ph"
 license: MIT
 version: "1.0.0"
 date-released: "2026-05-12"
@@ -19,7 +19,7 @@ keywords:
   - remote sensing
   - civic technology
 abstract: >
-  ghost-watts is an open-source pipeline for detecting rooftop solar
+  SolarMap.PH is an open-source pipeline for detecting rooftop solar
   photovoltaic installations from high-resolution public satellite imagery.
   It combines a frozen CLIP-ViT-L image encoder, a logistic-regression
   classifier head, Platt-sigmoid probability calibration, and a SAM-based
@@ -29,9 +29,9 @@ abstract: >
   cached embeddings via a deterministic Docker recipe.
 preferred-citation:
   type: software
-  title: "ghost-watts: open-source rooftop solar detection from satellite imagery"
+  title: "SolarMap.PH: open-source rooftop solar detection from satellite imagery"
   authors:
     - given-names: Xavier
       family-names: Puspus
   year: 2026
-  url: "https://github.com/xmpuspus/ghost-watts"
+  url: "https://github.com/xmpuspus/solar-map-ph"

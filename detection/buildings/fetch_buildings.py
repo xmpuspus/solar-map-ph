@@ -1,10 +1,10 @@
-"""Overpass-API building lookup for ghost-watts.
+"""Overpass-API building lookup for SolarMap.PH.
 
 Queries Overpass for OSM building polygons within a radius of a point.
 Returns shapely-style polygon records plus metadata. Used by the per-building
 solar localization stage and by the homeowner roof-lookup tool on the site.
 
-OSM is the source of truth for building geometry in ghost-watts. Microsoft
+OSM is the source of truth for building geometry in SolarMap.PH. Microsoft
 Building Footprints would be a higher-coverage alternative, but the
 user-facing site already keys off OSM building IDs, so we keep one canonical
 ID space across the pipeline and the UI.
@@ -20,7 +20,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
-USER_AGENT = "ghost-watts/2.1 (per-building-solar; +https://github.com/xmpuspus/ghost-watts)"
+USER_AGENT = "solar-map-ph/2.1 (per-building-solar; +https://github.com/xmpuspus/solar-map-ph)"
 
 
 @dataclass

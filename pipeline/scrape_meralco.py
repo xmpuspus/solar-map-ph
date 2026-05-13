@@ -27,7 +27,7 @@ CANDIDATE_URLS = [
     "https://www.meralco.com.ph/residential/electric-service/solar-net-metering",
 ]
 
-USER_AGENT = "ghost-watts/1.0 (+https://github.com/xmpuspus/ghost-watts)"
+USER_AGENT = "solar-map-ph/1.0 (+https://github.com/xmpuspus/solar-map-ph)"
 
 
 def fetch(url: str, timeout: int = 15) -> str | None:

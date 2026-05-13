@@ -49,8 +49,8 @@ import os
 # reproducibility recipe, force CPU because MPS does not yet expose the
 # deterministic-algorithms guarantees torch.use_deterministic_algorithms wants.
 #
-# Override with GHOSTWATTS_DEVICE=cpu | mps | cuda before invoking the script.
-_DEVICE_OVERRIDE = os.environ.get("GHOSTWATTS_DEVICE", "").lower()
+# Override with SOLAR_MAP_PH_DEVICE=cpu | mps | cuda before invoking the script.
+_DEVICE_OVERRIDE = os.environ.get("SOLAR_MAP_PH_DEVICE", "").lower()
 if _DEVICE_OVERRIDE in {"cpu", "mps", "cuda"}:
     DEVICE = _DEVICE_OVERRIDE
 elif torch.backends.mps.is_available():
@@ -67,7 +67,7 @@ torch.manual_seed(SEED)
 # Deterministic mode: same input bytes -> same output bytes, regardless of
 # whether torch picks a different cuDNN algorithm or autotune choice. Required
 # for the bit-exact dataset_v4.npz reproducibility claim. Combine with
-# GHOSTWATTS_DEVICE=cpu for the strongest cross-machine guarantee.
+# SOLAR_MAP_PH_DEVICE=cpu for the strongest cross-machine guarantee.
 os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 os.environ.setdefault("PYTHONHASHSEED", "0")
 torch.use_deterministic_algorithms(True, warn_only=True)

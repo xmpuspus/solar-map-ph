@@ -278,7 +278,7 @@ def main() -> int:
         "by_building_type": dict(sorted(residential_aggregate.items())),
         "policy": (
             "Residential rooftops are intentionally not published as individual "
-            "polygons. This roll-up is the only residential-scoped figure ghost-watts releases."
+            "polygons. This roll-up is the only residential-scoped figure SolarMap.PH releases."
         ),
     }, indent=2))
 
