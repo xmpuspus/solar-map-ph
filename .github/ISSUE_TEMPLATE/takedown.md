@@ -40,4 +40,4 @@ https://github.com/xmpuspus/solar-map-ph/security/advisories/new
 
 ## Preferred response channel
 
-<!-- Reply on this issue (public audit trail) or via email at solarmap.ph@gmail.com. -->
+<!-- Reply on this issue (public audit trail) or via email at xpuspus@gmail.com. -->

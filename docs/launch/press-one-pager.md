@@ -2,7 +2,7 @@
 
 **What it is:** an open-source computer-vision survey of rooftop solar across Greater Metro Manila, paired with a free homeowner roof-lookup tool. Independent, civic-tech, MIT code, CC-BY-4.0 data.
 
-**Author:** Xavier Puspus (independent researcher). DPO contact: `solarmap.ph@gmail.com`.
+**Author:** Xavier Puspus (independent researcher). DPO contact: `xpuspus@gmail.com`.
 
 **Launch date:** 2026-05-13 (planned). Pre-launch state is captured in this document and on GitHub at `xmpuspus/solar-map-ph`.
 
@@ -71,12 +71,12 @@ Two parallel pipelines, two resolutions. The detection pipeline embeds 600x600 p
 - Residential roof geometry is not published. Residential buildings tagged `house`, `apartments`, `residential`, etc. are aggregated to counts only.
 - Per-building features published only for commercial / industrial / public-purpose roofs. These are institutional subjects, not natural persons.
 - Build-time CI gate (`scripts/check_no_residential_leaks.py`) fails if any residential feature reaches the public dataset.
-- DPO (self-designated): Xavier Puspus, `solarmap.ph@gmail.com`. Formal NPC voluntary advisory opinion is in scope for the post-launch quarter.
+- DPO (self-designated): Xavier Puspus, `xpuspus@gmail.com`. Formal NPC voluntary advisory opinion is in scope for the post-launch quarter.
 - Takedown channel: GitHub issue with `takedown` label, or email. Acknowledged within 5 working days; removed within 14 working days at the next quarterly republish.
 
 ## Contact
 
-- DPO / data inquiries: `solarmap.ph@gmail.com`
+- DPO / data inquiries: `xpuspus@gmail.com`
 - Author (Xavier Puspus): same email; LinkedIn `/in/xpuspus`
 - Issues, PRs, contributions: GitHub `xmpuspus/solar-map-ph`
 

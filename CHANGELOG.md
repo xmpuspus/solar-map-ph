@@ -24,7 +24,7 @@ All notable changes to SolarMap.PH are documented here. The format follows [Keep
 - Footer privacy-and-takedown panel and public-records disclaimer block. Header now exposes `/faq` and `/privacy` routes.
 - MapView corner attribution credit line ("Imagery © Esri, Maxar, Earthstar Geographics. Buildings © OpenStreetMap contributors.").
 - `site/public/robots.txt` (allow all).
-- Self-designated DPO contact: `solarmap.ph@gmail.com`.
+- Self-designated DPO contact: `xpuspus@gmail.com`.
 
 ## [1.0.0] - 2026-05-12 - inaugural public release
 

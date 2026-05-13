@@ -150,7 +150,7 @@ See `CITATION.cff` in the project repo for the canonical citation format.
 
 ## Contact
 
-Author and self-designated Data Protection Officer: Xavier Puspus, `solarmap.ph@gmail.com`. Open issues at https://github.com/xmpuspus/solar-map-ph/issues.
+Author and self-designated Data Protection Officer: Xavier Puspus, `xpuspus@gmail.com`. Open issues at https://github.com/xmpuspus/solar-map-ph/issues.
 
 ## Related work
 

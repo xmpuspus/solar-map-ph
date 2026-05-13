@@ -44,8 +44,8 @@ Residential leaks are blocked at build time by [`scripts/check_no_residential_le
 
 Under RA 10173 (Data Privacy Act of 2012) §3(g), personal information is data that "directly and certainly" identifies a person, alone or "put together with other information." A satellite-derived rooftop polygon alone does not name anyone; the "put together with other information" exposure is the reason residential geometry is withheld entirely. The full posture is documented in [`docs/privacy-impact-assessment.md`](docs/privacy-impact-assessment.md).
 
-- **DPO (self-designated):** Xavier Puspus, `solarmap.ph@gmail.com`. Formal NPC registration is in scope for the post-launch quarter.
-- **Takedown channel:** Open a [GitHub issue with the `takedown` label](https://github.com/xmpuspus/solar-map-ph/issues/new?labels=takedown&template=takedown.md) (preferred, public audit trail) or email `solarmap.ph@gmail.com` with subject *Takedown request*. Acknowledged within 5 working days; feature removed within 14 working days at the next quarterly republish. For active doxxing concerns, use the [private security advisory](https://github.com/xmpuspus/solar-map-ph/security/advisories/new) form.
+- **DPO (self-designated):** Xavier Puspus, `xpuspus@gmail.com`. Formal NPC registration is in scope for the post-launch quarter.
+- **Takedown channel:** Open a [GitHub issue with the `takedown` label](https://github.com/xmpuspus/solar-map-ph/issues/new?labels=takedown&template=takedown.md) (preferred, public audit trail) or email `xpuspus@gmail.com` with subject *Takedown request*. Acknowledged within 5 working days; feature removed within 14 working days at the next quarterly republish. For active doxxing concerns, use the [private security advisory](https://github.com/xmpuspus/solar-map-ph/security/advisories/new) form.
 
 > All data sourced from public records (Esri World Imagery, OpenStreetMap, ESA, Microsoft, NOAA, NASA). SolarMap.PH computes statistical indicators only. Specific allegations, if any, require independent investigation and corroboration.
 

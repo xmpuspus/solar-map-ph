@@ -21,14 +21,14 @@ Voice: direct, technical, no fluff. Subject line plain. Attach the press one-pag
 
 ### 3. ICSC (Institute for Climate and Sustainable Cities)
 - Why: published SPECTRUM (the closest sibling project, July 2025). Credit them as related work in the README; offer a methodology comparison.
-- Contact path: `info@icsc.ngo` or via their solar-mapper page contact form.
+- Contact path: look up their current public contact on https://icsc.ngo or via their solar-mapper page contact form (do NOT assume an inbox before verifying).
 - Ask: would they like to swap detection-comparison results on overlapping NCR cells? (Both projects covering the same area independently is a feature, not a conflict.)
 
 ## B. Government and regulator
 
 ### 4. DOE Renewable Energy Management Bureau (NREB)
 - Why: the regulator overseeing Net Metering. Their statutory timelines are quoted in the safety page.
-- Contact path: `re@doe.gov.ph` (public general inbox) or specific NREB officer if known.
+- Contact path: look up the current public inbox on https://www.doe.gov.ph (NREB sub-page) or route through a known NREB officer. Do NOT guess at an address.
 - Ask: courtesy notification that an independent civic-tech dataset is being published; offer to compare overlap with their formal registry counts.
 
 ### 5. ERC (Energy Regulatory Commission)
@@ -83,7 +83,7 @@ Voice: direct, technical, no fluff. Subject line plain. Attach the press one-pag
 >
 > --
 > Xavier Puspus
-> DPO: solarmap.ph@gmail.com
+> DPO: xpuspus@gmail.com
 
 ## Discipline notes
 

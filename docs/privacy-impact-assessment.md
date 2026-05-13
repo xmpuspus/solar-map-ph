@@ -1,7 +1,7 @@
 # Privacy Impact Assessment: SolarMap.PH
 
 **Project:** SolarMap.PH (https://github.com/xmpuspus/solar-map-ph)
-**Author / Self-designated DPO:** Xavier Puspus (`solarmap.ph@gmail.com`)
+**Author / Self-designated DPO:** Xavier Puspus (`xpuspus@gmail.com`)
 **Assessment date:** 2026-05-13
 **Applicable law:** Republic Act 10173 (Data Privacy Act of 2012), implementing rules, NPC circulars in force as of 2026-05-13 (including NPC Circular 2024-02 on CCTV).
 **Status:** Self-conducted PIA. Formal NPC voluntary advisory opinion is in scope for the post-launch quarter.
@@ -92,7 +92,7 @@ Public satellite imagery and public OSM tagging do not require subject consent u
 
 ## 7. DPO and accountability
 
-- **DPO (self-designated):** Xavier Puspus, `solarmap.ph@gmail.com`.
+- **DPO (self-designated):** Xavier Puspus, `xpuspus@gmail.com`.
 - **Formal NPC registration:** scoped for post-launch quarter, deferrable contingent on traffic and feedback.
 - **Review cadence:** PIA re-reviewed at each quarterly republish.
 - **Last reviewed:** 2026-05-13.
