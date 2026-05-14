@@ -7,10 +7,14 @@ authors:
     family-names: Puspus
     orcid: "https://orcid.org/0009-0000-0000-0000"
 repository-code: "https://github.com/xmpuspus/solar-map-ph"
-url: "https://github.com/xmpuspus/solar-map-ph"
+url: "https://solarmap.ph"
 license: MIT
 version: "1.0.0"
-date-released: "2026-05-12"
+date-released: "2026-05-14"
+identifiers:
+  - type: url
+    value: "https://zenodo.org/badge/latestdoi/1238545684"
+    description: "Zenodo concept DOI (always resolves to the latest archived release; populates after the first release is archived)."
 keywords:
   - rooftop solar
   - photovoltaic detection
