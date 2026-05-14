@@ -34,6 +34,7 @@ CLF_PATH = REPO / "detection" / "train" / "clf_v4.joblib"
 MANIFEST_PATH = REPO / "detection" / "train" / "dataset_v4_manifest.json"
 PIPELINE_REQS = REPO / "pipeline" / "requirements.txt"
 ROOT_REQS = REPO / "requirements.txt"
+SITE_REGIONS_COPY = REPO / "site" / "src" / "data" / "regions.json"
 
 
 def gate(name: str, ok: bool, detail: str = "") -> bool:
@@ -65,6 +66,11 @@ def main() -> int:
     region_slugs = [r["slug"] for r in cfg["regions"]]
     log(gate("regions.json present + non-empty", len(region_slugs) > 0,
              f"{len(region_slugs)} regions: {region_slugs}"))
+    # Vercel only uploads files under site/ for the build; a copy of
+    # regions.json lives under site/src/data/. Assert the two are in sync.
+    site_copy_ok = SITE_REGIONS_COPY.exists() and SITE_REGIONS_COPY.read_text() == REGIONS_CFG.read_text()
+    log(gate("site/src/data/regions.json mirrors pipeline/regions/regions.json",
+             site_copy_ok))
 
     for slug in region_slugs:
         log(gate(

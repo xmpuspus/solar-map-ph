@@ -1,0 +1,116 @@
+{
+  "_doc": "Region configs for SolarMap.PH v1.1+ multi-region scale-up. bbox is [min_lat, min_lon, max_lat, max_lon]. served_lgus is the union of LGUs in the named distribution-utility franchise. NCR's polygons live separately in pipeline/boundaries/franchise_cities_polygons.geojson and stay there for backward compat.",
+  "_schema_version": "1.0.0",
+  "regions": [
+    {
+      "slug": "cebu",
+      "display_name": "Cebu Metro",
+      "franchise": "VECO",
+      "franchise_full": "Visayan Electric",
+      "province": "Cebu",
+      "bbox": [10.05, 123.75, 10.50, 124.10],
+      "center": [10.31, 123.91],
+      "served_lgus": [
+        "Cebu City",
+        "Mandaue City",
+        "Talisay City",
+        "Lapu-Lapu City",
+        "Naga",
+        "Minglanilla",
+        "San Fernando",
+        "Liloan",
+        "Compostela",
+        "Consolacion",
+        "Cordova"
+      ]
+    },
+    {
+      "slug": "davao",
+      "display_name": "Davao City",
+      "franchise": "DLPC",
+      "franchise_full": "Davao Light and Power Company",
+      "province": "Davao del Sur",
+      "bbox": [6.85, 125.30, 7.35, 125.80],
+      "center": [7.10, 125.60],
+      "served_lgus": [
+        "Davao City",
+        "Panabo City"
+      ]
+    },
+    {
+      "slug": "iloilo",
+      "display_name": "Iloilo Metro",
+      "franchise": "MORE",
+      "franchise_full": "MORE Electric and Power Corp.",
+      "province": "Iloilo",
+      "bbox": [10.62, 122.42, 10.85, 122.70],
+      "center": [10.72, 122.56],
+      "served_lgus": [
+        "Iloilo City",
+        "Pavia",
+        "Santa Barbara",
+        "Cabatuan",
+        "Leganes",
+        "Oton",
+        "San Miguel"
+      ]
+    },
+    {
+      "slug": "cdo",
+      "display_name": "Cagayan de Oro",
+      "franchise": "CEPALCO",
+      "franchise_full": "Cagayan Electric Power and Light Co.",
+      "province": "Misamis Oriental",
+      "bbox": [8.35, 124.50, 8.60, 124.90],
+      "center": [8.48, 124.65],
+      "served_lgus": [
+        "Cagayan de Oro",
+        "Tagoloan",
+        "Villanueva",
+        "Jasaan",
+        "Opol",
+        "El Salvador"
+      ]
+    },
+    {
+      "slug": "legazpi",
+      "display_name": "Legazpi (Albay)",
+      "franchise": "ALECO",
+      "franchise_full": "Albay Electric Cooperative",
+      "province": "Albay",
+      "bbox": [13.10, 123.65, 13.25, 123.85],
+      "center": [13.14, 123.74],
+      "served_lgus": [
+        "Legazpi",
+        "Daraga",
+        "Camalig",
+        "Tabaco",
+        "Ligao"
+      ]
+    },
+    {
+      "slug": "calabarzon",
+      "display_name": "Calabarzon (south of Meralco)",
+      "franchise": "Multiple (BATELEC, FLECO, QUEZELCO et al)",
+      "franchise_full": "Batangas Electric Cooperatives + First Laguna Electric + Quezon I and II + LUELCO",
+      "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+      "bbox": [13.65, 120.85, 14.30, 121.55],
+      "center": [13.95, 121.20],
+      "served_lgus": [
+        "Lipa",
+        "Batangas City",
+        "Tanauan",
+        "Santo Tomas",
+        "Calamba",
+        "Santa Rosa",
+        "San Pablo",
+        "Lucena",
+        "Dasmariñas",
+        "Tagaytay",
+        "Trece Martires",
+        "Sariaya",
+        "Tayabas"
+      ]
+    }
+  ]
+}

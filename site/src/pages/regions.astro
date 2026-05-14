@@ -1,6 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
-import regionsCfg from "../../../pipeline/regions/regions.json";
+// regions.json is the source of truth at pipeline/regions/regions.json; a copy
+// lives here because Vercel only uploads files under site/ for builds. Keep
+// the two in sync (a CI check could enforce this in a future quarter).
+import regionsCfg from "../data/regions.json";
 
 type Region = {
   slug: string;
