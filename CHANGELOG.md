@@ -4,9 +4,17 @@ All notable changes to SolarMap.PH are documented here. The format follows [Keep
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-05-15 - multi-region scale-up
+
 ### Added
 
-- v1.1 multi-region scale-up. The same `clf_v4.joblib` classifier (sha256 `56900722a8427be4`) is applied without retraining across six additional Philippine cities and franchises: Cebu Metro (VECO), Davao City (DLPC), Iloilo Metro (MORE), Cagayan de Oro (CEPALCO), Legazpi (ALECO), and the Calabarzon belt south of Meralco (BATELEC/FLECO/QUEZELCO et al). Configs in `pipeline/regions/regions.json`; per-region polygon files in `pipeline/regions/<slug>_lgus.geojson`; detection points in `site/public/data/rooftop_solar_<slug>.geojson`.
+- v1.1 multi-region scale-up. The same `clf_v4.joblib` classifier (sha256 `56900722a8427be4`) is applied without retraining across additional Philippine cities and franchises: Cebu Metro (VECO), Davao City (DLPC), Iloilo Metro (MORE), Cagayan de Oro (CEPALCO), Legazpi (ALECO), and the Calabarzon belt south of Meralco (BATELEC/FLECO/QUEZELCO et al). Tag ships with five of six regions complete; Calabarzon (largest, ~18k built-up tiles) publishes as a follow-up commit once its scan finishes. Configs in `pipeline/regions/regions.json`; per-region polygon files in `pipeline/regions/<slug>_lgus.geojson`; detection points in `site/public/data/rooftop_solar_<slug>.geojson`.
+- Headline counts per region (high-confidence + candidate detections):
+  - Cebu Metro: 36 + 53 across 4,142 built-up tiles. Spot-check 7/8 rooftop, 1/8 ground-mount.
+  - Davao City: 28 + 19 across 5,295 built-up tiles. Spot-check 5/5 rooftop.
+  - Iloilo Metro: 3 + 6 across 2,456 built-up tiles. Spot-check 5/5 rooftop.
+  - Cagayan de Oro: 3 + 6 across 2,704 built-up tiles. Spot-check 3/5 rooftop, 2/5 ground-mount.
+  - Legazpi: 0 + 1 across 734 built-up tiles. Single candidate is a false-positive blue stadium roof.
 - `/regions` page documents per-region coverage, the cross-domain calibration status, and the link to each region's raw GeoJSON. Header gains a `regions` link.
 - `detection/scan/region_scan.py` and `detection/scan/aggregate_region.py`: region-aware scanner + aggregator. Each region scan runs the ESA WorldCover built-up prefilter to skip ocean/forest tiles before paying the Esri + CLIP cost.
 - `pipeline/regions/fetch_region_polygons.py`: queries OSM Overpass for the franchise's served LGUs and writes a per-region polygon GeoJSON for city assignment at aggregation time.

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "solar-map-ph"
-version = "1.0.0"
+version = "1.1.0"
 description = "Open-source rooftop solar detection from public satellite imagery."
 readme = "README.md"
 requires-python = ">=3.11"
