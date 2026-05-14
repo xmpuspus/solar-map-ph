@@ -1,0 +1,18 @@
+{
+ "_meta": {
+  "n_cities_with_detections": 1,
+  "n_total_high": 28,
+  "n_total_candidate": 19,
+  "region": "davao"
+ },
+ "rows": [
+  {
+   "name": "Davao City",
+   "province": "Davao del Sur",
+   "n_high": 25,
+   "n_candidate": 15,
+   "n_new_high": 25,
+   "sum_kwp_high": 0.0
+  }
+ ]
+}

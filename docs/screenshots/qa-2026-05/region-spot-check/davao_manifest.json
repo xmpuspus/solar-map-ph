@@ -1,0 +1,32 @@
+[
+ {
+  "idx": 0,
+  "score": 0.9902,
+  "tile_id": "7.04980_125.58784",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 1,
+  "score": 0.9831,
+  "tile_id": "6.93532_125.46912",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 2,
+  "score": 0.9808,
+  "tile_id": "6.97420_125.48032",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 3,
+  "score": 0.9796,
+  "tile_id": "7.04980_125.59008",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 4,
+  "score": 0.9717,
+  "tile_id": "6.87052_125.44896",
+  "verdict": "real rooftop"
+ }
+]
