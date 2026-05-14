@@ -19,9 +19,19 @@ import sys
 from dataclasses import dataclass, field
 from datetime import UTC, date, datetime
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-import ee  # type: ignore[import-not-found]
+if TYPE_CHECKING:
+    import ee
+else:
+    # earthengine-api is required to RUN the pipeline (auth, ImageCollections)
+    # but not to import pure-Python helpers like quarter_to_dates that the
+    # test suite exercises. Defer the import so pytest works without ee
+    # installed; functions that touch `ee` raise a clear error at call time.
+    try:
+        import ee  # type: ignore[import-not-found]
+    except ModuleNotFoundError:  # pragma: no cover
+        ee = None  # type: ignore[assignment]
 
 PIPELINE_DIR = Path(__file__).parent
 SITE_DATA_DIR = PIPELINE_DIR.parent / "site" / "public" / "data"
