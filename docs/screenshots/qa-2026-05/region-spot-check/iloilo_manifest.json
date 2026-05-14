@@ -1,0 +1,37 @@
+[
+ {
+  "idx": 0,
+  "score": 0.9677,
+  "tile_id": "10.70964_122.55328",
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/iloilo-00-score97-10.70964_122.55328.jpg",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 1,
+  "score": 0.9361,
+  "tile_id": "10.72044_122.55776",
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/iloilo-01-score94-10.72044_122.55776.jpg",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 2,
+  "score": 0.9162,
+  "tile_id": "10.69236_122.47040",
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/iloilo-02-score92-10.69236_122.47040.jpg",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 3,
+  "score": 0.8495,
+  "tile_id": "10.78740_122.63168",
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/iloilo-03-score85-10.78740_122.63168.jpg",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 4,
+  "score": 0.8151,
+  "tile_id": "10.69452_122.56672",
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/iloilo-04-score82-10.69452_122.56672.jpg",
+  "verdict": "real rooftop"
+ }
+]

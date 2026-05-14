@@ -1,0 +1,42 @@
+{
+ "_meta": {
+  "n_cities_with_detections": 4,
+  "n_total_high": 3,
+  "n_total_candidate": 6,
+  "region": "iloilo"
+ },
+ "rows": [
+  {
+   "name": "Iloilo City",
+   "province": "Iloilo",
+   "n_high": 2,
+   "n_candidate": 4,
+   "n_new_high": 2,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Oton",
+   "province": "Iloilo",
+   "n_high": 1,
+   "n_candidate": 0,
+   "n_new_high": 1,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Pavia",
+   "province": "Iloilo",
+   "n_high": 0,
+   "n_candidate": 1,
+   "n_new_high": 0,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Leganes",
+   "province": "Iloilo",
+   "n_high": 0,
+   "n_candidate": 1,
+   "n_new_high": 0,
+   "sum_kwp_high": 0.0
+  }
+ ]
+}
