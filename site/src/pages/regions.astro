@@ -69,6 +69,9 @@ const regions = regionsCfg.regions as Region[];
           <p class="mt-4 text-xs text-ink-500 leading-relaxed" data-data-line>
             Data files load on demand. Direct GeoJSON link
             <a href={`/data/rooftop_solar_${r.slug}.geojson`} class="text-accent-steel no-underline">/data/rooftop_solar_{r.slug}.geojson</a>.
+            {r.slug === "calabarzon" && (
+              <span class="block mt-1 text-ink-700"><strong>Partial scan</strong>: 1,776 of 18,695 built-up tiles (~9.5%). Resume scheduled for next quarter.</span>
+            )}
           </p>
         </article>
       ))}

@@ -1,0 +1,21 @@
+{
+ "_meta": {
+  "n_cities_with_detections": 1,
+  "n_total_high": 1,
+  "n_total_candidate": 4,
+  "region": "calabarzon",
+  "scan_status": "partial",
+  "scan_coverage_pct": 9.5,
+  "note": "Partial scan (1,776 of 18,695 built-up tiles). Resume with bash scripts/run_all_v11_regions.sh."
+ },
+ "rows": [
+  {
+   "name": "Batangas City",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 0,
+   "n_candidate": 2,
+   "n_new_high": 0,
+   "sum_kwp_high": 0.0
+  }
+ ]
+}
