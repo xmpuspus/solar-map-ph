@@ -1,0 +1,18 @@
+{
+ "_meta": {
+  "n_cities_with_detections": 1,
+  "n_total_high": 3,
+  "n_total_candidate": 6,
+  "region": "cdo"
+ },
+ "rows": [
+  {
+   "name": "Cagayan de Oro",
+   "province": "Misamis Oriental",
+   "n_high": 1,
+   "n_candidate": 3,
+   "n_new_high": 1,
+   "sum_kwp_high": 0.0
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+[
+ {
+  "idx": 0,
+  "score": 0.9201,
+  "tile_id": "8.57788_124.77216",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 1,
+  "score": 0.9131,
+  "tile_id": "8.57788_124.77440",
+  "verdict": "real rooftop (adjacent tile)"
+ },
+ {
+  "idx": 2,
+  "score": 0.8806,
+  "tile_id": "8.43532_124.66016",
+  "verdict": "ground-mount solar farm (FP)"
+ },
+ {
+  "idx": 3,
+  "score": 0.8364,
+  "tile_id": "8.55628_124.78784",
+  "verdict": "ground-mount solar farm (FP)"
+ },
+ {
+  "idx": 4,
+  "score": 0.8282,
+  "tile_id": "8.49364_124.63328",
+  "verdict": "real rooftop"
+ }
+]
