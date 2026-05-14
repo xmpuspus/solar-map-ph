@@ -1,0 +1,18 @@
+{
+ "_meta": {
+  "n_cities_with_detections": 1,
+  "n_total_high": 0,
+  "n_total_candidate": 1,
+  "region": "legazpi"
+ },
+ "rows": [
+  {
+   "name": "Legazpi",
+   "province": "Albay",
+   "n_high": 0,
+   "n_candidate": 1,
+   "n_new_high": 0,
+   "sum_kwp_high": 0.0
+  }
+ ]
+}

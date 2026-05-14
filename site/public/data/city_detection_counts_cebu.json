@@ -1,0 +1,18 @@
+{
+ "_meta": {
+  "n_cities_with_detections": 1,
+  "n_total_high": 36,
+  "n_total_candidate": 53,
+  "region": "cebu"
+ },
+ "rows": [
+  {
+   "name": "Cebu City",
+   "province": "Cebu",
+   "n_high": 9,
+   "n_candidate": 5,
+   "n_new_high": 9,
+   "sum_kwp_high": 0.0
+  }
+ ]
+}

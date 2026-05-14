@@ -4,8 +4,20 @@ All notable changes to SolarMap.PH are documented here. The format follows [Keep
 
 ## [Unreleased]
 
+### Added
+
+- v1.1 multi-region scale-up. The same `clf_v4.joblib` classifier (sha256 `56900722a8427be4`) is applied without retraining across six additional Philippine cities and franchises: Cebu Metro (VECO), Davao City (DLPC), Iloilo Metro (MORE), Cagayan de Oro (CEPALCO), Legazpi (ALECO), and the Calabarzon belt south of Meralco (BATELEC/FLECO/QUEZELCO et al). Configs in `pipeline/regions/regions.json`; per-region polygon files in `pipeline/regions/<slug>_lgus.geojson`; detection points in `site/public/data/rooftop_solar_<slug>.geojson`.
+- `/regions` page documents per-region coverage, the cross-domain calibration status, and the link to each region's raw GeoJSON. Header gains a `regions` link.
+- `detection/scan/region_scan.py` and `detection/scan/aggregate_region.py`: region-aware scanner + aggregator. Each region scan runs the ESA WorldCover built-up prefilter to skip ocean/forest tiles before paying the Esri + CLIP cost.
+- `pipeline/regions/fetch_region_polygons.py`: queries OSM Overpass for the franchise's served LGUs and writes a per-region polygon GeoJSON for city assignment at aggregation time.
+- `scripts/check_region_no_pii.py`: enforces that every published `rooftop_solar_<region>.geojson` is point-tile-only with no `is_residential`, `building_osm_id`, `address`, or other PII fields. CI gate.
+- `scripts/verify_v11_release.py`: runs the full v1.1 pre-release gate (region GeoJSONs valid, PII clean, classifier hash matches, requirements pinned, site builds).
+- `docs/screenshots/qa-2026-05/region-spot-check/cebu_findings.md`: Cebu cross-domain spot-check (6/8 confirmed rooftop, 1/8 ground-mount, 1/8 deferred). Same ground-mount false-positive class surfaced in NCR's audit.
+
 ### Changed
 
+- `/faq` "I found a bug or have a contribution" entry now lists the six v1.1 regions where the classifier is not yet calibrated, with a pointer to `/regions`.
+- `detection/scan/region_scan.py` defaults `TILE_PX` to 400 (override via `SOLAR_MAP_PH_TILE_PX`). NCR's scanner keeps the proven 600 px because Esri serves NCR at that density; outside Metro Manila, Esri's World Imagery max-zoom is lower and 600 px returns HTTP 500. 400 px is universal across the Philippine regions we ship and CLIP-ViT-L/14 down-samples to 224 internally anyway.
 - Rebranded from `ghost-watts` to `SolarMap.PH`. Python package renamed `ghost_watts` -> `solar_map_ph`. Repo slug, Docker image tag, and HuggingFace artifact moved to `solar-map-ph`. Data product filenames renamed (`solar_map_ph_2026Q2.geojson`, `solar_map_ph_summary_2026Q2.json`). No model changes: classifier `clf_v4.joblib` sha256 prefix `56900722a8427be4` is preserved.
 - Tagline now includes explicit coverage caveat: "Current coverage: Greater Metro Manila." Quarterly releases will expand to additional Philippine distribution-utility franchises (VECO, DLPC, MORE, CEPALCO).
 - README, `/map`, `/methodology`, and `/safety` now reconcile to the canonical scan numbers (515 detections, 280 high-confidence, 384 per-building polygons, 69.9 MWp aggregate, 41 cities). The "87% absent from prior public map" claim now carries an explicit 200 m proximity-threshold footnote referencing DeepSolar (Stanford, 2018) and SPECTRUM (ICSC, 2025).

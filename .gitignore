@@ -77,6 +77,12 @@ detection/scan/ncr_scan_results_v4.jsonl
 detection/scan/*.jsonl.bak
 detection/scan/*.bak
 detection/scan/scan.log
+# v1.1 multi-region scan caches (large/regenerable; only the published GeoJSONs
+# in site/public/data/ and the small region-spot-check findings are committed)
+detection/scan/*_scan_results.jsonl
+detection/scan/prefilter_*.json
+detection/scan/tiles/
+detection/scan/*.log
 detection/scan/per_tile_segments.jsonl
 detection/scan/segment_thumbnails/
 detection/scan/sam_checkpoints/

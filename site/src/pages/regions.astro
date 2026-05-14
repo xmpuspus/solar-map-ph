@@ -1,0 +1,110 @@
+---
+import Base from "../layouts/Base.astro";
+import regionsCfg from "../../../pipeline/regions/regions.json";
+
+type Region = {
+  slug: string;
+  display_name: string;
+  franchise: string;
+  franchise_full: string;
+  province: string;
+  bbox: [number, number, number, number];
+  center: [number, number];
+  served_lgus: string[];
+};
+
+const regions = regionsCfg.regions as Region[];
+---
+<Base title="Regions · SolarMap.PH" pathname="/regions" description="SolarMap.PH multi-region coverage: NCR (calibrated), plus cross-domain scans of Cebu, Davao, Iloilo, and Cagayan de Oro.">
+  <section class="max-w-prose mx-auto px-6 pt-10 pb-6">
+    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">coverage</p>
+    <h1 class="text-3xl mb-4 leading-tight text-ink-900 tracking-tight">Regions covered by SolarMap.PH.</h1>
+    <p class="text-base text-ink-700 leading-relaxed mb-2">
+      Greater Metro Manila is the calibrated, holdout-validated, SAM-segmented region (v1.0). As of v1.1, SolarMap.PH also publishes cross-domain detections for four additional Philippine cities and franchises: Cebu, Davao, Iloilo, and Cagayan de Oro.
+    </p>
+    <p class="text-base text-ink-700 leading-relaxed">
+      The non-NCR regions use the NCR-trained classifier <code class="bg-ink-300/15 px-1">clf_v4.joblib</code> applied without retraining. Cross-domain precision is not yet calibrated per region; treat detections as a candidate inventory pending an active-learning round on regional samples. The same residential-suppression policy applies in every region.
+    </p>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-6 pb-12">
+    <div class="grid gap-4 md:grid-cols-2">
+
+      <article class="border border-ink-300/40 bg-paper p-5">
+        <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-1">v1.0 calibrated</p>
+        <h2 class="text-xl mb-1 text-ink-900">Greater Metro Manila</h2>
+        <p class="text-xs text-ink-500 mb-3 font-mono">Franchise: Meralco</p>
+        <dl class="grid grid-cols-2 gap-y-1.5 text-sm">
+          <dt class="text-ink-500">High-confidence detections</dt>
+          <dd class="text-right font-mono tabular-nums text-ink-900">280</dd>
+          <dt class="text-ink-500">Candidate detections</dt>
+          <dd class="text-right font-mono tabular-nums text-ink-700">235</dd>
+          <dt class="text-ink-500">Cities with detections</dt>
+          <dd class="text-right font-mono tabular-nums text-ink-900">41</dd>
+          <dt class="text-ink-500">Aggregate kWp identified</dt>
+          <dd class="text-right font-mono tabular-nums text-ink-900">69.9 MWp</dd>
+          <dt class="text-ink-500">Calibration</dt>
+          <dd class="text-right text-ink-900">F1 = 0.87 on holdout</dd>
+        </dl>
+        <a href="/map" class="inline-block mt-4 text-sm text-accent-steel no-underline hover:text-ink-900">Open the interactive map &rarr;</a>
+      </article>
+
+      {regions.map((r) => (
+        <article class="border border-ink-300/40 bg-paper p-5" data-region={r.slug}>
+          <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-1">v1.1 cross-domain</p>
+          <h2 class="text-xl mb-1 text-ink-900">{r.display_name}</h2>
+          <p class="text-xs text-ink-500 mb-3 font-mono">Franchise: {r.franchise} ({r.franchise_full})</p>
+          <dl class="grid grid-cols-2 gap-y-1.5 text-sm" data-stats-for={r.slug}>
+            <dt class="text-ink-500">High-confidence detections</dt>
+            <dd class="text-right font-mono tabular-nums text-ink-900" data-key="n_total_high">--</dd>
+            <dt class="text-ink-500">Candidate detections</dt>
+            <dd class="text-right font-mono tabular-nums text-ink-700" data-key="n_total_candidate">--</dd>
+            <dt class="text-ink-500">Cities with detections</dt>
+            <dd class="text-right font-mono tabular-nums text-ink-900" data-key="n_cities_with_detections">--</dd>
+            <dt class="text-ink-500">Served LGUs in franchise</dt>
+            <dd class="text-right text-ink-700">{r.served_lgus.length}</dd>
+            <dt class="text-ink-500">Calibration</dt>
+            <dd class="text-right text-ink-700">NCR-trained, cross-domain</dd>
+          </dl>
+          <p class="mt-4 text-xs text-ink-500 leading-relaxed" data-data-line>
+            Data files load on demand. Direct GeoJSON link
+            <a href={`/data/rooftop_solar_${r.slug}.geojson`} class="text-accent-steel no-underline">/data/rooftop_solar_{r.slug}.geojson</a>.
+          </p>
+        </article>
+      ))}
+
+    </div>
+
+    <section class="mt-10 max-w-prose mx-auto text-sm text-ink-700 leading-relaxed">
+      <h2 class="text-lg text-ink-900 mb-2">Honesty about the v1.1 cross-domain regions</h2>
+      <p class="mb-2">The detector was trained on 294 OSM-tagged positives from Greater Metro Manila, plus several rounds of active learning. Calibrated holdout precision is 95.9% for NCR.</p>
+      <p class="mb-2">For Cebu, Davao, Iloilo, and Cagayan de Oro the same classifier is applied cross-domain. Roof material distributions and atmospheric conditions differ from NCR; we expect higher false-positive rates than NCR until per-region active-learning rounds run. Until then, treat outputs as a <em>candidate inventory</em> for review, not a calibrated registry.</p>
+      <p class="mb-2">The per-building segmentation step (SAM auto-mask + OSM intersection) is not yet run for the v1.1 regions. Detections are at tile granularity (240m). Per-building polygons are planned for v1.2 alongside regional calibration.</p>
+      <p>Same residential-suppression policy applies in every region: residential rooftops are aggregated to count-only with no geometry and no addresses, per <a href="/privacy" class="no-underline text-accent-steel">RA 10173</a>.</p>
+    </section>
+  </section>
+
+  <script>
+    // Client-side load of per-region stats. Each region's file may or may not
+    // exist at build time; this loader is forgiving.
+    document.querySelectorAll<HTMLElement>("[data-stats-for]").forEach(async (el) => {
+      const slug = el.dataset.statsFor;
+      try {
+        const r = await fetch(`/data/city_detection_counts_${slug}.json`);
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const data = await r.json();
+        const meta = data._meta || {};
+        for (const dd of el.querySelectorAll<HTMLElement>("dd[data-key]")) {
+          const k = dd.dataset.key as string;
+          if (k in meta) dd.textContent = String(meta[k]);
+        }
+      } catch (e) {
+        // File missing: mark the card as pending
+        const note = (el.closest("article")?.querySelector("[data-data-line]") as HTMLElement | null);
+        if (note) {
+          note.textContent = "Scan in progress or pending publication. The dataset will appear here once the per-region aggregator runs.";
+        }
+      }
+    });
+  </script>
+</Base>
