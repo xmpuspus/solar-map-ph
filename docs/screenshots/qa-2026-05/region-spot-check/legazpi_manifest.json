@@ -1,0 +1,11 @@
+[
+ {
+  "idx": 0,
+  "score": 0.8129,
+  "tile_id": "13.14428_123.74968",
+  "lat": 13.14428,
+  "lon": 123.74968,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/legazpi-00-score81-13.14428_123.74968.jpg",
+  "verdict": "false-positive: blue stadium roof"
+ }
+]

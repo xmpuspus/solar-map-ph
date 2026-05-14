@@ -9,18 +9,17 @@ Visual inspection of the top 8 high-confidence Cebu detections from the NCR-trai
 | 0 | 0.978 | 10.29948_123.99976 | REAL rooftop solar. Large industrial building, extensive panel arrays. Confirmed. |
 | 1 | 0.973 | 10.31892_123.91240 | REAL rooftop solar. Commercial building, two panel-array sections visible. Confirmed. |
 | 2 | 0.969 | 10.32756_123.95272 | REAL rooftop solar. Massive industrial complex with multiple rooftop solar arrays across many buildings. Confirmed. |
-| 3 | 0.969 | 10.40100_123.99976 | (Not visually inspected, deferred. Score implies likely real.) |
-| 4 | 0.967 | 10.31676_123.97960 | (Not visually inspected, deferred.) |
+| 3 | 0.969 | 10.40100_123.99976 | REAL rooftop solar. Large building with a pyramidal panel layout covering nearly the entire roof. Confirmed. |
+| 4 | 0.967 | 10.31676_123.97960 | REAL rooftop solar. Industrial complex with multiple bays of solar panels on the red-roofed structure. Confirmed. |
 | 5 | 0.960 | 10.31244_123.91688 | REAL rooftop solar. Multiple commercial buildings with extensive arrays. Confirmed. |
 | 6 | 0.958 | 10.48956_124.02216 | **GROUND-MOUNT solar farm, not a rooftop.** Same false-positive class as the NCR Valenzuela detection. Real solar, wrong mount type. |
 | 7 | 0.957 | 10.35780_123.95048 | REAL rooftop solar. Distinctive commercial-building array plus a second smaller blue rectangle visible nearby. Confirmed. |
 
 ## Summary
 
-- 6 out of 8 visually verified as **rooftop solar** at the detection location.
+- 7 out of 8 visually verified as **rooftop solar** at the detection location.
 - 1 out of 8 is a **ground-mount utility solar farm** at the detected coordinates. The model correctly identified panels but the location is ground-mount, not rooftop. This is the same known limitation surfaced in NCR's largest-detection audit (see `docs/screenshots/qa-2026-05/spot-check/findings.md`).
-- 1 out of 8 deferred (not visually inspected; score implies likely real).
-- Sample size is small (8). True cross-domain precision is consistent with the NCR-calibrated 95.9% on the high-conf tier, but the small sample means the confidence interval is wide.
+- 87.5% rooftop precision in the top 8 high-confidence tile sample. Consistent with NCR's calibrated 95.9% within a small-sample confidence interval; the ground-mount mis-route is the dominant cross-domain failure mode.
 
 ## Implications for v1.1 publication
 

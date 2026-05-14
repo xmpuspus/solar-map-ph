@@ -1,0 +1,66 @@
+[
+ {
+  "idx": 0,
+  "score": 0.9782,
+  "tile_id": "10.29948_123.99976",
+  "lat": 10.299479999999994,
+  "lon": 123.99976000000005,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/cebu-00-score97-10.29948_123.99976.jpg"
+ },
+ {
+  "idx": 1,
+  "score": 0.9726,
+  "tile_id": "10.31892_123.91240",
+  "lat": 10.318919999999993,
+  "lon": 123.91240000000003,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/cebu-01-score97-10.31892_123.91240.jpg"
+ },
+ {
+  "idx": 2,
+  "score": 0.9693,
+  "tile_id": "10.32756_123.95272",
+  "lat": 10.327559999999993,
+  "lon": 123.95272000000004,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/cebu-02-score96-10.32756_123.95272.jpg"
+ },
+ {
+  "idx": 3,
+  "score": 0.9685,
+  "tile_id": "10.40100_123.99976",
+  "lat": 10.400999999999991,
+  "lon": 123.99976000000005,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/cebu-03-score96-10.40100_123.99976.jpg"
+ },
+ {
+  "idx": 4,
+  "score": 0.9667,
+  "tile_id": "10.31676_123.97960",
+  "lat": 10.316759999999993,
+  "lon": 123.97960000000005,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/cebu-04-score96-10.31676_123.97960.jpg"
+ },
+ {
+  "idx": 5,
+  "score": 0.9595,
+  "tile_id": "10.31244_123.91688",
+  "lat": 10.312439999999993,
+  "lon": 123.91688000000003,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/cebu-05-score95-10.31244_123.91688.jpg"
+ },
+ {
+  "idx": 6,
+  "score": 0.9578,
+  "tile_id": "10.48956_124.02216",
+  "lat": 10.489559999999988,
+  "lon": 124.02216000000006,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/cebu-06-score95-10.48956_124.02216.jpg"
+ },
+ {
+  "idx": 7,
+  "score": 0.9574,
+  "tile_id": "10.35780_123.95048",
+  "lat": 10.357799999999992,
+  "lon": 123.95048000000004,
+  "file": "docs/screenshots/qa-2026-05/region-spot-check/cebu-07-score95-10.35780_123.95048.jpg"
+ }
+]
