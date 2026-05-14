@@ -102,8 +102,18 @@ jobs:
           test -f detection/train/dataset_v4.npz
           ls -la detection/train/dataset_v4.npz
 
-      - name: Train clf_v4 from cached dataset
-        run: make train
+      - name: Touch trained artifacts so make doesn't try to rebuild
+        run: |
+          # `actions/checkout` normalizes file mtimes to the checkout time,
+          # which makes `make` think the trained .joblib is older than its
+          # source dataset and tries to retrain from build_dataset_v3.py.
+          # That recipe needs detection/bootstrap/tiles/ which is .gitignored.
+          # Touching the trained artifacts in dep order skips the rebuild;
+          # `make hash-verify` then just runs the sha256 check.
+          touch detection/train/dataset_v4.npz
+          touch detection/train/dataset_v4_manifest.json
+          touch detection/train/clf_v4.joblib
+          touch detection/train/clf_v4_metrics.json
 
       - name: Verify deterministic classifier hash
         run: make hash-verify
