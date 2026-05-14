@@ -6,7 +6,7 @@
 # were removed; they were never imported. The detection pipeline's
 # requirements.txt at repo root covers the ML stack.
 
-earthengine-api==1.7.9
+earthengine-api==1.7.26
 requests==2.32.5
 beautifulsoup4==4.12.3
 pillow==11.3.0
