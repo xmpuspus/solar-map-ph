@@ -6,7 +6,14 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![Reproducible build](https://img.shields.io/badge/build-deterministic%20sha256%2056900722-success.svg)](#detection-pipeline-reproducible)
 [![F1 0.87](https://img.shields.io/badge/F1-0.87%20%40%20t%3D0.85-success.svg)](MODEL_CARD.md)
+
+<!--
+DOI badge will be added here after the first GitHub release is archived by Zenodo.
+Flow: (1) toggle xmpuspus/solar-map-ph at https://zenodo.org/account/settings/github/,
+(2) gh release create v1.0.0, (3) wait ~60s for Zenodo webhook, (4) restore badge:
 [![DOI](https://zenodo.org/badge/1238545684.svg)](https://zenodo.org/badge/latestdoi/1238545684)
+-->
+
 
 > SolarMap.PH: open-source rooftop solar detection from public satellite imagery. Current coverage: Greater Metro Manila. A frozen CLIP-ViT-L encoder plus a logistic-regression head, Platt-calibrated and bit-exact reproducible. F1 = 0.870 (precision 95.9%, recall 79.7%) at threshold 0.85 on an honest 20% held-out source-disjoint split.
 
