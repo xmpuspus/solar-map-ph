@@ -6,7 +6,7 @@
 # Refresh quarterly during the LGU table refresh. To bump:
 #   docker pull python:3.12-slim-bookworm
 #   docker image inspect python:3.12-slim-bookworm --format '{{index .RepoDigests 0}}'
-FROM python:3.12-slim-bookworm
+FROM python:3.14-slim-bookworm
 
 # System deps for sklearn/torch/PIL (libgomp1 for OpenMP, libgl1 for opencv-style stacks)
 RUN apt-get update && apt-get install -y --no-install-recommends \
