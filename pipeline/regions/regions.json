@@ -111,6 +111,24 @@
         "Sariaya",
         "Tayabas"
       ]
+    },
+    {
+      "slug": "bacolod",
+      "display_name": "Bacolod / Negros Occidental",
+      "franchise": "CENECO",
+      "franchise_full": "Central Negros Electric Cooperative",
+      "province": "Negros Occidental",
+      "bbox": [10.50, 122.80, 10.95, 123.10],
+      "center": [10.70, 122.95],
+      "served_lgus": [
+        "Bacolod",
+        "Bago",
+        "Talisay",
+        "Silay",
+        "Murcia",
+        "EB Magalona",
+        "Don Salvador Benedicto"
+      ]
     }
   ]
 }

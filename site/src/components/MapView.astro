@@ -57,12 +57,13 @@ const headerCopy = {
       <div class="border-t border-ink-300/30 mt-2 pt-2">
         <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1 font-mono">individual detections</div>
         <div class="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-0.5 text-[10px] text-ink-700">
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#d97757"></span><span>newly identified</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#3a7d44"></span><span>corroborated by public maps</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#9ca3af"></span><span>lower-confidence</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#d97757"></span><span>NCR: newly identified</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#3a7d44"></span><span>NCR: corroborated</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#9ca3af"></span><span>NCR: lower-confidence</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#2563eb"></span><span>v1.1 cross-domain (uncalibrated)</span>
         </div>
       </div>
-      <div id="legend-source" class="text-[10px] text-ink-500 mt-1.5 font-mono">SolarMap.PH · 96% precision on holdout</div>
+      <div id="legend-source" class="text-[10px] text-ink-500 mt-1.5 font-mono">SolarMap.PH · 96% precision on NCR holdout</div>
     </div>
     <div class="absolute bottom-1 right-2 bg-white/85 px-1.5 py-0.5 text-[9px] text-ink-500 rounded-sm border border-ink-300/30 leading-tight max-w-[18rem] text-right">
       Imagery © Esri, Maxar, Earthstar Geographics. Buildings © OpenStreetMap contributors.
@@ -287,13 +288,55 @@ const headerCopy = {
 
   // ---- main init -----------------------------------------------------
 
+  // v1.1 cross-domain regions and their bounding boxes (matches
+  // pipeline/regions/regions.json). Used for the load-on-demand cross-domain
+  // detection layer and the ?region=<slug> URL param.
+  const V11_REGIONS: { slug: string; display: string; bbox: [number, number, number, number] }[] = [
+    { slug: "cebu",       display: "Cebu Metro",      bbox: [123.75, 10.05, 124.10, 10.50] },
+    { slug: "davao",      display: "Davao City",      bbox: [125.30,  6.85, 125.80,  7.35] },
+    { slug: "iloilo",     display: "Iloilo Metro",    bbox: [122.42, 10.62, 122.70, 10.85] },
+    { slug: "cdo",        display: "Cagayan de Oro",  bbox: [124.50,  8.35, 124.90,  8.60] },
+    { slug: "legazpi",    display: "Legazpi",         bbox: [123.65, 13.10, 123.85, 13.25] },
+    { slug: "calabarzon", display: "Calabarzon",      bbox: [120.85, 13.65, 121.55, 14.30] },
+    { slug: "bacolod",    display: "Bacolod",         bbox: [122.80, 10.50, 123.10, 10.95] },
+  ];
+
   async function init() {
-    const [detections, perBuilding, cities, cityCounts] = await Promise.all([
+    const [detections, perBuilding, cities, cityCounts, ...v11Detections] = await Promise.all([
       loadJSON<any>("rooftop_solar_ncr.geojson"),
       loadJSON<any>("per_building_solar_ncr.geojson"),
       loadJSON<any>("franchise_cities_polygons.geojson"),
       loadJSON<any>("city_detection_counts.json"),
+      ...V11_REGIONS.map((r) => loadJSON<any>(`rooftop_solar_${r.slug}.geojson`).catch(() => null)),
     ]);
+
+    // Assemble cross-domain feature collections from the v1.1 regions, tagging
+    // each feature with its region slug so the click handler can show the
+    // right disclosure copy.
+    const v11High: any = { type: "FeatureCollection", features: [] };
+    const v11Cand: any = { type: "FeatureCollection", features: [] };
+    let v11TotalHigh = 0, v11TotalCand = 0, v11RegionsWithDet = 0;
+    for (let i = 0; i < V11_REGIONS.length; i++) {
+      const fc = v11Detections[i];
+      if (!fc) continue;
+      const slug = V11_REGIONS[i].slug;
+      const display = V11_REGIONS[i].display;
+      const m = fc._meta || {};
+      const partial = (m.scan_status === "partial");
+      const regionHigh = m.n_high_confidence ?? 0;
+      const regionCand = m.n_candidate ?? 0;
+      v11TotalHigh += regionHigh;
+      v11TotalCand += regionCand;
+      if (regionHigh + regionCand > 0) v11RegionsWithDet += 1;
+      for (const f of fc.features) {
+        f.properties._region_slug = slug;
+        f.properties._region_display = display;
+        f.properties._v11 = true;
+        f.properties._partial_scan = partial;
+        if (f.properties.tier === "high") v11High.features.push(f);
+        else v11Cand.features.push(f);
+      }
+    }
 
     const byCity = new Map<string, any>();
     for (const r of cityCounts.rows) byCity.set(r.name, r);
@@ -316,11 +359,15 @@ const headerCopy = {
     const cityCount = meta.n_cities_with_detections || 0;
     const newPct = canonicalHigh > 0 ? Math.round((totalNewHigh / canonicalHigh) * 100) : 0;
 
-    document.getElementById("strip-total")!.textContent = fmtInt(totalDet);
+    const totalDetWithV11 = totalDet + v11TotalHigh + v11TotalCand;
+    document.getElementById("strip-total")!.textContent = fmtInt(totalDetWithV11);
     document.getElementById("strip-new")!.textContent = `${newPct}%`;
-    document.getElementById("strip-new-pct")!.textContent = `${totalNewHigh} of ${canonicalHigh} high tier new`;
+    document.getElementById("strip-new-pct")!.textContent =
+      v11TotalHigh + v11TotalCand > 0
+        ? `${totalDet} NCR (calibrated) + ${v11TotalHigh + v11TotalCand} cross-domain (v1.1)`
+        : `${totalNewHigh} of ${canonicalHigh} high tier new`;
     document.getElementById("strip-kwp")!.textContent = fmtKwp(totalKwp);
-    document.getElementById("strip-cities")!.textContent = `${cityCount}`;
+    document.getElementById("strip-cities")!.textContent = `${cityCount + v11RegionsWithDet}`;
 
     // Color city polygons by detection density. Cities with no detections stay
     // light gray rather than slipping off the gradient entirely.
@@ -468,6 +515,45 @@ const headerCopy = {
         },
       });
 
+      // v1.1 cross-domain detections (Cebu / Davao / Iloilo / CDO / Legazpi /
+      // Calabarzon). Steel-blue dots visually distinct from the NCR set so the
+      // user can tell at a glance which detections are calibrated (NCR
+      // orange/green) versus cross-domain (steel blue, less calibrated until
+      // per-region active-learning rounds run).
+      map.addSource("v11-high", { type: "geojson", data: v11High });
+      map.addLayer({
+        id: "v11-high-dots",
+        type: "circle",
+        source: "v11-high",
+        paint: {
+          "circle-radius": [
+            "interpolate", ["linear"], ["zoom"],
+            5, 2.5, 8, 4, 11, 5.5, 14, 7,
+          ],
+          "circle-color": "#2563eb",
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": 1.2,
+          "circle-opacity": 0.92,
+        },
+      });
+      map.addSource("v11-cand", { type: "geojson", data: v11Cand });
+      map.addLayer({
+        id: "v11-cand-dots",
+        type: "circle",
+        source: "v11-cand",
+        minzoom: 8,
+        paint: {
+          "circle-radius": [
+            "interpolate", ["linear"], ["zoom"],
+            8, 2.5, 11, 3.5, 14, 4.5,
+          ],
+          "circle-color": "#93c5fd",
+          "circle-stroke-color": "#1d4ed8",
+          "circle-stroke-width": 0.8,
+          "circle-opacity": 0.8,
+        },
+      });
+
       // Orphans: high-conf detections without a SAM building match. Dim ring
       // at tile center starting at z13 so the user can still click them at
       // street zoom and see the orphan-detection card.
@@ -544,11 +630,36 @@ const headerCopy = {
       map.on("mouseenter", "high-dots", () => (map.getCanvas().style.cursor = "pointer"));
       map.on("mouseleave", "high-dots", () => (map.getCanvas().style.cursor = ""));
 
-      // Initial fit to franchise extent
-      map.fitBounds([[120.88, 14.20], [121.22, 14.85]], { padding: 30, animate: false, maxZoom: 11 });
+      // Click on a v1.1 cross-domain dot shows a simple disclosure card. The
+      // dataset has no per-building geometry yet for these regions, so we
+      // surface what we DO have: region, score, tile, and a 'cross-domain,
+      // not yet calibrated' note that links to /regions for context.
+      const v11Click = (e: any) => {
+        const f = e.features?.[0];
+        if (!f) return;
+        const [lon, lat] = (f.geometry as any).coordinates;
+        showV11Detection(f.properties, lat, lon);
+      };
+      map.on("click", "v11-high-dots", v11Click);
+      map.on("click", "v11-cand-dots", v11Click);
+      map.on("mouseenter", "v11-high-dots", () => (map.getCanvas().style.cursor = "pointer"));
+      map.on("mouseleave", "v11-high-dots", () => (map.getCanvas().style.cursor = ""));
+      map.on("mouseenter", "v11-cand-dots", () => (map.getCanvas().style.cursor = "pointer"));
+      map.on("mouseleave", "v11-cand-dots", () => (map.getCanvas().style.cursor = ""));
 
-      // URL param: /map?city=X
+      // URL param routing: /map?region=cebu fits to a v1.1 region; /map?city=X
+      // keeps the NCR city-zoom path.
       const params = new URLSearchParams(location.search);
+      const regionParam = params.get("region");
+      const matchedRegion = regionParam ? V11_REGIONS.find((r) => r.slug === regionParam) : null;
+      if (matchedRegion) {
+        // bbox is [minLon, minLat, maxLon, maxLat]
+        const [w, s, e, n] = matchedRegion.bbox;
+        map.fitBounds([[w, s], [e, n]], { padding: 40, animate: false, maxZoom: 12 });
+      } else {
+        // Initial fit to NCR franchise extent (default behaviour preserved)
+        map.fitBounds([[120.88, 14.20], [121.22, 14.85]], { padding: 30, animate: false, maxZoom: 11 });
+      }
       const cityParam = params.get("city");
       if (cityParam) showCity(cityParam, true);
     });
@@ -656,6 +767,46 @@ const headerCopy = {
         url.searchParams.set("city", row.name.toLowerCase().replace(/\s+/g, "-"));
         history.replaceState({}, "", url.toString());
       }
+    }
+
+    function showV11Detection(props: any, lat: number, lon: number) {
+      empty.classList.add("hidden");
+      cityDetail.classList.add("hidden");
+      detDetail.classList.remove("hidden");
+
+      const score = Number(props.score ?? 0);
+      const tier = props.tier || (score >= 0.85 ? "high" : "candidate");
+      const tierColor = tier === "high" ? "#2563eb" : "#93c5fd";
+      const tierLabel = tier === "high" ? "HIGH (CROSS-DOMAIN)" : "CANDIDATE (CROSS-DOMAIN)";
+      const region = props._region_display || props.region || "v1.1 region";
+
+      document.getElementById("det-thumb")!.setAttribute("src", esriThumbUrl(lat, lon, 360, 0.0011));
+      const badge = document.getElementById("det-tier-badge")!;
+      badge.style.background = tierColor;
+      badge.textContent = tierLabel;
+
+      document.getElementById("det-city")!.textContent =
+        props.lgu_name ? `${props.lgu_name} - ${region}` : region;
+      document.getElementById("det-headline")!.textContent =
+        `Cross-domain detection in ${region}`;
+      const partialNote = props._partial_scan
+        ? " The Calabarzon scan is partial (9.5% of built-up tiles); the full inventory will land in a follow-up commit."
+        : "";
+      document.getElementById("det-desc")!.textContent =
+        `Tile-granularity detection from the NCR-trained classifier applied without retraining. ` +
+        `Cross-domain precision is not yet calibrated per region; treat as a candidate inventory ` +
+        `pending the per-region active-learning round.${partialNote} ` +
+        `See /regions for context.`;
+      document.getElementById("det-score")!.textContent = score ? `${Math.round(score * 100)}%` : "-";
+      document.getElementById("det-kwp")!.textContent = "n/a (no SAM)";
+      document.getElementById("det-btype")!.textContent = "n/a (tile-level)";
+      document.getElementById("det-area")!.textContent = "n/a (tile-level)";
+      document.getElementById("det-osm")!.textContent = "cross-domain, uncalibrated";
+
+      const osmLink = document.getElementById("det-osm-link") as HTMLAnchorElement;
+      osmLink.href = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=18`;
+      const fp = document.getElementById("det-fp") as HTMLAnchorElement;
+      fp.href = fpIssueUrl(props, lat, lon);
     }
 
     function showDetection(props: any, lat: number, lon: number) {

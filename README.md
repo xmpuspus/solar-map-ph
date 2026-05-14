@@ -150,20 +150,35 @@ See `site/public/data/SCHEMA.md` for the field-by-field schema and units.
 
 ## Multi-region coverage (v1.1)
 
-v1.0 ships NCR as the calibrated reference region (F1 = 0.870 on 20% holdout). v1.1 applies the same `clf_v4.joblib` cross-domain (without retraining) to six additional Philippine distribution-utility franchises:
+v1.0 ships NCR as the calibrated reference region (F1 = 0.870 on 20% holdout). v1.1 applies the same `clf_v4.joblib` cross-domain (without retraining) to seven additional Philippine distribution-utility franchise areas:
 
-| Region | Franchise | Polygon coverage of served LGUs | Status |
-|---|---|---|---|
-| Cebu Metro | VECO (Visayan Electric) | 3 / 11 served LGUs | Tile-granularity detections published; 7/8 spot-check confirmed rooftop |
-| Davao City | DLPC (Davao Light) | 1 / 2 | Queued in v1.1 scan |
-| Iloilo Metro | MORE Electric and Power | 5 / 7 | Queued in v1.1 scan |
-| Cagayan de Oro | CEPALCO | 3 / 6 | Queued in v1.1 scan |
-| Legazpi (Albay) | ALECO | 3 / 5 | 0 high + 1 candidate (false positive) |
-| Calabarzon (south of Meralco) | BATELEC / FLECO / QUEZELCO / LUELCO | 13 / 13 | Queued in v1.1 scan |
+| Region | Franchise | Detections (high + cand) | Built-up tiles | Spot-check | Status |
+|---|---|---|---|---|---|
+| Cebu Metro | VECO | 36 + 53 | 4,142 | 7/8 rooftop, 1/8 ground-mount | shipped |
+| Davao City | DLPC | 28 + 19 | 5,295 | 5/5 rooftop | shipped |
+| Iloilo Metro | MORE | 3 + 6 | 2,456 | 5/5 rooftop | shipped |
+| Cagayan de Oro | CEPALCO | 3 + 6 | 2,704 | 3/5 rooftop, 2/5 ground-mount | shipped |
+| Legazpi (Albay) | ALECO | 0 + 1 | 734 | 1/1 false-positive (blue stadium) | shipped |
+| Calabarzon (south of Meralco) | BATELEC / FLECO / QUEZELCO / LUELCO | scanning | 18,695 | pending | resuming after v1.1.0 throttle |
+| Bacolod / Negros Occidental | CENECO | queued | TBD | pending | scan queued after Calabarzon |
 
-See [`/regions`](https://solarmap.ph/regions) for the live status and per-region detection counts. Cross-domain precision is not yet calibrated per region; treat detections as a candidate inventory pending v1.2 active-learning rounds.
+Across the v1.1 cross-domain set, the spot-check sample (26 top-scoring tiles inspected) confirmed 21 real rooftop solar (80.8%), 4 ground-mount solar farms (same FP class observed in NCR's Valenzuela audit), and 1 blue-roof false positive. The mount-type classifier queued for v1.2 will close the ground-mount gap.
+
+See [`/regions`](https://solarmap.ph/regions) for the live status and per-region detection counts, and [`/map`](https://solarmap.ph/map) for the unified detection map (NCR detections appear orange / green, v1.1 cross-domain detections appear steel blue). Cross-domain precision is not yet calibrated per region; treat detections as a candidate inventory pending v1.2 active-learning rounds.
 
 To extend coverage to another Philippine region or any geography worldwide, supply a region polygon GeoJSON. See [`examples/run_on_new_region.md`](examples/run_on_new_region.md) for the generic recipe, or `pipeline/regions/regions.json` + `detection/scan/region_scan.py` for the v1.1 multi-region scaffolding.
+
+### What's new in v1.1
+
+- Cross-domain detection scans for VECO (Cebu), DLPC (Davao), MORE (Iloilo), CEPALCO (Cagayan de Oro), ALECO (Legazpi), the Calabarzon belt south of Meralco (BATELEC / FLECO / QUEZELCO et al), and CENECO (Bacolod / Negros Occidental). No retraining: same `clf_v4.joblib` (sha256 prefix `56900722a8427be4`) applied across all regions.
+- New `/regions` page with per-region detection counts loaded client-side from `/data/city_detection_counts_<slug>.json`.
+- New `/map` overlay: v1.1 detections render in steel blue alongside the calibrated NCR orange / green / gray layers. `/map?region=<slug>` deep-links to any v1.1 region's bbox.
+- `pipeline/regions/regions.json` is now the source of truth for region bbox + franchise + served-LGU config.
+- `pipeline/regions/fetch_region_polygons.py` queries OSM Overpass for each served LGU and stitches admin-boundary segments into closed rings via `shapely.polygonize`.
+- `detection/scan/region_scan.py` and `detection/scan/aggregate_region.py`: region-aware scanner + aggregator. Tile pixel size defaults to 400 outside NCR (Esri's World Imagery has region-dependent max-zoom; 600 px returns HTTP 500 in some areas).
+- `scripts/check_region_no_pii.py`: CI gate asserting every published region GeoJSON is point-tile only, no per-building polygons, no PII fields.
+- `scripts/verify_v11_release.py`: pre-release gate runner (regions GeoJSONs valid, PII clean, classifier hash matches canonical, requirements pinned, site/src/data/regions.json mirrors pipeline/regions/regions.json).
+- Visual spot-check archive at [`docs/screenshots/qa-2026-05/region-spot-check/`](docs/screenshots/qa-2026-05/region-spot-check/) with top-scoring tile thumbnails and per-region findings markdown for every region except Calabarzon (scan in progress) and Bacolod (queued).
 
 ## Headline numbers, with footnotes
 

@@ -13,11 +13,14 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-REGIONS=(iloilo cdo davao calabarzon)
+REGIONS=(calabarzon bacolod iloilo cdo davao)
 
 for slug in "${REGIONS[@]}"; do
   geojson="site/public/data/rooftop_solar_${slug}.geojson"
-  if [ -f "$geojson" ]; then
+  # Calabarzon: skip the "already exists" early-out so it resumes from cached
+  # JSONL (the v1.1.0 ship cut at 9.5% coverage). Other regions: skip if the
+  # full geojson is already on disk.
+  if [ -f "$geojson" ] && [ "$slug" != "calabarzon" ]; then
     echo "[run-all] $slug: $geojson already exists, skipping (delete to force re-scan)"
     continue
   fi
