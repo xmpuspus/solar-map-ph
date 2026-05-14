@@ -1,0 +1,38 @@
+{
+  "title": "SolarMap.PH: open-source rooftop solar detection from satellite imagery",
+  "description": "Open-source pipeline for detecting rooftop solar photovoltaic installations from high-resolution public satellite imagery over Greater Metro Manila. Combines a frozen CLIP-ViT-L image encoder, a logistic-regression classifier head, Platt-sigmoid probability calibration, and a SAM-based per-building segmentation stage. The shipped classifier is validated at F1 = 0.870 (precision 95.9%, recall 79.7%) on an honest 20% source-disjoint holdout, and the build is bit-exact reproducible from cached embeddings via a deterministic Docker recipe.",
+  "creators": [
+    {
+      "name": "Puspus, Xavier",
+      "affiliation": "Independent"
+    }
+  ],
+  "keywords": [
+    "rooftop solar",
+    "photovoltaic detection",
+    "satellite imagery",
+    "remote sensing",
+    "CLIP",
+    "logistic regression",
+    "civic technology",
+    "Philippines",
+    "Segment Anything",
+    "reproducible research"
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "relation": "isSupplementTo",
+      "identifier": "https://github.com/xmpuspus/solar-map-ph",
+      "resource_type": "software"
+    },
+    {
+      "relation": "isDocumentedBy",
+      "identifier": "https://solarmap.ph",
+      "resource_type": "publication-other"
+    }
+  ],
+  "communities": []
+}
