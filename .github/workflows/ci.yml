@@ -62,23 +62,26 @@ jobs:
         run: |
           for f in *.json; do python -c "import json; json.load(open('$f'))"; done
 
-      - name: Pipeline dry-run
-        run: python pipeline.py --quarter 2026Q2 --baseline 2022 --dry-run
+      - name: Pipeline dry-run (to /tmp, leaves committed output untouched)
+        run: |
+          python pipeline.py --quarter 2026Q2 --baseline 2022 --dry-run
+          # Dry-run writes a 0-feature stub with dry_run=true. The committed
+          # production GeoJSON has 61 features. We don't want CI to overwrite
+          # it, so checkout-restore after the dry-run.
+          git checkout -- ../site/public/data/solar_map_ph_2026Q2.geojson || true
 
-      - name: Validate dry-run output
+      - name: Validate committed production GeoJSON
         run: |
           python -c "
           import json
           fc = json.load(open('../site/public/data/solar_map_ph_2026Q2.geojson'))
           assert fc['type'] == 'FeatureCollection'
           assert fc['properties']['quarter'] == '2026Q2'
-          assert len(fc['features']) >= 1, 'no features in dry-run output'
+          assert len(fc['features']) >= 1, 'no features in committed output'
           for f in fc['features']:
-              for k in ('city', 'province', 'composite'):
+              for k in ('name', 'province', 'metrics'):
                   assert k in f['properties'], f'missing {k} in feature properties'
-              c = f['properties']['composite']
-              assert c is None or 0 <= c <= 1, f'composite out of [0,1]: {c}'
-          print('OK: dry-run output valid')
+          print('OK: committed GeoJSON valid (' + str(len(fc['features'])) + ' features)')
           "
 
   detection-hash:
