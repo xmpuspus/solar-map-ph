@@ -31,12 +31,12 @@ What's been missing is a public, reproducible, methodologically transparent pict
 ## What's published
 
 - Open-source repo: `https://github.com/xmpuspus/solar-map-ph` (MIT code, CC-BY-4.0 data)
-- Live homeowner tool + map: `https://solar-map-ph.vercel.app`
+- Live homeowner tool + map: `https://solarmap.ph`
 - Model and embeddings on Hugging Face: `xmpuspus/solar-map-ph-clf-v4`
 - Per-building GeoJSON: `site/public/data/per_building_solar_ncr.geojson`
 - Residential aggregate roll-up: `site/public/data/residential_solar_aggregate.json`
 - Privacy Impact Assessment: `docs/privacy-impact-assessment.md`
-- Methodology: `https://solar-map-ph.vercel.app/methodology`
+- Methodology: `https://solarmap.ph/methodology`
 
 ## Headline numbers, at a glance
 

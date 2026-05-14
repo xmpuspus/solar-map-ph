@@ -8,7 +8,7 @@ Open-source rooftop solar detection from public satellite imagery. CLIP-ViT-L + 
 
 ## Website
 
-https://solar-map-ph.vercel.app
+https://solarmap.ph
 
 ## Topics (GitHub limits to 20)
 
@@ -41,7 +41,7 @@ reproducible-research
 # After the public push, set the description, homepage, and topics.
 gh repo edit xmpuspus/solar-map-ph \
   --description "Open-source rooftop solar detection from public satellite imagery. CLIP-ViT-L + logistic regression, Platt-calibrated, deterministic Docker build. Coverage: Greater Metro Manila. Free homeowner roof-lookup tool, CC-BY-4.0 data, MIT code." \
-  --homepage "https://solar-map-ph.vercel.app" \
+  --homepage "https://solarmap.ph" \
   --add-topic rooftop-solar \
   --add-topic solar-energy \
   --add-topic philippines \

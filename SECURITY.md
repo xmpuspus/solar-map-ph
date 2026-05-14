@@ -10,7 +10,7 @@ Do not open a public issue. Acknowledged within 5 working days.
 ## In scope
 
 - Code execution via crafted inputs to any script in `detection/` or `pipeline/`.
-- Cross-site scripting on `solar-map-ph.vercel.app` or any deployed preview.
+- Cross-site scripting on `solarmap.ph` or any deployed preview.
 - CSP bypass on the homeowner roof-lookup tool.
 - Path traversal in the tile-cache lookup paths.
 - Supply-chain issues against the pinned dependencies in `requirements.txt` and `pipeline/requirements.txt`.

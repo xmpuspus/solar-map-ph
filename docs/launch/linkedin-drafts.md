@@ -1,6 +1,6 @@
 # LinkedIn launch drafts
 
-Three variants, pick one based on audience tilt on launch day. All assume the public URLs are live: github.com/xmpuspus/solar-map-ph, solar-map-ph.vercel.app, huggingface.co/xmpuspus/solar-map-ph-clf-v4. Do NOT post any of these before all three return 200.
+Three variants, pick one based on audience tilt on launch day. All assume the public URLs are live: github.com/xmpuspus/solar-map-ph, solarmap.ph, huggingface.co/xmpuspus/solar-map-ph-clf-v4. Do NOT post any of these before all three return 200.
 
 Author: Xavier Puspus. Voice: direct, technical, no fluff, no emojis. Hashtags allowed but optional.
 
@@ -21,7 +21,7 @@ What's in the dataset:
 Calibrated holdout numbers: F1 = 0.870, precision 95.9%, recall 79.7% at threshold 0.85 on an honest 20% source-disjoint split. Encoder ablation against DINOv2-large (-4 pt F1) and Satlas pretrain (-14 pt F1) locks CLIP-ViT-L.
 
 Repo (MIT code, CC-BY-4.0 data): https://github.com/xmpuspus/solar-map-ph
-Try the homeowner tool: https://solar-map-ph.vercel.app
+Try the homeowner tool: https://solarmap.ph
 Model card on HF: https://huggingface.co/xmpuspus/solar-map-ph-clf-v4
 
 Highest-value contributions, in priority order:
@@ -58,8 +58,8 @@ What it's not:
 - A permit registry, tax record, or enforcement list. Patterns may have legitimate explanations.
 
 Repo: https://github.com/xmpuspus/solar-map-ph
-Site: https://solar-map-ph.vercel.app
-Methodology + Privacy Impact Assessment: https://solar-map-ph.vercel.app/methodology and /privacy
+Site: https://solarmap.ph
+Methodology + Privacy Impact Assessment: https://solarmap.ph/methodology and /privacy
 
 Related work credit: ICSC's SPECTRUM (July 2025) is the nationwide solar mapper in this space. SolarMap.PH covers Metro Manila with a published reproducibility chain; the two projects are complementary.
 
@@ -74,7 +74,7 @@ Open-sourced SolarMap.PH today.
 515 rooftop solar detections across 41 NCR cities. 87% not on any prior public map. 69.9 MWp aggregate. Calibrated 96% precision on a source-disjoint holdout. MIT code, CC-BY-4.0 data, deterministic build.
 
 https://github.com/xmpuspus/solar-map-ph
-https://solar-map-ph.vercel.app
+https://solarmap.ph
 
 Civic-tech, not engineering advice.
 
