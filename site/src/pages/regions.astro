@@ -78,9 +78,10 @@ const regions = regionsCfg.regions as Region[];
     <section class="mt-10 max-w-prose mx-auto text-sm text-ink-700 leading-relaxed">
       <h2 class="text-lg text-ink-900 mb-2">Honesty about the v1.1 cross-domain regions</h2>
       <p class="mb-2">The detector was trained on 294 OSM-tagged positives from Greater Metro Manila, plus several rounds of active learning. Calibrated holdout precision is 95.9% for NCR.</p>
-      <p class="mb-2">For Cebu, Davao, Iloilo, and Cagayan de Oro the same classifier is applied cross-domain. Roof material distributions and atmospheric conditions differ from NCR; we expect higher false-positive rates than NCR until per-region active-learning rounds run. Until then, treat outputs as a <em>candidate inventory</em> for review, not a calibrated registry.</p>
+      <p class="mb-2">For Cebu, Davao, Iloilo, Cagayan de Oro, Legazpi, and the Calabarzon belt south of Meralco, the same classifier is applied cross-domain. Roof material distributions and atmospheric conditions differ from NCR; we expect higher false-positive rates than NCR until per-region active-learning rounds run. Until then, treat outputs as a <em>candidate inventory</em> for review, not a calibrated registry.</p>
+      <p class="mb-2">A small visual audit of Cebu (top-8 high-confidence detections, see <code class="bg-ink-300/15 px-1">docs/screenshots/qa-2026-05/region-spot-check/</code>) found 7/8 confirmed rooftop solar at the detection coordinates and 1/8 ground-mount solar farm; the cross-domain failure mode that dominates is the same monochrome/ground-mount class observed in NCR's audit.</p>
       <p class="mb-2">The per-building segmentation step (SAM auto-mask + OSM intersection) is not yet run for the v1.1 regions. Detections are at tile granularity (240m). Per-building polygons are planned for v1.2 alongside regional calibration.</p>
-      <p>Same residential-suppression policy applies in every region: residential rooftops are aggregated to count-only with no geometry and no addresses, per <a href="/privacy" class="no-underline text-accent-steel">RA 10173</a>.</p>
+      <p>Same residential-suppression policy applies in every region: tile-granularity detections do not reveal individual buildings, and any future per-building work will aggregate residential rooftops to count-only with no geometry and no addresses, per <a href="/privacy" class="no-underline text-accent-steel">RA 10173</a>.</p>
     </section>
   </section>
 

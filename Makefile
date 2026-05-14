@@ -18,7 +18,7 @@ CAL_JSON := $(TRAIN)/v4_calibrated/clf_v4_calibration.json
 SCAN_RESULTS := $(SCAN)/ncr_scan_results_v3.jsonl
 GEOJSON := $(DATA)/rooftop_solar_ncr.geojson
 
-.PHONY: all train calibrate scan aggregate verify-sheets demo hash hash-verify plots status sam test clean help
+.PHONY: all train calibrate scan aggregate verify-sheets demo hash hash-verify plots status sam test clean help check-region-pii verify-v11 scan-regions
 
 help:
 	@echo "SolarMap.PH pipeline targets:"
@@ -33,6 +33,9 @@ help:
 	@echo "  make hash-verify  Assert clf_v4.joblib matches the canonical sha256 ($(EXPECTED_HASH))"
 	@echo "  make plots        Render PR + ROC + reliability diagrams to docs/figures/"
 	@echo "  make status       Print partial-state inventory (dataset/clf/scan/aggregate timestamps)"
+	@echo "  make check-region-pii   Assert every region GeoJSON is point-tile only, no PII fields"
+	@echo "  make verify-v11   Run the full v1.1 release-readiness gate runner"
+	@echo "  make scan-regions Sequentially scan all v1.1 cross-domain regions"
 	@echo "  make sam          Download the SAM ViT-B checkpoint (375 MB)"
 	@echo "  make test         Run the pytest suite"
 	@echo "  make clean        Remove generated artifacts"
@@ -139,3 +142,13 @@ $(SAM_CKPT):
 
 test:
 	pytest tests/ -q
+
+# ----- v1.1 multi-region release gates -----
+check-region-pii:
+	$(PY) scripts/check_region_no_pii.py
+
+verify-v11:
+	$(PY) scripts/verify_v11_release.py --skip-build
+
+scan-regions:
+	bash scripts/run_all_v11_regions.sh

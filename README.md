@@ -148,9 +148,22 @@ Outputs land in `site/public/data/`:
 
 See `site/public/data/SCHEMA.md` for the field-by-field schema and units.
 
-## Running on a different region
+## Multi-region coverage (v1.1)
 
-The pipeline is decoupled from Meralco / NCR. To run it on any other Philippine region (Cebu, Davao, Iloilo, Cagayan de Oro) or any geography worldwide, supply a region polygon GeoJSON. See [`examples/run_on_new_region.md`](examples/run_on_new_region.md).
+v1.0 ships NCR as the calibrated reference region (F1 = 0.870 on 20% holdout). v1.1 applies the same `clf_v4.joblib` cross-domain (without retraining) to six additional Philippine distribution-utility franchises:
+
+| Region | Franchise | Polygon coverage of served LGUs | Status |
+|---|---|---|---|
+| Cebu Metro | VECO (Visayan Electric) | 3 / 11 served LGUs | Tile-granularity detections published; 7/8 spot-check confirmed rooftop |
+| Davao City | DLPC (Davao Light) | 1 / 2 | Queued in v1.1 scan |
+| Iloilo Metro | MORE Electric and Power | 5 / 7 | Queued in v1.1 scan |
+| Cagayan de Oro | CEPALCO | 3 / 6 | Queued in v1.1 scan |
+| Legazpi (Albay) | ALECO | 3 / 5 | 0 high + 1 candidate (false positive) |
+| Calabarzon (south of Meralco) | BATELEC / FLECO / QUEZELCO / LUELCO | 13 / 13 | Queued in v1.1 scan |
+
+See [`/regions`](https://solarmap.ph/regions) for the live status and per-region detection counts. Cross-domain precision is not yet calibrated per region; treat detections as a candidate inventory pending v1.2 active-learning rounds.
+
+To extend coverage to another Philippine region or any geography worldwide, supply a region polygon GeoJSON. See [`examples/run_on_new_region.md`](examples/run_on_new_region.md) for the generic recipe, or `pipeline/regions/regions.json` + `detection/scan/region_scan.py` for the v1.1 multi-region scaffolding.
 
 ## Headline numbers, with footnotes
 
