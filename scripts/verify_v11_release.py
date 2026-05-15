@@ -30,8 +30,8 @@ REPO = Path(__file__).resolve().parents[1]
 REGIONS_CFG = REPO / "pipeline" / "regions" / "regions.json"
 DATA_DIR = REPO / "site" / "public" / "data"
 PIPELINE_REGIONS = REPO / "pipeline" / "regions"
-CLF_PATH = REPO / "detection" / "train" / "clf_v4.joblib"
-MANIFEST_PATH = REPO / "detection" / "train" / "dataset_v4_manifest.json"
+CLF_PATH = REPO / "detection" / "train" / "clf_v5.joblib"
+MANIFEST_PATH = REPO / "detection" / "train" / "dataset_v5_manifest.json"
 PIPELINE_REQS = REPO / "pipeline" / "requirements.txt"
 ROOT_REQS = REPO / "requirements.txt"
 SITE_REGIONS_COPY = REPO / "site" / "src" / "data" / "regions.json"
@@ -116,14 +116,14 @@ def main() -> int:
         )
         log(gate("NCR per-building leak gate", ncr_check.returncode == 0))
 
-    expected_hash_prefix = "56900722a8427be4"
+    expected_hash_prefix = "5cc0a093c5279fd9"  # canonical clf_v5 (v1.2)
     if CLF_PATH.exists():
         actual_hash_prefix = hashlib.sha256(CLF_PATH.read_bytes()).hexdigest()[:16]
         log(gate("classifier hash matches canonical",
                  actual_hash_prefix == expected_hash_prefix,
                  f"actual={actual_hash_prefix} expected={expected_hash_prefix}"))
     else:
-        log(gate("classifier hash matches canonical", False, "clf_v4.joblib missing"))
+        log(gate("classifier hash matches canonical", False, "clf_v5.joblib missing"))
 
     for label, reqs in [("requirements.txt (root)", ROOT_REQS),
                          ("pipeline/requirements.txt", PIPELINE_REQS)]:

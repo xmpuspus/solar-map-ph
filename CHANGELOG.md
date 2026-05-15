@@ -4,6 +4,71 @@ All notable changes to SolarMap.PH are documented here. The format follows [Keep
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-05-15 - Cross-domain gap-closing: clf_v5, per-domain calibration, honest attribution
+
+The v1.1 cross-domain regions shipped uncalibrated. v1.2 closes that gap. It
+starts from a domain-shift measurement that gates everything, then retrains
+region-stratified, calibrates per domain on a scan-realistic holdout, fixes
+the silent LGU undercount, adds region OSM cross-match, and adds SAM kWp.
+
+### Added
+
+- **Step 1 domain-shift gate** (`docs/research/v12-domain-shift.md`,
+  `detection/train/domain_shift.py`). Centroid-cosine / MMD / domain-AUC
+  between the NCR training distribution and each region's scan tiles. Finding:
+  pure geographic shift is within-envelope for all seven regions (geo-cos
+  0.038–0.052, at or below the in-domain anchor floor 0.0547); the dominant
+  problem is a calibration gap — a linear probe separates the curated training
+  set from the natural scan distribution at AUC≈0.88 even within NCR, so the
+  v1.1 implied precision was an overestimate everywhere.
+- **`clf_v5`** (`detection/train/train_v5.py`), region-stratified retrain.
+  `dataset_v5` = `dataset_v4` + 210 cross-domain positives (OSM-roof +
+  spot-check) + 4 spot-check FP hard negatives + 3 OSM ground-mount. New
+  canonical sha256 `5cc0a093c5279fd9`; Makefile / `verify_clf.py` /
+  `verify_v11_release.py` hash gates updated; bit-exact reproducible.
+- **Per-domain calibration** (`detection/train/v5_region_holdout/`). Platt fit
+  on each region's scan-realistic holdout (held-out positives vs a uniform
+  random scan-tile negative proxy, ~1–3% PU noise so precision is a
+  conservative lower bound). A degeneracy guard rejects non-discriminative
+  fits. Calibrated: cebu (P@0.85≈1.00), iloilo (≈0.80), calabarzon (≈0.67).
+  davao/cdo/legazpi/bacolod flagged uncalibrated (low n) and ship as candidate
+  inventory rather than carrying a fabricated CI.
+- **Region OSM cross-match** (`detection/scan/match_against_osm_regions.py`).
+  Every region's detections now carry a real `osm_status` and per-city
+  `n_new_high`: cebu 83% of high-conf new, calabarzon 91%, iloilo 33%, cdo
+  67%. The informal-solar-gap thesis is now supported for all franchises, not
+  only NCR.
+- 32 spot-check verdicts harvested to structured labels
+  (`detection/train/region_labels.jsonl`); per-region OSM positive bootstrap
+  (`detection/bootstrap/osm_solar_<region>.geojson`).
+- SAM per-detection panel-area + conservative `kwp_estimate` (0.15 kWp/m²) as
+  scalar properties on the existing point-tile features — privacy boundary
+  unchanged, `check_region_no_pii` still green. Each mask is verified
+  (area+colour gate → CLIP + clf_v5 semantic check, combined ≥ 0.70) before
+  its area counts, so whole dark roofs are not mistaken for panels. Aggregate
+  **~174 MWp** across the seven regions (Calabarzon ~92, Cebu ~49, Davao ~24);
+  Legazpi's lone known-false-positive detection correctly estimates 0 kWp.
+
+### Fixed
+
+- **LGU city-attribution undercount.** v1.1 detections outside a mapped
+  served-LGU polygon were assigned `lgu_name: null` and silently dropped from
+  the published city tables (cebu was 84% null). v1.2: a verified
+  served-LGU → OSM relation-ID override map (`served_lgu_osm_map.json`)
+  recovers EB Magalona (Bacolod) and Panabo (Davao); detections outside every
+  served polygon now get an explicit `(outside mapped franchise LGUs)` bucket.
+  `lgu_name: null` is now zero across all seven regions; city tables and
+  published totals reconcile. Municipalities OSM has no admin relation for are
+  documented in the override map's `_known_limitation`.
+
+### Notes
+
+- NCR's published detections remain `clf_v4`-scored; v1.2 does not re-scan
+  NCR. `clf_v5` is the canonical model for future scans and quarterly
+  refreshes. Detection counts per region are unchanged from v1.1 (same
+  `scan_results.jsonl`); v1.2 improves attribution, calibration, and metadata
+  honesty, not the detection set.
+
 ## [1.1.1] - 2026-05-15 - Calabarzon complete + Bacolod + map overlay
 
 ### Added

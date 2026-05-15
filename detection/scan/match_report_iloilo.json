@@ -1,0 +1,16 @@
+{
+  "region": "iloilo",
+  "osm_source": "44 OSM tags",
+  "distance_m_confirmed": 200,
+  "n_high": 3,
+  "n_candidate": 6,
+  "high": {
+    "confirmed": 2,
+    "new": 1
+  },
+  "candidate": {
+    "confirmed": 3,
+    "new": 3
+  },
+  "pct_new_high": 33.3
+}

@@ -2,7 +2,7 @@
 
 **Project:** SolarMap.PH (https://github.com/xmpuspus/solar-map-ph)
 **Author / Self-designated DPO:** Xavier Puspus (`xpuspus@gmail.com`)
-**Assessment date:** 2026-05-13
+**Assessment date:** 2026-05-13 (re-reviewed 2026-05-15 for v1.2)
 **Applicable law:** Republic Act 10173 (Data Privacy Act of 2012), implementing rules, NPC circulars in force as of 2026-05-13 (including NPC Circular 2024-02 on CCTV).
 **Status:** Self-conducted PIA. Formal NPC voluntary advisory opinion is in scope for the post-launch quarter.
 
@@ -95,7 +95,23 @@ Public satellite imagery and public OSM tagging do not require subject consent u
 - **DPO (self-designated):** Xavier Puspus, `xpuspus@gmail.com`.
 - **Formal NPC registration:** scoped for post-launch quarter, deferrable contingent on traffic and feedback.
 - **Review cadence:** PIA re-reviewed at each quarterly republish.
-- **Last reviewed:** 2026-05-13.
+- **Last reviewed:** 2026-05-15 (v1.2).
+
+### v1.2 addendum (cross-domain regime)
+
+The v1.2 round changes the model and metadata, not the publication boundary.
+The seven cross-domain region GeoJSONs remain **point-tile only** (240 m tile
+centers, no building polygons); `scripts/check_region_no_pii.py` is run in the
+release gate and asserts Point geometry with no PII property keys for every
+region. The new v1.2 properties are scalar tile-level estimates only:
+`osm_status` (new vs OSM-confirmed), `kwp_estimate` and `panel_area_m2` (a
+conservative SAM-derived capacity figure attached to the existing tile point,
+not a building footprint), and an explicit `(outside mapped franchise LGUs)`
+attribution bucket that replaces silent `null` so published city totals
+reconcile. No residential per-building geometry is introduced for the
+cross-domain regions in v1.2; per-building SAM segmentation with residential
+suppression remains NCR-only. The data-subject risk profile is therefore
+unchanged from the 2026-05-13 assessment.
 
 ---
 

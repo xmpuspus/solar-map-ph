@@ -264,6 +264,21 @@ flowchart TB
       <li><strong>Honest holdout, threshold 0.85: precision 95.9%, recall 79.7%, F1 0.870</strong> across 59 positive + 39 negative held-out sources. The honest precision is ~3 points lower than the LOSO number, which is consistent with augmentation leakage. To hit P ≥ 0.99 on this honest holdout, threshold needs to climb to 0.97 (recall drops to 66%).</li>
       <li><strong>v4 NCR scan: 130 high + 216 candidate</strong> (vs v3 114 + 280). 40 tiles upgraded to high, 2 lost. 82% of high tier are NEW (not in OSM).</li>
     </ul>
+    <h3 class="text-lg mt-6 mb-2">v1.2: cross-domain gap-closing (clf_v5)</h3>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      v1.1 added seven cross-domain franchises (Cebu, Davao, Iloilo, CDO, Legazpi, Calabarzon, Bacolod) by applying the NCR-trained clf_v4 with no retraining and no per-region calibration. v1.2 closes that gap, starting with a measurement that gates the rest.
+    </p>
+    <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
+      <li><strong>Domain-shift gate.</strong> We measured centroid-cosine / MMD / a domain-classifier AUC between the NCR training distribution and each region's scan tiles. Pure geographic shift is <em>within-envelope</em> for all seven regions: the geographic centroid cosine (0.038-0.052) sits at or below the in-domain anchor floor of 0.0547 (NCR's own curated-training vs natural-scan gap). No region is far enough out-of-distribution to need its own model. The domain-classifier AUC saturates near 1.0 in 768 dimensions and is reported only as an ordinal diagnostic, not an absolute distance.</li>
+      <li><strong>The calibration gap is the real problem.</strong> A linear probe separates the curated training set from the natural scan distribution at AUC ≈ 0.88 <em>even within NCR, same city</em>. So clf_v4's published 0.959 precision was measured on a distribution ~0.88-separable from what the model actually sees in the field. The cross-region precision implied by v1.1 was an overestimate everywhere, not only in the new franchises.</li>
+      <li><strong>clf_v5, region-stratified.</strong> dataset_v4 plus 210 cross-domain positives (OSM rooftop tags + spot-check-confirmed detections) and the observed false-positive classes (ground-mount solar farms, blue industrial roofs). Folds split by region so reported metrics are per-domain, not pooled. New canonical sha256 <code>5cc0a093c5279fd9</code>, bit-exact reproducible.</li>
+      <li><strong>Per-domain calibration on a scan-realistic holdout.</strong> Platt is fit per region against a uniform random sample of that region's scan tiles (the operating distribution is ~97-99% non-solar, a high-purity negative proxy; the residual ~1-3% PU contamination makes the precision a conservative lower bound). cebu, iloilo and calabarzon have enough labels to calibrate (P@0.85 ≈ 1.00 / 0.80 / 0.67, small holdouts, wide intervals). davao, cdo, legazpi and bacolod are flagged uncalibrated and ship as candidate inventory — an honest "uncalibrated" beats a fabricated confidence interval.</li>
+      <li><strong>Region OSM cross-match + LGU fix.</strong> Every region now carries a real new-vs-already-mapped status (cebu 83% of high-confidence new, calabarzon 91%, iloilo 33%, cdo 67%). The v1.1 silent undercount (detections outside a mapped served-LGU polygon were dropped as null) is fixed: a verified served-LGU to OSM relation-ID map recovers the non-canonically-named polygons, and anything outside every served polygon is bucketed explicitly so city tables and totals reconcile.</li>
+    </ul>
+    <p class="text-base text-ink-700 leading-relaxed mb-3">
+      NCR's published detections stay clf_v4-scored; v1.2 does not re-scan NCR. clf_v5 is the canonical model for future scans and quarterly refreshes. Full method: <code>docs/research/v12-domain-shift.md</code> and <code>docs/research/v12-plan.md</code>.
+    </p>
+
     <h3 class="text-lg mt-6 mb-2">Encoder ablation: CLIP wins</h3>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       Before locking the encoder, we ran the same training set through two alternatives at the same head and the same Platt holdout:

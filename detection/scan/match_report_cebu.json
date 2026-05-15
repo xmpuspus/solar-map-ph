@@ -1,0 +1,16 @@
+{
+  "region": "cebu",
+  "osm_source": "65 OSM tags",
+  "distance_m_confirmed": 200,
+  "n_high": 36,
+  "n_candidate": 53,
+  "high": {
+    "confirmed": 6,
+    "new": 30
+  },
+  "candidate": {
+    "confirmed": 1,
+    "new": 52
+  },
+  "pct_new_high": 83.3
+}

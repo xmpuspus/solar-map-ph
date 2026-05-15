@@ -10,11 +10,15 @@ SCAN := $(DETECTION)/scan
 VERIFY := $(DETECTION)/verify
 DATA := site/public/data
 
-DATASET := $(TRAIN)/dataset_v4.npz
-CLF := $(TRAIN)/clf_v4.joblib
-CLF_METRICS := $(TRAIN)/clf_v4_metrics.json
-CAL_BUNDLE := $(TRAIN)/v4_calibrated/clf_v4_calibrated.joblib
-CAL_JSON := $(TRAIN)/v4_calibrated/clf_v4_calibration.json
+# v1.2: clf_v5 is the canonical classifier (region-stratified retrain).
+# NCR's published GeoJSON stays clf_v4-scored (v1.2 does not re-scan NCR);
+# the NCR scan rule below pins clf_v4 explicitly for that reproduction.
+DATASET := $(TRAIN)/dataset_v5.npz
+CLF := $(TRAIN)/clf_v5.joblib
+CLF_METRICS := $(TRAIN)/clf_v5_metrics.json
+CLF_V4 := $(TRAIN)/clf_v4.joblib
+CAL_BUNDLE := $(TRAIN)/v5_region_holdout/clf_v5_calibrated.joblib
+CAL_JSON := $(TRAIN)/v5_region_holdout/clf_v5_calibration.json
 SCAN_RESULTS := $(SCAN)/ncr_scan_results_v3.jsonl
 GEOJSON := $(DATA)/rooftop_solar_ncr.geojson
 
@@ -45,33 +49,35 @@ all: $(GEOJSON) $(CAL_BUNDLE)
 	@echo "[make all] DONE."
 	@$(MAKE) -s hash-verify
 
-# ----- training -----
-$(DATASET): $(TRAIN)/build_dataset_v3.py $(VERIFY)/tags.json
-	$(PY) $(TRAIN)/build_dataset_v3.py
-	cp $(TRAIN)/dataset_v3.npz $(DATASET)
-	cp $(TRAIN)/dataset_v3_manifest.json $(TRAIN)/dataset_v4_manifest.json
+# ----- training (v1.2: region-stratified clf_v5) -----
+# build_dataset_v5 needs region_labels.jsonl (harvested spot-check verdicts) +
+# the per-region OSM positives; it adds them to dataset_v4 and embeds.
+$(DATASET): $(TRAIN)/build_dataset_v5.py $(TRAIN)/region_labels.jsonl $(TRAIN)/dataset_v4.npz
+	$(PY) $(TRAIN)/build_dataset_v5.py
 
-$(CLF): $(DATASET) $(TRAIN)/train_v3.py
-	$(PY) $(TRAIN)/train_v3.py
-	cp $(TRAIN)/clf_v3.joblib $(CLF)
-	cp $(TRAIN)/clf_v3_metrics.json $(CLF_METRICS)
+$(TRAIN)/region_labels.jsonl: $(TRAIN)/harvest_spotcheck_labels.py
+	$(PY) $(TRAIN)/harvest_spotcheck_labels.py
+
+$(CLF): $(DATASET) $(TRAIN)/train_v5.py $(TRAIN)/v5_region_holdout/holdout_split.json
+	$(PY) $(TRAIN)/train_v5.py
 
 train: $(CLF)
 	@echo "[make train] $(CLF) ready"
 
-# ----- calibration -----
-$(TRAIN)/v4_calibrated/holdout_split.json: $(DATASET) $(TRAIN)/v4_calibrated/holdout_split.py
-	$(PY) $(TRAIN)/v4_calibrated/holdout_split.py
+# ----- calibration (v1.2: per-domain, scan-realistic holdout) -----
+$(TRAIN)/v5_region_holdout/holdout_split.json: $(TRAIN)/region_labels.jsonl $(TRAIN)/v5_region_holdout/build_region_holdout.py
+	$(PY) $(TRAIN)/v5_region_holdout/build_region_holdout.py
 
-$(CAL_BUNDLE): $(TRAIN)/v4_calibrated/holdout_split.json $(TRAIN)/v4_calibrated/train_calibrated.py $(DATASET)
-	$(PY) $(TRAIN)/v4_calibrated/train_calibrated.py
+$(CAL_BUNDLE): $(TRAIN)/v5_region_holdout/holdout_split.json $(TRAIN)/v5_region_holdout/train_calibrated_v5.py $(CLF)
+	$(PY) $(TRAIN)/v5_region_holdout/train_calibrated_v5.py
 
 calibrate: $(CAL_BUNDLE)
 	@echo "[make calibrate] $(CAL_BUNDLE) ready"
 
 # ----- scan + aggregate -----
-$(SCAN_RESULTS): $(CLF) $(SCAN)/ncr_scan.py
-	$(PY) $(SCAN)/ncr_scan.py --reuse-tiles --clf $(CLF) --results-jsonl $(SCAN_RESULTS) --no-aggregate
+# NCR's published detections are clf_v4-scored; v1.2 does not re-scan NCR.
+$(SCAN_RESULTS): $(CLF_V4) $(SCAN)/ncr_scan.py
+	$(PY) $(SCAN)/ncr_scan.py --reuse-tiles --clf $(CLF_V4) --results-jsonl $(SCAN_RESULTS) --no-aggregate
 
 scan: $(SCAN_RESULTS)
 	@echo "[make scan] $(SCAN_RESULTS) ready"
@@ -86,17 +92,17 @@ verify-sheets: $(GEOJSON)
 	$(PY) $(VERIFY)/build_verification_sheets.py
 
 # ----- smoke -----
-EXPECTED_HASH := 56900722a8427be4
+EXPECTED_HASH := 5cc0a093c5279fd9
 
 hash:
-	@$(PY) -c "import hashlib; print('clf_v4.joblib sha256:', hashlib.sha256(open('$(CLF)','rb').read()).hexdigest()[:16])"
+	@$(PY) -c "import hashlib; print('clf_v5.joblib sha256:', hashlib.sha256(open('$(CLF)','rb').read()).hexdigest()[:16])"
 
 hash-verify: $(CLF)
 	@actual=$$($(PY) -c "import hashlib; print(hashlib.sha256(open('$(CLF)','rb').read()).hexdigest()[:16])"); \
 	if [ "$$actual" = "$(EXPECTED_HASH)" ]; then \
-	  echo "[hash-verify] OK: clf_v4.joblib sha256 = $$actual"; \
+	  echo "[hash-verify] OK: clf_v5.joblib sha256 = $$actual"; \
 	else \
-	  echo "[hash-verify] FAIL: clf_v4.joblib sha256 = $$actual (expected $(EXPECTED_HASH))"; \
+	  echo "[hash-verify] FAIL: clf_v5.joblib sha256 = $$actual (expected $(EXPECTED_HASH))"; \
 	  echo "[hash-verify] Likely cause: dependency version drift. Verify requirements.txt pins are honored."; \
 	  exit 1; \
 	fi
@@ -106,15 +112,13 @@ plots: $(CAL_JSON)
 	$(PY) scripts/plot_pr_curve.py
 
 demo: $(CAL_BUNDLE)
-	@$(PY) -c "import joblib, numpy as np, json, sys; \
+	@$(PY) -c "import joblib, json; \
 b = joblib.load('$(CAL_BUNDLE)'); \
 m = json.load(open('$(CAL_JSON)')); \
-print('clf_v4_calibrated bundle:'); \
-print('  feature_dim:', b['feature_dim']); \
+print('clf_v5_calibrated bundle:'); \
 print('  encoder:', b['encoder']); \
-print('  Platt: P = sigmoid({:.4f} * decision_function(x) + {:.4f})'.format(b['platt_A'], b['platt_B'])); \
-print('  Calibrated holdout @ t=0.85:'); \
-print('   ', m['at_calibrated_t085'])"
+print('  per-region calibration status:', b['calibration_status']); \
+[print('  {}: P@0.85={} R@0.85={} (n_pos={})'.format(s, v.get('at_t085',{}).get('precision'), v.get('at_t085',{}).get('recall'), v.get('n_holdout_pos'))) for s,v in m['regions'].items() if v.get('calibration_status')=='calibrated']"
 
 clean:
 	rm -f $(DATASET) $(CLF) $(CLF_METRICS) $(CAL_BUNDLE) $(CAL_JSON)
@@ -124,9 +128,9 @@ clean:
 SAM_CKPT := $(SCAN)/sam_checkpoints/sam_vit_b_01ec64.pth
 status:
 	@echo "SolarMap.PH state inventory"
-	@echo "  dataset_v4.npz       : $$(test -f $(DATASET) && stat -f '%Sm %z' -t '%Y-%m-%dT%H:%MZ' $(DATASET) 2>/dev/null || echo 'missing')"
-	@echo "  clf_v4.joblib        : $$(test -f $(CLF) && stat -f '%Sm %z' -t '%Y-%m-%dT%H:%MZ' $(CLF) 2>/dev/null || echo 'missing')"
-	@echo "  clf_v4 sha256        : $$(test -f $(CLF) && $(PY) -c "import hashlib; print(hashlib.sha256(open('$(CLF)','rb').read()).hexdigest()[:16])" 2>/dev/null || echo 'missing')"
+	@echo "  dataset_v5.npz       : $$(test -f $(DATASET) && stat -f '%Sm %z' -t '%Y-%m-%dT%H:%MZ' $(DATASET) 2>/dev/null || echo 'missing')"
+	@echo "  clf_v5.joblib        : $$(test -f $(CLF) && stat -f '%Sm %z' -t '%Y-%m-%dT%H:%MZ' $(CLF) 2>/dev/null || echo 'missing')"
+	@echo "  clf_v5 sha256        : $$(test -f $(CLF) && $(PY) -c "import hashlib; print(hashlib.sha256(open('$(CLF)','rb').read()).hexdigest()[:16])" 2>/dev/null || echo 'missing')"
 	@echo "  calibrated bundle    : $$(test -f $(CAL_BUNDLE) && stat -f '%Sm' -t '%Y-%m-%dT%H:%MZ' $(CAL_BUNDLE) 2>/dev/null || echo 'missing')"
 	@echo "  scan results jsonl   : $$(test -f $(SCAN_RESULTS) && echo "$$(wc -l < $(SCAN_RESULTS)) tiles" || echo 'missing')"
 	@echo "  rooftop geojson      : $$(test -f $(GEOJSON) && stat -f '%Sm' -t '%Y-%m-%dT%H:%MZ' $(GEOJSON) 2>/dev/null || echo 'missing')"

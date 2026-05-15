@@ -1,0 +1,108 @@
+{
+  "generated_utc": "2026-05-15T13:48:20Z",
+  "seed": 1202,
+  "sample_n": 400,
+  "reference": "detection/train/dataset_v4.npz X (NCR training distribution)",
+  "encoder": "openai/clip-vit-large-patch14",
+  "decision_rule": {
+    "driver": "geo_centroid_cosine_dist (A vs T) relative to anchor floor cos",
+    "within_envelope_if": "geo_cos <= floor_cos + 0.005",
+    "severe_if": "geo_cos > floor_cos + 0.030",
+    "auc_caveat": "scan_vs_scan_auc saturates near 1.0 in 768-d with n=400 (any two finite samples become linearly separable; the in-domain anchor is already 0.88). AUC is reported only as an ordinal diagnostic, not an absolute OOD measure. Centroid cosine and MMD are the magnitude of record."
+  },
+  "anchor_floor": {
+    "desc": "NCR scan tiles vs dataset_v4 (curated-train-vs-natural-scan floor)",
+    "n_tiles": 400,
+    "centroid_cosine_dist": 0.0547,
+    "centroid_euclidean_dist": 0.2855,
+    "mmd2_rbf": 0.11163,
+    "domain_clf_auc": 0.8773
+  },
+  "interpretation": "Two measurement-validity facts gate the reading. (1) Domain-AUC saturates: the NCR-vs-NCR anchor is already 0.877 and every scan-vs-scan AUC is ~0.98-0.99, because in 768-d with n=400 any two finite samples are linearly separable. AUC is therefore ordinal only (calabarzon lowest -> nearest NCR; legazpi highest -> furthest; ordering matches geography), not an absolute OOD measure. (2) The trustworthy magnitude is the geographic centroid cosine: every region's geo-cos (0.038-0.052) is <= the anchor floor cos (0.0547), i.e. pure geographic shift is no larger than NCR's own curated-train-vs-natural-scan centroid gap. No region is a catastrophic outlier; none needs exclusion. The dominant, fixable problem is the calibration gap implied by the 0.88 anchor: clf_v4's reported NCR F1 was measured on the curated OSM holdout, which is ~0.88-separable from the field scan distribution even within NCR. Step-4 per-domain recalibration must use scan-realistic holdouts (step-3: OSM-roof + spot-check), not the curated OSM set, and training must be region-stratified, applied uniformly to all seven franchises.",
+  "regions": [
+    {
+      "region": "cebu",
+      "n_tiles": 400,
+      "centroid_cosine_dist": 0.075,
+      "centroid_euclidean_dist": 0.3448,
+      "mmd2_rbf": 0.19461,
+      "domain_clf_auc": 0.9912,
+      "geo_centroid_cosine_dist": 0.0523,
+      "geo_scan_vs_scan_auc": 0.9865,
+      "verdict": "within-envelope",
+      "step4_directive": "region-stratified retrain + per-domain scan-realistic recalibration is sufficient; geographic centroid shift is no larger than NCR's own train-vs-scan gap, so the calibration gap dominates, not geography"
+    },
+    {
+      "region": "davao",
+      "n_tiles": 400,
+      "centroid_cosine_dist": 0.0771,
+      "centroid_euclidean_dist": 0.3504,
+      "mmd2_rbf": 0.21517,
+      "domain_clf_auc": 0.9932,
+      "geo_centroid_cosine_dist": 0.0425,
+      "geo_scan_vs_scan_auc": 0.9914,
+      "verdict": "within-envelope",
+      "step4_directive": "region-stratified retrain + per-domain scan-realistic recalibration is sufficient; geographic centroid shift is no larger than NCR's own train-vs-scan gap, so the calibration gap dominates, not geography"
+    },
+    {
+      "region": "iloilo",
+      "n_tiles": 400,
+      "centroid_cosine_dist": 0.0868,
+      "centroid_euclidean_dist": 0.3739,
+      "mmd2_rbf": 0.25209,
+      "domain_clf_auc": 0.996,
+      "geo_centroid_cosine_dist": 0.0468,
+      "geo_scan_vs_scan_auc": 0.997,
+      "verdict": "within-envelope",
+      "step4_directive": "region-stratified retrain + per-domain scan-realistic recalibration is sufficient; geographic centroid shift is no larger than NCR's own train-vs-scan gap, so the calibration gap dominates, not geography"
+    },
+    {
+      "region": "cdo",
+      "n_tiles": 400,
+      "centroid_cosine_dist": 0.0818,
+      "centroid_euclidean_dist": 0.3586,
+      "mmd2_rbf": 0.21476,
+      "domain_clf_auc": 0.9944,
+      "geo_centroid_cosine_dist": 0.0486,
+      "geo_scan_vs_scan_auc": 0.9959,
+      "verdict": "within-envelope",
+      "step4_directive": "region-stratified retrain + per-domain scan-realistic recalibration is sufficient; geographic centroid shift is no larger than NCR's own train-vs-scan gap, so the calibration gap dominates, not geography"
+    },
+    {
+      "region": "legazpi",
+      "n_tiles": 400,
+      "centroid_cosine_dist": 0.0812,
+      "centroid_euclidean_dist": 0.3633,
+      "mmd2_rbf": 0.22033,
+      "domain_clf_auc": 0.9986,
+      "geo_centroid_cosine_dist": 0.0515,
+      "geo_scan_vs_scan_auc": 0.9989,
+      "verdict": "within-envelope",
+      "step4_directive": "region-stratified retrain + per-domain scan-realistic recalibration is sufficient; geographic centroid shift is no larger than NCR's own train-vs-scan gap, so the calibration gap dominates, not geography"
+    },
+    {
+      "region": "calabarzon",
+      "n_tiles": 400,
+      "centroid_cosine_dist": 0.0767,
+      "centroid_euclidean_dist": 0.351,
+      "mmd2_rbf": 0.23145,
+      "domain_clf_auc": 0.984,
+      "geo_centroid_cosine_dist": 0.0378,
+      "geo_scan_vs_scan_auc": 0.9765,
+      "verdict": "within-envelope",
+      "step4_directive": "region-stratified retrain + per-domain scan-realistic recalibration is sufficient; geographic centroid shift is no larger than NCR's own train-vs-scan gap, so the calibration gap dominates, not geography"
+    },
+    {
+      "region": "bacolod",
+      "n_tiles": 400,
+      "centroid_cosine_dist": 0.089,
+      "centroid_euclidean_dist": 0.3757,
+      "mmd2_rbf": 0.24095,
+      "domain_clf_auc": 0.9917,
+      "geo_centroid_cosine_dist": 0.0462,
+      "geo_scan_vs_scan_auc": 0.9948,
+      "verdict": "within-envelope",
+      "step4_directive": "region-stratified retrain + per-domain scan-realistic recalibration is sufficient; geographic centroid shift is no larger than NCR's own train-vs-scan gap, so the calibration gap dominates, not geography"
+    }
+  ]
+}

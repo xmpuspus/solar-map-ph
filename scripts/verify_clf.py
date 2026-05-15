@@ -19,7 +19,7 @@ import hashlib
 import sys
 from pathlib import Path
 
-DEFAULT_EXPECTED_PREFIX = "56900722a8427be4"
+DEFAULT_EXPECTED_PREFIX = "5cc0a093c5279fd9"  # canonical clf_v5 (v1.2)
 
 
 def sha256_file(path: Path) -> str:

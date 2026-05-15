@@ -1,0 +1,83 @@
+{
+  "deploy_threshold": 0.85,
+  "seed": 4244,
+  "negative_class": "uniform random region scan tiles (PU proxy) + 4 labeled ground-mount",
+  "regions": {
+    "cebu": {
+      "calibration_status": "calibrated",
+      "platt": {
+        "A": 1.2405418916916626,
+        "B": -2.490009504708153,
+        "formula": "P = sigmoid(A*decision_function + B)"
+      },
+      "n_holdout_pos": 21,
+      "n_random_neg": 300,
+      "n_hardneg_ground": 4,
+      "brier_calibrated": 0.0398,
+      "at_t085": {
+        "precision": 1.0,
+        "recall": 0.2857142857142857,
+        "tp": 6,
+        "fp": 0,
+        "fn": 15
+      },
+      "pu_contamination_caveat": "Negatives are a uniform random scan sample (operating distribution ~97-99% non-solar). ~1-3% of negatives may be true rooftops (PU noise), biasing precision conservatively. Treat as a lower bound, not an exact CI."
+    },
+    "davao": {
+      "calibration_status": "uncalibrated_low_n",
+      "note": "too few labels; ships as candidate inventory"
+    },
+    "iloilo": {
+      "calibration_status": "calibrated",
+      "platt": {
+        "A": 1.5022086387795435,
+        "B": -2.4323889399035843,
+        "formula": "P = sigmoid(A*decision_function + B)"
+      },
+      "n_holdout_pos": 15,
+      "n_random_neg": 300,
+      "n_hardneg_ground": 4,
+      "brier_calibrated": 0.0273,
+      "at_t085": {
+        "precision": 0.8,
+        "recall": 0.26666666666666666,
+        "tp": 4,
+        "fp": 1,
+        "fn": 11
+      },
+      "pu_contamination_caveat": "Negatives are a uniform random scan sample (operating distribution ~97-99% non-solar). ~1-3% of negatives may be true rooftops (PU noise), biasing precision conservatively. Treat as a lower bound, not an exact CI."
+    },
+    "cdo": {
+      "calibration_status": "uncalibrated_low_n",
+      "note": "too few labels; ships as candidate inventory"
+    },
+    "legazpi": {
+      "calibration_status": "uncalibrated_low_n",
+      "note": "too few labels; ships as candidate inventory"
+    },
+    "calabarzon": {
+      "calibration_status": "calibrated",
+      "platt": {
+        "A": 1.2070834386430216,
+        "B": -2.085141021408491,
+        "formula": "P = sigmoid(A*decision_function + B)"
+      },
+      "n_holdout_pos": 16,
+      "n_random_neg": 300,
+      "n_hardneg_ground": 4,
+      "brier_calibrated": 0.0293,
+      "at_t085": {
+        "precision": 0.6666666666666666,
+        "recall": 0.125,
+        "tp": 2,
+        "fp": 1,
+        "fn": 14
+      },
+      "pu_contamination_caveat": "Negatives are a uniform random scan sample (operating distribution ~97-99% non-solar). ~1-3% of negatives may be true rooftops (PU noise), biasing precision conservatively. Treat as a lower bound, not an exact CI."
+    },
+    "bacolod": {
+      "calibration_status": "uncalibrated_low_n",
+      "note": "too few labels; ships as candidate inventory"
+    }
+  }
+}

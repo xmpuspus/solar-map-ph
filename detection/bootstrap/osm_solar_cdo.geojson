@@ -1,0 +1,463 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.6607816,
+          8.4364956
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 468266084,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": null,
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "generator:source": "solar",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.7867769,
+          8.5558548
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 502798652,
+        "power": "plant",
+        "generator_source": null,
+        "generator_method": null,
+        "name": "Villanueva Solar Power Plant",
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "landuse": "industrial",
+          "name": "Villanueva Solar Power Plant",
+          "plant:method": "photovoltaic",
+          "plant:output:electricity": "yes",
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.6712717,
+          8.4800004
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1052921513,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.6955689,
+          8.4745762
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1052956483,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.695332,
+          8.4746558
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1052956484,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.7167014,
+          8.4736514
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1053191005,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.7168807,
+          8.473816
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1053191006,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.716775,
+          8.4740627
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1053191007,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.7164118,
+          8.4744836
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1053191010,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.716301,
+          8.4746435
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1053191011,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.7163201,
+          8.4747823
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1053191012,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.7162115,
+          8.4749343
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1053191013,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.6070886,
+          8.5195273
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1116935462,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.6333068,
+          8.4936034
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1142336729,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.6494328,
+          8.476307
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1164042183,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.7853695,
+          8.5556456
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1255598581,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    }
+  ],
+  "_meta": {
+    "source": "OpenStreetMap via Overpass",
+    "region": "cdo",
+    "query_bbox": [
+      8.35,
+      124.5,
+      8.6,
+      124.9
+    ],
+    "fetched_utc": "2026-05-15T13:33:38Z",
+    "unique_count": 16,
+    "location_breakdown": {
+      "(unspecified)": 5,
+      "roof": 11
+    }
+  }
+}

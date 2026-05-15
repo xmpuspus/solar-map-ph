@@ -1,0 +1,16 @@
+{
+  "region": "bacolod",
+  "osm_source": "258 OSM tags",
+  "distance_m_confirmed": 200,
+  "n_high": 1,
+  "n_candidate": 2,
+  "high": {
+    "confirmed": 0,
+    "new": 1
+  },
+  "candidate": {
+    "confirmed": 0,
+    "new": 2
+  },
+  "pct_new_high": 100.0
+}

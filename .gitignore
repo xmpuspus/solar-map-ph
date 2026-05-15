@@ -84,6 +84,13 @@ detection/scan/prefilter_*.json
 detection/scan/tiles/
 detection/scan/*.log
 detection/scan/per_tile_segments.jsonl
+# v1.2 SAM kWp sidecars: resumable derived caches, regenerable from cached
+# tiles + the published geojson; not committed (mirrors scan_results policy).
+detection/scan/sam_kwp_*.jsonl
+detection/bootstrap/*.log
+detection/train/*.log
+detection/train/v5_region_holdout/*.log
+pipeline/regions/*.log
 detection/scan/segment_thumbnails/
 detection/scan/sam_checkpoints/
 detection/scan/per_building_thumbs/

@@ -3,7 +3,8 @@
   "n_cities_with_detections": 1,
   "n_total_high": 0,
   "n_total_candidate": 1,
-  "region": "legazpi"
+  "region": "legazpi",
+  "n_new_high_total": 0
  },
  "rows": [
   {

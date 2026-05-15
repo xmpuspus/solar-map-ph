@@ -1,0 +1,103 @@
+{
+  "deploy_threshold": 0.85,
+  "n_total": 4012,
+  "n_holdout_excluded": 56,
+  "n_train_rows": 3956,
+  "strata": {
+    "bacolod": 17,
+    "calabarzon": 54,
+    "cdo": 17,
+    "cebu": 70,
+    "davao": 9,
+    "iloilo": 49,
+    "legazpi": 1,
+    "ncr": 3795
+  },
+  "loro_per_region": {
+    "bacolod": {
+      "t": 0.85,
+      "tp": 2,
+      "fp": 0,
+      "fn": 14,
+      "tn": 1,
+      "precision": null,
+      "recall": 0.125,
+      "f1": null,
+      "n_pos": 16,
+      "n_neg": 1,
+      "precision_estimable": false,
+      "calibration_status": "uncalibrated_low_n"
+    },
+    "calabarzon": {
+      "t": 0.85,
+      "tp": 14,
+      "fp": 0,
+      "fn": 24,
+      "tn": 0,
+      "precision": null,
+      "recall": 0.3684210526315789,
+      "f1": null,
+      "n_pos": 38,
+      "n_neg": 0,
+      "precision_estimable": false,
+      "calibration_status": "calibrated"
+    },
+    "cdo": {
+      "t": 0.85,
+      "tp": 3,
+      "fp": 0,
+      "fn": 11,
+      "tn": 1,
+      "precision": null,
+      "recall": 0.21428571428571427,
+      "f1": null,
+      "n_pos": 14,
+      "n_neg": 1,
+      "precision_estimable": false,
+      "calibration_status": "uncalibrated_low_n"
+    },
+    "cebu": {
+      "t": 0.85,
+      "tp": 18,
+      "fp": 0,
+      "fn": 30,
+      "tn": 0,
+      "precision": null,
+      "recall": 0.375,
+      "f1": null,
+      "n_pos": 48,
+      "n_neg": 0,
+      "precision_estimable": false,
+      "calibration_status": "calibrated"
+    },
+    "davao": {
+      "t": 0.85,
+      "tp": 5,
+      "fp": 1,
+      "fn": 3,
+      "tn": 0,
+      "precision": null,
+      "recall": 0.625,
+      "f1": null,
+      "n_pos": 8,
+      "n_neg": 1,
+      "precision_estimable": false,
+      "calibration_status": "uncalibrated_low_n"
+    },
+    "iloilo": {
+      "t": 0.85,
+      "tp": 15,
+      "fp": 0,
+      "fn": 19,
+      "tn": 0,
+      "precision": null,
+      "recall": 0.4411764705882353,
+      "f1": null,
+      "n_pos": 34,
+      "n_neg": 0,
+      "precision_estimable": false,
+      "calibration_status": "calibrated"
+    }
+  },
+  "note": "loro_per_region = leave-one-region-out recall (and precision only where n_neg>=3) at the RAW t=0.85 on scan-realistic positives + hard negatives. The low cross-region recall at raw t=0.85 is the calibration gap step 1 predicted: NCR-trained raw scores systematically under-score cross-region rooftops. The fix is the step-4c per-domain Platt recalibration, not more training. precision_estimable=false where the labeled negative pool is too thin to estimate precision. Regions with calibration_status=uncalibrated_low_n ship as candidate inventory in step 8 (honest, no fabricated CI)."
+}

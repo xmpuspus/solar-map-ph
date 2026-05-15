@@ -1,0 +1,219 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.622841,
+          7.0703292
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 6761083556,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.6131559,
+          7.0801198
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 922874536,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.6246808,
+          7.0837276
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 934632457,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.5311705,
+          7.042428
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 934884984,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.5050566,
+          7.0917495
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1263933145,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.5050876,
+          7.0914402
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1263933146,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.7176846,
+          6.9338693
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1359378253,
+        "power": "plant",
+        "generator_source": null,
+        "generator_method": null,
+        "name": "Talicud Solar Power Plant",
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "addr:barangay": "Santa Cruz",
+          "addr:city": "Island Garden City of Samal",
+          "addr:district": "Kaputian District",
+          "addr:place": "Purok Solid",
+          "addr:postcode": "8119",
+          "addr:province": "Davao del Norte",
+          "landuse": "industrial",
+          "name": "Talicud Solar Power Plant",
+          "plant:method": "photovoltaic",
+          "plant:source": "solar",
+          "power": "plant"
+        }
+      }
+    }
+  ],
+  "_meta": {
+    "source": "OpenStreetMap via Overpass",
+    "region": "davao",
+    "query_bbox": [
+      6.85,
+      125.3,
+      7.35,
+      125.8
+    ],
+    "fetched_utc": "2026-05-15T13:33:08Z",
+    "unique_count": 7,
+    "location_breakdown": {
+      "(unspecified)": 4,
+      "roof": 3
+    }
+  }
+}

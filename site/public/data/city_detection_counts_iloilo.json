@@ -3,7 +3,8 @@
   "n_cities_with_detections": 4,
   "n_total_high": 3,
   "n_total_candidate": 6,
-  "region": "iloilo"
+  "region": "iloilo",
+  "n_new_high_total": 1
  },
  "rows": [
   {
@@ -11,7 +12,7 @@
    "province": "Iloilo",
    "n_high": 2,
    "n_candidate": 4,
-   "n_new_high": 2,
+   "n_new_high": 0,
    "sum_kwp_high": 0.0
   },
   {

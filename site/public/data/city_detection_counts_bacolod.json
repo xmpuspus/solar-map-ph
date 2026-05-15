@@ -1,11 +1,20 @@
 {
  "_meta": {
-  "n_cities_with_detections": 2,
+  "n_cities_with_detections": 3,
   "n_total_high": 1,
   "n_total_candidate": 2,
-  "region": "bacolod"
+  "region": "bacolod",
+  "n_new_high_total": 1
  },
  "rows": [
+  {
+   "name": "(outside mapped franchise LGUs)",
+   "province": "Negros Occidental",
+   "n_high": 1,
+   "n_candidate": 0,
+   "n_new_high": 1,
+   "sum_kwp_high": 0.0
+  },
   {
    "name": "Bacolod",
    "province": "Negros Occidental",

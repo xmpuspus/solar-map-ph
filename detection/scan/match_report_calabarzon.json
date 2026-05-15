@@ -1,0 +1,16 @@
+{
+  "region": "calabarzon",
+  "osm_source": "171 OSM tags",
+  "distance_m_confirmed": 200,
+  "n_high": 106,
+  "n_candidate": 80,
+  "high": {
+    "confirmed": 10,
+    "new": 96
+  },
+  "candidate": {
+    "confirmed": 2,
+    "new": 78
+  },
+  "pct_new_high": 90.6
+}

@@ -1,0 +1,16 @@
+{
+  "region": "davao",
+  "osm_source": "7 OSM tags",
+  "distance_m_confirmed": 200,
+  "n_high": 28,
+  "n_candidate": 19,
+  "high": {
+    "confirmed": 0,
+    "new": 28
+  },
+  "candidate": {
+    "confirmed": 0,
+    "new": 19
+  },
+  "pct_new_high": 100.0
+}

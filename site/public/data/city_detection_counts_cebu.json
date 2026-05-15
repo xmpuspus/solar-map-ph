@@ -1,17 +1,42 @@
 {
  "_meta": {
-  "n_cities_with_detections": 1,
+  "n_cities_with_detections": 4,
   "n_total_high": 36,
   "n_total_candidate": 53,
-  "region": "cebu"
+  "region": "cebu",
+  "n_new_high_total": 30
  },
  "rows": [
+  {
+   "name": "Mandaue City",
+   "province": "Cebu",
+   "n_high": 11,
+   "n_candidate": 20,
+   "n_new_high": 10,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "(outside mapped franchise LGUs)",
+   "province": "Cebu",
+   "n_high": 9,
+   "n_candidate": 14,
+   "n_new_high": 9,
+   "sum_kwp_high": 0.0
+  },
   {
    "name": "Cebu City",
    "province": "Cebu",
    "n_high": 9,
    "n_candidate": 5,
-   "n_new_high": 9,
+   "n_new_high": 7,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Lapu-Lapu City",
+   "province": "Cebu",
+   "n_high": 7,
+   "n_candidate": 14,
+   "n_new_high": 4,
    "sum_kwp_high": 0.0
   }
  ]

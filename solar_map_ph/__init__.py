@@ -12,7 +12,7 @@ Everything else is internal and may change between versions.
 
 from __future__ import annotations
 
-__version__ = "1.1.1"
+__version__ = "1.2.0"
 
 from .api import (
     grid_centers,

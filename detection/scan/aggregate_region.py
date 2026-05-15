@@ -26,6 +26,11 @@ DATA_DIR = ROOT / "site" / "public" / "data"
 HIGH = 0.85
 CAND = 0.70
 HALF_DEGREE = 0.0011
+# Region bboxes are rectangular and extend past the served-LGU franchise
+# polygons (e.g. Calabarzon). Detections that fall outside every served
+# polygon are bucketed here explicitly instead of silently dropped as
+# lgu_name:None, so the city table and the published total reconcile.
+OUT_OF_FRANCHISE = "(outside mapped franchise LGUs)"
 
 
 def load_region(slug: str) -> dict:
@@ -114,7 +119,7 @@ def main() -> int:
             n_high += 1
         else:
             n_cand += 1
-        city = assign_city(r["lat"], r["lon"], lgus_fc)
+        city = assign_city(r["lat"], r["lon"], lgus_fc) or OUT_OF_FRANCHISE
         # Tile bbox
         tile_bbox = [
             r["lon"] - HALF_DEGREE,

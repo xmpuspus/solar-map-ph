@@ -1,9 +1,10 @@
 {
  "_meta": {
-  "n_cities_with_detections": 1,
+  "n_cities_with_detections": 3,
   "n_total_high": 28,
   "n_total_candidate": 19,
-  "region": "davao"
+  "region": "davao",
+  "n_new_high_total": 28
  },
  "rows": [
   {
@@ -12,6 +13,22 @@
    "n_high": 25,
    "n_candidate": 15,
    "n_new_high": 25,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "(outside mapped franchise LGUs)",
+   "province": "Davao del Sur",
+   "n_high": 3,
+   "n_candidate": 3,
+   "n_new_high": 3,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Panabo City",
+   "province": "Davao del Sur",
+   "n_high": 0,
+   "n_candidate": 1,
+   "n_new_high": 0,
    "sum_kwp_high": 0.0
   }
  ]

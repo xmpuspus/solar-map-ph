@@ -1,11 +1,20 @@
 {
  "_meta": {
-  "n_cities_with_detections": 10,
+  "n_cities_with_detections": 11,
   "n_total_high": 106,
   "n_total_candidate": 80,
-  "region": "calabarzon"
+  "region": "calabarzon",
+  "n_new_high_total": 96
  },
  "rows": [
+  {
+   "name": "(outside mapped franchise LGUs)",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 49,
+   "n_candidate": 37,
+   "n_new_high": 47,
+   "sum_kwp_high": 0.0
+  },
   {
    "name": "Calamba",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
@@ -19,7 +28,7 @@
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 12,
    "n_candidate": 3,
-   "n_new_high": 12,
+   "n_new_high": 9,
    "sum_kwp_high": 0.0
   },
   {
@@ -27,7 +36,7 @@
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 9,
    "n_candidate": 5,
-   "n_new_high": 9,
+   "n_new_high": 8,
    "sum_kwp_high": 0.0
   },
   {
@@ -35,7 +44,7 @@
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 6,
    "n_candidate": 10,
-   "n_new_high": 6,
+   "n_new_high": 5,
    "sum_kwp_high": 0.0
   },
   {
@@ -51,7 +60,7 @@
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 4,
    "n_candidate": 2,
-   "n_new_high": 4,
+   "n_new_high": 3,
    "sum_kwp_high": 0.0
   },
   {
@@ -59,7 +68,7 @@
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 3,
    "n_candidate": 1,
-   "n_new_high": 3,
+   "n_new_high": 1,
    "sum_kwp_high": 0.0
   },
   {

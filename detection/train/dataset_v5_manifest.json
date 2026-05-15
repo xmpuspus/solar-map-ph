@@ -1,0 +1,14 @@
+{
+  "generated_utc": "2026-05-15T13:50:43Z",
+  "base": "dataset_v4.npz",
+  "n_rows_v4": 3795,
+  "n_rows_added": 217,
+  "n_region_positive": 210,
+  "n_region_fp_hardneg": 4,
+  "n_region_groundmount_hardneg": 3,
+  "n_total": 4012,
+  "encoder": "openai/clip-vit-large-patch14",
+  "feature_dim": 768,
+  "snap_m": 170.0,
+  "n_network_fetched": 2
+}

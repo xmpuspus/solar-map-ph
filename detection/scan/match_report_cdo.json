@@ -1,0 +1,16 @@
+{
+  "region": "cdo",
+  "osm_source": "16 OSM tags",
+  "distance_m_confirmed": 200,
+  "n_high": 3,
+  "n_candidate": 6,
+  "high": {
+    "confirmed": 1,
+    "new": 2
+  },
+  "candidate": {
+    "confirmed": 4,
+    "new": 2
+  },
+  "pct_new_high": 66.7
+}

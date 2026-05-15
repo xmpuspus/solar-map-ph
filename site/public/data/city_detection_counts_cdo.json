@@ -1,17 +1,26 @@
 {
  "_meta": {
-  "n_cities_with_detections": 1,
+  "n_cities_with_detections": 2,
   "n_total_high": 3,
   "n_total_candidate": 6,
-  "region": "cdo"
+  "region": "cdo",
+  "n_new_high_total": 2
  },
  "rows": [
+  {
+   "name": "(outside mapped franchise LGUs)",
+   "province": "Misamis Oriental",
+   "n_high": 2,
+   "n_candidate": 3,
+   "n_new_high": 2,
+   "sum_kwp_high": 0.0
+  },
   {
    "name": "Cagayan de Oro",
    "province": "Misamis Oriental",
    "n_high": 1,
    "n_candidate": 3,
-   "n_new_high": 1,
+   "n_new_high": 0,
    "sum_kwp_high": 0.0
   }
  ]

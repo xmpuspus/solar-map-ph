@@ -4,12 +4,12 @@
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
-[![Reproducible build](https://img.shields.io/badge/build-deterministic%20sha256%2056900722-success.svg)](#detection-pipeline-reproducible)
+[![Reproducible build](https://img.shields.io/badge/build-deterministic%20sha256%205cc0a093-success.svg)](#detection-pipeline-reproducible)
 [![F1 0.87](https://img.shields.io/badge/F1-0.87%20%40%20t%3D0.85-success.svg)](MODEL_CARD.md)
 [![DOI](https://zenodo.org/badge/1238545684.svg)](https://doi.org/10.5281/zenodo.20178050)
 
 
-> SolarMap.PH: open-source rooftop solar detection from public satellite imagery. **v1.0** ships Greater Metro Manila as the calibrated reference region (F1 = 0.870, precision 95.9%, recall 79.7% at threshold 0.85 on an honest 20% source-disjoint holdout). **v1.1** extends cross-domain coverage to seven additional Philippine distribution-utility franchise areas — Cebu (VECO), Davao (DLPC), Iloilo (MORE), Cagayan de Oro (CEPALCO), Legazpi (ALECO), the Calabarzon belt south of Meralco, and Bacolod (CENECO) — applying the same `clf_v4.joblib` (sha256 prefix `56900722a8427be4`) without retraining. A frozen CLIP-ViT-L encoder, a sklearn logistic-regression head, Platt sigmoid calibration, and a bit-exact reproducible Docker build.
+> SolarMap.PH: open-source rooftop solar detection from public satellite imagery. **v1.0** ships Greater Metro Manila as the calibrated reference region (F1 = 0.870, precision 95.9%, recall 79.7% at threshold 0.85 on an honest 20% source-disjoint holdout). **v1.1** extends cross-domain coverage to seven additional Philippine distribution-utility franchise areas — Cebu (VECO), Davao (DLPC), Iloilo (MORE), Cagayan de Oro (CEPALCO), Legazpi (ALECO), the Calabarzon belt south of Meralco, and Bacolod (CENECO) — applying the same `clf_v4.joblib` without retraining. **v1.2** closes the cross-domain gap: a domain-shift measurement gates a region-stratified retrain (`clf_v5`, sha256 prefix `5cc0a093c5279fd9`), per-domain calibration on a scan-realistic holdout (Cebu / Iloilo / Calabarzon calibrated; the rest honest candidate inventory), region OSM cross-match, and a fix for the silent LGU attribution undercount. A frozen CLIP-ViT-L encoder, a sklearn logistic-regression head, Platt sigmoid calibration, and a bit-exact reproducible Docker build.
 
 ![SolarMap.PH map of detected rooftop solar across the Philippines](docs/screenshots/map-hero.gif)
 
@@ -33,7 +33,7 @@
 
 - Not engineering advice. The homeowner tool is informational. Consult a certified installer.
 - Not address-level data. NCR polygons for buildings tagged `is_residential` are suppressed from the published per-building dataset; only commercial, industrial, and public-purpose roofs are released at sub-building resolution. The v1.1 cross-domain regions ship at 240 m tile granularity only — no per-building geometry, so there is no individual-building exposure surface. The homeowner tool runs entirely in your browser; we run no server that logs the address you type.
-- Not a calibrated registry for v1.1 regions. NCR is calibrated against a held-out validation split; the v1.1 cross-domain regions are not yet calibrated per region. Treat v1.1 detections as a candidate inventory pending per-region active-learning rounds queued for v1.2.
+- Not a uniformly calibrated registry. NCR is calibrated against a held-out validation split. As of v1.2, Cebu, Iloilo and Calabarzon carry a per-domain calibration fit on a scan-realistic holdout (conservative lower-bound precision, small holdouts). Davao, CDO, Legazpi and Bacolod remain uncalibrated (too few labels) and ship as honest candidate inventory — no precision claim, no fabricated CI.
 - Not affiliated with Manila Electric Company, VECO, DLPC, MORE, CEPALCO, ALECO, CENECO, or any other Philippine distribution utility. Franchise names are referenced as the regulatory geography covered by each region scan.
 - Not a permit registry, tax record, or code-compliance audit. SolarMap.PH publishes statistical indicators derived from public data. Patterns may have legitimate explanations.
 
@@ -67,11 +67,11 @@ cd solar-map-ph
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# Train clf_v4 from the committed dataset_v4.npz embeddings.
+# Train clf_v5 from the committed dataset_v5.npz embeddings.
 # Deterministic, no network, no GPU required. About 30 seconds on a laptop.
 make train
-make hash-verify        # asserts sha256 56900722a8427be4
-make calibrate          # fits Platt + isotonic, writes calibration.json
+make hash-verify        # asserts sha256 5cc0a093c5279fd9
+make calibrate          # per-domain Platt on the scan-realistic holdout
 make demo               # prints calibrated bundle summary
 pytest tests/ -q        # 11 tests, ~1 second
 ```
@@ -118,7 +118,7 @@ The CNN detection pipeline (CLIP-ViT-L embeddings + logistic regression + Platt 
 # Local
 pip install -r requirements.txt
 make train
-make hash-verify        # asserts clf_v4.joblib sha256 prefix 56900722a8427be4
+make hash-verify        # asserts clf_v5.joblib sha256 prefix 5cc0a093c5279fd9
 
 # Docker
 docker build -t solar-map-ph:latest .
@@ -180,7 +180,7 @@ v1.0 ships NCR as the calibrated reference region (F1 = 0.870 on 20% holdout). v
 
 **Combined v1.1 cross-domain total: 177 high-confidence + 167 candidate detections across all seven regions.** The spot-check sample (32 top-scoring tiles inspected across all regions) confirmed 28 real rooftop solar (87.5%), 3 ground-mount solar farms (same FP class observed in NCR's Valenzuela audit), and 1 blue-roof false positive (Legazpi). The mount-type classifier queued for v1.2 will close the ground-mount gap.
 
-See [`/regions`](https://solarmap.ph/regions) for the live status and per-region detection counts, and [`/map`](https://solarmap.ph/map) for the unified detection map (NCR detections appear orange / green, v1.1 cross-domain detections appear steel blue). Cross-domain precision is not yet calibrated per region; treat detections as a candidate inventory pending v1.2 active-learning rounds.
+See [`/regions`](https://solarmap.ph/regions) for the live status and per-region detection counts, and [`/map`](https://solarmap.ph/map) for the unified detection map (NCR detections appear orange / green, v1.1 cross-domain detections appear steel blue). As of v1.2, Cebu / Iloilo / Calabarzon carry a conservative per-domain calibration; Davao / CDO / Legazpi / Bacolod remain honest candidate inventory. See [`docs/research/v12-domain-shift.md`](docs/research/v12-domain-shift.md) and `MODEL_CARD.md`.
 
 To extend coverage to another Philippine region or any geography worldwide, supply a region polygon GeoJSON. See [`examples/run_on_new_region.md`](examples/run_on_new_region.md) for the generic recipe, or `pipeline/regions/regions.json` + `detection/scan/region_scan.py` for the v1.1 multi-region scaffolding.
 
@@ -195,6 +195,15 @@ To extend coverage to another Philippine region or any geography worldwide, supp
 - `scripts/check_region_no_pii.py`: CI gate asserting every published region GeoJSON is point-tile only, no per-building polygons, no PII fields.
 - `scripts/verify_v11_release.py`: pre-release gate runner (regions GeoJSONs valid, PII clean, classifier hash matches canonical, requirements pinned, site/src/data/regions.json mirrors pipeline/regions/regions.json).
 - Visual spot-check archive at [`docs/screenshots/qa-2026-05/region-spot-check/`](docs/screenshots/qa-2026-05/region-spot-check/) with top-scoring tile thumbnails and per-region findings markdown for all seven cross-domain regions.
+
+### What's new in v1.2
+
+- **Domain-shift gate.** `detection/train/domain_shift.py` measures centroid-cosine / MMD / domain-AUC between the NCR training distribution and each region's scan tiles. Finding: geographic shift is within-envelope for all seven regions; the dominant problem is a calibration gap (the curated training set is ~0.88-separable from the natural scan distribution even within NCR). Full writeup: [`docs/research/v12-domain-shift.md`](docs/research/v12-domain-shift.md).
+- **`clf_v5`, region-stratified.** `dataset_v4` + 210 cross-domain positives + the observed false-positive classes (ground-mount, blue-roof). New canonical sha256 `5cc0a093c5279fd9`; Makefile and verify gates updated; bit-exact reproducible.
+- **Per-domain calibration** on a scan-realistic holdout (held-out positives vs a uniform random scan-tile negative proxy). Cebu / Iloilo / Calabarzon calibrated (conservative lower-bound precision); Davao / CDO / Legazpi / Bacolod honestly flagged uncalibrated.
+- **Region OSM cross-match.** Every region now reports a real new-vs-already-mapped split (Cebu 83% of high-confidence new, Calabarzon 91%, Iloilo 33%, CDO 67%).
+- **LGU attribution fix.** v1.1 dropped detections outside a mapped served-LGU polygon as `lgu_name: null` (Cebu was 84% null). v1.2 recovers the non-canonically-named polygons (EB Magalona, Panabo) via a verified OSM relation-ID override map and buckets the rest explicitly; `lgu_name: null` is now zero across all regions and city totals reconcile.
+- **SAM kWp** for the cross-domain regions as a conservative scalar tile property (mask verified by area+colour gate then a CLIP + clf_v5 semantic check before its area counts) — privacy boundary unchanged (still point-tile, no building polygons). Aggregate ~174 MWp across the seven regions; Legazpi's lone known-false-positive detection correctly estimates 0 kWp.
 
 ## Headline numbers, with footnotes
 

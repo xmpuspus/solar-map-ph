@@ -1,0 +1,5187 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9568506,
+          14.2985826
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 1744951663,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "operator:wikidata": "Q17068216",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.993721,
+          14.2852794
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 4194605572,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9938025,
+          14.2854649
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 4194605600,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9931516,
+          14.2855141
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 4194605602,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.993233,
+          14.2856996
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 4194605629,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.956894,
+          14.2987518
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 5892292390,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "operator:wikidata": "Q17068216",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9569218,
+          14.2985944
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 5892292391,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "operator:wikidata": "Q17068216",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9567665,
+          14.2985686
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 5892292392,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "operator:wikidata": "Q17068216",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9567336,
+          14.2987153
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 5892292393,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "operator:wikidata": "Q17068216",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9933715,
+          14.2856425
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 7160008548,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9934263,
+          14.2856199
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 7672710889,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.993676,
+          14.2852979
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094269,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9932464,
+          14.285475
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094270,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9934046,
+          14.2854098
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094271,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9936242,
+          14.2853193
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094272,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.993196,
+          14.2854958
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094273,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9934769,
+          14.28538
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094274,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9932949,
+          14.285455
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094275,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9933498,
+          14.2854324
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094276,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9935265,
+          14.2853595
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094277,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9935749,
+          14.2853396
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094278,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9937525,
+          14.2854855
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094279,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9937007,
+          14.2855068
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094280,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9936514,
+          14.2855271
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094281,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9936031,
+          14.2855471
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094282,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9935535,
+          14.2855675
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094283,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9934811,
+          14.2855973
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094284,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.993323,
+          14.2856625
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094285,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9932725,
+          14.2856833
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 8158094286,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9567387,
+          14.298726
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 13713267754,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "operator:wikidata": "Q17068216",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9568236,
+          14.2987401
+        ]
+      },
+      "properties": {
+        "osm_type": "node",
+        "osm_id": 13713267755,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City of Dasmari\u00f1as",
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "highway": "street_lamp",
+          "lamp:shape": "directed",
+          "lamp:tilt": "-70",
+          "lamp_mount": "bent_mast",
+          "lamp_type": "solar_lamp",
+          "operator": "City of Dasmari\u00f1as",
+          "operator:type": "government",
+          "operator:wikidata": "Q17068216",
+          "power": "generator",
+          "support": "pole"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9200137,
+          14.256177
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 90973739,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "building": "industrial",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9198411,
+          14.2573624
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 90973748,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "building": "industrial",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9202963,
+          14.2573229
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 90973764,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "building": "industrial",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9896527,
+          14.285133
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 91362748,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "building": "industrial",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9447442,
+          14.2957947
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 92190423,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "building": "retail",
+          "building:levels": "1",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "payment:cash": "yes",
+          "power": "generator",
+          "shop": "convenience",
+          "wheelchair": "yes"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9445912,
+          14.2956278
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 92190426,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "building": "roof",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "layer": "1",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9350029,
+          14.2897917
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 268539770,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "building": "industrial",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9732521,
+          14.2787986
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 533331560,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "addr:city": "Dasmari\u00f1as",
+          "addr:country": "PH",
+          "addr:housenumber": "9-21",
+          "addr:neighbourhood": "Washington Place",
+          "addr:postcode": "4114",
+          "addr:province": "Cavite",
+          "addr:street": "Chicago",
+          "addr:village": "Sampaloc 2",
+          "building": "residential",
+          "building:architecture": "contemporary",
+          "building:levels": "1",
+          "ele": "192",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "2 W",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "height": "3",
+          "indoor": "wall",
+          "location": "roof",
+          "material": "concrete",
+          "office": "company",
+          "power": "generator",
+          "residential": "single_family",
+          "roof:colour": "#cdcbb2",
+          "roof:direction": "350",
+          "roof:material": "metal sheet",
+          "roof:shape": "skillion",
+          "wheelchair": "limited"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9665694,
+          14.2754067
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 562191886,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": "Washington Place Residential Gate",
+        "operator": "Washington Place Homeowners' Association, Inc.",
+        "location": "roof",
+        "all_tags": {
+          "addr:city": "Dasmari\u00f1as",
+          "addr:postcode": "4114",
+          "addr:street": "Washington Avenue",
+          "amenity": "security_booth",
+          "building": "guardhouse",
+          "building:levels": "1",
+          "description": "COVID-19 Biosecurity Checkpoint for all Motor Vehicles and Pedestrians entering/exiting the Residential Zone within Washington Place; Authorized Vehicles Only; Smoke Belchers and Dilapidated Vehicles are strictly prohibited",
+          "emergency": "yes",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "indoor": "wall",
+          "location": "roof",
+          "material": "concrete",
+          "name": "Washington Place Residential Gate",
+          "opening_hours": "24/7",
+          "operator": "Washington Place Homeowners' Association, Inc.",
+          "operator:type": "association",
+          "police": "checkpoint",
+          "power": "generator",
+          "smoking": "no",
+          "survey:date": "2022-04-25",
+          "wheelchair": "limited"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9881281,
+          14.2850977
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 683638375,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9706458,
+          14.2774237
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 699152521,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "Washington Place Homeowners' Association, Inc.",
+        "location": "roof",
+        "all_tags": {
+          "building": "roof",
+          "building:min_level": "1",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "2 W",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "layer": "1",
+          "level": "1",
+          "location": "roof",
+          "material": "concrete",
+          "operator": "Washington Place Homeowners' Association, Inc.",
+          "operator:type": "association",
+          "power": "generator",
+          "roof:material": "concrete",
+          "roof:shape": "flat"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9700285,
+          14.2773988
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 701213511,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "Washington Place Homeowners' Association, Inc.",
+        "location": "pole",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "pole",
+          "operator": "Washington Place Homeowners' Association, Inc.",
+          "operator:type": "association",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.970149,
+          14.277429
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 701213512,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "Washington Place Homeowners' Association, Inc.",
+        "location": "pole",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "pole",
+          "operator": "Washington Place Homeowners' Association, Inc.",
+          "operator:type": "association",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.970075,
+          14.277132
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 701213513,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "Washington Place Homeowners' Association, Inc.",
+        "location": "pole",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "pole",
+          "operator": "Washington Place Homeowners' Association, Inc.",
+          "operator:type": "association",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9723604,
+          14.2802888
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 708397403,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "Washington Place Homeowners' Association, Inc.",
+        "location": "pole",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "level": "1",
+          "location": "pole",
+          "operator": "Washington Place Homeowners' Association, Inc.",
+          "operator:type": "association",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1416446,
+          14.2165321
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 788523470,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:solar:modules": "240",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator",
+          "start_date": "2016"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1418417,
+          14.2169549
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 788523471,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:solar:modules": "160",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator",
+          "start_date": "2016"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.141788,
+          14.216795
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 788523472,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:solar:modules": "40",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator",
+          "start_date": "2016"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1419887,
+          14.2175287
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 788523473,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:solar:modules": "164",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator",
+          "start_date": "2016"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1419355,
+          14.2172799
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 788523474,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:solar:modules": "40",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator",
+          "start_date": "2016"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1422317,
+          14.2175278
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 788523475,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:solar:modules": "60",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator",
+          "start_date": "2016"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0780418,
+          14.2679293
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364681,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0782312,
+          14.2679516
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364682,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0782094,
+          14.2682183
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364683,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0784298,
+          14.2684469
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364684,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0790406,
+          14.2671412
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364685,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0789374,
+          14.2670671
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364686,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0791535,
+          14.2666414
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364687,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0790664,
+          14.2665684
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364688,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0789743,
+          14.2664818
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364689,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.07888,
+          14.266401
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364690,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0787816,
+          14.2663191
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364691,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0786877,
+          14.2662426
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 907364692,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1725199,
+          13.7051007
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 932489121,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9976085,
+          14.284212
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 933174309,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9976195,
+          14.2842396
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 933174310,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9976046,
+          14.2841815
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 933174311,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9978162,
+          14.2842027
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 933174312,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9977918,
+          14.2842078
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 933174313,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9977446,
+          14.2842116
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 933174314,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8665446,
+          14.2815737
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 944488027,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "SM City Trece Martires",
+        "location": "roof",
+        "all_tags": {
+          "colour": "#555a5c",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "operator": "SM City Trece Martires",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8659921,
+          14.2816606
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 944488028,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "SM City Trece Martires",
+        "location": "roof",
+        "all_tags": {
+          "colour": "#555a5c",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "operator": "SM City Trece Martires",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9350491,
+          14.2896758
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 945717596,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9348968,
+          14.2898485
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 945717597,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1191623,
+          14.1265818
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211705,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1191221,
+          14.1265292
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211706,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1191163,
+          14.1266397
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211707,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1191155,
+          14.126689
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211708,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1191145,
+          14.1267411
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211709,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1190678,
+          14.1267997
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211710,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1190667,
+          14.126853
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211711,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1190655,
+          14.1269037
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211712,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1190644,
+          14.1269584
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211713,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1190631,
+          14.1270122
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211714,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1191026,
+          14.1270698
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211715,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1191436,
+          14.1271247
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211716,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1192269,
+          14.1272382
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211717,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1191865,
+          14.1271831
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211718,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1192699,
+          14.1272927
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211719,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1193084,
+          14.1273463
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211720,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1194708,
+          14.1267002
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211721,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1194329,
+          14.1266461
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211722,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1195132,
+          14.1267504
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211723,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1195532,
+          14.1268059
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211724,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1195956,
+          14.1268634
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211725,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1196365,
+          14.1269161
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211726,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1196333,
+          14.1269729
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211727,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1197143,
+          14.127029
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211728,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1197595,
+          14.1270812
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211729,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1197999,
+          14.127138
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211730,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.119838,
+          14.1271942
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211731,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1198362,
+          14.1272471
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211732,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1198344,
+          14.1273016
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211733,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1198326,
+          14.1273559
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211734,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1198307,
+          14.1274129
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211735,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.119871,
+          14.1274688
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211736,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1199117,
+          14.1275251
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211737,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1199572,
+          14.1275768
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211738,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.120039,
+          14.1276321
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211739,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1200804,
+          14.1276918
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211740,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1201595,
+          14.1277442
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211741,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1202023,
+          14.1278012
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211742,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1202426,
+          14.1278564
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211743,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1204463,
+          14.1273719
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211744,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1203627,
+          14.1272594
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211745,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1204032,
+          14.1273147
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211746,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1204894,
+          14.1274239
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211747,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.120531,
+          14.1274837
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211748,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1205299,
+          14.1275377
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211749,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1206146,
+          14.127593
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211750,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1206556,
+          14.1276496
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211751,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1206946,
+          14.1277055
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211752,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1207357,
+          14.1277608
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211753,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1207345,
+          14.1278141
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211754,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1207326,
+          14.1278706
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211755,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1207049,
+          14.1279187
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211756,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1207713,
+          14.1279786
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211757,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1207921,
+          14.128032
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211758,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1208585,
+          14.1280866
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211759,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1209201,
+          14.1281424
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211760,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1209832,
+          14.1282016
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211761,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1210851,
+          14.1282537
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211762,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1211938,
+          14.1283122
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211763,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1212561,
+          14.1283668
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211764,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1286004,
+          14.1375568
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211765,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.1283661,
+          14.137276
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 962211766,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9715128,
+          14.2777337
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1051756401,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "building:min_level": "3",
+          "building:part": "roof",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9015181,
+          14.2771121
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1058775646,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9707193,
+          14.2777109
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1108439508,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "building:min_level": "2",
+          "building:part": "roof",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9661396,
+          14.2744572
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1108439509,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "building:min_level": "2",
+          "building:part": "roof",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9713845,
+          14.2751613
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1112673853,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.971397,
+          14.2752279
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1112673854,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9716149,
+          14.2750418
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1122201932,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9667683,
+          14.2653804
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123304663,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "building:min_level": "2",
+          "building:part": "roof",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9744227,
+          14.2898674
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123304674,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "building:part": "roof",
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9843528,
+          14.2863882
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123304675,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9880664,
+          14.2852742
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123304676,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9737225,
+          14.2880017
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123304677,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9893122,
+          14.2841213
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123308934,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9893599,
+          14.28412
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123308935,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9891956,
+          14.2848241
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123308936,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9898836,
+          14.2847974
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123308937,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9900358,
+          14.2847942
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123308938,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9895241,
+          14.2846389
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123309323,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9897307,
+          14.2846369
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123309324,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9893538,
+          14.2848234
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123311507,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.98928,
+          14.2851938
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123311587,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9892741,
+          14.2844228
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1123311588,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9625686,
+          14.2921663
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1134488188,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9625521,
+          14.2919288
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1134488189,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.110181,
+          13.8936969
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1216169201,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9739802,
+          14.2427068
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1232380407,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:solar:tracking": "no",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9355654,
+          14.2882616
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1253883984,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9890146,
+          14.2881683
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1256777591,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9889034,
+          14.2882203
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1256777592,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": null,
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9622772,
+          14.292991
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1260482630,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9617398,
+          14.293063
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1260482631,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9618789,
+          14.2929933
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1260482632,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "small_installation",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.9317185,
+          14.2896243
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1311737255,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": null,
+        "location": "roof",
+        "all_tags": {
+          "frequency": "60",
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:solar:tracking": "no",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "location": "roof",
+          "power": "generator"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.8701533,
+          14.2810721
+        ]
+      },
+      "properties": {
+        "osm_type": "way",
+        "osm_id": 1487097999,
+        "power": "generator",
+        "generator_source": "solar",
+        "generator_method": "photovoltaic",
+        "name": null,
+        "operator": "City Government of Trece Martires",
+        "location": null,
+        "all_tags": {
+          "generator:method": "photovoltaic",
+          "generator:output:electricity": "yes",
+          "generator:source": "solar",
+          "generator:type": "solar_photovoltaic_panel",
+          "operator": "City Government of Trece Martires",
+          "power": "generator"
+        }
+      }
+    }
+  ],
+  "_meta": {
+    "source": "OpenStreetMap via Overpass",
+    "region": "calabarzon",
+    "query_bbox": [
+      13.65,
+      120.85,
+      14.3,
+      121.55
+    ],
+    "fetched_utc": "2026-05-15T13:34:02Z",
+    "unique_count": 171,
+    "location_breakdown": {
+      "(unspecified)": 118,
+      "roof": 49,
+      "pole": 4
+    }
+  }
+}

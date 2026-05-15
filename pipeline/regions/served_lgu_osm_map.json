@@ -1,0 +1,9 @@
+{
+  "_doc": "Override map for served-LGU-name -> OSM relation ID, for LGUs whose OSM admin polygon uses a non-canonical name (root cause of lgu_name:null detections being dropped from city tables). fetch_missing_lgu_polygons.py consults this first, then falls back to a name-variant Overpass search. Relation IDs are verified via Nominatim (osm_type=relation, class=boundary), never guessed.",
+  "_schema_version": "1.0.0",
+  "_known_limitation": "OSM Philippine municipal admin-boundary coverage is incomplete. Several CENECO/VECO/CEPALCO/MORE/ALECO served municipalities (e.g. Talisay/Naga/Minglanilla/Liloan/Compostela/Consolacion in Cebu, Santa Barbara/Cabatuan in Iloilo, Tagoloan/Villanueva/El Salvador in CDO, Camalig/Ligao in Albay) have no admin boundary relation in OSM as of 2026-05, only place nodes. Detections in those municipalities are bucketed as '(outside mapped franchise LGUs)' by aggregate_region.py rather than silently dropped as lgu_name:null, so the city table and the published total reconcile. This is the documented v1.2 state; the fetcher is idempotent and will recover these polygons automatically when OSM coverage improves.",
+  "overrides": {
+    "davao:Panabo City": 11768007,
+    "bacolod:EB Magalona": 13279611
+  }
+}
