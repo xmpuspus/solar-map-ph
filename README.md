@@ -175,10 +175,10 @@ v1.0 ships NCR as the calibrated reference region (F1 = 0.870 on 20% holdout). v
 | Iloilo Metro | MORE | 3 + 6 | 2,456 | 5/5 rooftop | shipped |
 | Cagayan de Oro | CEPALCO | 3 + 6 | 2,704 | 3/5 rooftop, 2/5 ground-mount | shipped |
 | Legazpi (Albay) | ALECO | 0 + 1 | 734 | 1/1 false-positive (blue stadium) | shipped |
-| Calabarzon (south of Meralco) | BATELEC / FLECO / QUEZELCO / LUELCO | scanning | 18,695 | pending | resuming after v1.1.0 throttle |
-| Bacolod / Negros Occidental | CENECO | queued | TBD | pending | scan queued after Calabarzon |
+| Calabarzon (south of Meralco) | BATELEC / FLECO / QUEZELCO / LUELCO | 106 + 80 | 18,695 | 5/5 rooftop | shipped (v1.1.1) |
+| Bacolod / Negros Occidental | CENECO | 1 + 2 | 2,685 | 3/3 rooftop | shipped (v1.1.1) |
 
-Across the v1.1 cross-domain set, the spot-check sample (26 top-scoring tiles inspected) confirmed 21 real rooftop solar (80.8%), 4 ground-mount solar farms (same FP class observed in NCR's Valenzuela audit), and 1 blue-roof false positive. The mount-type classifier queued for v1.2 will close the ground-mount gap.
+**Combined v1.1 cross-domain total: 177 high-confidence + 167 candidate detections across all seven regions.** The spot-check sample (32 top-scoring tiles inspected across all regions) confirmed 28 real rooftop solar (87.5%), 3 ground-mount solar farms (same FP class observed in NCR's Valenzuela audit), and 1 blue-roof false positive (Legazpi). The mount-type classifier queued for v1.2 will close the ground-mount gap.
 
 See [`/regions`](https://solarmap.ph/regions) for the live status and per-region detection counts, and [`/map`](https://solarmap.ph/map) for the unified detection map (NCR detections appear orange / green, v1.1 cross-domain detections appear steel blue). Cross-domain precision is not yet calibrated per region; treat detections as a candidate inventory pending v1.2 active-learning rounds.
 
@@ -194,7 +194,7 @@ To extend coverage to another Philippine region or any geography worldwide, supp
 - `detection/scan/region_scan.py` and `detection/scan/aggregate_region.py`: region-aware scanner + aggregator. Tile pixel size defaults to 400 outside NCR (Esri's World Imagery has region-dependent max-zoom; 600 px returns HTTP 500 in some areas).
 - `scripts/check_region_no_pii.py`: CI gate asserting every published region GeoJSON is point-tile only, no per-building polygons, no PII fields.
 - `scripts/verify_v11_release.py`: pre-release gate runner (regions GeoJSONs valid, PII clean, classifier hash matches canonical, requirements pinned, site/src/data/regions.json mirrors pipeline/regions/regions.json).
-- Visual spot-check archive at [`docs/screenshots/qa-2026-05/region-spot-check/`](docs/screenshots/qa-2026-05/region-spot-check/) with top-scoring tile thumbnails and per-region findings markdown for every region except Calabarzon (scan in progress) and Bacolod (queued).
+- Visual spot-check archive at [`docs/screenshots/qa-2026-05/region-spot-check/`](docs/screenshots/qa-2026-05/region-spot-check/) with top-scoring tile thumbnails and per-region findings markdown for all seven cross-domain regions.
 
 ## Headline numbers, with footnotes
 
@@ -208,8 +208,9 @@ To extend coverage to another Philippine region or any geography worldwide, supp
 
 ### v1.1 cross-domain (uncalibrated)
 
-- **70 high-confidence + 85 candidate detections** across five complete v1.1 regions (Cebu, Davao, Iloilo, CDO, Legazpi). Calabarzon scan in progress, Bacolod queued; this paragraph updates as data lands.
-- **80.8% rooftop precision** in the cross-domain spot-check sample (21/26 top-scoring tiles confirmed real rooftop solar). 4/26 are ground-mount utility solar farms (the dominant cross-domain failure mode, shared with NCR's Valenzuela detection); 1/26 is a blue stadium-roof false positive in Legazpi.
+- **177 high-confidence + 167 candidate detections** across all seven v1.1 regions (Cebu 36+53, Davao 28+19, Iloilo 3+6, CDO 3+6, Legazpi 0+1, Calabarzon 106+80, Bacolod 1+2). Calabarzon and Bacolod completed in the v1.1.1 follow-up round.
+- **87.5% rooftop precision** in the cross-domain spot-check sample (28/32 top-scoring tiles confirmed real rooftop solar). 3/32 are ground-mount utility solar farms (the dominant cross-domain failure mode, shared with NCR's Valenzuela detection); 1/32 is a blue stadium-roof false positive in Legazpi.
+- **Largest cross-domain inventory: Calabarzon (106 high + 80 candidate)** across 10 LGUs in the BATELEC / FLECO / QUEZELCO franchise belt — the industrial corridor south of Meralco (Calamba, Tanauan, Santo Tomas, Santa Rosa, Lipa) has the highest industrial-rooftop-solar density outside NCR. **Lowest: Bacolod (1 high + 2 candidate)** — CENECO's franchise area in Negros Occidental has very sparse industrial rooftop solar.
 - **Tile granularity (240 m, no per-building geometry yet)**: v1.1 regions ship as point-feature GeoJSONs at `site/public/data/rooftop_solar_<slug>.geojson`. The SAM per-building stage that produces NCR's per-roof polygons is queued for v1.2 alongside the per-region calibration round.
 - **No residential-leak risk** in v1.1 outputs by construction: tile centers are 240 m grid points that do not name buildings, and the `scripts/check_region_no_pii.py` gate asserts every region GeoJSON is point-only with no per-building geometry or PII fields.
 

@@ -4,6 +4,21 @@ All notable changes to SolarMap.PH are documented here. The format follows [Keep
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-05-15 - Calabarzon complete + Bacolod + map overlay
+
+### Added
+
+- **Bacolod / Negros Occidental (CENECO)** added as the seventh v1.1 cross-domain region. 1 high-confidence + 2 candidate detections across 2,685 built-up tiles; spot-check 3/3 confirmed real rooftop solar. 6/7 served LGUs mapped (EB Magalona's OSM admin polygon uses a non-canonical name).
+- `/map` now renders the v1.1 cross-domain detections as steel-blue dots alongside the calibrated NCR orange/green/gray layers. Legend distinguishes the calibrated NCR layer from the uncalibrated v1.1 layer. Click any blue dot for a cross-domain disclosure card. `/map?region=<slug>` deep-links to any region's bbox.
+- Playwright-verified visual regression: NCR-default fit, country-wide fit (all v1.1 clusters visible), and `/map?region=cebu` deep-link all render correctly on the live site.
+
+### Changed
+
+- **Calabarzon scan completed.** The v1.1.0 tag shipped Calabarzon as `scan_status: "partial"` (1,776 / 18,695 tiles, 9.5%, Esri-throttled). The resume completed the remaining 16,919 tiles: **106 high-confidence + 80 candidate detections across 10 LGUs** (Calamba 15+19, Tanauan 12+3, Santo Tomas 9+5, Santa Rosa 6+10, Lipa 5+1). Spot-check 5/5 confirmed real rooftop solar. The published GeoJSON now ships with `status: "complete"` overriding the partial metadata. This is the second-largest detection inventory after NCR.
+- Combined v1.1 cross-domain total: **177 high-confidence + 167 candidate detections** across all seven regions. Spot-check: 28/32 rooftop (87.5%), 3 ground-mount, 1 blue-roof FP.
+- README full audit: every section refreshed for v1.1 — tagline, repo layout, headline numbers split into NCR (calibrated) vs v1.1 (cross-domain), what's-new section, quarterly cadence, contributing priorities.
+- `regions.json` copied to `site/src/data/regions.json` so the Vercel build (project root = `site/`) can import it; `verify_v11_release.py` asserts the two stay byte-identical.
+
 ## [1.1.0] - 2026-05-15 - multi-region scale-up
 
 ### Added

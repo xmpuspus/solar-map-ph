@@ -1,0 +1,20 @@
+[
+ {
+  "idx": 0,
+  "score": 0.9559,
+  "tile_id": "10.89852_123.06544",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 1,
+  "score": 0.8398,
+  "tile_id": "10.64148_122.99600",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 2,
+  "score": 0.7841,
+  "tile_id": "10.83372_122.98704",
+  "verdict": "real rooftop"
+ }
+]
