@@ -1,0 +1,32 @@
+[
+ {
+  "idx": 0,
+  "score": 0.9844,
+  "tile_id": "14.24292_121.13336",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 1,
+  "score": 0.9839,
+  "tile_id": "14.03340_121.14232",
+  "verdict": "real rooftop (largest in Calabarzon sample)"
+ },
+ {
+  "idx": 2,
+  "score": 0.9836,
+  "tile_id": "14.28180_120.86456",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 3,
+  "score": 0.9794,
+  "tile_id": "14.20620_121.09080",
+  "verdict": "real rooftop"
+ },
+ {
+  "idx": 4,
+  "score": 0.9784,
+  "tile_id": "14.21268_120.96760",
+  "verdict": "real rooftop"
+ }
+]

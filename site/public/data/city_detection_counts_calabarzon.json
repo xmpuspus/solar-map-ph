@@ -1,14 +1,83 @@
 {
  "_meta": {
-  "n_cities_with_detections": 1,
-  "n_total_high": 1,
-  "n_total_candidate": 4,
-  "region": "calabarzon",
-  "scan_status": "partial",
-  "scan_coverage_pct": 9.5,
-  "note": "Partial scan (1,776 of 18,695 built-up tiles). Resume with bash scripts/run_all_v11_regions.sh."
+  "n_cities_with_detections": 10,
+  "n_total_high": 106,
+  "n_total_candidate": 80,
+  "region": "calabarzon"
  },
  "rows": [
+  {
+   "name": "Calamba",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 15,
+   "n_candidate": 19,
+   "n_new_high": 15,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Tanauan",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 12,
+   "n_candidate": 3,
+   "n_new_high": 12,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Santo Tomas",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 9,
+   "n_candidate": 5,
+   "n_new_high": 9,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Santa Rosa",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 6,
+   "n_candidate": 10,
+   "n_new_high": 6,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Lipa",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 5,
+   "n_candidate": 1,
+   "n_new_high": 5,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Dasmari\u00f1as",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 4,
+   "n_candidate": 2,
+   "n_new_high": 4,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Trece Martires",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 3,
+   "n_candidate": 1,
+   "n_new_high": 3,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Tagaytay",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 2,
+   "n_candidate": 0,
+   "n_new_high": 2,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "San Pablo",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 1,
+   "n_candidate": 0,
+   "n_new_high": 1,
+   "sum_kwp_high": 0.0
+  },
   {
    "name": "Batangas City",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
