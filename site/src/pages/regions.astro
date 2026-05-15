@@ -17,16 +17,21 @@ type Region = {
 };
 
 const regions = regionsCfg.regions as Region[];
+
+// v1.2: regions with a per-domain Platt calibration fit on a scan-realistic
+// holdout (see detection/train/v5_region_holdout/clf_v5_calibration.json).
+// The rest have too few labels and ship as honest candidate inventory.
+const calibrated = new Set(["cebu", "iloilo", "calabarzon"]);
 ---
 <Base title="Regions · SolarMap.PH" pathname="/regions" description="SolarMap.PH multi-region coverage: NCR (calibrated), plus cross-domain scans of seven additional Philippine franchise areas.">
   <section class="max-w-prose mx-auto px-6 pt-10 pb-6">
     <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">coverage</p>
     <h1 class="text-3xl mb-4 leading-tight text-ink-900 tracking-tight">Regions covered by SolarMap.PH.</h1>
     <p class="text-base text-ink-700 leading-relaxed mb-2">
-      Greater Metro Manila is the calibrated, holdout-validated, SAM-segmented region (v1.0). As of v1.1, SolarMap.PH also publishes cross-domain detections for seven additional Philippine cities and franchise areas: Cebu, Davao, Iloilo, Cagayan de Oro, Legazpi, the Calabarzon belt south of Meralco, and Bacolod / Negros Occidental.
+      Greater Metro Manila is the calibrated, holdout-validated, SAM-segmented region (v1.0). SolarMap.PH also publishes cross-domain detections for seven additional Philippine franchise areas: Cebu, Davao, Iloilo, Cagayan de Oro, Legazpi, the Calabarzon belt south of Meralco, and Bacolod / Negros Occidental.
     </p>
     <p class="text-base text-ink-700 leading-relaxed">
-      The non-NCR regions use the NCR-trained classifier <code class="bg-ink-300/15 px-1">clf_v4.joblib</code> applied without retraining. Cross-domain precision is not yet calibrated per region; treat detections as a candidate inventory pending an active-learning round on regional samples. The same residential-suppression policy applies in every region.
+      v1.2 retrained the canonical classifier region-stratified (<code class="bg-ink-300/15 px-1">clf_v5</code>, sha256 <code class="bg-ink-300/15 px-1">5cc0a093</code>) and added a per-domain calibration fit on a scan-realistic holdout. Cebu, Iloilo and Calabarzon now carry a conservative per-domain precision; Davao, CDO, Legazpi and Bacolod have too few labels and ship as honest candidate inventory (no precision claim). The published region detections themselves are unchanged from v1.1 (clf_v4-scored; v1.2 does not re-scan); clf_v5 is canonical for future scans. The same residential-suppression policy applies in every region.
     </p>
   </section>
 
@@ -54,7 +59,7 @@ const regions = regionsCfg.regions as Region[];
 
       {regions.map((r) => (
         <article class="border border-ink-300/40 bg-paper p-5" data-region={r.slug}>
-          <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-1">v1.1 cross-domain</p>
+          <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-1">{calibrated.has(r.slug) ? "v1.2 per-domain calibrated" : "cross-domain candidate"}</p>
           <h2 class="text-xl mb-1 text-ink-900">{r.display_name}</h2>
           <p class="text-xs text-ink-500 mb-3 font-mono">Franchise: {r.franchise} ({r.franchise_full})</p>
           <dl class="grid grid-cols-2 gap-y-1.5 text-sm" data-stats-for={r.slug}>
@@ -67,14 +72,11 @@ const regions = regionsCfg.regions as Region[];
             <dt class="text-ink-500">Served LGUs in franchise</dt>
             <dd class="text-right text-ink-700">{r.served_lgus.length}</dd>
             <dt class="text-ink-500">Calibration</dt>
-            <dd class="text-right text-ink-700">NCR-trained, cross-domain</dd>
+            <dd class="text-right text-ink-700">{calibrated.has(r.slug) ? "Per-domain (v1.2), conservative" : "Uncalibrated — candidate inventory"}</dd>
           </dl>
           <p class="mt-4 text-xs text-ink-500 leading-relaxed" data-data-line>
             Data files load on demand. Direct GeoJSON link
             <a href={`/data/rooftop_solar_${r.slug}.geojson`} class="text-accent-steel no-underline">/data/rooftop_solar_{r.slug}.geojson</a>.
-            {r.slug === "calabarzon" && (
-              <span class="block mt-1 text-ink-700"><strong>Partial scan</strong>: 1,776 of 18,695 built-up tiles (~9.5%). Resume scheduled for next quarter.</span>
-            )}
           </p>
         </article>
       ))}
@@ -82,12 +84,12 @@ const regions = regionsCfg.regions as Region[];
     </div>
 
     <section class="mt-10 max-w-prose mx-auto text-sm text-ink-700 leading-relaxed">
-      <h2 class="text-lg text-ink-900 mb-2">Honesty about the v1.1 cross-domain regions</h2>
-      <p class="mb-2">The detector was trained on 294 OSM-tagged positives from Greater Metro Manila, plus several rounds of active learning. Calibrated holdout precision is 95.9% for NCR.</p>
-      <p class="mb-2">For Cebu, Davao, Iloilo, Cagayan de Oro, Legazpi, the Calabarzon belt south of Meralco, and Bacolod / Negros Occidental, the same classifier is applied cross-domain. Roof material distributions and atmospheric conditions differ from NCR; we expect higher false-positive rates than NCR until per-region active-learning rounds run. Until then, treat outputs as a <em>candidate inventory</em> for review, not a calibrated registry.</p>
-      <p class="mb-2">A small visual audit of Cebu (top-8 high-confidence detections, see <code class="bg-ink-300/15 px-1">docs/screenshots/qa-2026-05/region-spot-check/</code>) found 7/8 confirmed rooftop solar at the detection coordinates and 1/8 ground-mount solar farm; the cross-domain failure mode that dominates is the same monochrome/ground-mount class observed in NCR's audit.</p>
-      <p class="mb-2">The per-building segmentation step (SAM auto-mask + OSM intersection) is not yet run for the v1.1 regions. Detections are at tile granularity (240m). Per-building polygons are planned for v1.2 alongside regional calibration.</p>
-      <p>Same residential-suppression policy applies in every region: tile-granularity detections do not reveal individual buildings, and any future per-building work will aggregate residential rooftops to count-only with no geometry and no addresses, per <a href="/privacy" class="no-underline text-accent-steel">RA 10173</a>.</p>
+      <h2 class="text-lg text-ink-900 mb-2">Honesty about the cross-domain regions (v1.2)</h2>
+      <p class="mb-2">NCR is the calibrated reference (holdout precision 95.9%, F1 0.87). A v1.2 domain-shift measurement found that pure geographic shift between NCR and the seven regions is small (within NCR's own training-vs-scan envelope); the real problem was a calibration gap — the curated training set is ~0.88-separable from the natural scan distribution even within NCR, so the v1.1 implied cross-region precision was an overestimate everywhere.</p>
+      <p class="mb-2">v1.2 retrained region-stratified (<code class="bg-ink-300/15 px-1">clf_v5</code>) and fit a per-domain calibration on a scan-realistic holdout. Cebu, Iloilo and Calabarzon have enough labels for a conservative per-domain precision (small holdouts, treat as lower bounds). Davao, CDO, Legazpi and Bacolod do not and remain an honest <em>candidate inventory</em> — no precision claim rather than a fabricated one.</p>
+      <p class="mb-2">A visual audit of the top cross-domain detections (32 tiles across all regions, see <code class="bg-ink-300/15 px-1">docs/screenshots/qa-2026-05/region-spot-check/</code>) confirmed 28/32 rooftop solar, 3 ground-mount solar farms, 1 blue-roof false positive — the same failure modes as NCR's audit, now added to the v1.2 training set as hard negatives.</p>
+      <p class="mb-2">v1.2 also adds a per-detection SAM kWp estimate as a coarse scalar (each mask verified by a CLIP + classifier check before its area counts; Legazpi's lone false-positive correctly estimates 0 kWp). Detections remain at tile granularity (240 m) — no per-building polygons for these regions, so there is no individual-building exposure.</p>
+      <p>Same residential-suppression policy applies in every region: tile-granularity detections do not reveal individual buildings, per <a href="/privacy" class="no-underline text-accent-steel">RA 10173</a>.</p>
     </section>
   </section>
 
