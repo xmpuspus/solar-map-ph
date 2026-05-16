@@ -182,7 +182,7 @@ flowchart TB
     EMB["CLIP-ViT-L/14 frozen<br/>768-dim embedding"]
     LR["Logistic Regression<br/>class-balanced, C=1.0"]
     CV["5-fold group-aware CV"]
-    CLF["clf_v3.joblib"]
+    CLF["calibrated LR head"]
     OSM --&gt; FETCH
     GT --&gt; FETCH
     NEG --&gt; FETCH
@@ -196,7 +196,7 @@ flowchart TB
     direction TB
     GRID["240 m grid over NCR<br/>16,544 tiles"]
     SCANEMB["CLIP embedding"]
-    SCORE["clf_v3 score per tile"]
+    SCORE["classifier score per tile"]
     HIGH["high tier<br/>score 0.85 and up"]
     CAND["candidate tier<br/>score 0.70 to 0.85"]
     GEO["rooftop_solar_ncr.geojson<br/>280 high + 235 candidate"]
@@ -325,12 +325,12 @@ flowchart TB
       <div class="bg-paper-alt border border-ink-300/40 p-4 overflow-x-auto">
         <pre class="mermaid text-ink-900">
 flowchart TB
-  TILE["High-confidence tile<br/>from clf_v3 scan"]
+  TILE["High-confidence tile<br/>from classifier scan"]
   SAM["SAM ViT-B<br/>auto-mask generator<br/>~150 masks per tile"]
   COLOR["Color signature filter<br/>brightness 25 to 140<br/>blue bias -25 to +60"]
   CROP["192 px context crop<br/>centered on each mask"]
   CEMB["CLIP-ViT-L embed"]
-  LR2["clf_v3 score"]
+  LR2["classifier score"]
   COMB["combined score<br/>0.6 * CLIP + 0.4 * color"]
   KEEP["keep if combined &gt;= 0.70"]
   OSM2["OSM buildings within 200 m<br/>via Overpass"]
@@ -357,7 +357,7 @@ flowchart TB
     <ol class="list-decimal pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
       <li><strong>SAM (Segment Anything, ViT-B checkpoint).</strong> For each high-confidence v3 tile we run SAM's automatic mask generator. SAM is class-agnostic: it carves the image into ~150-200 generic regions per tile (every roof slope, road, treeline becomes its own mask).</li>
       <li><strong>Color signature filter.</strong> Solar panels in PH aerial imagery are dark with neutral-to-blue tone. We compute per-mask mean RGB and reject masks whose brightness or blue bias is incompatible with panels (light roofs, vegetation, asphalt, brightly-tarpaulined informal roofs all get filtered out before the next step).</li>
-      <li><strong>CLIP+LR scoring on 192 px context window.</strong> Each surviving mask is centered in a 192×192 px window (~76 m), embedded with CLIP-ViT-L, and scored by clf_v3. Final segment confidence is <code>0.6 × CLIP_score + 0.4 × color_score</code>. We keep segments with combined confidence ≥ 0.70.</li>
+      <li><strong>CLIP+LR scoring on 192 px context window.</strong> Each surviving mask is centered in a 192×192 px window (~76 m), embedded with CLIP-ViT-L, and scored by the calibrated classifier head. Final segment confidence is <code>0.6 × CLIP_score + 0.4 × color_score</code>. We keep segments with combined confidence ≥ 0.70.</li>
       <li><strong>OSM building intersection.</strong> Each kept segment polygon is matched against OSM building footprints around the tile (Overpass query with 200 m radius). The segment is assigned to the building containing its centroid (or, if outside any building, to the building with largest bbox overlap).</li>
       <li><strong>Per-building merge.</strong> SAM frequently over-segments a single rooftop array into 8-30 pieces; without grouping the same SM Mall installation would emit 30 features. We group all segments by OSM building id, sum their panel area (capped at the building footprint), use the highest-confidence segment as the displayed polygon, and keep the max segment confidence as the building's score.</li>
       <li><strong>kWp estimate.</strong> Industry rule of thumb: ~6 m² of crystalline-silicon panel per kWp installed. <code>kwp_estimate = panel_area_m² / 6</code>. This is approximate: efficiency varies, mounting density varies, and SAM's polygon often clips the array boundary by ±10%.</li>
