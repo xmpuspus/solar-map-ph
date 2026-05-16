@@ -50,7 +50,7 @@ const sections = [
   {
     title: "How often does this update?",
     body:
-      "About every quarter. The Earth Engine composite signal is recomputed each quarter; the detection model is retrained when active-learning round labels accumulate (current shipping classifier is clf_v4 round 3). Release notes are tagged in git and summarized in <a class='text-accent-steel no-underline' href='https://github.com/xmpuspus/solar-map-ph/blob/main/CHANGELOG.md'>CHANGELOG.md</a>.",
+      "About every quarter. The Earth Engine composite signal is recomputed each quarter; the detection model is retrained when labels accumulate. The canonical classifier is clf_v5 (v1.2, region-stratified, sha256 5cc0a093); NCR's published detections remain clf_v4-scored. Release notes are tagged in git and summarized in <a class='text-accent-steel no-underline' href='https://github.com/xmpuspus/solar-map-ph/blob/main/CHANGELOG.md'>CHANGELOG.md</a>.",
   },
   {
     title: "Is SolarMap.PH affiliated with Meralco, DOE, NREB, or ICSC?",
@@ -65,7 +65,7 @@ const sections = [
   {
     title: "I found a bug or have a contribution.",
     body:
-      "Open an issue or PR on <a class='text-accent-steel no-underline' href='https://github.com/xmpuspus/solar-map-ph'>github.com/xmpuspus/solar-map-ph</a>. Highest-value contributions are verified false-positive reports, LGU permit cost/delay data, and the v1.1 cross-domain regions where the classifier is not yet calibrated (Cebu, Davao, Iloilo, Cagayan de Oro, Legazpi, Calabarzon). See <code class='text-sm'>CONTRIBUTING.md</code> and the <a class='text-accent-steel no-underline' href='/regions'>regions page</a>.",
+      "Open an issue or PR on <a class='text-accent-steel no-underline' href='https://github.com/xmpuspus/solar-map-ph'>github.com/xmpuspus/solar-map-ph</a>. Highest-value contributions are verified false-positive reports, LGU permit cost/delay data, and the cross-domain regions that remain uncalibrated candidate inventory (Davao, Cagayan de Oro, Legazpi, Bacolod) — Cebu, Iloilo and Calabarzon are now per-domain calibrated as of v1.2. See <code class='text-sm'>CONTRIBUTING.md</code> and the <a class='text-accent-steel no-underline' href='/regions'>regions page</a>.",
   },
 ];
 ---

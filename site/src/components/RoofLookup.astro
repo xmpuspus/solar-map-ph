@@ -1098,7 +1098,7 @@
           <p class="text-[10px] text-ink-300 font-mono">${r.detections.length} within 1.5 km</p>
         </div>
         <p class="text-sm text-ink-500 leading-relaxed mb-4">
-          Tile-level scan of NCR using a CNN (clf_v3) trained on 304 OSM-tagged rooftop arrays + active-learning label cleanup. <strong class="text-ink-900">High-confidence</strong> = LOSO precision ~99% at threshold 0.85. <strong class="text-ink-900">Candidate</strong> = lower confidence, may need verification. <a href="/methodology#cnn-detection" class="no-underline text-accent-steel">How we built this &rarr;</a>
+          Tile-level scan of NCR: a frozen CLIP-ViT-L encoder with a Platt-calibrated logistic-regression head. <strong class="text-ink-900">High-confidence</strong> (&ge; 0.85) = 95.9% precision on an honest source-disjoint holdout (F1 0.87). <strong class="text-ink-900">Candidate</strong> = lower confidence, may need verification. <a href="/methodology#cnn-detection" class="no-underline text-accent-steel">How we built this &rarr;</a>
         </p>
         <div class="grid gap-3 grid-cols-2 md:grid-cols-4">
           ${r.detections.slice(0, 8).map((d: any) => `
