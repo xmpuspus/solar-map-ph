@@ -1,65 +1,38 @@
 {
  "_meta": {
   "n_cities_with_detections": 11,
-  "n_total_high": 106,
-  "n_total_candidate": 80,
+  "n_total_high": 30,
+  "n_total_candidate": 48,
   "region": "calabarzon",
-  "n_new_high_total": 96
+  "n_new_high_total": 96,
+  "n_total_low_confidence": 108,
+  "calibrated": true
  },
  "rows": [
   {
    "name": "(outside mapped franchise LGUs)",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
-   "n_high": 49,
-   "n_candidate": 37,
-   "n_new_high": 47,
+   "n_high": 16,
+   "n_candidate": 20,
+   "n_low_confidence": 50,
+   "n_new_high": 16,
    "sum_kwp_high": 0.0
   },
   {
    "name": "Calamba",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
-   "n_high": 15,
-   "n_candidate": 19,
-   "n_new_high": 15,
-   "sum_kwp_high": 0.0
-  },
-  {
-   "name": "Tanauan",
-   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
-   "n_high": 12,
-   "n_candidate": 3,
-   "n_new_high": 9,
+   "n_high": 4,
+   "n_candidate": 7,
+   "n_low_confidence": 23,
+   "n_new_high": 4,
    "sum_kwp_high": 0.0
   },
   {
    "name": "Santo Tomas",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
-   "n_high": 9,
+   "n_high": 3,
    "n_candidate": 5,
-   "n_new_high": 8,
-   "sum_kwp_high": 0.0
-  },
-  {
-   "name": "Santa Rosa",
-   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
-   "n_high": 6,
-   "n_candidate": 10,
-   "n_new_high": 5,
-   "sum_kwp_high": 0.0
-  },
-  {
-   "name": "Lipa",
-   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
-   "n_high": 5,
-   "n_candidate": 1,
-   "n_new_high": 5,
-   "sum_kwp_high": 0.0
-  },
-  {
-   "name": "Dasmari\u00f1as",
-   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
-   "n_high": 4,
-   "n_candidate": 2,
+   "n_low_confidence": 6,
    "n_new_high": 3,
    "sum_kwp_high": 0.0
   },
@@ -67,23 +40,35 @@
    "name": "Trece Martires",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 3,
-   "n_candidate": 1,
+   "n_candidate": 0,
+   "n_low_confidence": 1,
    "n_new_high": 1,
    "sum_kwp_high": 0.0
   },
   {
-   "name": "Tagaytay",
+   "name": "Tanauan",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 2,
-   "n_candidate": 0,
-   "n_new_high": 2,
+   "n_candidate": 7,
+   "n_low_confidence": 6,
+   "n_new_high": 0,
    "sum_kwp_high": 0.0
   },
   {
-   "name": "San Pablo",
+   "name": "Santa Rosa",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 1,
-   "n_candidate": 0,
+   "n_candidate": 4,
+   "n_low_confidence": 11,
+   "n_new_high": 1,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Dasmari\u00f1as",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 1,
+   "n_candidate": 1,
+   "n_low_confidence": 4,
    "n_new_high": 1,
    "sum_kwp_high": 0.0
   },
@@ -91,7 +76,35 @@
    "name": "Batangas City",
    "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
    "n_high": 0,
-   "n_candidate": 2,
+   "n_candidate": 0,
+   "n_low_confidence": 2,
+   "n_new_high": 0,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Lipa",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 0,
+   "n_candidate": 3,
+   "n_low_confidence": 3,
+   "n_new_high": 0,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "San Pablo",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 0,
+   "n_candidate": 1,
+   "n_low_confidence": 0,
+   "n_new_high": 0,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Tagaytay",
+   "province": "Cavite/Laguna/Batangas/Rizal/Quezon (south of Meralco franchise)",
+   "n_high": 0,
+   "n_candidate": 0,
+   "n_low_confidence": 2,
    "n_new_high": 0,
    "sum_kwp_high": 0.0
   }

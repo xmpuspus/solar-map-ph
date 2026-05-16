@@ -60,7 +60,9 @@ const headerCopy = {
           <span class="inline-block w-3 h-3 rounded-sm" style="background:#d97757"></span><span>NCR: newly identified</span>
           <span class="inline-block w-3 h-3 rounded-sm" style="background:#3a7d44"></span><span>NCR: corroborated</span>
           <span class="inline-block w-3 h-3 rounded-sm" style="background:#9ca3af"></span><span>NCR: lower-confidence</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#2563eb"></span><span>v1.1 cross-domain (uncalibrated)</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#2563eb"></span><span>cross-domain high (Cebu/Iloilo/Calabarzon: v1.2 calibrated)</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#c7d2e8"></span><span>calibrated low-confidence (demoted by calibration)</span>
+          <span class="inline-block w-3 h-3 rounded-sm" style="background:#93c5fd"></span><span>cross-domain uncalibrated (Davao/CDO/Legazpi/Bacolod)</span>
         </div>
       </div>
       <div id="legend-source" class="text-[10px] text-ink-500 mt-1.5 font-mono">SolarMap.PH · 96% precision on NCR holdout</div>
@@ -301,6 +303,10 @@ const headerCopy = {
     { slug: "bacolod",    display: "Bacolod",         bbox: [122.80, 10.50, 123.10, 10.95] },
   ];
 
+  // v1.2: regions whose detections carry a per-domain calibrated probability
+  // (score + tiers recomputed). The rest stay uncalibrated candidate inventory.
+  const CALIBRATED = new Set(["cebu", "iloilo", "calabarzon"]);
+
   async function init() {
     const [detections, perBuilding, cities, cityCounts, ...v11Detections] = await Promise.all([
       loadJSON<any>("rooftop_solar_ncr.geojson"),
@@ -315,7 +321,9 @@ const headerCopy = {
     // right disclosure copy.
     const v11High: any = { type: "FeatureCollection", features: [] };
     const v11Cand: any = { type: "FeatureCollection", features: [] };
+    const v11Low: any = { type: "FeatureCollection", features: [] };
     let v11TotalHigh = 0, v11TotalCand = 0, v11RegionsWithDet = 0;
+    let v11CalHigh = 0, v11UncalHigh = 0;
     for (let i = 0; i < V11_REGIONS.length; i++) {
       const fc = v11Detections[i];
       if (!fc) continue;
@@ -323,17 +331,22 @@ const headerCopy = {
       const display = V11_REGIONS[i].display;
       const m = fc._meta || {};
       const partial = (m.scan_status === "partial");
+      const isCal = CALIBRATED.has(slug);
       const regionHigh = m.n_high_confidence ?? 0;
       const regionCand = m.n_candidate ?? 0;
       v11TotalHigh += regionHigh;
       v11TotalCand += regionCand;
+      if (isCal) v11CalHigh += regionHigh; else v11UncalHigh += regionHigh;
       if (regionHigh + regionCand > 0) v11RegionsWithDet += 1;
       for (const f of fc.features) {
         f.properties._region_slug = slug;
         f.properties._region_display = display;
         f.properties._v11 = true;
+        f.properties._calibrated = isCal;
         f.properties._partial_scan = partial;
-        if (f.properties.tier === "high") v11High.features.push(f);
+        const tier = f.properties.tier;
+        if (tier === "low_confidence") v11Low.features.push(f);
+        else if (tier === "high") v11High.features.push(f);
         else v11Cand.features.push(f);
       }
     }
@@ -364,7 +377,8 @@ const headerCopy = {
     document.getElementById("strip-new")!.textContent = `${newPct}%`;
     document.getElementById("strip-new-pct")!.textContent =
       v11TotalHigh + v11TotalCand > 0
-        ? `${totalDet} NCR (calibrated) + ${v11TotalHigh + v11TotalCand} cross-domain (v1.1)`
+        ? `${totalDet} NCR (calibrated) + ${v11TotalHigh + v11TotalCand} cross-domain ` +
+          `(${v11CalHigh} high in 3 v1.2-calibrated regions, ${v11UncalHigh} uncalibrated)`
         : `${totalNewHigh} of ${canonicalHigh} high tier new`;
     document.getElementById("strip-kwp")!.textContent = fmtKwp(totalKwp);
     document.getElementById("strip-cities")!.textContent = `${cityCount + v11RegionsWithDet}`;
@@ -553,6 +567,27 @@ const headerCopy = {
           "circle-opacity": 0.8,
         },
       });
+      // v1.2: calibrated detections that fall below the calibrated candidate
+      // threshold. They were clf_v4-selected but the per-domain calibration
+      // demotes them. Shown faded (not hidden — the detection is real, the
+      // calibrated confidence is low) and excluded from headline counts.
+      map.addSource("v11-low", { type: "geojson", data: v11Low });
+      map.addLayer({
+        id: "v11-low-dots",
+        type: "circle",
+        source: "v11-low",
+        minzoom: 9,
+        paint: {
+          "circle-radius": [
+            "interpolate", ["linear"], ["zoom"],
+            9, 2, 12, 3, 14, 3.5,
+          ],
+          "circle-color": "#c7d2e8",
+          "circle-stroke-color": "#94a3b8",
+          "circle-stroke-width": 0.6,
+          "circle-opacity": 0.5,
+        },
+      });
 
       // Orphans: high-conf detections without a SAM building match. Dim ring
       // at tile center starting at z13 so the user can still click them at
@@ -642,10 +677,11 @@ const headerCopy = {
       };
       map.on("click", "v11-high-dots", v11Click);
       map.on("click", "v11-cand-dots", v11Click);
-      map.on("mouseenter", "v11-high-dots", () => (map.getCanvas().style.cursor = "pointer"));
-      map.on("mouseleave", "v11-high-dots", () => (map.getCanvas().style.cursor = ""));
-      map.on("mouseenter", "v11-cand-dots", () => (map.getCanvas().style.cursor = "pointer"));
-      map.on("mouseleave", "v11-cand-dots", () => (map.getCanvas().style.cursor = ""));
+      map.on("click", "v11-low-dots", v11Click);
+      for (const lyr of ["v11-high-dots", "v11-cand-dots", "v11-low-dots"]) {
+        map.on("mouseenter", lyr, () => (map.getCanvas().style.cursor = "pointer"));
+        map.on("mouseleave", lyr, () => (map.getCanvas().style.cursor = ""));
+      }
 
       // URL param routing: /map?region=cebu fits to a v1.1 region; /map?city=X
       // keeps the NCR city-zoom path.
@@ -774,10 +810,12 @@ const headerCopy = {
       cityDetail.classList.add("hidden");
       detDetail.classList.remove("hidden");
 
-      const score = Number(props.score ?? 0);
-      const tier = props.tier || (score >= 0.85 ? "high" : "candidate");
-      const tierColor = tier === "high" ? "#2563eb" : "#93c5fd";
-      const tierLabel = tier === "high" ? "HIGH (CROSS-DOMAIN)" : "CANDIDATE (CROSS-DOMAIN)";
+      const isCal = !!props._calibrated;
+      const score = Number((isCal ? props.score_calibrated : props.score) ?? 0);
+      const tier = props.tier || (score >= 0.85 ? "high" : score >= 0.70 ? "candidate" : "low_confidence");
+      const tierColor = tier === "high" ? "#2563eb" : tier === "candidate" ? "#93c5fd" : "#c7d2e8";
+      const calTag = isCal ? "CALIBRATED" : "CROSS-DOMAIN";
+      const tierLabel = tier === "high" ? `HIGH (${calTag})` : tier === "candidate" ? `CANDIDATE (${calTag})` : `LOW-CONFIDENCE (${calTag})`;
       const region = props._region_display || props.region || "v1.1 region";
 
       document.getElementById("det-thumb")!.setAttribute("src", esriThumbUrl(lat, lon, 360, 0.0011));
@@ -789,19 +827,22 @@ const headerCopy = {
         props.lgu_name ? `${props.lgu_name} - ${region}` : region;
       document.getElementById("det-headline")!.textContent =
         `Cross-domain detection in ${region}`;
-      const partialNote = props._partial_scan
-        ? " The Calabarzon scan is partial (9.5% of built-up tiles); the full inventory will land in a follow-up commit."
-        : "";
-      document.getElementById("det-desc")!.textContent =
-        `Tile-granularity detection from the NCR-trained classifier applied without retraining. ` +
-        `Cross-domain precision is not yet calibrated per region; treat as a candidate inventory ` +
-        `pending the per-region active-learning round.${partialNote} ` +
-        `See /regions for context.`;
+      document.getElementById("det-desc")!.textContent = isCal
+        ? `Tile-granularity detection with a v1.2 per-domain calibrated probability ` +
+          `(Platt fit on a scan-realistic holdout; conservative lower bound). The ` +
+          `detection set is clf_v4-selected (recall clf_v4-bounded; no re-scan). ` +
+          `See /regions and /methodology for context.`
+        : `Tile-granularity detection from the cross-domain classifier. This region ` +
+          `has too few labels for a per-domain calibration, so it ships as an ` +
+          `honest candidate inventory with no precision claim. See /regions.`;
+      const kwp = Number(props.kwp_estimate ?? 0);
       document.getElementById("det-score")!.textContent = score ? `${Math.round(score * 100)}%` : "-";
-      document.getElementById("det-kwp")!.textContent = "n/a (no SAM)";
+      document.getElementById("det-kwp")!.textContent = kwp > 0 ? `~${kwp.toFixed(0)} kWp (SAM est.)` : "n/a";
       document.getElementById("det-btype")!.textContent = "n/a (tile-level)";
       document.getElementById("det-area")!.textContent = "n/a (tile-level)";
-      document.getElementById("det-osm")!.textContent = "cross-domain, uncalibrated";
+      document.getElementById("det-osm")!.textContent = isCal
+        ? "per-domain calibrated (v1.2)"
+        : "uncalibrated — candidate inventory";
 
       const osmLink = document.getElementById("det-osm-link") as HTMLAnchorElement;
       osmLink.href = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=18`;

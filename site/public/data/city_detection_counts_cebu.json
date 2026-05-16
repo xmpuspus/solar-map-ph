@@ -1,42 +1,48 @@
 {
  "_meta": {
   "n_cities_with_detections": 4,
-  "n_total_high": 36,
-  "n_total_candidate": 53,
+  "n_total_high": 7,
+  "n_total_candidate": 17,
   "region": "cebu",
-  "n_new_high_total": 30
+  "n_new_high_total": 30,
+  "n_total_low_confidence": 65,
+  "calibrated": true
  },
  "rows": [
   {
-   "name": "Mandaue City",
-   "province": "Cebu",
-   "n_high": 11,
-   "n_candidate": 20,
-   "n_new_high": 10,
-   "sum_kwp_high": 0.0
-  },
-  {
-   "name": "(outside mapped franchise LGUs)",
-   "province": "Cebu",
-   "n_high": 9,
-   "n_candidate": 14,
-   "n_new_high": 9,
-   "sum_kwp_high": 0.0
-  },
-  {
    "name": "Cebu City",
    "province": "Cebu",
-   "n_high": 9,
-   "n_candidate": 5,
-   "n_new_high": 7,
+   "n_high": 2,
+   "n_candidate": 3,
+   "n_low_confidence": 9,
+   "n_new_high": 2,
    "sum_kwp_high": 0.0
   },
   {
    "name": "Lapu-Lapu City",
    "province": "Cebu",
-   "n_high": 7,
-   "n_candidate": 14,
-   "n_new_high": 4,
+   "n_high": 2,
+   "n_candidate": 4,
+   "n_low_confidence": 15,
+   "n_new_high": 0,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "Mandaue City",
+   "province": "Cebu",
+   "n_high": 2,
+   "n_candidate": 4,
+   "n_low_confidence": 25,
+   "n_new_high": 1,
+   "sum_kwp_high": 0.0
+  },
+  {
+   "name": "(outside mapped franchise LGUs)",
+   "province": "Cebu",
+   "n_high": 1,
+   "n_candidate": 6,
+   "n_low_confidence": 16,
+   "n_new_high": 1,
    "sum_kwp_high": 0.0
   }
  ]
