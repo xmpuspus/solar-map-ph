@@ -1,8 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
 import RoofLookup from "../components/RoofLookup.astro";
+import { totalDetections, highConfidence, perBuildingPolygons, citiesWithDetections } from "../data/stats";
 ---
-<Base title="SolarMap.PH · what can your roof do?" pathname="/">
+<Base title="SolarMap.PH · what can your roof do?" pathname="/" description="Type your address and SolarMap.PH measures your roof from satellite, sizes a solar system in kWp, estimates payback against your Meralco bill, and shows detected rooftop solar near you. Free, no signup.">
   <section class="max-w-5xl mx-auto px-6 pt-14 pb-8">
     <div class="grid md:grid-cols-[1.4fr_1fr] gap-10 items-end">
       <div>
@@ -21,9 +22,9 @@ import RoofLookup from "../components/RoofLookup.astro";
         <p class="mb-2 font-mono text-xs text-ink-500 uppercase tracking-wider">what you get</p>
         <ul class="space-y-1.5 text-sm">
           <li>Hi-res satellite of <em>your</em> rooftop</li>
-          <li>Roof area + system size in kWp</li>
+          <li>Roof area + system size in kWp (kilowatts)</li>
           <li>Payback in years for your bill</li>
-          <li>Your LGU's permit cost</li>
+          <li>Permit cost range + the DOE fast-track timeline</li>
           <li>Detected rooftop solar near your block</li>
         </ul>
       </aside>
@@ -51,7 +52,7 @@ import RoofLookup from "../components/RoofLookup.astro";
       <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">research backplane</p>
       <h2 class="text-xl mb-2 text-ink-900">The map</h2>
       <p class="text-sm text-ink-500 mb-4 leading-relaxed">
-        A computer-vision survey of rooftop solar across 41 cities in Greater Metro Manila. 515 detections, 280 high-confidence above a 0.85 score; 384 buildings with per-roof panel polygons after segmentation. Calibrated to 96% precision on a held-out validation set.
+        A computer-vision survey of rooftop solar across {citiesWithDetections} cities in Greater Metro Manila. {totalDetections} detections, {highConfidence} high-confidence above a 0.85 score; {perBuildingPolygons} buildings with per-roof panel polygons after segmentation. Calibrated to 96% precision on a held-out validation set.
       </p>
       <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Open the map &rarr;</span>
     </a>

@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://solar-map-ph.org",
+  site: "https://solarmap.ph",
   integrations: [tailwind(), mdx(), sitemap()],
   output: "static",
   vite: {

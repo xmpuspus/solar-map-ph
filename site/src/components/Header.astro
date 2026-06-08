@@ -15,11 +15,13 @@ const links = [
 ];
 ---
 <header class="border-b border-ink-300/30 bg-paper">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-wrap items-center gap-x-4 gap-y-2 justify-between">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-x-4 justify-between">
     <a href="/" class="font-semibold tracking-tight no-underline text-ink-900 shrink-0">
       SolarMap.PH
     </a>
-    <nav class="flex flex-wrap gap-x-3 sm:gap-x-5 gap-y-1 text-sm">
+
+    <!-- Desktop nav -->
+    <nav class="hidden sm:flex flex-wrap gap-x-5 gap-y-1 text-sm justify-end">
       {links.map((link) => (
         <a
           href={link.href}
@@ -30,5 +32,24 @@ const links = [
       ))}
       <a href="https://github.com/xmpuspus/solar-map-ph" class="text-ink-500 no-underline hover:text-ink-900">github</a>
     </nav>
+
+    <!-- Mobile menu: CSS-only disclosure, no JS -->
+    <details class="sm:hidden relative group">
+      <summary class="list-none cursor-pointer min-h-[44px] min-w-[44px] inline-flex items-center justify-center text-ink-700 [&::-webkit-details-marker]:hidden" aria-label="Open menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" class="group-open:hidden"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" class="hidden group-open:block"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+      </summary>
+      <nav class="absolute right-0 top-full mt-2 z-40 w-52 bg-white border border-ink-300/40 rounded-md shadow-lg py-1 flex flex-col text-sm">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class={`no-underline px-4 py-2.5 ${pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) ? "text-ink-900 font-medium bg-paper-alt" : "text-ink-700 hover:bg-paper-alt"}`}
+          >
+            {link.label}
+          </a>
+        ))}
+        <a href="https://github.com/xmpuspus/solar-map-ph" class="no-underline px-4 py-2.5 text-ink-700 hover:bg-paper-alt border-t border-ink-300/30">github</a>
+      </nav>
+    </details>
   </div>
 </header>
