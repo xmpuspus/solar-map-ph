@@ -36,18 +36,18 @@
         class="hidden absolute z-30 left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-white border border-ink-300 rounded-md shadow-lg"
       ></ul>
     </div>
-    <div class="flex flex-wrap items-baseline gap-1.5 text-xs">
+    <div class="flex flex-wrap items-center gap-2 text-xs">
       <span class="text-ink-500">Try:</span>
-      <button type="button" data-fill="SM Megamall, Mandaluyong" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">SM Megamall</button>
-      <button type="button" data-fill="Tomas Morato, Quezon City" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">Tomas Morato, QC</button>
-      <button type="button" data-fill="BGC, Taguig" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">BGC</button>
-      <button type="button" data-fill="Antipolo, Rizal" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">Antipolo</button>
-      <button type="button" data-fill="Bacoor, Cavite" class="px-2 py-0.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-ink-100 hover:text-ink-900 font-mono">Bacoor</button>
+      <button type="button" data-fill="SM Megamall, Mandaluyong" class="px-2.5 py-1.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-paper-alt hover:text-ink-900 font-mono">SM Megamall</button>
+      <button type="button" data-fill="Tomas Morato, Quezon City" class="px-2.5 py-1.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-paper-alt hover:text-ink-900 font-mono">Tomas Morato, QC</button>
+      <button type="button" data-fill="BGC, Taguig" class="px-2.5 py-1.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-paper-alt hover:text-ink-900 font-mono">BGC</button>
+      <button type="button" data-fill="Antipolo, Rizal" class="px-2.5 py-1.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-paper-alt hover:text-ink-900 font-mono">Antipolo</button>
+      <button type="button" data-fill="Bacoor, Cavite" class="px-2.5 py-1.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-paper-alt hover:text-ink-900 font-mono">Bacoor</button>
     </div>
     <p class="text-xs text-ink-500">We'll tell you whether you can install solar on your roof, what it would save you, and what your block's grid saturation means for approval. Address is not stored.</p>
   </div>
   <div class="grid gap-2 md:grid-cols-2">
-    <div class="grid gap-2">
+    <div class="grid gap-1.5">
       <label class="text-sm text-ink-700" for="roof-bill">Monthly Meralco bill (₱)</label>
       <input
         id="roof-bill"
@@ -59,9 +59,10 @@
         step="100"
         class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono tabular-nums"
       />
+      <p class="text-xs text-ink-500">Your average monthly bill — edit it so the payback is yours, not a stranger's.</p>
     </div>
-    <div class="grid gap-2">
-      <label class="text-sm text-ink-700" for="roof-residents">Household size (for benchmark)</label>
+    <div class="grid gap-1.5">
+      <label class="text-sm text-ink-700" for="roof-residents">Household size (sets your usage benchmark)</label>
       <select
         id="roof-residents"
         name="residents"
@@ -76,9 +77,15 @@
       </select>
     </div>
   </div>
-  <div class="flex items-center justify-between">
-    <button type="submit" class="btn">Can I install solar? &rarr;</button>
-    <span id="roof-status" class="text-xs text-ink-500"></span>
+  <div class="flex flex-wrap items-center gap-x-4 gap-y-2 justify-between">
+    <div class="flex items-center gap-3">
+      <button type="submit" id="roof-submit" class="btn">Can I install solar? &rarr;</button>
+      <button type="button" id="roof-geo" class="inline-flex items-center gap-1.5 min-h-[44px] text-xs font-mono uppercase tracking-wider text-accent-steel hover:text-ink-900 no-underline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/></svg>
+        use my location
+      </button>
+    </div>
+    <span id="roof-status" role="status" aria-live="polite" class="text-sm text-ink-500"></span>
   </div>
 </form>
 
@@ -130,11 +137,47 @@
   const PHOTON_BIAS_LAT = 14.6;
   const PHOTON_BIAS_LON = 121.0;
 
+  // A transport-level failure (network down, timeout, 429 rate-limit, 5xx) from
+  // a free upstream service. Distinguished from "no result" so the UI can say
+  // "the service is busy" instead of the misleading "address not found".
+  class ServiceError extends Error {
+    constructor(public service: string) { super(`${service} unavailable`); }
+  }
+
+  function sleep(ms: number) { return new Promise((r) => setTimeout(r, ms)); }
+
+  async function fetchWithTimeout(url: string, opts: RequestInit = {}, ms = 12000): Promise<Response> {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), ms);
+    try {
+      return await fetch(url, { ...opts, signal: ctrl.signal });
+    } finally {
+      clearTimeout(t);
+    }
+  }
+
+  // Fetch with a client-side timeout and one jittered retry on network error /
+  // 429 / 5xx. Throws ServiceError if every attempt fails. Free endpoints
+  // (Overpass, Photon) throttle under load, so this keeps a traffic spike from
+  // hanging the flow or surfacing a wrong error.
+  async function fetchResilient(url: string, opts: RequestInit, service: string, tries = 2, timeoutMs = 12000): Promise<Response> {
+    for (let i = 0; i < tries; i++) {
+      try {
+        const r = await fetchWithTimeout(url, opts, timeoutMs);
+        if (r.status !== 429 && r.status < 500) return r;
+      } catch {
+        // network error / abort -> fall through to retry
+      }
+      if (i < tries - 1) await sleep(400 + Math.random() * 600);
+    }
+    throw new ServiceError(service);
+  }
+
   async function photonSearch(q: string, limit = 8): Promise<any[]> {
     const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=${limit}&lang=en&lat=${PHOTON_BIAS_LAT}&lon=${PHOTON_BIAS_LON}`;
+    const r = await fetchResilient(url, {}, "address search", 2, 10000);
+    if (!r.ok) return [];
     try {
-      const r = await fetch(url);
-      if (!r.ok) return [];
       const d = await r.json();
       return (d.features || []).filter((f: any) =>
         f.properties?.countrycode === "PH" || f.properties?.country === "Philippines"
@@ -156,13 +199,22 @@
     };
   }
 
+  // Returns a match, or null when the services responded but had no result
+  // ("not found"). Throws ServiceError when the upstream geocoders are
+  // unreachable/throttled, so the caller can tell the two apart.
   async function geocode(q: string): Promise<LatLon | null> {
     // Try a few query variants to catch the case where users type "BGC, Taguig"
     // (Photon may not match the abbreviation) or addresses where the literal
     // string isn't tagged but the locality is.
+    let serviceFailed = false;
     const tries = [q, q + ", Philippines"];
     for (const variant of tries) {
-      const features = await photonSearch(variant, 5);
+      let features: any[] = [];
+      try {
+        features = await photonSearch(variant, 5);
+      } catch {
+        serviceFailed = true;
+      }
       const f = features[0];
       if (f?.geometry?.coordinates) {
         const [lon, lat] = f.geometry.coordinates;
@@ -174,24 +226,32 @@
     // Fallback: Nominatim
     try {
       const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&countrycodes=ph&limit=1&accept-language=en`;
-      const r = await fetch(url);
-      if (!r.ok) return null;
-      const arr = await r.json();
-      if (!arr.length) return null;
-      return { lat: parseFloat(arr[0].lat), lon: parseFloat(arr[0].lon), display_name: arr[0].display_name };
-    } catch {
-      return null;
+      const r = await fetchWithTimeout(url, {}, 12000);
+      if (r.status === 429 || r.status >= 500) throw new ServiceError("geocoder");
+      if (r.ok) {
+        const arr = await r.json();
+        if (arr.length) {
+          return { lat: parseFloat(arr[0].lat), lon: parseFloat(arr[0].lon), display_name: arr[0].display_name };
+        }
+      }
+    } catch (e) {
+      if (e instanceof ServiceError) throw e;
+      serviceFailed = true;
     }
+    if (serviceFailed) throw new ServiceError("geocoder");
+    return null;
   }
 
   async function fetchBuildings(lat: number, lon: number, radius = 80): Promise<Building[]> {
     const query = `[out:json][timeout:25];(way["building"](around:${radius},${lat},${lon});relation["building"](around:${radius},${lat},${lon}););out geom;`;
     const url = `https://overpass-api.de/api/interpreter`;
-    const r = await fetch(url, {
+    // Overpass is the flakiest dependency under load; bound it with a client
+    // timeout + retry and surface a "busy" signal rather than hanging 25s.
+    const r = await fetchResilient(url, {
       method: "POST",
       body: "data=" + encodeURIComponent(query),
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    });
+    }, "building service", 2, 18000);
     if (!r.ok) return [];
     const data = await r.json();
     const out: Building[] = [];
@@ -372,14 +432,25 @@
     return { label: "poor fit", color: "text-accent-coral-dark font-semibold", advice: "Solar is unlikely to pay back here. Try efficiency upgrades and time-shifting first." };
   }
 
-  async function loadJson(path: string) {
-    try {
-      const r = await fetch(path);
-      if (!r.ok) return null;
-      return await r.json();
-    } catch {
-      return null;
-    }
+  // Cache loaded JSON for the session so a 2nd/3rd lookup doesn't re-fetch and
+  // re-parse the same multi-MB GeoJSON. Failed loads aren't cached (so a
+  // transient error can be retried).
+  const _jsonCache = new Map<string, Promise<any>>();
+  function loadJson(path: string): Promise<any> {
+    const hit = _jsonCache.get(path);
+    if (hit) return hit;
+    const p = (async () => {
+      try {
+        const r = await fetchWithTimeout(path, {}, 15000);
+        if (!r.ok) return null;
+        return await r.json();
+      } catch {
+        return null;
+      }
+    })();
+    _jsonCache.set(path, p);
+    p.then((v) => { if (v == null) _jsonCache.delete(path); }).catch(() => _jsonCache.delete(path));
+    return p;
   }
 
   type CaseStudy = { id: string; city: string; province: string; lat: number; lon: number; area_m2: number; kwp_equiv: number; image_path: string; note: string };
@@ -494,12 +565,16 @@
   }
 
   async function neighborhoodContext(point: [number, number]) {
-    const [caseDoc, manifest, detections, perBuildingMap, saturation] = await Promise.all([
+    // All independent loads in one parallel batch -- no waterfall. The franchise
+    // polygons and city counts used to be awaited sequentially after this.
+    const [caseDoc, manifest, detections, perBuildingMap, saturation, cities, counts] = await Promise.all([
       loadJson("/data/case_studies.json"),
       loadJson("/data/manifest.json"),
       nearbyDetections(point, 1.5),
       perBuildingDetectionsByOsmId(),
       saturationCellAt(point[0], point[1]),
+      loadJson("/data/franchise_cities_polygons.geojson"),
+      loadJson("/data/city_detection_counts.json"),
     ]);
     const cases: CaseStudy[] = caseDoc?.cases ?? [];
     const enriched = cases.map((c) => ({
@@ -519,10 +594,9 @@
       densityRank: number;
       densityTotal: number;
     } | null = null;
+    let cityProvince: string | null = null;
     // Use the franchise polygons to find the city the address falls inside,
     // then look up detection counts from the clf_v4 survey.
-    const cities = await loadJson(`/data/franchise_cities_polygons.geojson`).catch(() => null);
-    const counts = await loadJson(`/data/city_detection_counts.json`).catch(() => null);
     if (cities?.features && counts?.rows) {
       const containing = cities.features.find((f: any) => {
         const polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
@@ -530,6 +604,7 @@
       });
       if (containing) {
         const cityName = containing.properties.name;
+        cityProvince = containing.properties.province ?? null;
         const row = counts.rows.find((r: any) => r.name === cityName);
         const sortedDensity = [...counts.rows].filter((r: any) => r.high_per_km2 > 0).sort((a: any, b: any) => b.high_per_km2 - a.high_per_km2);
         const densityRank = row ? sortedDensity.findIndex((r: any) => r.name === cityName) + 1 : 0;
@@ -543,20 +618,49 @@
         };
       }
     }
-    return { nearestCases: enriched.slice(0, 3), cityComposite, detections, perBuildingMap, saturation };
+    return { nearestCases: enriched.slice(0, 3), cityComposite, cityProvince, detections, perBuildingMap, saturation };
   }
 
-  async function lguPermit(cityName: string | null) {
-    const data = await loadJson("/data/lgu_friction.json").catch(() => null);
-    if (!data || !cityName) return { fee: null, days: null, status: "unverified", notes: "" };
-    // The lgu_friction.json structure is verified vs unverified lists; the
-    // verified entries cover province-level reference points only in v1, so
-    // most cities will return unverified. That's honest; we say so.
-    if (data.verified && data.verified[cityName]) {
-      const v = data.verified[cityName];
-      return { fee: v.permit_fee_php, days: v.permit_days_p50, status: v.data_status, notes: v.notes ?? "" };
+  type LguInfo = {
+    fee: number | null;
+    days: number | null;
+    status: string;
+    notes: string;
+    doe: { permit_target_days: number; cfei_target_days: number; deemed_approved: boolean } | null;
+    feeRange: { low: number; high: number } | null;
+  };
+
+  async function lguPermit(cityName: string | null, province: string | null): Promise<LguInfo> {
+    const data = await loadJson("/data/lgu_friction.json");
+    const doe = data?._doe_circular_2026
+      ? {
+          permit_target_days: data._doe_circular_2026.permit_target_days,
+          cfei_target_days: data._doe_circular_2026.cfei_target_days,
+          deemed_approved: !!data._doe_circular_2026.deemed_approved,
+        }
+      : null;
+    // Observed fee range from the verified province-level references (commercial
+    // project comparisons -- shown as honest context, never as a personal quote).
+    let feeRange: { low: number; high: number } | null = null;
+    if (data?.verified) {
+      const fees = Object.values(data.verified)
+        .map((v: any) => v.permit_fee_php)
+        .filter((n: any) => typeof n === "number");
+      if (fees.length) feeRange = { low: Math.min(...fees), high: Math.max(...fees) };
     }
-    return { fee: null, days: null, status: "unverified", notes: "Most LGUs publish their fee schedules online but not in our hand-curated table yet." };
+    // Exact verified city match (rare in v1).
+    if (data?.verified && cityName && data.verified[cityName]) {
+      const v = data.verified[cityName];
+      return { fee: v.permit_fee_php, days: v.permit_days_p50, status: "verified", notes: v.notes ?? "", doe, feeRange };
+    }
+    return {
+      fee: null,
+      days: doe?.permit_target_days ?? null,
+      status: "doe-baseline",
+      notes: province ? `Province-level reference for ${province}.` : "",
+      doe,
+      feeRange,
+    };
   }
 
   function aspectRatioOf(building: Building): number {
@@ -726,12 +830,14 @@
     };
   }
 
-  async function run(opts: { address: string; bill: number; residents: string }) {
+  async function run(opts: { address: string; bill: number; residents: string; presetGeo?: LatLon }) {
     const status = document.getElementById("roof-status")!;
-    status.textContent = "Geocoding...";
-    // If the user picked from autocomplete, use that lat/lon directly.
+    status.textContent = "Finding your address...";
+    // Geolocation or autocomplete picks supply lat/lon directly; otherwise geocode.
     let geo: LatLon | null;
-    if (acPicked) {
+    if (opts.presetGeo) {
+      geo = opts.presetGeo;
+    } else if (acPicked) {
       geo = { lat: acPicked.lat, lon: acPicked.lon, display_name: addrInput.value };
     } else {
       geo = await geocode(opts.address);
@@ -791,7 +897,7 @@
 
     status.textContent = "Looking up your neighborhood and LGU...";
     const ctx = await neighborhoodContext([geo.lon, geo.lat]);
-    const lgu = await lguPermit(ctx.cityComposite?.city ?? null);
+    const lgu = await lguPermit(ctx.cityComposite?.city ?? null, ctx.cityProvince);
 
     // Per-building solar match: did our v2.1 panel-segmentation pipeline place
     // a panel polygon on THIS building?
@@ -977,13 +1083,18 @@
       : "";
 
     root.innerHTML = `
+      <div class="flex flex-wrap gap-2 mb-4 justify-end print:hidden">
+        <button id="roof-copy" type="button" class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider border border-ink-300 px-3 min-h-[40px] hover:bg-paper-alt text-ink-700">copy link to this result</button>
+        <button id="roof-print" type="button" class="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider border border-ink-300 px-3 min-h-[40px] hover:bg-paper-alt text-ink-700">print / save pdf</button>
+      </div>
       ${verdictHtml}
       ${saturationHtml}
       ${warningsHtml}
       <div class="grid gap-6 md:grid-cols-[1.3fr_1fr] mb-8">
         <div class="border border-ink-300/40 bg-white">
           <div class="relative aspect-square overflow-hidden bg-ink-300/10">
-            <img src="${r.imgUrl}" alt="Hi-res satellite view of your roof" class="absolute inset-0 w-full h-full object-cover" loading="eager" onerror="this.onerror=null;this.src='${r.imgUrlFallback || r.imgUrl}';this.classList.add('opacity-90')" />
+            <div class="absolute inset-0 flex items-center justify-center text-xs text-ink-500 font-mono">loading imagery…</div>
+            <img src="${r.imgUrl}" alt="Satellite view of the roof at ${escapeHtml(r.address)}" class="absolute inset-0 w-full h-full object-cover" loading="eager" onerror="this.onerror=null;this.src='${r.imgUrlFallback || r.imgUrl}';this.classList.add('opacity-90')" />
             <svg viewBox="0 0 ${r.sizePx} ${r.sizePx}" preserveAspectRatio="none" class="absolute inset-0 w-full h-full pointer-events-none">
               <path d="${r.polygonPath}" fill="none" stroke="#d97757" stroke-width="3" stroke-linejoin="round" />
               <path d="${r.polygonPath}" fill="#d97757" fill-opacity="0.15" />
@@ -1020,9 +1131,9 @@
             </dl>
           </div>
 
-          <div class="border border-ink-300/40 bg-white p-5">
-            <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">on your application packet</p>
-            <p class="text-xs text-ink-700 leading-relaxed mb-3">Five items to confirm with your installer. With these on file, the technical requirements are met up front -- fewer rounds of revision, fewer reasons for delay.</p>
+          <details class="border border-ink-300/40 bg-white p-5 group">
+            <summary class="list-none cursor-pointer flex items-center justify-between text-xs uppercase tracking-wider text-ink-500 font-mono [&::-webkit-details-marker]:hidden"><span>on your application packet — 5 items</span><span class="text-ink-300 group-open:rotate-180 transition-transform" aria-hidden="true">▾</span></summary>
+            <p class="text-xs text-ink-700 leading-relaxed mb-3 mt-3">Five items to confirm with your installer. With these on file, the technical requirements are met up front -- fewer rounds of revision, fewer reasons for delay.</p>
             <ul class="grid gap-1.5 text-xs text-ink-700 leading-snug">
               <li class="flex gap-2"><span class="font-mono text-accent-steel">01</span><span>Inverter datasheet citing <strong>IEEE 1547</strong> or <strong>UL 1741</strong> anti-islanding compliance.</span></li>
               <li class="flex gap-2"><span class="font-mono text-accent-steel">02</span><span>Accredited installer (ask for the accreditation number).</span></li>
@@ -1031,7 +1142,7 @@
               <li class="flex gap-2"><span class="font-mono text-accent-steel">05</span><span>Net-metering paperwork filed before commissioning, not after.</span></li>
             </ul>
             <p class="text-[11px] text-ink-500 leading-relaxed mt-3 pt-3 border-t border-ink-300/30">Statutory window to act on a complete application is <strong>20 working days</strong>. <a href="/safety#recourse" class="no-underline text-accent-steel">If it drags &rarr;</a></p>
-          </div>
+          </details>
         </div>
       </div>
 
@@ -1079,10 +1190,10 @@
           <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">LGU permit</p>
           <h3 class="text-xl text-ink-900 font-semibold mb-1">${r.cityComposite?.city ?? "your LGU"}</h3>
           <dl class="grid grid-cols-2 gap-y-1 gap-x-4 text-sm font-mono tabular-nums mt-2 mb-3">
-            <dt class="text-ink-500">permit fee</dt><dd class="text-right text-ink-900">${r.lgu.fee !== null ? fmtCurrency(r.lgu.fee) : "not yet verified"}</dd>
-            <dt class="text-ink-500">approval</dt><dd class="text-right text-ink-900">${r.lgu.days ? `~${r.lgu.days} days` : "varies"}</dd>
+            <dt class="text-ink-500">permit target</dt><dd class="text-right text-ink-900">${r.lgu.doe ? `${r.lgu.doe.permit_target_days} working days` : (r.lgu.days ? `~${r.lgu.days} days` : "varies")}</dd>
+            <dt class="text-ink-500">${r.lgu.fee !== null ? "permit fee" : "fee range (ref.)"}</dt><dd class="text-right text-ink-900">${r.lgu.fee !== null ? fmtCurrency(r.lgu.fee) : (r.lgu.feeRange ? `${fmtCurrency(r.lgu.feeRange.low)}–${fmtCurrency(r.lgu.feeRange.high)}` : "varies by LGU")}</dd>
           </dl>
-          <p class="text-xs text-ink-500 leading-relaxed">${r.lgu.notes || "April 2026 DOE circular targets a 3-day permit ceiling; LGU adoption uneven."}</p>
+          <p class="text-xs text-ink-500 leading-relaxed">${r.lgu.doe?.deemed_approved ? `Under the April 2026 DOE circular, LGUs must issue the electrical permit within ${r.lgu.doe.permit_target_days} working days, deemed approved on silence. ` : ""}${r.lgu.fee === null ? "Fee shown is a province-level reference from commercial-project data; a residential permit is typically a fraction of this. " : ""}Fast-track adoption is uneven &mdash; confirm with your LGU.</p>
         </div>
       </div>
 
@@ -1092,19 +1203,19 @@
       </div>
 
       ${(r.detections && r.detections.length > 0) ? `
-      <div class="mb-8">
-        <div class="flex items-baseline justify-between gap-3 mb-3">
-          <p class="text-xs uppercase tracking-wider text-ink-500 font-mono">solar detected near you</p>
-          <p class="text-[10px] text-ink-300 font-mono">${r.detections.length} within 1.5 km</p>
-        </div>
+      <details class="mb-8 group">
+        <summary class="list-none cursor-pointer flex items-baseline justify-between gap-3 mb-3 [&::-webkit-details-marker]:hidden">
+          <span class="text-xs uppercase tracking-wider text-ink-500 font-mono">solar detected near you <span class="text-ink-300 group-open:rotate-180 inline-block transition-transform" aria-hidden="true">▾</span></span>
+          <span class="text-[11px] text-ink-300 font-mono">${r.detections.length} within 1.5 km</span>
+        </summary>
         <p class="text-sm text-ink-500 leading-relaxed mb-4">
-          Tile-level scan of NCR: a frozen CLIP-ViT-L encoder with a Platt-calibrated logistic-regression head. <strong class="text-ink-900">High-confidence</strong> (&ge; 0.85) = 95.9% precision on an honest source-disjoint holdout (F1 0.87). <strong class="text-ink-900">Candidate</strong> = lower confidence, may need verification. <a href="/methodology#cnn-detection" class="no-underline text-accent-steel">How we built this &rarr;</a>
+          Our model scanned satellite tiles across NCR. <strong class="text-ink-900">High-confidence</strong> (score &ge; 0.85) detections were validated to 95.9% precision on rooftops the model never saw in training. <strong class="text-ink-900">Candidate</strong> = lower confidence, worth a second look. <a href="/methodology#cnn-detection" class="no-underline text-accent-steel">How we built this &rarr;</a>
         </p>
         <div class="grid gap-3 grid-cols-2 md:grid-cols-4">
           ${r.detections.slice(0, 8).map((d: any) => `
             <a href="https://www.openstreetmap.org/?mlat=${d.lat}&mlon=${d.lon}&zoom=19" target="_blank" rel="noopener" class="block group no-underline">
               <div class="aspect-square overflow-hidden bg-ink-300/10 relative">
-                <img src="${esriThumbUrl(d.lat, d.lon, 300)}" alt="detected solar tile" class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
+                <img src="${esriThumbUrl(d.lat, d.lon, 300)}" alt="Satellite tile of ${d.tier}-confidence detected solar, ${d.distanceKm.toFixed(2)} km away" class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
                 <div class="absolute top-1 left-1 px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wider ${d.tier === "high" ? "bg-accent-steel/95 text-white" : "bg-white/95 text-ink-700"}">
                   ${d.tier}
                 </div>
@@ -1113,15 +1224,40 @@
             </a>
           `).join("")}
         </div>
-      </div>
+      </details>
       ` : ``}
 
-      <div class="border-t border-ink-300/30 pt-6 text-sm text-ink-500">
-        <p class="mb-2"><strong>What this is:</strong> a personal rooftop assessment using free public data (OpenStreetMap building footprints, Esri World Imagery for the satellite view, PVGIS-derived Philippine yield, current Meralco rate, our hand-curated LGU friction table).</p>
+      <details class="border-t border-ink-300/30 pt-6 text-sm text-ink-500">
+        <summary class="list-none cursor-pointer text-xs uppercase tracking-wider font-mono text-ink-500 [&::-webkit-details-marker]:hidden">what this is, what it isn't, and limitations</summary>
+        <p class="mb-2 mt-3"><strong>What this is:</strong> a personal rooftop assessment using free public data (OpenStreetMap building footprints, Esri World Imagery for the satellite view, PVGIS-derived Philippine yield, current Meralco rate, our hand-curated LGU friction table).</p>
         <p class="mb-2"><strong>What this isn't:</strong> engineering advice. Talk to a certified installer for a site survey, exact orientation, structural load, and pricing. Estimate accuracy degrades for shaded, multi-story, or unusually-shaped roofs.</p>
         <p>Methodology and limitations on <a href="/methodology" class="no-underline text-accent-steel">/methodology</a>. The neighborhood signal comes from <a href="/map" class="no-underline text-accent-steel">/map</a>.</p>
-      </div>
+      </details>
     `;
+
+    // Wire result actions (share link + print). The URL carries ?address= so a
+    // copied link reproduces this result for whoever opens it.
+    document.getElementById("roof-copy")?.addEventListener("click", async (e) => {
+      const btn = e.currentTarget as HTMLButtonElement;
+      const orig = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(location.href);
+        btn.textContent = "copied!";
+      } catch {
+        btn.textContent = "copy failed — use the address bar";
+      }
+      setTimeout(() => { btn.textContent = orig; }, 1800);
+    });
+    document.getElementById("roof-print")?.addEventListener("click", () => window.print());
+
+    // Bring the answer into view and move focus to the verdict heading so it
+    // isn't missed below the fold and is announced to screen readers.
+    root.scrollIntoView({ behavior: "smooth", block: "start" });
+    const verdictHeading = root.querySelector("h2");
+    if (verdictHeading) {
+      verdictHeading.setAttribute("tabindex", "-1");
+      (verdictHeading as HTMLElement).focus({ preventScroll: true });
+    }
   }
 
   // ── Address autocomplete ─────────────────────────────────────────────
@@ -1182,7 +1318,14 @@
   async function refreshSuggestions(q: string) {
     if (q === acLastQuery) return;
     acLastQuery = q;
-    const features = await photonSearch(q, 8);
+    let features: any[] = [];
+    try {
+      features = await photonSearch(q, 8);
+    } catch {
+      // Autocomplete fails silently; the user can still submit and we'll
+      // surface a "service busy" message there if it's actually down.
+      features = [];
+    }
     if (q !== acLastQuery) return;   // stale
     acSuggestions = features.map(photonFeatureToLabel).filter((s) => s.label || s.sub);
     acActiveIdx = -1;
@@ -1242,6 +1385,39 @@
     });
   });
 
+  // Single entry point for a lookup: guards against double-submit, locks the
+  // buttons + shows a working label, and turns a thrown ServiceError into a
+  // clear "service busy" message (vs the misleading "address not found").
+  let isRunning = false;
+  async function submitLookup(opts: { address: string; bill: number; residents: string; presetGeo?: LatLon }) {
+    if (isRunning) return;
+    isRunning = true;
+    const submitBtn = document.getElementById("roof-submit") as HTMLButtonElement | null;
+    const geoBtn = document.getElementById("roof-geo") as HTMLButtonElement | null;
+    const status = document.getElementById("roof-status")!;
+    const origLabel = submitBtn ? submitBtn.innerHTML : "";
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Checking your roof…"; }
+    if (geoBtn) geoBtn.disabled = true;
+    try {
+      await run(opts);
+    } catch (err) {
+      status.textContent = (err instanceof ServiceError)
+        ? "The address service is busy right now. Wait a few seconds and try again."
+        : "Something went wrong. Try again, or pick a sample address.";
+    } finally {
+      isRunning = false;
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = origLabel; }
+      if (geoBtn) geoBtn.disabled = false;
+    }
+  }
+
+  function currentBill(): number {
+    return parseFloat((document.getElementById("roof-bill") as HTMLInputElement)?.value || "8000");
+  }
+  function currentResidents(): string {
+    return (document.getElementById("roof-residents") as HTMLSelectElement)?.value || "4";
+  }
+
   document.getElementById("roof-form")!.addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
@@ -1250,15 +1426,50 @@
     const bill = parseFloat(String(data.get("bill") || "8000"));
     const residents = String(data.get("residents") || "4");
     if (!address) return;
-    // If the user picked a suggestion, run() will get the lat/lon directly
-    // (skip a redundant geocode round-trip). The picker is checked inside run().
-    await run({ address, bill, residents });
+    // Make the result shareable: round-trip the address through the URL so a
+    // copied link reproduces this lookup for whoever opens it.
+    try { history.replaceState(null, "", `?address=${encodeURIComponent(address)}`); } catch {}
+    // If the user picked a suggestion, run() uses the lat/lon directly.
+    await submitLookup({ address, bill, residents });
   });
 
-  // Pre-fill from query string for /?address=... and /roof?address=... links
+  // "Use my location": skip typing and geocoding entirely.
+  document.getElementById("roof-geo")?.addEventListener("click", () => {
+    const status = document.getElementById("roof-status")!;
+    if (!("geolocation" in navigator)) {
+      status.textContent = "Your browser can't share location. Type your address instead.";
+      return;
+    }
+    status.textContent = "Getting your location…";
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        try { history.replaceState(null, "", location.pathname); } catch {}
+        submitLookup({
+          address: "Your location",
+          bill: currentBill(),
+          residents: currentResidents(),
+          presetGeo: { lat: pos.coords.latitude, lon: pos.coords.longitude, display_name: "Your location" },
+        });
+      },
+      () => { status.textContent = "Couldn't get your location. Type your address instead."; },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+    );
+  });
+
+  // Pre-fill AND auto-run from a shared link (/?address=...): the recipient sees
+  // the result immediately instead of a blank form.
   const presetParams = new URLSearchParams(location.search);
   const presetAddress = presetParams.get("address");
   if (presetAddress) {
     addrInput.value = presetAddress;
+    submitLookup({ address: presetAddress, bill: currentBill(), residents: currentResidents() });
   }
 </script>
+
+<style is:global>
+  @media print {
+    header, footer, #roof-form, .print\:hidden { display: none !important; }
+    #roof-results { margin-top: 0 !important; }
+    a[href]::after { content: "" !important; }
+  }
+</style>

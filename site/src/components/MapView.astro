@@ -45,28 +45,37 @@ const headerCopy = {
 
 <div id="map-root" class="grid md:grid-cols-[1fr_400px] gap-4 px-6 max-w-6xl mx-auto">
   <div class="relative">
-    <div id="map" class="w-full h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
-    <div id="legend" class="absolute bottom-3 left-3 bg-white/95 border border-ink-300/40 rounded p-3 text-xs shadow-sm">
-      <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1.5 font-mono">detection density per city</div>
-      <div id="legend-bar" class="w-56 h-2 rounded mb-1.5"></div>
-      <div class="grid grid-cols-3 text-[10px] text-ink-500">
-        <span class="text-left">low</span>
-        <span class="text-center text-ink-900">median</span>
-        <span class="text-right">high</span>
-      </div>
-      <div class="border-t border-ink-300/30 mt-2 pt-2">
-        <div class="text-ink-500 uppercase tracking-wider text-[10px] mb-1 font-mono">individual detections</div>
-        <div class="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-0.5 text-[10px] text-ink-700">
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#d97757"></span><span>NCR: newly identified</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#3a7d44"></span><span>NCR: corroborated</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#9ca3af"></span><span>NCR: lower-confidence</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#2563eb"></span><span>cross-domain high (Cebu/Iloilo/Calabarzon: v1.2 calibrated)</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#c7d2e8"></span><span>calibrated low-confidence (demoted by calibration)</span>
-          <span class="inline-block w-3 h-3 rounded-sm" style="background:#93c5fd"></span><span>cross-domain uncalibrated (Davao/CDO/Legazpi/Bacolod)</span>
+    <div id="map" class="w-full h-[70vh] md:h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
+    <div id="map-loading" class="absolute top-3 left-1/2 -translate-x-1/2 z-20 bg-white/95 border border-ink-300/40 rounded-full px-3 py-1 text-xs text-ink-700 shadow-sm">Loading detections…</div>
+    <details id="legend" class="absolute bottom-3 left-3 bg-white/95 border border-ink-300/40 rounded p-3 text-xs shadow-sm max-w-[70vw] md:max-w-none">
+      <summary class="cursor-pointer list-none text-ink-900 font-mono uppercase tracking-wider text-[11px] select-none">map legend</summary>
+      <div class="mt-2">
+        <div class="text-ink-500 uppercase tracking-wider text-[11px] mb-1.5 font-mono">detection density per city</div>
+        <div id="legend-bar" class="w-full max-w-56 h-2 rounded mb-1.5"></div>
+        <div class="grid grid-cols-3 text-[11px] text-ink-500">
+          <span class="text-left">low</span>
+          <span class="text-center text-ink-900">median</span>
+          <span class="text-right">high</span>
         </div>
+        <div class="border-t border-ink-300/30 mt-2 pt-2">
+          <div class="text-ink-500 uppercase tracking-wider text-[11px] mb-1 font-mono">individual detections</div>
+          <div class="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1 text-[11px] text-ink-700">
+            <span class="inline-block w-3 h-3 rounded-sm" style="background:#d97757"></span><span>newly identified</span>
+            <span class="inline-block w-3 h-3 rounded-sm" style="background:#3a7d44"></span><span>already documented (corroborated)</span>
+            <span class="inline-block w-3 h-3 rounded-sm" style="background:#9ca3af"></span><span>lower-confidence</span>
+          </div>
+        </div>
+        <details class="border-t border-ink-300/30 mt-2 pt-2">
+          <summary class="cursor-pointer list-none text-ink-500 uppercase tracking-wider text-[11px] font-mono select-none">advanced / cross-domain colors</summary>
+          <div class="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1 text-[11px] text-ink-700 mt-1.5">
+            <span class="inline-block w-3 h-3 rounded-sm" style="background:#2563eb"></span><span>cross-domain high (Cebu/Iloilo/Calabarzon: v1.2 calibrated)</span>
+            <span class="inline-block w-3 h-3 rounded-sm" style="background:#c7d2e8"></span><span>calibrated low-confidence (demoted by calibration)</span>
+            <span class="inline-block w-3 h-3 rounded-sm" style="background:#93c5fd"></span><span>cross-domain uncalibrated (Davao/CDO/Legazpi/Bacolod)</span>
+          </div>
+        </details>
+        <div id="legend-source" class="text-[11px] text-ink-500 mt-1.5 font-mono">SolarMap.PH · 96% precision on NCR holdout</div>
       </div>
-      <div id="legend-source" class="text-[10px] text-ink-500 mt-1.5 font-mono">SolarMap.PH · 96% precision on NCR holdout</div>
-    </div>
+    </details>
     <div class="absolute bottom-1 right-2 bg-white/85 px-1.5 py-0.5 text-[9px] text-ink-500 rounded-sm border border-ink-300/30 leading-tight max-w-[18rem] text-right">
       Imagery © Esri, Maxar, Earthstar Geographics. Buildings © OpenStreetMap contributors.
     </div>
@@ -74,6 +83,16 @@ const headerCopy = {
 
   <aside id="side-panel" class="border border-ink-300/40 bg-white text-sm overflow-hidden">
     <div id="empty-state" class="p-5">
+      <a href="/" class="flex items-center justify-center px-3 py-2.5 mb-4 border border-accent-coral bg-accent-coral text-white text-[11px] font-mono uppercase tracking-wider hover:bg-accent-coral-dark hover:border-accent-coral-dark no-underline">Check your own roof &rarr;</a>
+
+      <div class="mb-4">
+        <label for="city-search" class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-1 block">jump to a city</label>
+        <input id="city-search" type="search" autocomplete="off" list="city-search-options" placeholder="Type a city name…" aria-label="Search for a city to jump to" class="w-full px-3 py-2 border border-ink-300/50 bg-paper text-sm text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-ink-700" />
+        <datalist id="city-search-options"></datalist>
+      </div>
+
+      <button id="copy-link-btn" type="button" class="w-full inline-flex items-center justify-center px-3 py-2 mb-4 border border-ink-300 text-ink-700 text-[11px] font-mono uppercase tracking-wider hover:bg-paper-alt">Copy link</button>
+
       <p class="text-xs uppercase tracking-wider text-ink-500 mb-2 font-mono">click any city or detection</p>
       <p class="text-ink-700 leading-relaxed">Select a city to see its detection summary. Zoom in to street level and click any building footprint to inspect the rooftop in satellite imagery and view the model's per-detection metrics.</p>
       <div class="mt-5 pt-5 border-t border-ink-300/30">
@@ -129,6 +148,9 @@ const headerCopy = {
         <button id="city-zoom-btn" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">zoom to detections &rarr;</button>
         <a id="city-csv" class="inline-flex items-center justify-center px-3 py-2 border border-ink-300 text-ink-700 text-[11px] font-mono uppercase tracking-wider hover:bg-paper-alt" title="download detections as CSV" download>csv</a>
       </div>
+      <div class="px-5 pb-3">
+        <a href="/" class="w-full inline-flex items-center justify-center px-3 py-2 border border-accent-coral text-accent-coral text-[11px] font-mono uppercase tracking-wider hover:bg-accent-coral hover:text-white no-underline">Check your own roof &rarr;</a>
+      </div>
     </div>
 
     <div id="detection-detail" class="hidden">
@@ -152,6 +174,9 @@ const headerCopy = {
       <div class="px-5 py-3 border-t border-ink-300/30 flex gap-2">
         <a id="det-osm-link" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white" target="_blank" rel="noopener">inspect on public map &rarr;</a>
         <a id="det-fp" class="inline-flex items-center justify-center px-3 py-2 border border-ink-300 text-ink-500 text-[11px] font-mono uppercase tracking-wider hover:text-ink-900 hover:border-ink-700" target="_blank" rel="noopener" title="report a false positive">report fp</a>
+      </div>
+      <div class="px-5 pb-3">
+        <a href="/" class="w-full inline-flex items-center justify-center px-3 py-2 border border-accent-coral text-accent-coral text-[11px] font-mono uppercase tracking-wider hover:bg-accent-coral hover:text-white no-underline">Check your own roof &rarr;</a>
       </div>
     </div>
   </aside>
@@ -309,12 +334,29 @@ const headerCopy = {
 
   async function init() {
     const [detections, perBuilding, cities, cityCounts, ...v11Detections] = await Promise.all([
-      loadJSON<any>("rooftop_solar_ncr.geojson"),
-      loadJSON<any>("per_building_solar_ncr.geojson"),
-      loadJSON<any>("franchise_cities_polygons.geojson"),
-      loadJSON<any>("city_detection_counts.json"),
+      loadJSON<any>("rooftop_solar_ncr.geojson").catch(() => null),
+      loadJSON<any>("per_building_solar_ncr.geojson").catch(() => null),
+      loadJSON<any>("franchise_cities_polygons.geojson").catch(() => null),
+      loadJSON<any>("city_detection_counts.json").catch(() => null),
       ...V11_REGIONS.map((r) => loadJSON<any>(`rooftop_solar_${r.slug}.geojson`).catch(() => null)),
     ]);
+
+    // Degraded state: if a critical file failed, don't leave a blank gray box.
+    // Show a user-facing message with a Reload button rather than a console-only
+    // failure. (The v1.1 region files are already individually catch-wrapped and
+    // optional; only the four NCR core files are required to render the map.)
+    if (!detections || !perBuilding || !cities || !cityCounts) {
+      document.getElementById("map-loading")?.remove();
+      const mapEl = document.getElementById("map");
+      if (mapEl) {
+        mapEl.innerHTML =
+          '<div class="flex flex-col items-center justify-center h-full gap-3 p-6 text-center">' +
+          '<p class="text-sm text-ink-700">Some map data couldn\'t load right now.</p>' +
+          '<button type="button" onclick="location.reload()" class="inline-flex items-center justify-center px-4 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">Reload</button>' +
+          "</div>";
+      }
+      return;
+    }
 
     // Assemble cross-domain feature collections from the v1.1 regions, tagging
     // each feature with its region slug so the click handler can show the
@@ -422,6 +464,14 @@ const headerCopy = {
       zoom: 9,
     });
     map.addControl(new maplibregl.NavigationControl(), "top-right");
+    map.addControl(
+      new maplibregl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true },
+        trackUserLocation: false,
+        showUserLocation: true,
+      }),
+      "top-right"
+    );
     if (typeof window !== "undefined") (window as any).__solarMapPHMap = map;
 
     map.on("load", () => {
@@ -620,6 +670,7 @@ const headerCopy = {
         const f = e.features?.[0];
         if (!f) return;
         showCity(f.properties.name);
+        scrollPanelIntoView();
       });
       map.on("mouseenter", "cities-fill", () => (map.getCanvas().style.cursor = "pointer"));
       map.on("mouseleave", "cities-fill", () => (map.getCanvas().style.cursor = ""));
@@ -629,6 +680,7 @@ const headerCopy = {
         if (!f) return;
         const center = representativePoint(f.geometry);
         showDetection(f.properties, center[1], center[0]);
+        scrollPanelIntoView();
       });
       map.on("mouseenter", "buildings-fill", () => (map.getCanvas().style.cursor = "pointer"));
       map.on("mouseleave", "buildings-fill", () => (map.getCanvas().style.cursor = ""));
@@ -638,6 +690,7 @@ const headerCopy = {
         if (!f) return;
         const [lon, lat] = (f.geometry as any).coordinates;
         showDetection({ ...f.properties, _orphan: true }, lat, lon);
+        scrollPanelIntoView();
       });
       map.on("mouseenter", "orphan-rings", () => (map.getCanvas().style.cursor = "pointer"));
       map.on("mouseleave", "orphan-rings", () => (map.getCanvas().style.cursor = ""));
@@ -661,6 +714,7 @@ const headerCopy = {
         } else {
           showDetection({ ...f.properties, _orphan: true }, lat, lon);
         }
+        scrollPanelIntoView();
       });
       map.on("mouseenter", "high-dots", () => (map.getCanvas().style.cursor = "pointer"));
       map.on("mouseleave", "high-dots", () => (map.getCanvas().style.cursor = ""));
@@ -674,6 +728,7 @@ const headerCopy = {
         if (!f) return;
         const [lon, lat] = (f.geometry as any).coordinates;
         showV11Detection(f.properties, lat, lon);
+        scrollPanelIntoView();
       };
       map.on("click", "v11-high-dots", v11Click);
       map.on("click", "v11-cand-dots", v11Click);
@@ -698,6 +753,9 @@ const headerCopy = {
       }
       const cityParam = params.get("city");
       if (cityParam) showCity(cityParam, true);
+
+      // Data layers are on the map now — drop the loading pill.
+      document.getElementById("map-loading")?.remove();
     });
 
     // ---- side panel renderers ------------------------------------------
@@ -705,6 +763,12 @@ const headerCopy = {
     const empty = document.getElementById("empty-state")!;
     const cityDetail = document.getElementById("city-detail")!;
     const detDetail = document.getElementById("detection-detail")!;
+    // On phones the panel sits below the map, so after a tap the result is
+    // off-screen. Scroll it into view (no-op on desktop where it's side-by-side).
+    const scrollPanelIntoView = () => {
+      if (window.matchMedia("(min-width: 768px)").matches) return;
+      document.getElementById("side-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
     const sideBack = (target: HTMLElement) => {
       cityDetail.classList.add("hidden");
       detDetail.classList.add("hidden");
@@ -961,6 +1025,60 @@ const headerCopy = {
       });
     });
 
+    // ---- city search (jump to a city) ----------------------------------
+    // Reuses the existing city-focus path: showCity() refreshes the panel and
+    // re-wires the zoom-to-detections button to this city's fitBounds, so we
+    // click it to fly the map there. Dependency-free; options come from the
+    // same city_detection_counts rows the lists use.
+    const searchInput = document.getElementById("city-search") as HTMLInputElement | null;
+    const searchOptions = document.getElementById("city-search-options");
+    if (searchOptions) {
+      searchOptions.innerHTML = [...cityCounts.rows]
+        .sort((a: any, b: any) => b.n_high - a.n_high)
+        .map((r: any) => `<option value="${r.name}"></option>`)
+        .join("");
+    }
+    const focusCity = (raw: string) => {
+      const name = raw.trim();
+      if (!name) return;
+      const row = [...byCity.values()].find(
+        (r) => r.name.toLowerCase() === name.toLowerCase() ||
+               r.name.toLowerCase().replace(/[^a-z0-9]+/g, "") === name.toLowerCase().replace(/[^a-z0-9]+/g, "")
+      );
+      if (!row) return;
+      showCity(row.name);
+      (document.getElementById("city-zoom-btn") as HTMLButtonElement | null)?.click();
+      document.getElementById("map")?.scrollIntoView({ behavior: "smooth" });
+    };
+    if (searchInput) {
+      searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") { e.preventDefault(); focusCity(searchInput.value); }
+      });
+      // Picking from the datalist fires an input event with the full value.
+      searchInput.addEventListener("change", () => focusCity(searchInput.value));
+    }
+
+    // ---- copy link -----------------------------------------------------
+    const copyBtn = document.getElementById("copy-link-btn") as HTMLButtonElement | null;
+    if (copyBtn) {
+      copyBtn.addEventListener("click", async () => {
+        const original = copyBtn.textContent;
+        try {
+          await navigator.clipboard.writeText(location.href);
+          copyBtn.textContent = "Copied!";
+        } catch {
+          copyBtn.textContent = "Copy failed";
+        }
+        setTimeout(() => { copyBtn.textContent = original; }, 1500);
+      });
+    }
+
+    // ---- legend: open by default on desktop, collapsed on phones -------
+    const legend = document.getElementById("legend") as HTMLDetailsElement | null;
+    if (legend && window.matchMedia("(min-width: 768px)").matches) {
+      legend.open = true;
+    }
+
     // ---- top installs gallery ------------------------------------------
 
     const topInstalls = [...perBuilding.features]
@@ -999,9 +1117,14 @@ const headerCopy = {
 
   init().catch((err) => {
     console.error(err);
+    document.getElementById("map-loading")?.remove();
     const map = document.getElementById("map");
     if (map) {
-      map.innerHTML = '<div class="p-6 text-sm text-ink-500">Map data failed to load. Check the browser console for details.</div>';
+      map.innerHTML =
+        '<div class="flex flex-col items-center justify-center h-full gap-3 p-6 text-center">' +
+        '<p class="text-sm text-ink-700">Map data failed to load.</p>' +
+        '<button type="button" onclick="location.reload()" class="inline-flex items-center justify-center px-4 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">Reload</button>' +
+        "</div>";
     }
   });
 </script>
