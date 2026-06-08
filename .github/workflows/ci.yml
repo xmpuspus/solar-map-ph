@@ -109,14 +109,19 @@ jobs:
         run: |
           # `actions/checkout` normalizes file mtimes to the checkout time,
           # which makes `make` think the trained .joblib is older than its
-          # source dataset and tries to retrain from build_dataset_v3.py.
-          # That recipe needs detection/bootstrap/tiles/ which is .gitignored.
-          # Touching the trained artifacts in dep order skips the rebuild;
-          # `make hash-verify` then just runs the sha256 check.
+          # source dataset and tries to retrain. That rebuild needs Torchvision
+          # + network tiles (build_dataset_v5.py loads CLIP), which CI lacks.
+          # `hash-verify` now checks clf_v5 (v1.2), so touch the full v5
+          # dependency chain in order so each target is newer than its
+          # prerequisites; `make hash-verify` then just runs the sha256 check.
           touch detection/train/dataset_v4.npz
           touch detection/train/dataset_v4_manifest.json
-          touch detection/train/clf_v4.joblib
-          touch detection/train/clf_v4_metrics.json
+          touch detection/train/region_labels.jsonl
+          touch detection/train/dataset_v5.npz
+          touch detection/train/dataset_v5_manifest.json
+          touch detection/train/v5_region_holdout/holdout_split.json
+          touch detection/train/clf_v5.joblib
+          touch detection/train/clf_v5_metrics.json
 
       - name: Verify deterministic classifier hash
         run: make hash-verify
