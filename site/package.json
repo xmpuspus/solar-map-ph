@@ -35,6 +35,6 @@
   },
   "packageManager": "pnpm@9.12.3",
   "devDependencies": {
-    "playwright": "^1.60.0"
+    "playwright": "^1.61.1"
   }
 }
