@@ -91,10 +91,32 @@ const isActive = (href: string) =>
     }
   }
 
+  // The two theme-color tags in Base.astro carry a media attribute, so they
+  // track the OS and ignore an explicit choice. A browser uses the LAST tag
+  // that matches, so an override appended with no media wins, and removing it
+  // hands control back to the media pair. Without this, a phone keeps dark
+  // address-bar chrome around a page the reader just switched to light.
+  const CHROME = { light: "#fbfaf6", dark: "#10151c" };
+
+  function applyChromeColor(mode: Mode) {
+    const id = "theme-color-override";
+    const existing = document.getElementById(id);
+    if (mode === "auto") {
+      existing?.remove();
+      return;
+    }
+    const tag = (existing as HTMLMetaElement) ?? document.createElement("meta");
+    tag.id = id;
+    tag.setAttribute("name", "theme-color");
+    tag.setAttribute("content", CHROME[mode]);
+    if (!existing) document.head.appendChild(tag);
+  }
+
   function apply(mode: Mode) {
     const root = document.documentElement;
     if (mode === "auto") root.removeAttribute("data-theme");
     else root.setAttribute("data-theme", mode);
+    applyChromeColor(mode);
     try {
       if (mode === "auto") localStorage.removeItem(KEY);
       else localStorage.setItem(KEY, mode);
