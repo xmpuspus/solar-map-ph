@@ -402,9 +402,11 @@ flowchart TB
     // page, which is the single most visible dark-mode break on this page.
     const sources = new Map<Element, string>();
     for (const el of document.querySelectorAll(".mermaid")) {
-      // innerHTML, not textContent: the diagram source carries literal <br/>
-      // tags that the parser already turned into elements. textContent drops
-      // them and every node label collapses onto one line.
+      // innerHTML rather than textContent, because the diagram source carries
+      // literal <br/> tags that the parser already turned into elements.
+      // textContent drops them and every node label collapses onto one line.
+      // The value round-trips author-written markup from this file, captured
+      // before any interaction. No user input reaches it.
       sources.set(el, el.innerHTML);
     }
 

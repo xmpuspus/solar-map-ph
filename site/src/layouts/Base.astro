@@ -120,10 +120,10 @@ const ogImage = image.startsWith("http") ? image : `${SITE_URL}${image}`;
     <Footer />
 
     <script>
-      // Scroll reveal, MOTION_INTENSITY 3: opacity and transform only, one
-      // IntersectionObserver instead of a scroll listener, and nothing is
-      // hidden when JS is off because .reveal starts visible without .is-in
-      // only after this script confirms it can run.
+      // Scroll reveal at MOTION_INTENSITY 3. Opacity and transform only, and
+      // one IntersectionObserver rather than a scroll listener. The hidden
+      // state lives under .js in global.css, which the head script sets, so
+      // scripts off means nothing is hidden.
       const targets = document.querySelectorAll<HTMLElement>(".reveal");
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce || !("IntersectionObserver" in window)) {
