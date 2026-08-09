@@ -1,7 +1,12 @@
 ---
 // Client-side homeowner form. Local geocoder against franchise polygons,
 // PVGIS-derived national yield constant, payback math, LGU friction lookup.
+//
+// Rate, install cost and yield are NOT hardcoded. They come from
+// public/data/tariff.json at build, each carrying the month it was read.
+import { clientTariff } from "../data/tariff";
 ---
+<script is:inline type="application/json" id="me-tariff-data" set:html={JSON.stringify(clientTariff)}></script>
 <form id="me-form" class="max-w-2xl mx-auto px-6 grid gap-4 mt-4">
   <div class="grid gap-2">
     <label class="text-sm text-ink-700" for="me-address">Your city or municipality</label>
@@ -11,7 +16,7 @@
       type="text"
       required
       placeholder="Start typing: Quezon City, Makati, Antipolo, Bacoor, Calamba..."
-      class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
+      class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-surface"
       autocomplete="off"
       list="franchise-cities"
     />
@@ -29,7 +34,7 @@
         min="20"
         max="500"
         value="80"
-        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono tabular-nums"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-surface font-mono tabular-nums"
       />
       <p class="text-xs text-ink-500">Typical PH residential: 60-120 m&sup2;.</p>
     </div>
@@ -43,7 +48,7 @@
         max="100000"
         value="8000"
         step="100"
-        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono tabular-nums"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-surface font-mono tabular-nums"
       />
     </div>
   </div>
@@ -59,15 +64,30 @@
 <script>
   const DATA_BASE = "/data";
   const BOUNDARIES_URL = "/data/franchise_cities_polygons.geojson";
-  const MERALCO_RATE_PHP_PER_KWH = 12.5;
-  const INSTALL_COST_PHP_PER_KWP = 65000;
+  const TARIFF = JSON.parse(
+    document.getElementById("me-tariff-data")?.textContent ?? "{}",
+  ) as {
+    ratePhpPerKwh: number;
+    rateAsOfLabel: string;
+    installPhpPerKwp: number;
+    installLow: number;
+    installHigh: number;
+    installAsOfLabel: string;
+    yieldKwhPerKwpPerYear: number;
+  };
+  const MERALCO_RATE_PHP_PER_KWH = TARIFF.ratePhpPerKwh;
+  const RATE_AS_OF = TARIFF.rateAsOfLabel;
+  const INSTALL_COST_PHP_PER_KWP = TARIFF.installPhpPerKwp;
+  const INSTALL_COST_LOW = TARIFF.installLow;
+  const INSTALL_COST_HIGH = TARIFF.installHigh;
+  const INSTALL_AS_OF = TARIFF.installAsOfLabel;
   const KWP_PER_M2 = 0.15;
   const SYSTEM_LIFETIME_YEARS = 25;
   const DEGRADATION_PER_YEAR = 0.005;
-  // PVGIS-derived national yield for the Philippines (~1315 kWh/kWp/yr for
-  // a fixed-mount, 14% loss, c-Si system, anchored at QC lat=14.65). Variation
-  // across the franchise is < 5% so the constant works for a homeowner estimate.
-  const PH_KWH_PER_KWP_PER_YEAR = 1315;
+  // PVGIS-derived national yield for the Philippines, for a fixed-mount, 14%
+  // loss, c-Si system anchored at QC lat=14.65. Variation across the franchise
+  // is under 5%, so the constant works for a homeowner estimate.
+  const PH_KWH_PER_KWP_PER_YEAR = TARIFF.yieldKwhPerKwpPerYear;
 
   function estimateAnnualKwh(lat: number, _lon: number, kwp: number): number {
     const adjust = 1 + (14.65 - lat) * 0.015;
@@ -242,7 +262,7 @@
     const root = document.getElementById("me-results")!;
     root.classList.remove("hidden");
     root.innerHTML = `
-      <div class="border border-ink-300/40 bg-white p-6 md:p-8">
+      <div class="border border-ink-300/40 bg-surface p-6 md:p-8">
         <p class="text-xs uppercase tracking-wider text-ink-500 mb-2">${cityName ?? "your roof"} &middot; ${kwp.toFixed(1)} kWp suggested</p>
         <div class="grid gap-6 md:grid-cols-3 items-baseline mb-3">
           <div>
@@ -253,7 +273,7 @@
           <div>
             <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">annual savings</div>
             <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none text-ink-900">${annualKwh ? fmtCompact(annualSavings) : "-"}</div>
-            <div class="text-sm text-ink-500 mt-1">at ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh</div>
+            <div class="text-sm text-ink-500 mt-1">at ₱${MERALCO_RATE_PHP_PER_KWH.toFixed(2)}/kWh</div>
           </div>
           <div>
             <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">25-year net</div>
@@ -264,8 +284,8 @@
         <p class="text-sm text-ink-700 mt-4 leading-relaxed border-t border-ink-300/30 pt-4">
           You'd cover about <strong>${(offsetPct * 100).toFixed(0)}%</strong> of your current bill with a <strong>${kwp.toFixed(1)} kWp</strong> system on ~${(kwp / KWP_PER_M2).toFixed(0)} m&sup2; of roof. ${cityName && cityNHigh > 0 ? `Our survey already identified <strong>${cityNHigh}</strong> rooftop solar installations in ${cityName}.` : cityName ? `Our survey hasn't identified rooftop solar in ${cityName} yet, but the panels still pay back the same way.` : ""}
         </p>
-        <p class="text-xs text-ink-300 mt-3">
-          Estimates only. Yield from PVGIS PH average (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr). Talk to a certified installer before deciding.
+        <p class="text-xs text-ink-500 mt-3">
+          Estimates only. Yield from PVGIS PH average (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr), priced at the ${RATE_AS_OF} Meralco residential rate, which Meralco resets monthly. Install cost is ${fmtCurrency(INSTALL_COST_PHP_PER_KWP)}/kWp, mid-range for a ${fmtCurrency(INSTALL_COST_LOW)} to ${fmtCurrency(INSTALL_COST_HIGH)} market as of ${INSTALL_AS_OF}. Talk to a certified installer before deciding.
         </p>
       </div>
 

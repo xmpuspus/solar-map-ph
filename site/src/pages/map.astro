@@ -1,22 +1,42 @@
 ---
 import Base from "../layouts/Base.astro";
 import MapView from "../components/MapView.astro";
-import { totalDetections, highConfidence, candidates, inPolygonHigh, newHigh, newHighPct } from "../data/stats";
+import {
+  totalDetections,
+  highConfidence,
+  candidates,
+  inPolygonHigh,
+  newHigh,
+  newHighPct,
+  crossDomainRegions,
+  surveyQuarter,
+  surveyGeneratedDate,
+} from "../data/stats";
 ---
-<Base title="rooftop solar map · SolarMap.PH" pathname="/map" description="An open computer-vision survey of rooftop solar across Greater Metro Manila — interactive map of detected installations, per-building panel polygons, and density by city, calibrated to 96% precision.">
+<Base title="rooftop solar map · SolarMap.PH" pathname="/map" description="An open computer-vision survey of rooftop solar across Greater Metro Manila and seven regional franchises. Interactive map of detected installations, per-building panel polygons, and density by city, calibrated to 96% precision on the NCR holdout.">
   <section class="max-w-6xl mx-auto px-6 pt-8 pb-4">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-2 font-mono">computer-vision survey · greater metro manila · last calibrated 2026-05-10</p>
-    <h1 class="text-3xl md:text-4xl mb-3 leading-tight">A satellite-imagery survey of rooftop solar across Greater Metro Manila.</h1>
+    <h1 class="text-3xl md:text-4xl mb-3 leading-tight max-w-4xl">A satellite survey of rooftop solar across Greater Metro Manila, plus {crossDomainRegions} regional franchises.</h1>
     <p class="text-ink-700 max-w-prose leading-relaxed">
-      We trained a custom computer-vision model on labeled examples of rooftop solar from public mapping data, then validated it against held-out examples it had never seen during training: it identifies solar panels at <strong>96% precision</strong>. The model surveyed every neighborhood across NCR and the surrounding cities in Bulacan, Cavite, Rizal, and Laguna, examining tens of thousands of high-resolution satellite tiles. It identified <strong>{totalDetections} rooftops with detected solar</strong> ({highConfidence} high-confidence above a 0.85 model score, {candidates} below-threshold candidates included for review). Of the {inPolygonHigh} high-confidence detections that fell inside a city polygon, {newHigh} ({newHighPct}%) were not already on a prior public map of solar at the time of the scan. Click any city for the count. Zoom in and click any rooftop to see the panels in satellite imagery.
+      We trained a computer-vision model on labeled examples of rooftop solar from public mapping data,
+      then validated it against held-out examples it never saw in training. It identifies solar panels at
+      <strong>96% precision on the NCR holdout</strong>. The model surveyed every neighborhood across NCR
+      and the surrounding cities in Bulacan, Cavite, Rizal and Laguna, reading tens of thousands of
+      high-resolution satellite tiles. It identified <strong>{totalDetections} rooftops with detected
+      solar</strong> ({highConfidence} high-confidence above a 0.85 model score, {candidates}
+      below-threshold candidates included for review). Of the {inPolygonHigh} high-confidence detections
+      inside a city polygon, {newHigh} ({newHighPct}%) were not on a prior public map of solar at the time
+      of the scan. Click any city for the count. Zoom in and click a rooftop to see the panels in imagery.
+    </p>
+    <p class="text-xs text-ink-500 font-mono mt-4">
+      survey {surveyQuarter}, generated {surveyGeneratedDate}. NCR calibration last refit 2026-05-10.
     </p>
   </section>
 
   <MapView />
 
   <section class="max-w-6xl mx-auto px-6 py-6 text-xs text-ink-500 leading-relaxed">
-    <p class="mb-2">Model outputs, not official records. Calibrated to 96% precision on a held-out validation set; expect roughly 1 in 25 high-confidence detections to be incorrect. Treat as a research artifact for further verification, not a permit list.</p>
+    <p class="mb-2">Model outputs, not official records. Calibrated to 96% precision on the held-out NCR validation set; expect roughly 1 in 25 high-confidence NCR detections to be incorrect. The {crossDomainRegions} franchises outside Metro Manila carry a separate per-domain calibration, or ship as candidate inventory with no precision claim. Treat all of it as a research artifact for further verification, not a permit list.</p>
     <p class="mb-2">Statistical indicators derived from public data (Esri World Imagery, OpenStreetMap, ESA, Microsoft, NOAA, NASA). Patterns may have legitimate explanations. "Not on any prior public map" is computed as OSM features tagged <code>generator:source=solar</code> within 200 m of the detected tile centroid, the same proximity convention used by DeepSolar (Stanford, 2018) and SPECTRUM (ICSC, 2025). Residential rooftops are aggregated into counts only; see <a href="/privacy" class="text-accent-steel no-underline">/privacy</a>.</p>
-    <p>Cite as: SolarMap.PH (2026Q2), https://github.com/xmpuspus/solar-map-ph. CC-BY-4.0 on data. Imagery © Esri, Maxar, Earthstar Geographics; building data © OpenStreetMap contributors.</p>
+    <p>Cite as: SolarMap.PH ({surveyQuarter}), https://github.com/xmpuspus/solar-map-ph. CC-BY-4.0 on data. Imagery © Esri, Maxar, Earthstar Geographics; building data © OpenStreetMap contributors.</p>
   </section>
 </Base>

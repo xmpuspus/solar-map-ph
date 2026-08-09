@@ -3,9 +3,9 @@ import Base from "../layouts/Base.astro";
 ---
 <Base title="methodology · SolarMap.PH" pathname="/methodology" description="How SolarMap.PH detects rooftop solar: model training, calibration to 96% precision, active-learning rounds, and the SAM segmentation that turns tile detections into per-building panel polygons.">
   <article class="max-w-prose mx-auto px-6 pt-8 pb-12 prose prose-sm">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">methodology · v1 · 2026-05</p>
     <h1 class="text-3xl mb-2">From four satellite channels to one map color.</h1>
-    <p class="text-base text-ink-700 mb-8 leading-relaxed">Updated each quarter when caveats change. The pipeline is a single Python script (<code class="bg-ink-300/15 px-1">pipeline/pipeline.py</code>) reproducible by anyone with Earth Engine access.</p>
+    <p class="text-xs text-ink-500 font-mono mb-4 not-prose">Last reviewed 2026-05. Refreshed each quarter when the caveats change.</p>
+    <p class="text-base text-ink-700 mb-8 leading-relaxed">The pipeline is a single Python script (<code class="bg-ink-300/15 px-1">pipeline/pipeline.py</code>), reproducible by anyone with Earth Engine access.</p>
 
     <figure class="my-8 not-prose">
       <div class="bg-paper-alt border border-ink-300/40 p-4 overflow-x-auto">
@@ -215,7 +215,7 @@ flowchart TB
 
     <h3 class="text-lg mt-6 mb-2">Pipeline</h3>
     <ol class="list-decimal pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
-      <li><strong>Positive set bootstrap.</strong> We queried OpenStreetMap (Overpass) for nodes and ways tagged <code>generator:source=solar</code> AND <code>location=roof</code> within the Meralco franchise bounding box (14.0–15.2 N, 120.6–121.5 E). 312 verified rooftop-solar locations, deduped to 294 unique buildings at ~10 m clustering. We added the 6 hand-verified case studies on top.</li>
+      <li><strong>Positive set bootstrap.</strong> We queried OpenStreetMap (Overpass) for nodes and ways tagged <code>generator:source=solar</code> AND <code>location=roof</code> within the Meralco franchise bounding box (14.0-15.2 N, 120.6-121.5 E). 312 verified rooftop-solar locations, deduped to 294 unique buildings at ~10 m clustering. We added the 6 hand-verified case studies on top.</li>
       <li><strong>Tile fetch.</strong> For each location, fetch a 600×600 px Esri World Imagery tile centered on the OSM lat/lon, covering ~240 m × ~240 m at ~0.4 m/pixel.</li>
       <li><strong>Negative set.</strong> Re-used the 46 hand-labeled <code>not_solar</code> tiles from the ground-truth pass, plus 154 random tiles drawn uniformly from the NCR bounding box. Total 200 negative sources.</li>
       <li><strong>Encoder.</strong> CLIP-ViT-L/14 (<code>openai/clip-vit-large-patch14</code>), frozen. We tried two pretrained DeepSolar-flavored Hugging Face Mask2Former models first; both saturated the segmentation mask at 100% on every image and were unusable. CLIP zero-shot with a prompt ensemble gave F1 ≈ 0.5. Linear-on-CLIP-features beats both.</li>
@@ -228,7 +228,7 @@ flowchart TB
       <li><strong>Best F1 = 0.906</strong> at threshold 0.525 (TP=271, FP=27, FN=29, TN=173). Precision 90.9%, recall 90.3%.</li>
       <li><strong>High-precision setting:</strong> threshold 0.85 → precision 98.1%, recall 68.0% (TP=204, FP=4, TN=196, FN=96). This is what we used for the original "high-confidence detection" tier.</li>
       <li><strong>Even-higher precision:</strong> threshold 0.96 → precision 100%, recall 34.7%. Catches roughly a third of the rooftop-solar locations with zero false positives in the validation set.</li>
-      <li><strong>Honest caveat:</strong> at NCR-wide deployment (16,544 tiles, ~0.1-0.5% prevalence), even a 2% LOSO false-positive rate produces hundreds of false alarms per real positive. The <em>candidate</em> tier (score 0.70–0.85) is a flagging surface, not a verified inventory.</li>
+      <li><strong>Honest caveat:</strong> at NCR-wide deployment (16,544 tiles, ~0.1-0.5% prevalence), even a 2% LOSO false-positive rate produces hundreds of false alarms per real positive. The <em>candidate</em> tier (score 0.70-0.85) is a flagging surface, not a verified inventory.</li>
       <li><strong>Label-noise discovery:</strong> the classifier scored two of the original 6 case studies (<code>case_valenzuela</code>, <code>case_san_mateo</code>) below 0.30, suggesting the panels in those tiles may be greenhouse roofs or painted metal, not actual photovoltaics. OSM-bootstrapped labels turned out cleaner than single-pass vision-model labeling on ambiguous PH industrial roofs.</li>
     </ul>
 
@@ -272,7 +272,7 @@ flowchart TB
       <li><strong>Domain-shift gate.</strong> We measured centroid-cosine / MMD / a domain-classifier AUC between the NCR training distribution and each region's scan tiles. Pure geographic shift is <em>within-envelope</em> for all seven regions: the geographic centroid cosine (0.038-0.052) sits at or below the in-domain anchor floor of 0.0547 (NCR's own curated-training vs natural-scan gap). No region is far enough out-of-distribution to need its own model. The domain-classifier AUC saturates near 1.0 in 768 dimensions and is reported only as an ordinal diagnostic, not an absolute distance.</li>
       <li><strong>The calibration gap is the real problem.</strong> A linear probe separates the curated training set from the natural scan distribution at AUC ≈ 0.88 <em>even within NCR, same city</em>. So clf_v4's published 0.959 precision was measured on a distribution ~0.88-separable from what the model actually sees in the field. The cross-region precision implied by v1.1 was an overestimate everywhere, not only in the new franchises.</li>
       <li><strong>clf_v5, region-stratified.</strong> dataset_v4 plus 210 cross-domain positives (OSM rooftop tags + spot-check-confirmed detections) and the observed false-positive classes (ground-mount solar farms, blue industrial roofs). Folds split by region so reported metrics are per-domain, not pooled. New canonical sha256 <code>5cc0a093c5279fd9</code>, bit-exact reproducible.</li>
-      <li><strong>Per-domain calibration on a scan-realistic holdout.</strong> Platt is fit per region against a uniform random sample of that region's scan tiles (the operating distribution is ~97-99% non-solar, a high-purity negative proxy; the residual ~1-3% PU contamination makes the precision a conservative lower bound). cebu, iloilo and calabarzon have enough labels to calibrate (P@0.85 ≈ 1.00 / 0.80 / 0.67, small holdouts, wide intervals). davao, cdo, legazpi and bacolod are flagged uncalibrated and ship as candidate inventory — an honest "uncalibrated" beats a fabricated confidence interval.</li>
+      <li><strong>Per-domain calibration on a scan-realistic holdout.</strong> Platt is fit per region against a uniform random sample of that region's scan tiles (the operating distribution is ~97-99% non-solar, a high-purity negative proxy; the residual ~1-3% PU contamination makes the precision a conservative lower bound). cebu, iloilo and calabarzon have enough labels to calibrate (P@0.85 ≈ 1.00 / 0.80 / 0.67, small holdouts, wide intervals). davao, cdo, legazpi and bacolod are flagged uncalibrated and ship as candidate inventory. An honest "uncalibrated" beats a fabricated confidence interval.</li>
       <li><strong>Region OSM cross-match + LGU fix.</strong> Every region now carries a real new-vs-already-mapped status (cebu 83% of high-confidence new, calabarzon 91%, iloilo 33%, cdo 67%). The v1.1 silent undercount (detections outside a mapped served-LGU polygon were dropped as null) is fixed: a verified served-LGU to OSM relation-ID map recovers the non-canonically-named polygons, and anything outside every served polygon is bucketed explicitly so city tables and totals reconcile.</li>
     </ul>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
@@ -366,7 +366,7 @@ flowchart TB
       Output: <code>site/public/data/per_building_solar_ncr.geojson</code>, one Feature per building with detected panels. Properties include <code>building_osm_id</code>, <code>building_type</code>, <code>panel_area_m2</code>, <code>kwp_estimate</code>, <code>confidence</code>, <code>n_segments_merged</code>. The "your roof" tool does an osm_id lookup against this file: when the user's address matches a building that v2.1 found panels on, the result page surfaces a "your roof MAY already have solar" banner with the detection thumbnail and estimated kWp.
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      <strong>What this is not:</strong> a verified panel-area number. SAM's polygons are approximate (contour-of-a-mask, not a precise rectified panel outline); CLIP+LR was trained at tile scale and applied at segment scale; OSM building footprints in PH are uneven. Treat the kWp number as ±20–30%. The high-value claim is <em>"there is solar on this specific OSM building"</em>; the m² and kWp are useful framing, not audit-grade.
+      <strong>What this is not:</strong> a verified panel-area number. SAM's polygons are approximate (contour-of-a-mask, not a precise rectified panel outline); CLIP+LR was trained at tile scale and applied at segment scale; OSM building footprints in PH are uneven. Treat the kWp number as ±20-30%. The high-value claim is <em>"there is solar on this specific OSM building"</em>; the m² and kWp are useful framing, not audit-grade.
     </p>
 
     <h2 class="text-xl mt-10 mb-2">Honest limitations</h2>
@@ -395,20 +395,74 @@ flowchart TB
 
   <script>
     import mermaid from "mermaid";
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: "neutral",
-      flowchart: { htmlLabels: true, curve: "basis" },
-      themeVariables: {
-        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-        fontSize: "13px",
-        primaryColor: "#f5f1e8",
-        primaryTextColor: "#1a1a1a",
-        primaryBorderColor: "#9ca3af",
-        lineColor: "#6b7280",
-        secondaryColor: "#e5e0d3",
-        tertiaryColor: "#fafafa",
-      },
-    });
+
+    // Mermaid bakes colors into the SVG at render time, so the theme has to be
+    // chosen before rendering and the diagrams re-rendered when the reader
+    // switches. Without this the edge labels keep a white background on a dark
+    // page, which is the single most visible dark-mode break on this page.
+    const sources = new Map<Element, string>();
+    for (const el of document.querySelectorAll(".mermaid")) {
+      // innerHTML rather than textContent, because the diagram source carries
+      // literal <br/> tags that the parser already turned into elements.
+      // textContent drops them and every node label collapses onto one line.
+      // The value round-trips author-written markup from this file, captured
+      // before any interaction. No user input reaches it.
+      sources.set(el, el.innerHTML);
+    }
+
+    function isDark(): boolean {
+      const explicit = document.documentElement.getAttribute("data-theme");
+      if (explicit) return explicit === "dark";
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+
+    const LIGHT = {
+      primaryColor: "#f5f1e8",
+      primaryTextColor: "#1a1a1a",
+      primaryBorderColor: "#9ca3af",
+      lineColor: "#6b7280",
+      secondaryColor: "#e5e0d3",
+      tertiaryColor: "#fafafa",
+      background: "#f3f1ea",
+      mainBkg: "#f5f1e8",
+      textColor: "#22324a",
+      edgeLabelBackground: "#f3f1ea",
+    };
+    const DARK = {
+      primaryColor: "#232c38",
+      primaryTextColor: "#eef2f7",
+      primaryBorderColor: "#5b6779",
+      lineColor: "#94a1b4",
+      secondaryColor: "#2a3442",
+      tertiaryColor: "#1b222c",
+      background: "#161c25",
+      mainBkg: "#232c38",
+      textColor: "#c2ccda",
+      edgeLabelBackground: "#161c25",
+    };
+
+    async function render() {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "base",
+        flowchart: { htmlLabels: true, curve: "basis" },
+        themeVariables: {
+          fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+          fontSize: "13px",
+          ...(isDark() ? DARK : LIGHT),
+        },
+      });
+      for (const [el, src] of sources) {
+        el.removeAttribute("data-processed");
+        el.innerHTML = src;
+      }
+      await mermaid.run({ nodes: Array.from(sources.keys()) as HTMLElement[] });
+    }
+
+    render();
+    document.addEventListener("solarmap:themechange", () => void render());
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", () => void render());
   </script>
 </Base>

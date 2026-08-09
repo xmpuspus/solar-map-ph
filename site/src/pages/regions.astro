@@ -25,8 +25,7 @@ const calibrated = new Set(["cebu", "iloilo", "calabarzon"]);
 ---
 <Base title="Regions · SolarMap.PH" pathname="/regions" description="SolarMap.PH multi-region coverage: NCR (calibrated), plus cross-domain scans of seven additional Philippine franchise areas.">
   <section class="max-w-prose mx-auto px-6 pt-10 pb-6">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">coverage</p>
-    <h1 class="text-3xl mb-4 leading-tight text-ink-900 tracking-tight">Regions covered by SolarMap.PH.</h1>
+    <h1 class="text-3xl mb-4 leading-tight text-ink-900 tracking-tight">NCR is calibrated and holdout-validated. Seven more franchises are scanned, three of them calibrated.</h1>
     <p class="text-base text-ink-700 leading-relaxed mb-2">
       Greater Metro Manila is the calibrated, holdout-validated, SAM-segmented region (v1.0). SolarMap.PH also publishes cross-domain detections for seven additional Philippine franchise areas: Cebu, Davao, Iloilo, Cagayan de Oro, Legazpi, the Calabarzon belt south of Meralco, and Bacolod / Negros Occidental.
     </p>
@@ -72,7 +71,7 @@ const calibrated = new Set(["cebu", "iloilo", "calabarzon"]);
             <dt class="text-ink-500">Served LGUs in franchise</dt>
             <dd class="text-right text-ink-700">{r.served_lgus.length}</dd>
             <dt class="text-ink-500">Calibration</dt>
-            <dd class="text-right text-ink-700">{calibrated.has(r.slug) ? "Per-domain (v1.2), conservative" : "Uncalibrated — candidate inventory"}</dd>
+            <dd class="text-right text-ink-700">{calibrated.has(r.slug) ? "Per-domain (v1.2), conservative" : "Uncalibrated, candidate inventory"}</dd>
           </dl>
           <p class="mt-4 text-xs text-ink-500 leading-relaxed" data-data-line>
             Data files load on demand. Direct GeoJSON link
@@ -85,10 +84,10 @@ const calibrated = new Set(["cebu", "iloilo", "calabarzon"]);
 
     <section class="mt-10 max-w-prose mx-auto text-sm text-ink-700 leading-relaxed">
       <h2 class="text-lg text-ink-900 mb-2">Honesty about the cross-domain regions (v1.2)</h2>
-      <p class="mb-2">NCR is the calibrated reference (holdout precision 95.9%, F1 0.87). A v1.2 domain-shift measurement found that pure geographic shift between NCR and the seven regions is small (within NCR's own training-vs-scan envelope); the real problem was a calibration gap — the curated training set is ~0.88-separable from the natural scan distribution even within NCR, so the v1.1 implied cross-region precision was an overestimate everywhere.</p>
-      <p class="mb-2">v1.2 retrained region-stratified (<code class="bg-ink-300/15 px-1">clf_v5</code>) and fit a per-domain calibration on a scan-realistic holdout. Cebu, Iloilo and Calabarzon have enough labels for a conservative per-domain precision (small holdouts, treat as lower bounds). Davao, CDO, Legazpi and Bacolod do not and remain an honest <em>candidate inventory</em> — no precision claim rather than a fabricated one.</p>
-      <p class="mb-2">A visual audit of the top cross-domain detections (32 tiles across all regions, see <code class="bg-ink-300/15 px-1">docs/screenshots/qa-2026-05/region-spot-check/</code>) confirmed 28/32 rooftop solar, 3 ground-mount solar farms, 1 blue-roof false positive — the same failure modes as NCR's audit, now added to the v1.2 training set as hard negatives.</p>
-      <p class="mb-2">v1.2 also adds a per-detection SAM kWp estimate as a coarse scalar (each mask verified by a CLIP + classifier check before its area counts; Legazpi's lone false-positive correctly estimates 0 kWp). Detections remain at tile granularity (240 m) — no per-building polygons for these regions, so there is no individual-building exposure.</p>
+      <p class="mb-2">NCR is the calibrated reference (holdout precision 95.9%, F1 0.87). A v1.2 domain-shift measurement found that pure geographic shift between NCR and the seven regions is small (within NCR's own training-vs-scan envelope); the real problem was a calibration gap. The curated training set is ~0.88-separable from the natural scan distribution even within NCR, so the v1.1 implied cross-region precision was an overestimate everywhere.</p>
+      <p class="mb-2">v1.2 retrained region-stratified (<code class="bg-ink-300/15 px-1">clf_v5</code>) and fit a per-domain calibration on a scan-realistic holdout. Cebu, Iloilo and Calabarzon have enough labels for a conservative per-domain precision (small holdouts, treat as lower bounds). Davao, CDO, Legazpi and Bacolod do not and remain an honest <em>candidate inventory</em>, with no precision claim rather than a fabricated one.</p>
+      <p class="mb-2">A visual audit of the top cross-domain detections (32 tiles across all regions, see <code class="bg-ink-300/15 px-1">docs/screenshots/qa-2026-05/region-spot-check/</code>) confirmed 28/32 rooftop solar, 3 ground-mount solar farms, 1 blue-roof false positive. These are the same failure modes as NCR's audit, now added to the v1.2 training set as hard negatives.</p>
+      <p class="mb-2">v1.2 also adds a per-detection SAM kWp estimate as a coarse scalar (each mask verified by a CLIP + classifier check before its area counts; Legazpi's lone false-positive correctly estimates 0 kWp). Detections remain at tile granularity (240 m), so no per-building polygons for these regions, so there is no individual-building exposure.</p>
       <p>Same residential-suppression policy applies in every region: tile-granularity detections do not reveal individual buildings, per <a href="/privacy" class="no-underline text-accent-steel">RA 10173</a>.</p>
     </section>
   </section>

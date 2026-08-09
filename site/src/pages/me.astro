@@ -1,19 +1,24 @@
 ---
 import Base from "../layouts/Base.astro";
 import HomeownerForm from "../components/HomeownerForm.astro";
+import { electricityRate, pvYield, monthLabel } from "../data/tariff";
 ---
 <Base title="quick estimate · SolarMap.PH" pathname="/me">
-  <section class="max-w-prose mx-auto px-6 pt-12 pb-2">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">your roof · payback estimate</p>
+  <section class="max-w-2xl mx-auto px-6 pt-12 pb-2">
     <h1 class="text-3xl md:text-4xl mb-4 leading-tight">How long until rooftop solar pays for itself in your city?</h1>
     <p class="text-ink-700 leading-relaxed">
-      Three inputs, one number out. We use a PVGIS-derived Philippine yield baseline (~1315 kWh/kWp/yr), the current Meralco residential rate (₱12.50/kWh), and the SolarMap.PH detection survey to surface how much rooftop solar already exists in your city plus the LGU permit cost where verified. All math runs locally in your browser. Nothing about you is sent anywhere.
+      Three inputs, one number out. The math uses a PVGIS-derived Philippine yield baseline
+      (~{pvYield.kwh_per_kwp_per_year} kWh/kWp/yr) and the Meralco residential rate of
+      ₱{electricityRate.php_per_kwh.toFixed(4)}/kWh as of {monthLabel(electricityRate.as_of)}
+      (<a href={electricityRate.source_url} rel="noopener" class="no-underline text-accent-steel">source</a>).
+      The SolarMap.PH survey supplies how much rooftop solar already exists in your city, plus the
+      LGU permit cost where verified. All math runs locally in your browser. Nothing about you is sent anywhere.
     </p>
   </section>
 
   <HomeownerForm />
 
-  <section class="max-w-prose mx-auto px-6 py-6 text-xs text-ink-500">
+  <section class="max-w-2xl mx-auto px-6 py-6 text-xs text-ink-500">
     Estimates only. Not engineering advice. Talk to a certified installer before committing.
   </section>
 </Base>
