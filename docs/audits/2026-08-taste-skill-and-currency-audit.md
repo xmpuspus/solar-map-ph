@@ -1,4 +1,4 @@
-# The payback math runs on a 15-month-old tariff, and the homepage breaks 6 taste-skill rules
+# The roof tool priced electricity at 12.50 while Meralco charged 14.83, and the homepage breaks 6 taste-skill rules
 
 Audit date: 2026-08-09. Last commit before this pass: `446c098`, dated 2026-06-08.
 Auditor pass over `site/` against [tasteskill.dev](https://tasteskill.dev)
@@ -21,7 +21,9 @@ July 2026**, up from P14.4833 in June ([GMA News, 2026-07-10](https://www.gmanet
 The August advisory was not public on the audit date. Meralco posts it near the
 10th of the month.
 
-The constant is 15.7% low. Annual savings scale with the rate, so the tool
+The constant shipped on 2026-05-13 and matched the Q2 2026 rate at the time.
+It is 3 months old on the audit date and now 15.7% low. Annual savings scale
+with the rate, so the tool
 reports a payback that is roughly 19% longer than the current tariff supports. A
 system that pays back in 6.0 years at 14.83 shows as 7.1 years at 12.50. The
 tool tells homeowners solar is worse than it is, and the number carries no date,
@@ -46,6 +48,14 @@ per kWp, with a 5 kWp system landing at P275,000 to P375,000
 65,000 sits mid-range, so the number is defensible. It was undated and
 unsourced, which is the same defect class as the tariff.
 
+Lower bands circulate: P40,000 to P60,000 per kWp in some 2026 guides, and
+P33,000 to P38,000 from quoted installer prices. Those quote panels and an
+inverter, or a promotional package, and not a fully installed grid-tied system
+with mounting, wiring, breakers, grounding, monitoring, labor and testing.
+Install cost is the numerator of payback, so this pass takes the higher all-in
+band, which reports the longer payback. `tariff.json` records that choice in
+`band_choice_note`.
+
 **Fix shipped:** the point estimate and the range both move into `tariff.json`
 with their source and date. The tool shows the range, not just the point.
 
@@ -63,8 +73,10 @@ site copy matches.
 Vendor guides report that the same circular lifted the **non-residential** cap
 from 100 kW to 1 MW. Two vendor blogs say so. No primary DOE text or mainstream
 outlet confirms it. **This claim does not go into public copy.** The residential
-cap of 100 kW is unchanged, and the roof tool is residential, so
-`RoofLookup.astro:695,726` and `safety.astro:68` stay as written.
+cap of 100 kW is unchanged, and the roof tool is residential, so the wording
+stays. The figure itself moved into `tariff.json` and is interpolated in
+`RoofLookup.astro`, `index.astro` and `safety.astro`, so a future change to the
+cap edits one file and not five strings.
 
 Open item for a later pass: get the circular number and text from
 `doe.gov.ph` and, if the 1 MW figure holds, add a one-line non-residential note

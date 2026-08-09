@@ -18,7 +18,8 @@
     "as_of": "2026-07",
     "basis": "fully installed grid-tied residential rooftop system, Metro Manila, excluding battery",
     "source_url": "https://solarwise.ph/solar-panel-price-philippines-2026-2/",
-    "source_note": "2026 installer price guides put a 5 kWp system at PHP 275,000 to 375,000 all-in, which is PHP 55,000 to 75,000 per kWp. The point estimate is the midpoint. Not a quote; a real quote varies with roof access, inverter brand and structural work."
+    "source_note": "2026 installer price guides put a 5 kWp system at PHP 275,000 to 375,000 all-in, which is PHP 55,000 to 75,000 per kWp. The point estimate is the midpoint. Not a quote; a real quote varies with roof access, inverter brand and structural work.",
+    "band_choice_note": "Lower bands circulate: PHP 40,000 to 60,000 per kWp in some 2026 guides, and PHP 33,000 to 38,000 from quoted installer prices. Those quote panels-plus-inverter or an installer's own promotional package, not a fully installed grid-tied system with mounting, wiring, breakers, grounding, monitoring, labor and testing in Metro Manila. Install cost is the numerator of payback, so this file uses the higher all-in band, which reports a longer payback. Pick the conservative direction when the bands disagree."
   },
   "yield": {
     "kwh_per_kwp_per_year": 1315,

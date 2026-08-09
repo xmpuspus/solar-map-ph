@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import cities from "../../public/data/city_solar_saturation.json";
+import { netMetering } from "../data/tariff";
 
 type CityRow = {
   city: string;
@@ -65,7 +66,7 @@ const top15 = (cities as CityRow[])
 
     <h2 id="reg" class="text-xl mt-10 mb-2 text-ink-900">What "registered" means and why it matters</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      The <strong>Net Metering Program</strong> (under DOE Department Circular 2013-05-0009 as amended) is the legal pathway for residential and small commercial rooftop solar up to 100 kW. Each of the 5 steps has a specific engineering function:
+      The <strong>Net Metering Program</strong> (under DOE Department Circular 2013-05-0009 as amended) is the legal pathway for residential and small commercial rooftop solar up to {netMetering.residential_cap_kw} kW. Each of the 5 steps has a specific engineering function:
     </p>
     <ol class="list-decimal pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
       <li><strong>Application + technical documents.</strong> Includes inverter datasheet (proves anti-islanding), single-line diagram, panel layout. Engineering review screens for pre-vetted inverter brands.</li>
@@ -99,7 +100,7 @@ const top15 = (cities as CityRow[])
       <li><strong>Installer</strong> on Meralco's accredited list (search <a href="https://meralco.com.ph" class="no-underline text-accent-steel">meralco.com.ph</a> or check ICSC's installer directory).</li>
       <li><strong>Net Metering Program registration</strong> filed before commissioning. Without this you have no legal export path; surplus generation is wasted and sometimes triggers Meralco's reverse-flow audit anyway.</li>
       <li><strong>LGU electrical permit</strong> filed alongside Meralco approval. Most LGUs treat solar as a rooftop addition; permit fees vary. April 2026 DOE circular targets a 3-day permit ceiling, adoption uneven.</li>
-      <li><strong>DOE Renewable Energy registration</strong> for systems above 100 kW (commercial/industrial scale).</li>
+      <li><strong>DOE Renewable Energy registration</strong> for systems above {netMetering.residential_cap_kw} kW (commercial/industrial scale).</li>
       <li><strong>For systems above 1 MW</strong>: ERC interconnection study, not just net metering.</li>
     </ul>
 

@@ -147,6 +147,7 @@ import { clientTariff } from "../data/tariff";
   const INSTALL_COST_PHP_PER_KWP = TARIFF.installPhpPerKwp;
   const INSTALL_COST_LOW = TARIFF.installLow;
   const INSTALL_COST_HIGH = TARIFF.installHigh;
+  const NET_METERING_CAP_KW = TARIFF.netMeteringCapKw;
   const KWP_PER_M2 = 0.15;
   const SYSTEM_LIFETIME_YEARS = 25;
   const DEGRADATION_PER_YEAR = 0.005;
@@ -723,7 +724,7 @@ import { clientTariff } from "../data/tariff";
 
     // Roof area thresholds: below 25 m² usable, residential solar doesn't pay back;
     // above 500 m² building area, you're outside homeowner solar territory and need
-    // a commercial developer (net metering caps at 100 kW).
+    // a commercial developer (net metering caps at NET_METERING_CAP_KW).
     const RES_AREA_FLOOR_M2 = 25;
     const RES_AREA_CEILING_M2 = 500;
 
@@ -754,7 +755,7 @@ import { clientTariff } from "../data/tariff";
         subhead: `At ${Math.round(building.areaM2)} m², you're outside homeowner solar territory. You'd need a commercial solar developer, not a residential installer.`,
         bullets: [
           { kind: "size", text: `Maximum system would be ~${fmtKwp(kwp)}, which is PPA territory, not net metering.` },
-          { kind: "money", text: `Net metering caps at 100 kW. Above that you'd need a Power Purchase Agreement and DOE Renewable Energy registration.` },
+          { kind: "money", text: `Net metering caps at ${NET_METERING_CAP_KW} kW. Above that you'd need a Power Purchase Agreement and DOE Renewable Energy registration.` },
           { kind: "alert", text: `Above 1 MW you'd also need an ERC interconnection study. Talk to a commercial developer.` },
         ],
         nextSteps: [
@@ -1244,7 +1245,7 @@ import { clientTariff } from "../data/tariff";
       <details class="mb-8 group">
         <summary class="list-none cursor-pointer flex items-baseline justify-between gap-3 mb-3 [&::-webkit-details-marker]:hidden">
           <span class="text-xs uppercase tracking-wider text-ink-500 font-mono">solar detected near you <span class="text-ink-300 group-open:rotate-180 inline-block transition-transform" aria-hidden="true">▾</span></span>
-          <span class="text-[11px] text-ink-300 font-mono">${r.detections.length} within 1.5 km</span>
+          <span class="text-[11px] text-ink-500 font-mono">${r.detections.length} within 1.5 km</span>
         </summary>
         <p class="text-sm text-ink-500 leading-relaxed mb-4">
           Our model scanned satellite tiles across NCR. <strong class="text-ink-900">High-confidence</strong> (score &ge; 0.85) detections were validated to 95.9% precision on rooftops the model never saw in training. <strong class="text-ink-900">Candidate</strong> = lower confidence, worth a second look. <a href="/methodology#cnn-detection" class="no-underline text-accent-steel">How we built this &rarr;</a>

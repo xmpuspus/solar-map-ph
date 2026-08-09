@@ -9,7 +9,7 @@ import {
   surveyGeneratedDate,
   crossDomainRegions,
 } from "../data/stats";
-import { electricityRate, monthLabel } from "../data/tariff";
+import { electricityRate, netMetering, monthLabel } from "../data/tariff";
 
 // What the reader gets, kept out of the hero so the hero holds four text
 // elements at most and the address field reaches the top of a phone screen.
@@ -18,7 +18,7 @@ const deliverables = [
   { label: "system size", detail: "usable roof area converted to kWp" },
   { label: "payback", detail: "years, priced at your own bill" },
   { label: "permit", detail: "cost range and the DOE fast-track clock" },
-  { label: "neighbours", detail: "rooftop solar already detected on your block" },
+  { label: "neighbors", detail: "rooftop solar already detected on your block" },
 ];
 ---
 <Base title="SolarMap.PH · what can your roof do?" pathname="/" description="Type your address and SolarMap.PH measures your roof from satellite, sizes a solar system in kWp, estimates payback against your Meralco bill, and shows detected rooftop solar near you. Free, no signup.">
@@ -54,8 +54,9 @@ const deliverables = [
       <h2 class="text-2xl md:text-3xl mb-5 leading-tight">Three asymmetries decide whether a Filipino homeowner gets a fair solar deal.</h2>
       <p class="text-base text-ink-700 leading-relaxed mb-4">
         Installer quotes vary 5x for the same system. LGU permit fees range ₱16K-153K for the same project.
-        Net metering caps residential export at 100 kW, targets a 10-working-day utility decision, and
-        depends on a 3-day LGU fast-track that many LGUs have not adopted. Neutral information is hard to come by.
+        Net metering caps residential export at {netMetering.residential_cap_kw} kW, targets a
+        {netMetering.du_decision_working_days}-working-day utility decision, and depends on a
+        {netMetering.lgu_electrical_permit_working_days}-day LGU fast-track that many LGUs have not adopted. Neutral information is hard to come by.
       </p>
       <p class="text-base text-ink-700 leading-relaxed mb-4">
         This tool reads your address, finds your building in OpenStreetMap, measures the roof from satellite,

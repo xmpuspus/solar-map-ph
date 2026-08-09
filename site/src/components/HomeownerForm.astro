@@ -278,7 +278,7 @@ import { clientTariff } from "../data/tariff";
         <p class="text-sm text-ink-700 mt-4 leading-relaxed border-t border-ink-300/30 pt-4">
           You'd cover about <strong>${(offsetPct * 100).toFixed(0)}%</strong> of your current bill with a <strong>${kwp.toFixed(1)} kWp</strong> system on ~${(kwp / KWP_PER_M2).toFixed(0)} m&sup2; of roof. ${cityName && cityNHigh > 0 ? `Our survey already identified <strong>${cityNHigh}</strong> rooftop solar installations in ${cityName}.` : cityName ? `Our survey hasn't identified rooftop solar in ${cityName} yet, but the panels still pay back the same way.` : ""}
         </p>
-        <p class="text-xs text-ink-300 mt-3">
+        <p class="text-xs text-ink-500 mt-3">
           Estimates only. Yield from PVGIS PH average (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr), priced at the ${RATE_AS_OF} Meralco residential rate. Meralco resets that rate monthly. Talk to a certified installer before deciding.
         </p>
       </div>

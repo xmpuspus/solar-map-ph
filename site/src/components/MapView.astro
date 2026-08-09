@@ -87,7 +87,7 @@ const headerCopy = {
 
       <div class="mb-4">
         <label for="city-search" class="text-[10px] uppercase tracking-wider text-ink-500 font-mono mb-1 block">jump to a city</label>
-        <input id="city-search" type="search" autocomplete="off" list="city-search-options" placeholder="Type a city name…" aria-label="Search for a city to jump to" class="w-full px-3 py-2 border border-ink-300/50 bg-paper text-sm text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-ink-700" />
+        <input id="city-search" type="search" autocomplete="off" list="city-search-options" placeholder="Type a city name…" aria-label="Search for a city to jump to" class="w-full px-3 py-2 border border-ink-300/50 bg-paper text-sm text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-ink-700" />
         <datalist id="city-search-options"></datalist>
       </div>
 
@@ -897,7 +897,7 @@ const headerCopy = {
             <img src="${url}" alt="rooftop" class="w-full h-full object-cover" loading="lazy" />
           </a>`;
         })
-        .join("") || `<p class="text-[11px] text-ink-300 col-span-3">No SAM-matched buildings yet for this city; click any orange polygon on the map.</p>`;
+        .join("") || `<p class="text-[11px] text-ink-500 col-span-3">No SAM-matched buildings yet for this city; click any orange polygon on the map.</p>`;
 
       // Zoom button
       const zoomBtn = document.getElementById("city-zoom-btn") as HTMLButtonElement;
