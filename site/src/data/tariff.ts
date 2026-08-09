@@ -99,8 +99,19 @@ for (const b of ["electricity_rate", "install_cost", "yield", "net_metering"]) {
   month(b);
   url(b);
 }
-if (raw.install_cost.php_per_kwp_low > raw.install_cost.php_per_kwp_high) {
-  throw new Error("tariff.json: install_cost low is above high");
+// The roof tool calls the point estimate "mid-range for a low-to-high market",
+// so the point has to sit inside the band it claims to sit inside.
+{
+  const { php_per_kwp: mid, php_per_kwp_low: lo, php_per_kwp_high: hi } = raw.install_cost;
+  if (lo > hi) {
+    throw new Error(`tariff.json: install_cost low ${lo} is above high ${hi}`);
+  }
+  if (mid < lo || mid > hi) {
+    throw new Error(
+      `tariff.json: install_cost php_per_kwp is ${mid}, outside its own ${lo} to ${hi} band. ` +
+        `The roof tool calls that figure mid-range, so it has to be inside the band.`,
+    );
+  }
 }
 
 export const electricityRate: RateBlock = raw.electricity_rate;

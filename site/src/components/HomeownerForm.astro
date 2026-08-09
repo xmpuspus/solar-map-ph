@@ -70,11 +70,17 @@ import { clientTariff } from "../data/tariff";
     ratePhpPerKwh: number;
     rateAsOfLabel: string;
     installPhpPerKwp: number;
+    installLow: number;
+    installHigh: number;
+    installAsOfLabel: string;
     yieldKwhPerKwpPerYear: number;
   };
   const MERALCO_RATE_PHP_PER_KWH = TARIFF.ratePhpPerKwh;
   const RATE_AS_OF = TARIFF.rateAsOfLabel;
   const INSTALL_COST_PHP_PER_KWP = TARIFF.installPhpPerKwp;
+  const INSTALL_COST_LOW = TARIFF.installLow;
+  const INSTALL_COST_HIGH = TARIFF.installHigh;
+  const INSTALL_AS_OF = TARIFF.installAsOfLabel;
   const KWP_PER_M2 = 0.15;
   const SYSTEM_LIFETIME_YEARS = 25;
   const DEGRADATION_PER_YEAR = 0.005;
@@ -279,7 +285,7 @@ import { clientTariff } from "../data/tariff";
           You'd cover about <strong>${(offsetPct * 100).toFixed(0)}%</strong> of your current bill with a <strong>${kwp.toFixed(1)} kWp</strong> system on ~${(kwp / KWP_PER_M2).toFixed(0)} m&sup2; of roof. ${cityName && cityNHigh > 0 ? `Our survey already identified <strong>${cityNHigh}</strong> rooftop solar installations in ${cityName}.` : cityName ? `Our survey hasn't identified rooftop solar in ${cityName} yet, but the panels still pay back the same way.` : ""}
         </p>
         <p class="text-xs text-ink-500 mt-3">
-          Estimates only. Yield from PVGIS PH average (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr), priced at the ${RATE_AS_OF} Meralco residential rate. Meralco resets that rate monthly. Talk to a certified installer before deciding.
+          Estimates only. Yield from PVGIS PH average (~${PH_KWH_PER_KWP_PER_YEAR} kWh/kWp/yr), priced at the ${RATE_AS_OF} Meralco residential rate, which Meralco resets monthly. Install cost is ${fmtCurrency(INSTALL_COST_PHP_PER_KWP)}/kWp, mid-range for a ${fmtCurrency(INSTALL_COST_LOW)} to ${fmtCurrency(INSTALL_COST_HIGH)} market as of ${INSTALL_AS_OF}. Talk to a certified installer before deciding.
         </p>
       </div>
 
