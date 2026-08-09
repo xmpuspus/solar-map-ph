@@ -12,8 +12,18 @@
 //   9. Surface neighborhood context: distance to verified case studies,
 //      and the user's city's composite signal rank
 //  10. Surface LGU permit cost from the existing friction table
+//
+// The tariff, install cost and yield constants are NOT hardcoded here. They come
+// from public/data/tariff.json at build time, each with the month it was read,
+// and ride into the client script as a JSON block below. See src/data/tariff.ts.
+import { clientTariff } from "../data/tariff";
 ---
-<form id="roof-form" class="max-w-2xl mx-auto px-6 grid gap-4">
+<script is:inline type="application/json" id="tariff-data" set:html={JSON.stringify(clientTariff)}></script>
+
+<!-- max-w-5xl matches the hero, the deliverables strip and the results block, so
+     every left edge on the page lines up with the headline. Running text inside
+     stays at a readable measure with its own max-width. -->
+<form id="roof-form" class="max-w-5xl mx-auto px-6 grid gap-4">
   <div class="grid gap-2">
     <label class="text-sm text-ink-700" for="roof-address">Your address (anywhere in Meralco's franchise)</label>
     <div class="relative">
@@ -22,8 +32,8 @@
         name="address"
         type="text"
         required
-        placeholder="Start typing -- pick from the list, or use a sample below"
-        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
+        placeholder="Start typing, then pick from the list"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-surface"
         autocomplete="off"
         role="combobox"
         aria-autocomplete="list"
@@ -33,7 +43,7 @@
       <ul
         id="roof-address-suggest"
         role="listbox"
-        class="hidden absolute z-30 left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-white border border-ink-300 rounded-md shadow-lg"
+        class="hidden absolute z-30 left-0 right-0 mt-1 max-h-72 overflow-y-auto bg-surface border border-ink-300 rounded-md shadow-lg"
       ></ul>
     </div>
     <div class="flex flex-wrap items-center gap-2 text-xs">
@@ -44,7 +54,7 @@
       <button type="button" data-fill="Antipolo, Rizal" class="px-2.5 py-1.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-paper-alt hover:text-ink-900 font-mono">Antipolo</button>
       <button type="button" data-fill="Bacoor, Cavite" class="px-2.5 py-1.5 border border-ink-300/60 rounded-full text-ink-700 hover:bg-paper-alt hover:text-ink-900 font-mono">Bacoor</button>
     </div>
-    <p class="text-xs text-ink-500">We'll tell you whether you can install solar on your roof, what it would save you, and what your block's grid saturation means for approval. Address is not stored.</p>
+    <p class="text-xs text-ink-500 max-w-2xl">We'll tell you whether you can install solar on your roof, what it would save you, and what your block's grid saturation means for approval. Address is not stored.</p>
   </div>
   <div class="grid gap-2 md:grid-cols-2">
     <div class="grid gap-1.5">
@@ -57,16 +67,16 @@
         max="100000"
         value="8000"
         step="100"
-        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white font-mono tabular-nums"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-surface font-mono tabular-nums"
       />
-      <p class="text-xs text-ink-500">Your average monthly bill — edit it so the payback is yours, not a stranger's.</p>
+      <p class="text-xs text-ink-500">Your average monthly bill. Edit it so the payback is yours, not a stranger's.</p>
     </div>
     <div class="grid gap-1.5">
       <label class="text-sm text-ink-700" for="roof-residents">Household size (sets your usage benchmark)</label>
       <select
         id="roof-residents"
         name="residents"
-        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-white"
+        class="w-full border border-ink-300 rounded-md px-3 py-2 text-sm bg-surface"
       >
         <option value="1">1 person</option>
         <option value="2">2 people</option>
@@ -114,12 +124,33 @@
   const COMMERCIAL_TAGS = new Set(["commercial", "retail", "supermarket", "mall", "office", "industrial", "warehouse", "factory", "cathedral", "church", "religious", "school", "hospital", "civic", "government", "stadium"]);
   const RESIDENTIAL_AREA_CEILING_M2 = 500; // anything bigger is suspicious for residential
 
-  const MERALCO_RATE_PHP_PER_KWH = 12.5;
-  const INSTALL_COST_PHP_PER_KWP = 65000;
+  // Dated inputs, read from the JSON block the Astro frontmatter emitted. The
+  // source of truth is public/data/tariff.json, refreshed when Meralco posts a
+  // new advisory. Every peso figure the tool prints carries RATE_AS_OF with it.
+  const TARIFF = JSON.parse(
+    document.getElementById("tariff-data")?.textContent ?? "{}",
+  ) as {
+    ratePhpPerKwh: number;
+    rateAsOfLabel: string;
+    rateSourceUrl: string;
+    installPhpPerKwp: number;
+    installLow: number;
+    installHigh: number;
+    installAsOfLabel: string;
+    yieldKwhPerKwpPerYear: number;
+    netMeteringCapKw: number;
+  };
+
+  const MERALCO_RATE_PHP_PER_KWH = TARIFF.ratePhpPerKwh;
+  const RATE_AS_OF = TARIFF.rateAsOfLabel;
+  const RATE_SOURCE_URL = TARIFF.rateSourceUrl;
+  const INSTALL_COST_PHP_PER_KWP = TARIFF.installPhpPerKwp;
+  const INSTALL_COST_LOW = TARIFF.installLow;
+  const INSTALL_COST_HIGH = TARIFF.installHigh;
   const KWP_PER_M2 = 0.15;
   const SYSTEM_LIFETIME_YEARS = 25;
   const DEGRADATION_PER_YEAR = 0.005;
-  const PH_KWH_PER_KWP_PER_YEAR = 1315;
+  const PH_KWH_PER_KWP_PER_YEAR = TARIFF.yieldKwhPerKwpPerYear;
 
   // Typical Meralco residential consumption per household size (kWh/month).
   // Source: DOE/Meralco aggregate disclosures and ICSC household surveys.
@@ -330,7 +361,7 @@
   function paddedBbox(b: Building, padMeters = 60) {
     // Square the bbox in real meters before requesting from Esri. A non-square
     // bbox at size=600,600 (which we always request) makes Esri return a blank
-    // / zoomed-out tile for some buildings -- that was the broken-image bug.
+    // / zoomed-out tile for some buildings. That was the broken-image bug.
     // Always pad to at least 60 m half-width so a small house gets a usable
     // ~120 m view; for big buildings the half-width grows with the longest
     // building axis + padMeters.
@@ -565,7 +596,7 @@
   }
 
   async function neighborhoodContext(point: [number, number]) {
-    // All independent loads in one parallel batch -- no waterfall. The franchise
+    // All independent loads in one parallel batch, no waterfall. The franchise
     // polygons and city counts used to be awaited sequentially after this.
     const [caseDoc, manifest, detections, perBuildingMap, saturation, cities, counts] = await Promise.all([
       loadJson("/data/case_studies.json"),
@@ -640,7 +671,7 @@
         }
       : null;
     // Observed fee range from the verified province-level references (commercial
-    // project comparisons -- shown as honest context, never as a personal quote).
+    // project comparisons, shown as honest context, never as a personal quote).
     let feeRange: { low: number; high: number } | null = null;
     if (data?.verified) {
       const fees = Object.values(data.verified)
@@ -696,15 +727,15 @@
     const RES_AREA_FLOOR_M2 = 25;
     const RES_AREA_CEILING_M2 = 500;
 
-    // 1) Already has solar -- the highest-priority case. Don't quote NEW-install savings.
+    // 1) Already has solar, the highest-priority case. Don't quote NEW-install savings.
     if (detectedSolar && detectedSolar.n > 0) {
       return {
         kind: "already-has",
         tone: "info",
-        headline: "Heads up -- this building already has solar.",
+        headline: "Heads up: this building already has solar.",
         subhead: `Our satellite scan found ${detectedSolar.n} panel polygon${detectedSolar.n > 1 ? "s" : ""} on this OSM building, totaling roughly ${fmtKwp(detectedSolar.kwp)} installed. Top match confidence ${(detectedSolar.confidence * 100).toFixed(0)}%.`,
         bullets: [
-          { kind: "size", text: `If this is your home, the savings estimate below is for a NEW install -- not your current bill.` },
+          { kind: "size", text: `If this is your home, the savings estimate below is for a NEW install, not your current bill.` },
           { kind: "alert", text: `If this isn't yours, the satellite may be looking at a neighbor; OSM building outlines aren't always precise.` },
           { kind: "money", text: `Either way: register with Meralco's Net Metering Program if you haven't, otherwise surplus generation is wasted.` },
         ],
@@ -722,7 +753,7 @@
         headline: "This is a commercial-scale building.",
         subhead: `At ${Math.round(building.areaM2)} m², you're outside homeowner solar territory. You'd need a commercial solar developer, not a residential installer.`,
         bullets: [
-          { kind: "size", text: `Maximum system would be ~${fmtKwp(kwp)} -- that's PPA territory, not net metering.` },
+          { kind: "size", text: `Maximum system would be ~${fmtKwp(kwp)}, which is PPA territory, not net metering.` },
           { kind: "money", text: `Net metering caps at 100 kW. Above that you'd need a Power Purchase Agreement and DOE Renewable Energy registration.` },
           { kind: "alert", text: `Above 1 MW you'd also need an ERC interconnection study. Talk to a commercial developer.` },
         ],
@@ -732,15 +763,15 @@
       };
     }
 
-    // 3) Roof too small -- be honest, don't sell solar that won't pay back.
+    // 3) Roof too small, so be honest, don't sell solar that won't pay back.
     if (usableRoofM2 < RES_AREA_FLOOR_M2) {
       return {
         kind: "too-small",
         tone: "stop",
-        headline: "Probably not -- this roof is too small for solar to pay back.",
+        headline: "Probably not. This roof is too small for solar to pay back.",
         subhead: `Only ${Math.round(usableRoofM2)} m² of usable roof. Below ~25 m², the inverter cost alone makes the math hard.`,
         bullets: [
-          { kind: "size", text: `Maximum system: ${fmtKwp(kwp)} (a typical PH home is 3–8 kWp).` },
+          { kind: "size", text: `Maximum system: ${fmtKwp(kwp)} (a typical PH home is 3-8 kWp).` },
           { kind: "money", text: `Best case: about ${fmtPhp(annualSavings)}/year saved, payback ${fmtYrs(payback)}.` },
           { kind: "alert", text: `Energy-efficient appliances or a small battery for outage backup may have better ROI for you.` },
         ],
@@ -750,12 +781,12 @@
       };
     }
 
-    // 4) Outside Meralco franchise -- solar still works but rules differ.
+    // 4) Outside Meralco franchise: solar still works but rules differ.
     if (!cityComposite) {
       return {
         kind: "outside-franchise",
         tone: "go",
-        headline: `Yes -- but you're outside Meralco's franchise.`,
+        headline: `Yes, but you're outside Meralco's franchise.`,
         subhead: `Solar still works at this address. The rules belong to your local electric cooperative, not Meralco. Net-metering process and rates differ.`,
         bullets: [
           { kind: "size", text: `Roof can fit a ${fmtKwp(kwp)} system on ${Math.round(usableRoofM2)} m² of usable roof.` },
@@ -768,7 +799,7 @@
       };
     }
 
-    // 5–7) Tier-based variants for franchise-area roofs that pass the size gate.
+    // 5-7) Tier-based variants for franchise-area roofs that pass the size gate.
     const tier = saturation?.tier ?? "early";
     const moneyText = `Save ~${fmtPhp(annualSavings)}/year, payback in ${fmtYrs(payback)} (${fmtKwp(kwp)} system).`;
     const sizeText = `${Math.round(usableRoofM2)} m² of usable roof, fits ${fmtKwp(kwp)}.`;
@@ -779,7 +810,7 @@
       return {
         kind: "yes-saturated",
         tone: "caution",
-        headline: "Yes -- but request a hosting-capacity check before you size the system.",
+        headline: "Yes, but request a hosting-capacity check before you size the system.",
         subhead: `Your block is solar-dense. Without a hosting-capacity check, your installer might oversize and your application could be downsized or delayed by Meralco engineering review.`,
         bullets: [
           { kind: "neighborhood", text: `${nHigh} confirmed install${nHigh === 1 ? "" : "s"} and ~${Math.round(sumKwp)} kWp already within 300m of you.` },
@@ -817,7 +848,7 @@
     return {
       kind: "yes-pioneer",
       tone: "go",
-      headline: `Yes -- and you'd be one of the first in your block.`,
+      headline: `Yes, and you'd be one of the first in your block.`,
       subhead: `About ${fmtPhp(annualSavings)}/year saved, payback in ${fmtYrs(payback)}. Plenty of headroom on the local distribution transformer; approval should be straightforward.`,
       bullets: [
         { kind: "size", text: sizeText },
@@ -867,7 +898,7 @@
     const bbox = paddedBbox(building, 50);
     const sizePx = 600;
     const imgUrl = esriExportUrl(bbox, sizePx);
-    // Fallback: wider zoom (more padding) -- different Esri cache region, often
+    // Fallback: wider zoom (more padding), a different Esri cache region, often
     // succeeds when the tighter bbox returns blank.
     const imgUrlFallback = esriExportUrl(paddedBbox(building, 200), sizePx);
     const polygonPath = projectToImage(building.coords, bbox, sizePx);
@@ -935,7 +966,7 @@
     if (!ctx.cityComposite) {
       warnings.push({
         kind: "info",
-        text: `Outside Meralco's franchise -- neighborhood and LGU permit data won't appear. The roof score and savings estimate still apply (we use the same PH yield baseline).`,
+        text: `Outside Meralco's franchise, so neighborhood and LGU permit data won't appear. The roof score and savings estimate still apply (we use the same PH yield baseline).`,
       });
     }
 
@@ -1026,7 +1057,7 @@
       </a>
     `).join("");
 
-    // Hero verdict -- first thing the user sees. Replaces score-first framing.
+    // Hero verdict: the first thing the user sees. Replaces score-first framing.
     const v = r.verdict as Verdict;
     const verdictToneClass: Record<VerdictTone, string> = {
       go: "border-green-500 bg-green-50",
@@ -1054,7 +1085,7 @@
         <ul class="grid gap-2 mb-4">
           ${v.bullets.map((b) => `
             <li class="flex items-start gap-3 text-sm text-ink-700 leading-snug">
-              <span class="inline-flex items-center justify-center min-w-[3.25rem] h-6 px-2 text-[10px] font-mono uppercase tracking-wider bg-ink-900 text-white">${verdictBulletIcon[b.kind]}</span>
+              <span class="inline-flex items-center justify-center min-w-[3.25rem] h-6 px-2 text-[10px] font-mono uppercase tracking-wider bg-ink-900 text-paper">${verdictBulletIcon[b.kind]}</span>
               <span>${b.text}</span>
             </li>
           `).join("")}
@@ -1091,7 +1122,7 @@
       ${saturationHtml}
       ${warningsHtml}
       <div class="grid gap-6 md:grid-cols-[1.3fr_1fr] mb-8">
-        <div class="border border-ink-300/40 bg-white">
+        <div class="border border-ink-300/40 bg-surface">
           <div class="relative aspect-square overflow-hidden bg-ink-300/10">
             <div class="absolute inset-0 flex items-center justify-center text-xs text-ink-500 font-mono">loading imagery…</div>
             <img src="${r.imgUrl}" alt="Satellite view of the roof at ${escapeHtml(r.address)}" class="absolute inset-0 w-full h-full object-cover" loading="eager" onerror="this.onerror=null;this.src='${r.imgUrlFallback || r.imgUrl}';this.classList.add('opacity-90')" />
@@ -1099,7 +1130,7 @@
               <path d="${r.polygonPath}" fill="none" stroke="#d97757" stroke-width="3" stroke-linejoin="round" />
               <path d="${r.polygonPath}" fill="#d97757" fill-opacity="0.15" />
             </svg>
-            <div class="absolute top-2 left-2 bg-white/95 px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-ink-700">
+            <div class="absolute top-2 left-2 bg-surface/95 px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-ink-700">
               your roof · Esri World Imagery
             </div>
           </div>
@@ -1107,7 +1138,7 @@
         </div>
 
         <div class="flex flex-col gap-3">
-          <div class="border border-ink-300/40 bg-white p-5">
+          <div class="border border-ink-300/40 bg-surface p-5">
             <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">roof score</p>
             <div class="flex items-baseline gap-3">
               <span class="text-6xl font-mono font-semibold tabular-nums leading-none text-ink-900">${r.score}</span>
@@ -1122,7 +1153,7 @@
             </dl>
           </div>
 
-          <div class="border border-ink-300/40 bg-white p-5">
+          <div class="border border-ink-300/40 bg-surface p-5">
             <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">your roof</p>
             <dl class="grid grid-cols-2 gap-y-1 gap-x-4 text-sm font-mono tabular-nums">
               <dt class="text-ink-500">area</dt><dd class="text-right text-ink-900">${Math.round(r.building.areaM2)} m²</dd>
@@ -1131,9 +1162,9 @@
             </dl>
           </div>
 
-          <details class="border border-ink-300/40 bg-white p-5 group">
-            <summary class="list-none cursor-pointer flex items-center justify-between text-xs uppercase tracking-wider text-ink-500 font-mono [&::-webkit-details-marker]:hidden"><span>on your application packet — 5 items</span><span class="text-ink-300 group-open:rotate-180 transition-transform" aria-hidden="true">▾</span></summary>
-            <p class="text-xs text-ink-700 leading-relaxed mb-3 mt-3">Five items to confirm with your installer. With these on file, the technical requirements are met up front -- fewer rounds of revision, fewer reasons for delay.</p>
+          <details class="border border-ink-300/40 bg-surface p-5 group">
+            <summary class="list-none cursor-pointer flex items-center justify-between text-xs uppercase tracking-wider text-ink-500 font-mono [&::-webkit-details-marker]:hidden"><span>on your application packet, 5 items</span><span class="text-ink-300 group-open:rotate-180 transition-transform" aria-hidden="true">▾</span></summary>
+            <p class="text-xs text-ink-700 leading-relaxed mb-3 mt-3">Five items to confirm with your installer. With these on file, the technical requirements are met up front, which means fewer rounds of revision and fewer reasons for delay.</p>
             <ul class="grid gap-1.5 text-xs text-ink-700 leading-snug">
               <li class="flex gap-2"><span class="font-mono text-accent-steel">01</span><span>Inverter datasheet citing <strong>IEEE 1547</strong> or <strong>UL 1741</strong> anti-islanding compliance.</span></li>
               <li class="flex gap-2"><span class="font-mono text-accent-steel">02</span><span>Accredited installer (ask for the accreditation number).</span></li>
@@ -1146,7 +1177,7 @@
         </div>
       </div>
 
-      <div class="border border-ink-300/40 bg-white p-6 md:p-8 mb-8">
+      <div class="border border-ink-300/40 bg-surface p-6 md:p-8 mb-8">
         <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">if you went solar</p>
         <div class="grid gap-6 md:grid-cols-3 items-baseline">
           <div>
@@ -1157,7 +1188,7 @@
           <div>
             <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">annual savings</div>
             <div class="text-3xl md:text-4xl font-mono font-semibold tabular-nums leading-none text-ink-900">${fmtCurrency(r.annualSavings, true)}</div>
-            <div class="text-sm text-ink-500 mt-1">at ${MERALCO_RATE_PHP_PER_KWH.toFixed(2)} ₱/kWh</div>
+            <div class="text-sm text-ink-500 mt-1">at ₱${MERALCO_RATE_PHP_PER_KWH.toFixed(2)}/kWh</div>
           </div>
           <div>
             <div class="text-xs uppercase tracking-wider text-ink-500 mb-1">25-year net</div>
@@ -1165,18 +1196,25 @@
             <div class="text-sm text-ink-500 mt-1">after ${fmtCurrency(r.installCost, true)} install</div>
           </div>
         </div>
+        <p class="text-xs text-ink-500 mt-4 leading-relaxed">
+          Priced at the ${RATE_AS_OF} Meralco residential rate of ₱${MERALCO_RATE_PHP_PER_KWH.toFixed(4)}/kWh
+          (<a href="${RATE_SOURCE_URL}" rel="noopener" class="no-underline text-accent-steel">source</a>),
+          and an install cost of ${fmtCurrency(INSTALL_COST_PHP_PER_KWP)}/kWp, mid-range for a
+          ${fmtCurrency(INSTALL_COST_LOW)} to ${fmtCurrency(INSTALL_COST_HIGH)} market.
+          Meralco resets the rate monthly, so re-check the month above before you quote these numbers.
+        </p>
         <p class="text-sm text-ink-700 mt-5 pt-5 border-t border-ink-300/30 leading-relaxed">
           A <strong>${r.kwp.toFixed(1)} kWp</strong> rooftop system would generate <strong>${Math.round(r.annualKwh).toLocaleString()} kWh/year</strong>, covering <strong>${Math.round(r.offsetPct * 100)}%</strong> of your current bill.
           ${r.userPercentile === "above typical"
-            ? `Your monthly use (${Math.round(r.monthlyKwh)} kWh) is <strong>above</strong> a typical ${r.peerLow}-${r.peerHigh} kWh range for your household size -- solar will pay back faster than average.`
+            ? `Your monthly use (${Math.round(r.monthlyKwh)} kWh) is <strong>above</strong> a typical ${r.peerLow}-${r.peerHigh} kWh range for your household size, so solar pays back faster than average.`
             : r.userPercentile === "below typical"
-            ? `Your monthly use (${Math.round(r.monthlyKwh)} kWh) is <strong>below</strong> a typical ${r.peerLow}-${r.peerHigh} kWh range -- solar payback is slower; efficiency upgrades may matter less for you.`
+            ? `Your monthly use (${Math.round(r.monthlyKwh)} kWh) is <strong>below</strong> a typical ${r.peerLow}-${r.peerHigh} kWh range, so payback is slower and efficiency upgrades matter less for you.`
             : `Your monthly use (${Math.round(r.monthlyKwh)} kWh) is in the typical ${r.peerLow}-${r.peerHigh} kWh range for your household.`}
         </p>
       </div>
 
       <div class="grid gap-6 md:grid-cols-[1fr_1fr] mb-8">
-        <div class="border border-ink-300/40 bg-white p-6">
+        <div class="border border-ink-300/40 bg-surface p-6">
           <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">your city</p>
           ${r.cityComposite
             ? `<h3 class="text-xl text-ink-900 font-semibold mb-1">${r.cityComposite.city}</h3>
@@ -1186,14 +1224,14 @@
                <a href="/map?city=${encodeURIComponent(r.cityComposite.city.toLowerCase().replace(/[^a-z0-9]+/g, "-"))}" class="text-xs font-mono uppercase tracking-wider text-accent-steel no-underline">see your city on the map &rarr;</a>`
             : `<p class="text-sm text-ink-500">Outside the surveyed franchise area; we don't have local detection counts here.</p>`}
         </div>
-        <div class="border border-ink-300/40 bg-white p-6">
+        <div class="border border-ink-300/40 bg-surface p-6">
           <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">LGU permit</p>
           <h3 class="text-xl text-ink-900 font-semibold mb-1">${r.cityComposite?.city ?? "your LGU"}</h3>
           <dl class="grid grid-cols-2 gap-y-1 gap-x-4 text-sm font-mono tabular-nums mt-2 mb-3">
             <dt class="text-ink-500">permit target</dt><dd class="text-right text-ink-900">${r.lgu.doe ? `${r.lgu.doe.permit_target_days} working days` : (r.lgu.days ? `~${r.lgu.days} days` : "varies")}</dd>
-            <dt class="text-ink-500">${r.lgu.fee !== null ? "permit fee" : "fee range (ref.)"}</dt><dd class="text-right text-ink-900">${r.lgu.fee !== null ? fmtCurrency(r.lgu.fee) : (r.lgu.feeRange ? `${fmtCurrency(r.lgu.feeRange.low)}–${fmtCurrency(r.lgu.feeRange.high)}` : "varies by LGU")}</dd>
+            <dt class="text-ink-500">${r.lgu.fee !== null ? "permit fee" : "fee range (ref.)"}</dt><dd class="text-right text-ink-900">${r.lgu.fee !== null ? fmtCurrency(r.lgu.fee) : (r.lgu.feeRange ? `${fmtCurrency(r.lgu.feeRange.low)}-${fmtCurrency(r.lgu.feeRange.high)}` : "varies by LGU")}</dd>
           </dl>
-          <p class="text-xs text-ink-500 leading-relaxed">${r.lgu.doe?.deemed_approved ? `Under the April 2026 DOE circular, LGUs must issue the electrical permit within ${r.lgu.doe.permit_target_days} working days, deemed approved on silence. ` : ""}${r.lgu.fee === null ? "Fee shown is a province-level reference from commercial-project data; a residential permit is typically a fraction of this. " : ""}Fast-track adoption is uneven &mdash; confirm with your LGU.</p>
+          <p class="text-xs text-ink-500 leading-relaxed">${r.lgu.doe?.deemed_approved ? `Under the April 2026 DOE circular, LGUs must issue the electrical permit within ${r.lgu.doe.permit_target_days} working days, deemed approved on silence. ` : ""}${r.lgu.fee === null ? "Fee shown is a province-level reference from commercial-project data; a residential permit is typically a fraction of this. " : ""}Fast-track adoption is uneven, so confirm with your LGU.</p>
         </div>
       </div>
 
@@ -1216,7 +1254,7 @@
             <a href="https://www.openstreetmap.org/?mlat=${d.lat}&mlon=${d.lon}&zoom=19" target="_blank" rel="noopener" class="block group no-underline">
               <div class="aspect-square overflow-hidden bg-ink-300/10 relative">
                 <img src="${esriThumbUrl(d.lat, d.lon, 300)}" alt="Satellite tile of ${d.tier}-confidence detected solar, ${d.distanceKm.toFixed(2)} km away" class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy" />
-                <div class="absolute top-1 left-1 px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wider ${d.tier === "high" ? "bg-accent-steel/95 text-white" : "bg-white/95 text-ink-700"}">
+                <div class="absolute top-1 left-1 px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wider ${d.tier === "high" ? "bg-accent-steel/95 text-white" : "bg-surface/95 text-ink-700"}">
                   ${d.tier}
                 </div>
               </div>
@@ -1244,7 +1282,7 @@
         await navigator.clipboard.writeText(location.href);
         btn.textContent = "copied!";
       } catch {
-        btn.textContent = "copy failed — use the address bar";
+        btn.textContent = "copy failed, use the address bar";
       }
       setTimeout(() => { btn.textContent = orig; }, 1800);
     });

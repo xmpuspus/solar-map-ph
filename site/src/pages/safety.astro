@@ -18,10 +18,10 @@ const top15 = (cities as CityRow[])
 ---
 <Base title="solar safety · SolarMap.PH" pathname="/safety" description="Going solar safely in the Philippines: anti-islanding, net-metering paperwork, the DOE fast-track permit timeline, accredited installers, and what to confirm before you sign.">
   <article class="max-w-prose mx-auto px-6 pt-8 pb-12">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">solar safety · v1 · 2026-05</p>
-    <h1 class="text-3xl mb-3 text-ink-900">Going solar safely -- what to know before signing.</h1>
+    <h1 class="text-3xl mb-2 text-ink-900">Certified inverters already solve the three engineering objections. Paperwork is what costs you weeks.</h1>
+    <p class="text-xs text-ink-500 font-mono mb-4">Last reviewed 2026-05. Timelines reflect the April 2026 DOE circular.</p>
     <p class="text-base text-ink-700 mb-4 leading-relaxed">
-      Three real engineering concerns govern rooftop solar interconnection anywhere in the world: <strong>anti-islanding</strong>, <strong>voltage rise on the feeder</strong>, and <strong>reverse power flow at the local transformer</strong>. Each is genuine. Each has been a solved problem in certified equipment for over a decade -- modern grid-tied inverters handle all three automatically, in software, on every install.
+      Three real engineering concerns govern rooftop solar interconnection anywhere in the world: <strong>anti-islanding</strong>, <strong>voltage rise on the feeder</strong>, and <strong>reverse power flow at the local transformer</strong>. Each is genuine. Each has been a solved problem in certified equipment for over a decade. Modern grid-tied inverters handle all three automatically, in software, on every install.
     </p>
     <p class="text-base text-ink-700 mb-6 leading-relaxed">
       What's left is process. The Net Metering application protects everyone when it runs to spec; it costs homeowners weeks when it doesn't. This page walks through the engineering so you understand what you're being asked, lays out exactly what to put in your application packet, and points to what the law gives you if the process drags.
@@ -57,7 +57,7 @@ const top15 = (cities as CityRow[])
 
     <h3 class="text-lg mt-6 mb-2 text-ink-900">3. Reverse power flow at the transformer</h3>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      A typical PH residential pole-mounted transformer is sized 25-50 kVA and serves 30-50 homes. It's optimized for forward current -- primary side feeding secondary side. Sustained reverse current (when noon solar exceeds the served homes' load) wasn't part of the design envelope.
+      A typical PH residential pole-mounted transformer is sized 25-50 kVA and serves 30-50 homes. It's optimized for forward current, primary side feeding secondary side. Sustained reverse current (when noon solar exceeds the served homes' load) wasn't part of the design envelope.
     </p>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
       The widely-accepted rule of thumb in distribution planning: when distributed generation exceeds <strong>15% of feeder peak load</strong>, the utility runs a hosting-capacity study. Past 50%, transformer derating or upgrades become necessary. Past 100%, you're exporting through the transformer in the wrong direction at thermal levels it wasn't built for.
@@ -70,7 +70,7 @@ const top15 = (cities as CityRow[])
     <ol class="list-decimal pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
       <li><strong>Application + technical documents.</strong> Includes inverter datasheet (proves anti-islanding), single-line diagram, panel layout. Engineering review screens for pre-vetted inverter brands.</li>
       <li><strong>Pre-installation inspection.</strong> Confirms your service drop and panel can handle bidirectional flow. Catches DIY mistakes before they become hazards.</li>
-      <li><strong>Hosting-capacity check.</strong> The utility evaluates the local feeder's existing distributed-generation load. If your install would push the feeder past safe thresholds (commonly 15% feeder peak), the response is to downsize the approval, request inverter curtailment, or require feeder upgrades. This is also the step where neighbors with existing solar affect what you can size -- and vice versa.</li>
+      <li><strong>Hosting-capacity check.</strong> The utility evaluates the local feeder's existing distributed-generation load. If your install would push the feeder past safe thresholds (commonly 15% feeder peak), the response is to downsize the approval, request inverter curtailment, or require feeder upgrades. This is also the step where neighbors with existing solar affect what you can size, and vice versa.</li>
       <li><strong>Bi-directional meter installation.</strong> Replaces the standard meter with one that records import and export separately.</li>
       <li><strong>Commissioning.</strong> A utility engineer witnesses the first inverter start-up and verifies anti-islanding behavior under simulated fault.</li>
     </ol>
@@ -80,7 +80,7 @@ const top15 = (cities as CityRow[])
 
     <h2 id="recourse" class="text-xl mt-10 mb-2 text-ink-900">If your application is delayed or denied</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      The Net Metering process has statutory timelines. A complete application -- inverter datasheet citing IEEE 1547, single-line diagram, panel layout, system sized below 12-month daytime average -- has specific paths if it stalls.
+      The Net Metering process has statutory timelines. A complete application has specific paths if it stalls. Complete means an inverter datasheet citing IEEE 1547, a single-line diagram, a panel layout, and a system sized below the 12-month daytime average.
     </p>
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-2 mb-4">
       <li><strong>20 working days.</strong> Per DOE Department Circular 2013-05-0009, the distribution utility has 20 working days from a complete application to approve, deny with cause, or request specific clarifications. Beyond that, escalation paths open.</li>
@@ -126,7 +126,7 @@ const top15 = (cities as CityRow[])
 
     <h2 id="cities" class="text-xl mt-10 mb-2 text-ink-900">NCR cities by detected installed solar</h2>
     <p class="text-base text-ink-700 leading-relaxed mb-3">
-      This is what the satellite scan and our v2.1 building-level localization actually see, by city. Counts are: high = high-confidence tile detections (CNN score &ge; 0.85), candidate = lower-confidence (0.70&ndash;0.85), bldg = unique OSM buildings the SAM panel-segmentation step matched. kWp is the sum of building-level kWp estimates within each city.
+      This is what the satellite scan and our v2.1 building-level localization actually see, by city. Counts are: high = high-confidence tile detections (CNN score &ge; 0.85), candidate = lower-confidence (0.70-0.85), bldg = unique OSM buildings the SAM panel-segmentation step matched. kWp is the sum of building-level kWp estimates within each city.
     </p>
     <div class="not-prose overflow-x-auto mb-4">
       <table class="w-full text-sm font-mono tabular-nums">
@@ -163,9 +163,9 @@ const top15 = (cities as CityRow[])
 
     <h2 class="text-xl mt-10 mb-2 text-ink-900">Sources</h2>
     <ul class="list-disc pl-5 text-base text-ink-700 leading-relaxed space-y-1 mb-4">
-      <li>IEEE 1547-2018 -- Standard for Interconnection and Interoperability of Distributed Energy Resources with Associated Electric Power Systems Interfaces.</li>
-      <li>UL 1741-2021 -- Inverters, Converters, Controllers and Interconnection System Equipment for Use With Distributed Energy Resources.</li>
-      <li>Philippine Electrical Code (PEC) 2017 -- Article 6.90 (Solar Photovoltaic Systems).</li>
+      <li>IEEE 1547-2018. Standard for Interconnection and Interoperability of Distributed Energy Resources with Associated Electric Power Systems Interfaces.</li>
+      <li>UL 1741-2021. Inverters, Converters, Controllers and Interconnection System Equipment for Use With Distributed Energy Resources.</li>
+      <li>Philippine Electrical Code (PEC) 2017. Article 6.90 (Solar Photovoltaic Systems).</li>
       <li>DOE Department Circular 2013-05-0009 (Net Metering Rules) and amendments.</li>
       <li>Meralco public statements (May 2026): <a href="https://bilyonaryo.com/2026/05/03/meralco-urges-crackdown-on-guerilla-solar-setups-tighter-rules/power/" class="no-underline text-accent-steel">Bilyonaryo</a>, <a href="https://tribune.net.ph/2026/05/07/meralco-seeks-crackdown-on-guerrilla-solar-installations" class="no-underline text-accent-steel">Tribune</a>, <a href="https://cleantechnica.com/2026/05/04/guerilla-solar-installations-discovered-need-to-be-controlled-says-philippine-power-distributor/" class="no-underline text-accent-steel">CleanTechnica</a>.</li>
       <li>EPRI hosting-capacity literature (the "15% rule of thumb" and feeder-impact studies).</li>

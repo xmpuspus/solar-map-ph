@@ -13,24 +13,36 @@ const links = [
   { href: "/faq", label: "faq" },
   { href: "/privacy", label: "privacy" },
 ];
+
+const isActive = (href: string) =>
+  pathname === href || (href !== "/" && pathname.startsWith(href));
 ---
-<header class="border-b border-ink-300/30 bg-paper">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-x-4 justify-between">
+<header class="border-b border-ink-300/30 bg-paper sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-paper/85">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-x-4 justify-between min-h-[56px]">
     <a href="/" class="font-semibold tracking-tight no-underline text-ink-900 shrink-0">
       SolarMap.PH
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden sm:flex flex-wrap gap-x-5 gap-y-1 text-sm justify-end">
+    <nav class="hidden sm:flex items-center gap-x-5 text-sm justify-end" aria-label="Main">
       {links.map((link) => (
         <a
           href={link.href}
-          class={`no-underline ${pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) ? "text-ink-900 font-medium" : "text-ink-500 hover:text-ink-900"}`}
+          aria-current={isActive(link.href) ? "page" : undefined}
+          class={`no-underline transition-colors ${isActive(link.href) ? "text-ink-900 font-medium" : "text-ink-500 hover:text-ink-900"}`}
         >
           {link.label}
         </a>
       ))}
-      <a href="https://github.com/xmpuspus/solar-map-ph" class="text-ink-500 no-underline hover:text-ink-900">github</a>
+      <a href="https://github.com/xmpuspus/solar-map-ph" class="text-ink-500 no-underline hover:text-ink-900 transition-colors">github</a>
+      <button
+        type="button"
+        data-theme-toggle
+        class="ml-1 px-2 py-1 border border-ink-300/50 rounded text-[11px] font-mono lowercase text-ink-500 hover:text-ink-900 hover:border-ink-300 transition-colors"
+        aria-label="Color theme: follow system. Activate to change."
+      >
+        <span data-theme-label>auto</span>
+      </button>
     </nav>
 
     <!-- Mobile menu: CSS-only disclosure, no JS -->
@@ -39,17 +51,76 @@ const links = [
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" class="group-open:hidden"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" class="hidden group-open:block"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
       </summary>
-      <nav class="absolute right-0 top-full mt-2 z-40 w-52 bg-white border border-ink-300/40 rounded-md shadow-lg py-1 flex flex-col text-sm">
+      <nav class="absolute right-0 top-full mt-2 z-40 w-52 bg-surface border border-ink-300/40 rounded-md shadow-lg py-1 flex flex-col text-sm" aria-label="Main">
         {links.map((link) => (
           <a
             href={link.href}
-            class={`no-underline px-4 py-2.5 ${pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href)) ? "text-ink-900 font-medium bg-paper-alt" : "text-ink-700 hover:bg-paper-alt"}`}
+            aria-current={isActive(link.href) ? "page" : undefined}
+            class={`no-underline px-4 py-2.5 ${isActive(link.href) ? "text-ink-900 font-medium bg-paper-alt" : "text-ink-700 hover:bg-paper-alt"}`}
           >
             {link.label}
           </a>
         ))}
         <a href="https://github.com/xmpuspus/solar-map-ph" class="no-underline px-4 py-2.5 text-ink-700 hover:bg-paper-alt border-t border-ink-300/30">github</a>
+        <button
+          type="button"
+          data-theme-toggle
+          class="text-left px-4 py-2.5 text-ink-700 hover:bg-paper-alt border-t border-ink-300/30 font-mono text-xs lowercase"
+          aria-label="Color theme: follow system. Activate to change."
+        >
+          theme: <span data-theme-label>auto</span>
+        </button>
       </nav>
     </details>
   </div>
 </header>
+
+<script>
+  // Three states, cycled in order: auto (follow the OS), light, dark. "auto"
+  // stores nothing and removes the attribute, so the OS keeps control.
+  type Mode = "auto" | "light" | "dark";
+  const KEY = "solarmap-theme";
+  const ORDER: Mode[] = ["auto", "light", "dark"];
+
+  function read(): Mode {
+    try {
+      const v = localStorage.getItem(KEY);
+      return v === "light" || v === "dark" ? v : "auto";
+    } catch {
+      return "auto";
+    }
+  }
+
+  function apply(mode: Mode) {
+    const root = document.documentElement;
+    if (mode === "auto") root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", mode);
+    try {
+      if (mode === "auto") localStorage.removeItem(KEY);
+      else localStorage.setItem(KEY, mode);
+    } catch {}
+    for (const el of document.querySelectorAll<HTMLElement>("[data-theme-label]")) {
+      el.textContent = mode;
+    }
+    for (const btn of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
+      btn.setAttribute(
+        "aria-label",
+        mode === "auto"
+          ? "Color theme: follow system. Activate to change."
+          : `Color theme: ${mode}. Activate to change.`,
+      );
+    }
+    // MapLibre reads the basemap paint values off the CSS custom properties at
+    // style time, so it needs a nudge when the mode changes under it.
+    document.dispatchEvent(new CustomEvent("solarmap:themechange", { detail: { mode } }));
+  }
+
+  apply(read());
+
+  for (const btn of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
+    btn.addEventListener("click", () => {
+      const next = ORDER[(ORDER.indexOf(read()) + 1) % ORDER.length];
+      apply(next);
+    });
+  }
+</script>

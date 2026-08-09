@@ -34,7 +34,24 @@ const ogImage = image.startsWith("http") ? image : `${SITE_URL}${image}`;
     <title>{title}</title>
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#0b3b58" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fbfaf6" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#10151c" />
+
+    <!-- Runs before first paint so a reader who picked a theme never sees the
+         other one flash. No stored choice means the system preference wins. -->
+    <script is:inline>
+      (function () {
+        // .js gates every JS-dependent visual state, so nothing is hidden when
+        // scripts are off or blocked.
+        document.documentElement.classList.add("js");
+        try {
+          var t = localStorage.getItem("solarmap-theme");
+          if (t === "dark" || t === "light") {
+            document.documentElement.setAttribute("data-theme", t);
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <meta property="og:site_name" content="SolarMap.PH" />
     <meta property="og:title" content={title} />
@@ -101,5 +118,29 @@ const ogImage = image.startsWith("http") ? image : `${SITE_URL}${image}`;
       <slot />
     </main>
     <Footer />
+
+    <script>
+      // Scroll reveal, MOTION_INTENSITY 3: opacity and transform only, one
+      // IntersectionObserver instead of a scroll listener, and nothing is
+      // hidden when JS is off because .reveal starts visible without .is-in
+      // only after this script confirms it can run.
+      const targets = document.querySelectorAll<HTMLElement>(".reveal");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || !("IntersectionObserver" in window)) {
+        for (const el of targets) el.classList.add("is-in");
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              e.target.classList.add("is-in");
+              io.unobserve(e.target);
+            }
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+        );
+        for (const el of targets) io.observe(el);
+      }
+    </script>
   </body>
 </html>

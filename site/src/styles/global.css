@@ -2,33 +2,121 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Color tokens as raw "R G B" triples so Tailwind's <alpha-value> works.
+   Light is the print-adjacent paper palette the site shipped with. Dark keeps
+   the same hierarchy: paper is the page, paper-alt is a recessed band, surface
+   is an elevated card, ink-900 is primary text down to ink-300 for hairlines.
+   No pure #000 and no pure #fff on either side. Every ink step was checked
+   against its own background for WCAG AA on body text. */
 @layer base {
-  html {
+  :root {
+    --paper: 251 250 246;
+    --paper-alt: 243 241 234;
+    --surface: 255 255 255;
+    --ink-900: 11 18 32;
+    --ink-700: 34 50 74;
+    --ink-500: 68 81 112;
+    --ink-300: 142 152 172;
+    --accent-steel: 58 110 165;
+    --accent-coral: 217 119 87;
+    --accent-coral-dark: 168 67 30;
+    /* Map basemap treatment. Light leaves the OSM raster alone. */
+    --basemap-brightness-max: 1;
+    --basemap-saturation: 0;
     color-scheme: light;
   }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: 16 21 28;
+      --paper-alt: 22 28 37;
+      --surface: 27 34 44;
+      --ink-900: 238 242 247;
+      --ink-700: 194 204 218;
+      --ink-500: 148 161 180;
+      --ink-300: 91 103 121;
+      --accent-steel: 124 176 232;
+      --accent-coral: 240 144 107;
+      --accent-coral-dark: 245 178 150;
+      --basemap-brightness-max: 0.62;
+      --basemap-saturation: -0.45;
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: 16 21 28;
+    --paper-alt: 22 28 37;
+    --surface: 27 34 44;
+    --ink-900: 238 242 247;
+    --ink-700: 194 204 218;
+    --ink-500: 148 161 180;
+    --ink-300: 91 103 121;
+    --accent-steel: 124 176 232;
+    --accent-coral: 240 144 107;
+    --accent-coral-dark: 245 178 150;
+    --basemap-brightness-max: 0.62;
+    --basemap-saturation: -0.45;
+    color-scheme: dark;
+  }
+
   body {
     @apply bg-paper text-ink-900 antialiased;
+  }
+  html {
+    scroll-behavior: smooth;
   }
   a {
     @apply underline decoration-ink-300 underline-offset-2 hover:decoration-ink-700;
   }
   h1, h2, h3, h4 {
     @apply font-semibold tracking-tight;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
   code, pre {
     @apply font-mono text-[0.92em];
+  }
+
+  /* Keyboard focus has to be visible on every interactive element, on both
+     backgrounds. The offset keeps the ring off the control's own border. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent-steel));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Form controls inherit the surface token so they invert with the page. */
+  input, select, textarea {
+    @apply bg-surface text-ink-900;
+  }
+  ::placeholder {
+    @apply text-ink-500;
+    opacity: 1;
   }
 }
 
 @layer components {
   .card {
-    @apply bg-white border border-ink-300/40 rounded-md p-5 shadow-sm;
+    @apply bg-surface border border-ink-300/40 rounded-md p-5 shadow-sm;
   }
   .badge {
     @apply inline-flex items-center px-2 py-0.5 text-xs rounded-full bg-ink-700/10 text-ink-700;
   }
+  /* text-paper, not text-white: in dark mode the button fill becomes light, so
+     the label has to become dark with it. */
   .btn {
-    @apply inline-flex items-center px-3 py-1.5 rounded-md bg-ink-900 text-white text-sm hover:bg-ink-700;
+    @apply inline-flex items-center px-3 py-1.5 rounded-md bg-ink-900 text-paper text-sm;
+    transition: background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn:hover {
+    @apply bg-ink-700;
+  }
+  .btn:active {
+    transform: translateY(1px);
   }
   .signal-bar {
     @apply h-2 rounded bg-ink-300/30 overflow-hidden;
@@ -47,5 +135,37 @@
   dd a.no-underline,
   td a.no-underline {
     border-bottom: 1px dotted currentColor;
+  }
+
+  /* Scroll reveal for content sections. The hidden state is gated on .js,
+     which the head script sets, so a reader with JS off or blocked never gets
+     an invisible page. IntersectionObserver then adds .is-in. */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .js .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* MOTION_INTENSITY is 3 on this project, and every animated element still has
+   to collapse to static when the reader asks for that. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
   }
 }

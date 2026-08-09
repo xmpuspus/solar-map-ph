@@ -1,66 +1,107 @@
 ---
 import Base from "../layouts/Base.astro";
 import RoofLookup from "../components/RoofLookup.astro";
-import { totalDetections, highConfidence, perBuildingPolygons, citiesWithDetections } from "../data/stats";
+import {
+  totalDetections,
+  highConfidence,
+  perBuildingPolygons,
+  citiesWithDetections,
+  surveyGeneratedDate,
+  crossDomainRegions,
+} from "../data/stats";
+import { electricityRate, monthLabel } from "../data/tariff";
+
+// What the reader gets, kept out of the hero so the hero holds four text
+// elements at most and the address field reaches the top of a phone screen.
+const deliverables = [
+  { label: "satellite view", detail: "your rooftop at building resolution" },
+  { label: "system size", detail: "usable roof area converted to kWp" },
+  { label: "payback", detail: "years, priced at your own bill" },
+  { label: "permit", detail: "cost range and the DOE fast-track clock" },
+  { label: "neighbours", detail: "rooftop solar already detected on your block" },
+];
 ---
 <Base title="SolarMap.PH · what can your roof do?" pathname="/" description="Type your address and SolarMap.PH measures your roof from satellite, sizes a solar system in kWp, estimates payback against your Meralco bill, and shows detected rooftop solar near you. Free, no signup.">
-  <section class="max-w-5xl mx-auto px-6 pt-14 pb-8">
-    <div class="grid md:grid-cols-[1.4fr_1fr] gap-10 items-end">
-      <div>
-        <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-4 font-mono">SolarMap.PH &middot; your roof from space</p>
-        <h1 class="text-4xl md:text-5xl leading-[1.05] mb-5 text-ink-900 font-semibold tracking-tight">
-          What can your roof do?
-        </h1>
-        <p class="text-lg text-ink-700 leading-relaxed mb-2">
-          Drop your address. We pull a satellite picture of your specific roof, measure it, and tell you whether solar is worth it for you.
-        </p>
-        <p class="text-sm text-ink-500 leading-relaxed">
-          Free. No signup. SolarMap.PH runs no backend; the address you type is queried against third-party geocoders directly (Photon, Nominatim, Overpass, Esri tiles, PVGIS) and never reaches a server we control. Built for Filipino homeowners on Meralco. <a href="/privacy" class="no-underline text-accent-steel">What gets seen by whom &rarr;</a>
-        </p>
-      </div>
-      <aside class="border-l-2 border-ink-900 pl-5 text-sm text-ink-700 leading-relaxed">
-        <p class="mb-2 font-mono text-xs text-ink-500 uppercase tracking-wider">what you get</p>
-        <ul class="space-y-1.5 text-sm">
-          <li>Hi-res satellite of <em>your</em> rooftop</li>
-          <li>Roof area + system size in kWp (kilowatts)</li>
-          <li>Payback in years for your bill</li>
-          <li>Permit cost range + the DOE fast-track timeline</li>
-          <li>Detected rooftop solar near your block</li>
-        </ul>
-      </aside>
-    </div>
+  <section class="max-w-5xl mx-auto px-6 pt-10 md:pt-14 pb-6">
+    <h1 class="text-4xl md:text-5xl leading-[1.05] mb-4 text-ink-900 font-semibold tracking-tight max-w-2xl">
+      What can your roof do?
+    </h1>
+    <p class="text-lg text-ink-700 leading-relaxed max-w-2xl">
+      Type your address. We measure your actual roof from satellite and tell you whether solar pays back.
+    </p>
   </section>
 
   <RoofLookup />
 
-  <section class="max-w-prose mx-auto px-6 py-12 mt-12 border-t border-ink-300/30">
-    <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">why this exists</p>
-    <h2 class="text-2xl mb-4 leading-tight">PH solar is too important to leave to opaque sales pitches.</h2>
-    <p class="text-base text-ink-700 leading-relaxed mb-4">
-      Most Filipino homeowners considering solar have to navigate three asymmetries at once. Installer quotes vary 5x for the same system. LGU permit fees range ₱16K-153K for the same project. Net-metering has a 100 kW cap, a 10-day approval target, and uneven LGU adoption of the new 3-day fast-track. Useful, neutral information is hard to come by.
-    </p>
-    <p class="text-base text-ink-700 leading-relaxed mb-4">
-      The tool reads your address, finds your building from OpenStreetMap, measures your roof from satellite, runs the payback math against the current residential rate, and tells you what to do. It surfaces nearby rooftops where our computer-vision survey already detected solar, the local LGU's permit cost where verified, and the safety-and-process steps that make a real difference.
-    </p>
-    <p class="text-base text-ink-700 leading-relaxed">
-      No installer is paid to recommend their system. No data leaves your browser. The math is open-source and reproducible. <a href="/methodology" class="no-underline text-accent-steel">How we computed everything &rarr;</a>
+  <section class="max-w-5xl mx-auto px-6 mt-12 reveal">
+    <ul class="grid gap-px bg-ink-300/30 border border-ink-300/30 sm:grid-cols-2 lg:grid-cols-5">
+      {deliverables.map((d) => (
+        <li class="bg-paper p-4">
+          <p class="text-sm font-medium text-ink-900 mb-1">{d.label}</p>
+          <p class="text-sm text-ink-500 leading-snug">{d.detail}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="text-sm text-ink-500 leading-relaxed mt-4 max-w-3xl">
+      Free, no signup. SolarMap.PH runs no backend. The address you type goes straight from your browser
+      to third-party geocoders (Photon, Nominatim, Overpass, Esri tiles, PVGIS) and never reaches a
+      server we control. <a href="/privacy" class="no-underline text-accent-steel">What gets seen by whom &rarr;</a>
     </p>
   </section>
 
-  <section class="max-w-5xl mx-auto px-6 pb-12 grid gap-px bg-ink-300/40 md:grid-cols-2 border border-ink-300/40">
-    <a href="/map" class="bg-paper p-6 md:p-8 no-underline group hover:bg-white transition-colors">
-      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">research backplane</p>
-      <h2 class="text-xl mb-2 text-ink-900">The map</h2>
+  <section class="max-w-5xl mx-auto px-6 py-14 mt-8 border-t border-ink-300/30 reveal">
+    <div class="max-w-prose">
+      <h2 class="text-2xl md:text-3xl mb-5 leading-tight">Three asymmetries decide whether a Filipino homeowner gets a fair solar deal.</h2>
+      <p class="text-base text-ink-700 leading-relaxed mb-4">
+        Installer quotes vary 5x for the same system. LGU permit fees range ₱16K-153K for the same project.
+        Net metering caps residential export at 100 kW, targets a 10-working-day utility decision, and
+        depends on a 3-day LGU fast-track that many LGUs have not adopted. Neutral information is hard to come by.
+      </p>
+      <p class="text-base text-ink-700 leading-relaxed mb-4">
+        This tool reads your address, finds your building in OpenStreetMap, measures the roof from satellite,
+        runs the payback math at the {monthLabel(electricityRate.as_of)} Meralco residential rate of
+        ₱{electricityRate.php_per_kwh.toFixed(4)}/kWh, and says what to do next. It also shows nearby rooftops
+        where our computer-vision survey already detected solar, and the local permit cost where we could verify it.
+      </p>
+      <p class="text-base text-ink-700 leading-relaxed">
+        No installer pays to be recommended. No data leaves your browser. The math is open-source and reproducible.
+        <a href="/methodology" class="no-underline text-accent-steel">How we computed everything &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-6 pb-16 grid gap-px bg-ink-300/30 md:grid-cols-[1.15fr_1fr] border border-ink-300/30 reveal">
+    <a href="/map" class="bg-paper p-6 md:p-8 no-underline group transition-colors hover:bg-paper-alt">
+      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">research backplane</p>
+      <h2 class="text-xl mb-4 text-ink-900">{totalDetections} rooftops with detected solar across {citiesWithDetections} cities</h2>
+      <dl class="grid grid-cols-3 gap-4 mb-4 border-y border-ink-300/30 py-3">
+        <div>
+          <dt class="text-[11px] uppercase tracking-wider text-ink-500 font-mono">high-confidence</dt>
+          <dd class="text-2xl font-mono tabular-nums text-ink-900">{highConfidence}</dd>
+        </div>
+        <div>
+          <dt class="text-[11px] uppercase tracking-wider text-ink-500 font-mono">per-roof polygons</dt>
+          <dd class="text-2xl font-mono tabular-nums text-ink-900">{perBuildingPolygons}</dd>
+        </div>
+        <div>
+          <dt class="text-[11px] uppercase tracking-wider text-ink-500 font-mono">extra regions</dt>
+          <dd class="text-2xl font-mono tabular-nums text-ink-900">{crossDomainRegions}</dd>
+        </div>
+      </dl>
       <p class="text-sm text-ink-500 mb-4 leading-relaxed">
-        A computer-vision survey of rooftop solar across {citiesWithDetections} cities in Greater Metro Manila. {totalDetections} detections, {highConfidence} high-confidence above a 0.85 score; {perBuildingPolygons} buildings with per-roof panel polygons after segmentation. Calibrated to 96% precision on a held-out validation set.
+        Detections score above 0.85, calibrated to 96% precision on the held-out NCR validation set.
+        The {crossDomainRegions} franchises outside Metro Manila carry their own per-domain calibration
+        or ship as candidate inventory with no precision claim. Survey generated {surveyGeneratedDate}.
       </p>
       <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Open the map &rarr;</span>
     </a>
-    <a href="/methodology" class="bg-paper p-6 md:p-8 no-underline group hover:bg-white transition-colors">
-      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-2">how it works</p>
-      <h2 class="text-xl mb-2 text-ink-900">Methodology</h2>
-      <p class="text-sm text-ink-500 mb-4 leading-relaxed">
-        How the model was trained, calibrated, and validated. Active-learning rounds, encoder ablation, and the SAM segmentation step that turns tile-level detections into per-building panel polygons.
+    <a href="/methodology" class="bg-paper p-6 md:p-8 no-underline group transition-colors hover:bg-paper-alt">
+      <p class="text-xs uppercase tracking-wider text-ink-500 font-mono mb-3">how it works</p>
+      <h2 class="text-xl mb-4 text-ink-900">A frozen CLIP encoder, a calibrated head, then SAM for the panel outlines</h2>
+      <p class="text-sm text-ink-500 leading-relaxed mb-4">
+        How the model was trained, calibrated and validated: the active-learning rounds, the encoder
+        ablation, the per-domain calibration that replaced an over-optimistic cross-region precision, and
+        the segmentation step that turns a tile-level score into a per-building panel polygon.
       </p>
       <span class="text-sm font-medium text-accent-steel group-hover:text-ink-900">Read methodology &rarr;</span>
     </a>

@@ -1,0 +1,40 @@
+{
+  "_comment": "Dated inputs to the homeowner payback math. Every value carries the month it was read and a public source URL. The site reads this at build (site/src/data/tariff.ts) and prints the as_of month next to every peso figure, so a stale number is visible rather than silent. Meralco resets the residential rate monthly and posts the advisory around the 10th; refresh this file each month.",
+  "_schema_version": 1,
+  "_last_reviewed": "2026-08-09",
+  "electricity_rate": {
+    "php_per_kwh": 14.8261,
+    "as_of": "2026-07",
+    "utility": "Meralco",
+    "basis": "all-in residential rate for a typical household, distribution-utility average",
+    "previous_month_php_per_kwh": 14.4833,
+    "source_url": "https://www.gmanetwork.com/news/money/companies/994402/meralco-electricity-rate-hike-july-2026/story/",
+    "source_note": "GMA News 2026-07-10, reporting the Meralco July 2026 rate advisory. Corroborated by Manila Times 2026-07-11. The August 2026 advisory was not public on 2026-08-09."
+  },
+  "install_cost": {
+    "php_per_kwp": 65000,
+    "php_per_kwp_low": 55000,
+    "php_per_kwp_high": 75000,
+    "as_of": "2026-07",
+    "basis": "fully installed grid-tied residential rooftop system, Metro Manila, excluding battery",
+    "source_url": "https://solarwise.ph/solar-panel-price-philippines-2026-2/",
+    "source_note": "2026 installer price guides put a 5 kWp system at PHP 275,000 to 375,000 all-in, which is PHP 55,000 to 75,000 per kWp. The point estimate is the midpoint. Not a quote; a real quote varies with roof access, inverter brand and structural work."
+  },
+  "yield": {
+    "kwh_per_kwp_per_year": 1315,
+    "as_of": "2026-05",
+    "basis": "PVGIS SARAH3 Philippine average for a fixed roof-mounted array, 14 percent system loss",
+    "source_url": "https://re.jrc.ec.europa.eu/pvg_tools/en/",
+    "source_note": "PVGIS v5.3. Per-address yield is fetched live from PVGIS by the roof tool; this constant is the fallback when PVGIS is unreachable."
+  },
+  "net_metering": {
+    "residential_cap_kw": 100,
+    "du_decision_working_days": 10,
+    "lgu_electrical_permit_working_days": 3,
+    "lgu_cfei_working_days": 7,
+    "deemed_approved_on_silence": true,
+    "as_of": "2026-04",
+    "source_url": "https://www.philstar.com/business/2026/04/05/2518672/doe-speeds-net-metering-process",
+    "source_note": "DOE circular effective 2026-04-01 cut the distribution-utility decision window from 20 to 10 working days. The residential capacity cap stays at 100 kW. Vendor guides report a non-residential lift from 100 kW to 1 MW under the same circular; no primary DOE text confirms it, so that figure is not published on the site."
+  }
+}

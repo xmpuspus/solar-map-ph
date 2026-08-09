@@ -1,5 +1,5 @@
 ---
-// MapView -- focused on clf_v4 detections.
+// MapView, focused on clf_v4 detections.
 // Choropleth colored by detection density per LGU. Per-building polygons
 // at zoom 14+. High-conf dots at all zooms colored by OSM-coverage status.
 // Sidebar leads with absolute counts + OSM-tag share + kWp estimate.
@@ -46,8 +46,8 @@ const headerCopy = {
 <div id="map-root" class="grid md:grid-cols-[1fr_400px] gap-4 px-6 max-w-6xl mx-auto">
   <div class="relative">
     <div id="map" class="w-full h-[70vh] md:h-[640px] rounded-md border border-ink-300/30 bg-ink-300/10"></div>
-    <div id="map-loading" class="absolute top-3 left-1/2 -translate-x-1/2 z-20 bg-white/95 border border-ink-300/40 rounded-full px-3 py-1 text-xs text-ink-700 shadow-sm">Loading detections…</div>
-    <details id="legend" class="absolute bottom-3 left-3 bg-white/95 border border-ink-300/40 rounded p-3 text-xs shadow-sm max-w-[70vw] md:max-w-none">
+    <div id="map-loading" class="absolute top-3 left-1/2 -translate-x-1/2 z-20 bg-surface/95 border border-ink-300/40 rounded-full px-3 py-1 text-xs text-ink-700 shadow-sm">Loading detections…</div>
+    <details id="legend" class="absolute bottom-3 left-3 bg-surface/95 border border-ink-300/40 rounded p-3 text-xs shadow-sm max-w-[70vw] md:max-w-none">
       <summary class="cursor-pointer list-none text-ink-900 font-mono uppercase tracking-wider text-[11px] select-none">map legend</summary>
       <div class="mt-2">
         <div class="text-ink-500 uppercase tracking-wider text-[11px] mb-1.5 font-mono">detection density per city</div>
@@ -76,12 +76,12 @@ const headerCopy = {
         <div id="legend-source" class="text-[11px] text-ink-500 mt-1.5 font-mono">SolarMap.PH · 96% precision on NCR holdout</div>
       </div>
     </details>
-    <div class="absolute bottom-1 right-2 bg-white/85 px-1.5 py-0.5 text-[9px] text-ink-500 rounded-sm border border-ink-300/30 leading-tight max-w-[18rem] text-right">
+    <div class="absolute bottom-1 right-2 bg-surface/85 px-1.5 py-0.5 text-[9px] text-ink-500 rounded-sm border border-ink-300/30 leading-tight max-w-[18rem] text-right">
       Imagery © Esri, Maxar, Earthstar Geographics. Buildings © OpenStreetMap contributors.
     </div>
   </div>
 
-  <aside id="side-panel" class="border border-ink-300/40 bg-white text-sm overflow-hidden">
+  <aside id="side-panel" class="border border-ink-300/40 bg-surface text-sm overflow-hidden">
     <div id="empty-state" class="p-5">
       <a href="/" class="flex items-center justify-center px-3 py-2.5 mb-4 border border-accent-coral bg-accent-coral text-white text-[11px] font-mono uppercase tracking-wider hover:bg-accent-coral-dark hover:border-accent-coral-dark no-underline">Check your own roof &rarr;</a>
 
@@ -113,9 +113,9 @@ const headerCopy = {
           <div class="border border-ink-300/30 p-3">
             <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">high-confidence detections</div>
             <div id="city-high" class="font-mono tabular-nums text-3xl text-ink-900 mt-0.5">--</div>
-            <div class="text-[10px] text-ink-500" id="city-cand">+ -- lower-confidence detections</div>
+            <div class="text-[10px] text-ink-500" id="city-cand">+ lower-confidence detections</div>
           </div>
-          <div class="border border-ink-300/30 p-3" style="background:#fff7f3">
+          <div class="border border-ink-300/30 p-3 bg-accent-coral/10">
             <div class="text-[10px] uppercase tracking-wider text-ink-500 font-mono">newly identified</div>
             <div id="city-new" class="font-mono tabular-nums text-3xl text-ink-900 mt-0.5">--</div>
             <div class="text-[10px] text-ink-500" id="city-new-pct">-- % absent from prior public maps</div>
@@ -219,8 +219,21 @@ const headerCopy = {
 
   // ---- helpers --------------------------------------------------------
 
+  // "Surveyed, nothing detected" is the only fill that is a UI color rather
+  // than a data color, so it follows the theme. The RdYlBu ramp itself does
+  // not: the reader compares those fills against the printed legend.
+  function isDarkMode(): boolean {
+    const explicit = document.documentElement.getAttribute("data-theme");
+    if (explicit) return explicit === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
+  function emptyCityFill(): string {
+    return isDarkMode() ? "#2a3442" : "#f3f4f6";
+  }
+
   function densityColor(perKm2: number, max: number): string {
-    if (max === 0 || perKm2 === 0) return "#f3f4f6";
+    if (max === 0 || perKm2 === 0) return emptyCityFill();
     const t = Math.max(0, Math.min(1, perKm2 / max));
     return interpolateRdYlBu(0.5 - t * 0.45);
   }
@@ -399,7 +412,7 @@ const headerCopy = {
     const maxDensity = Math.max(...cityCounts.rows.map((r: any) => r.high_per_km2 || 0));
     const meta = cityCounts._meta || {};
 
-    // Hero strip -- use canonical scan metadata, not the city-aggregate sum
+    // Hero strip: use canonical scan metadata, not the city-aggregate sum
     // (16 detections fall on LGU borders and aren't joined to any city).
     const detMeta = detections._meta || {};
     const canonicalHigh = detMeta.n_high_confidence ?? 0;
@@ -458,11 +471,60 @@ const headerCopy = {
             attribution: "&copy; OpenStreetMap contributors",
           },
         },
-        layers: [{ id: "osm", type: "raster", source: "osm" }],
+        layers: [
+          {
+            id: "osm",
+            type: "raster",
+            source: "osm",
+            // Dark mode dims and desaturates the OSM raster in place. Swapping
+            // in a dark tile provider would add a third-party domain to the CSP
+            // and to the privacy page, which is a bad trade on this site.
+            paint: {
+              "raster-brightness-max": 1,
+              "raster-saturation": 0,
+              "raster-contrast": 0,
+            },
+          },
+        ],
       },
       center: [121.05, 14.6],
       zoom: 9,
     });
+
+    // Read the basemap treatment off the CSS tokens so it tracks the theme
+    // toggle and the OS preference with one source of truth.
+    function applyBasemapTheme() {
+      if (!map.getLayer("osm")) return;
+      const cs = getComputedStyle(document.documentElement);
+      const brightness = parseFloat(cs.getPropertyValue("--basemap-brightness-max")) || 1;
+      const saturation = parseFloat(cs.getPropertyValue("--basemap-saturation")) || 0;
+      map.setPaintProperty("osm", "raster-brightness-max", brightness);
+      map.setPaintProperty("osm", "raster-saturation", saturation);
+      map.setPaintProperty("osm", "raster-contrast", brightness < 1 ? 0.08 : 0);
+
+      // The "surveyed, nothing detected" fill is baked into the feature, so a
+      // theme flip has to rewrite it and push the source again.
+      const src = map.getSource("cities") as any;
+      if (src && typeof src.setData === "function") {
+        const fill = emptyCityFill();
+        let changed = false;
+        for (const f of cities.features) {
+          if ((f.properties._density || 0) === 0 && f.properties._fill !== fill) {
+            f.properties._fill = fill;
+            changed = true;
+          }
+        }
+        if (changed) src.setData(cities);
+      }
+    }
+    // styledata can fire during construction, before this handler exists, so
+    // "load" is the one that reliably lands the first application.
+    map.on("load", applyBasemapTheme);
+    map.on("styledata", applyBasemapTheme);
+    document.addEventListener("solarmap:themechange", applyBasemapTheme);
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", applyBasemapTheme);
     map.addControl(new maplibregl.NavigationControl(), "top-right");
     map.addControl(
       new maplibregl.GeolocateControl({
@@ -619,7 +681,7 @@ const headerCopy = {
       });
       // v1.2: calibrated detections that fall below the calibrated candidate
       // threshold. They were clf_v4-selected but the per-domain calibration
-      // demotes them. Shown faded (not hidden — the detection is real, the
+      // demotes them. Shown faded (not hidden, the detection is real, the
       // calibrated confidence is low) and excluded from headline counts.
       map.addSource("v11-low", { type: "geojson", data: v11Low });
       map.addLayer({
@@ -754,7 +816,7 @@ const headerCopy = {
       const cityParam = params.get("city");
       if (cityParam) showCity(cityParam, true);
 
-      // Data layers are on the map now — drop the loading pill.
+      // Data layers are on the map now, so drop the loading pill.
       document.getElementById("map-loading")?.remove();
     });
 
@@ -906,7 +968,7 @@ const headerCopy = {
       document.getElementById("det-area")!.textContent = "n/a (tile-level)";
       document.getElementById("det-osm")!.textContent = isCal
         ? "per-domain calibrated (v1.2)"
-        : "uncalibrated — candidate inventory";
+        : "uncalibrated, candidate inventory";
 
       const osmLink = document.getElementById("det-osm-link") as HTMLAnchorElement;
       osmLink.href = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=18`;
@@ -1096,7 +1158,7 @@ const headerCopy = {
       const cityName = det?.properties.lgu_name || "Greater Metro Manila";
       const province = det?.properties.province || "";
       const installStatus = det?.properties.osm_status === "confirmed" ? "confirmed" : "new";
-      return `<article class="border border-ink-300/40 bg-white overflow-hidden flex flex-col">
+      return `<article class="border border-ink-300/40 bg-surface overflow-hidden flex flex-col">
         <div class="relative aspect-square bg-ink-300/10 overflow-hidden">
           <img src="${url}" alt="rooftop in ${cityName}" class="w-full h-full object-cover" loading="lazy" />
           <div class="absolute top-2 left-2 bg-[#d97757] text-white px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider">#${i + 1}</div>

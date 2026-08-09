@@ -1,4 +1,5 @@
 ---
+import { surveyQuarter, surveyGeneratedDate, crossDomainRegions, citiesWithDetections } from "../data/stats";
 const year = new Date().getFullYear();
 ---
 <footer class="border-t border-ink-300/30 bg-paper-alt mt-12">
@@ -6,7 +7,7 @@ const year = new Date().getFullYear();
     <div>
       <p class="text-ink-700 font-medium">SolarMap.PH</p>
       <p>
-        Open-source rooftop solar detection from public satellite imagery. Current coverage: Greater Metro Manila. Free homeowner roof-lookup tool. Code MIT, data CC-BY-4.0. Not affiliated with Manila Electric Company.
+        Open-source rooftop solar detection from public satellite imagery. Coverage: {citiesWithDetections} cities across Greater Metro Manila, plus {crossDomainRegions} regional franchises outside it. Free homeowner roof-lookup tool. Code MIT, data CC-BY-4.0. Not affiliated with Manila Electric Company.
       </p>
     </div>
     <div>
@@ -34,7 +35,7 @@ const year = new Date().getFullYear();
         All data sourced from public records (Esri World Imagery, OpenStreetMap, ESA, Microsoft, NOAA, NASA). SolarMap.PH computes statistical indicators only. Patterns may have legitimate explanations. Imagery &copy; Esri, Maxar, Earthstar Geographics. Building data &copy; OpenStreetMap contributors. ODbL.
       </p>
       <p>
-        &copy; {year} SolarMap.PH. Cite as: SolarMap.PH (YYYY-QN), https://github.com/xmpuspus/solar-map-ph.
+        &copy; {year} SolarMap.PH. Survey vintage {surveyQuarter}, generated {surveyGeneratedDate}. Cite as: SolarMap.PH ({surveyQuarter}), https://github.com/xmpuspus/solar-map-ph.
       </p>
     </div>
   </div>

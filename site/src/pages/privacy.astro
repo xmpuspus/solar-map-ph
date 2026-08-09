@@ -3,7 +3,6 @@ import Base from "../layouts/Base.astro";
 ---
 <Base title="Privacy & Responsible Use · SolarMap.PH" pathname="/privacy" description="How SolarMap.PH handles satellite imagery, OSM-tagged buildings, and the Philippines Data Privacy Act (RA 10173).">
   <section class="max-w-prose mx-auto px-6 pt-10 pb-12">
-    <p class="text-xs uppercase tracking-[0.2em] text-ink-500 mb-3 font-mono">privacy &amp; responsible use</p>
     <h1 class="text-3xl mb-5 leading-tight text-ink-900 tracking-tight">What SolarMap.PH publishes, and what it doesn't.</h1>
     <p class="text-base text-ink-700 leading-relaxed mb-6">
       SolarMap.PH is a civic-tech research artifact. The published data is derived from publicly licensed satellite imagery plus public OpenStreetMap building tags, and is intended to inform public-interest reporting on solar adoption in the Philippines. This page describes the data-publication boundary, the legal posture under RA 10173 (Data Privacy Act), and how to request takedown.
@@ -15,7 +14,7 @@ import Base from "../layouts/Base.astro";
       <li>Per-building polygons for <strong>commercial, industrial, and public-purpose</strong> rooftops only. These buildings are legal persons or institutions, not natural persons.</li>
       <li>Aggregated counts for residential rooftops: how many, by tag (house, apartments, residential), summed kWp. No geometry, no addresses.</li>
       <li>The trained classifier, the training data embeddings, the calibration parameters, and the full reproducibility chain.</li>
-      <li>The seven cross-domain franchises (Cebu, Davao, Iloilo, CDO, Legazpi, Calabarzon, Bacolod) are published as <strong>240 m tile points only</strong> — no building polygons. The v1.2 capacity figure (<code class="text-sm">kwp_estimate</code>) is a coarse tile-level estimate attached to that point, not a building footprint. Per-building segmentation with residential suppression remains NCR-only.</li>
+      <li>The seven cross-domain franchises (Cebu, Davao, Iloilo, CDO, Legazpi, Calabarzon, Bacolod) are published as <strong>240 m tile points only</strong>. No building polygons. The v1.2 capacity figure (<code class="text-sm">kwp_estimate</code>) is a coarse tile-level estimate attached to that point, not a building footprint. Per-building segmentation with residential suppression remains NCR-only.</li>
     </ul>
 
     <h2 class="text-xl mt-8 mb-3 text-ink-900">What we don't publish</h2>
