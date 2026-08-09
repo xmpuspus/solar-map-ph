@@ -90,6 +90,7 @@ to `/safety`.
 | `Footer.astro` | `Cite as: SolarMap.PH (YYYY-QN)` | Literal placeholder in shipped copy |
 | `index.astro:55` | `Calibrated to 96% precision on a held-out validation set` | True for the NCR holdout only. The 7 cross-domain regions carry no precision claim, and 4 of them ship as candidate inventory |
 | `map.astro` header | `LAST CALIBRATED 2026-05-10` | Correct and dated. Keep it. It is the pattern the rest of the site needs |
+| `safety.astro:87`, `RoofLookup.astro:1176` | "20 working days" for the utility decision | The April 2026 circular cut it to 10. The homepage said 10 and these two said 20, so the site contradicted itself. Found by the cross-model review, not by me |
 
 ## The design read, the dials, and the mode
 

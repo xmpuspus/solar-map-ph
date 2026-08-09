@@ -139,6 +139,8 @@ import { clientTariff } from "../data/tariff";
     installAsOfLabel: string;
     yieldKwhPerKwpPerYear: number;
     netMeteringCapKw: number;
+    duDecisionWorkingDays: number;
+    netMeteringAsOfLabel: string;
   };
 
   const MERALCO_RATE_PHP_PER_KWH = TARIFF.ratePhpPerKwh;
@@ -148,6 +150,7 @@ import { clientTariff } from "../data/tariff";
   const INSTALL_COST_LOW = TARIFF.installLow;
   const INSTALL_COST_HIGH = TARIFF.installHigh;
   const NET_METERING_CAP_KW = TARIFF.netMeteringCapKw;
+  const DU_DECISION_DAYS = TARIFF.duDecisionWorkingDays;
   const KWP_PER_M2 = 0.15;
   const SYSTEM_LIFETIME_YEARS = 25;
   const DEGRADATION_PER_YEAR = 0.005;
@@ -1173,7 +1176,7 @@ import { clientTariff } from "../data/tariff";
               <li class="flex gap-2"><span class="font-mono text-accent-steel">04</span><span>System sized at or below your <strong>12-month average daytime load</strong>.</span></li>
               <li class="flex gap-2"><span class="font-mono text-accent-steel">05</span><span>Net-metering paperwork filed before commissioning, not after.</span></li>
             </ul>
-            <p class="text-[11px] text-ink-500 leading-relaxed mt-3 pt-3 border-t border-ink-300/30">Statutory window to act on a complete application is <strong>20 working days</strong>. <a href="/safety#recourse" class="no-underline text-accent-steel">If it drags &rarr;</a></p>
+            <p class="text-[11px] text-ink-500 leading-relaxed mt-3 pt-3 border-t border-ink-300/30">Statutory window to act on a complete application is <strong>${DU_DECISION_DAYS} working days</strong>, and silence past that counts as approval. <a href="/safety#recourse" class="no-underline text-accent-steel">If it drags &rarr;</a></p>
           </details>
         </div>
       </div>

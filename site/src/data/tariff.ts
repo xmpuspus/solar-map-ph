@@ -133,4 +133,6 @@ export const clientTariff = {
   installAsOfLabel: monthLabel(installCost.as_of),
   yieldKwhPerKwpPerYear: pvYield.kwh_per_kwp_per_year,
   netMeteringCapKw: netMetering.residential_cap_kw,
+  duDecisionWorkingDays: netMetering.du_decision_working_days,
+  netMeteringAsOfLabel: monthLabel(netMetering.as_of),
 };
