@@ -145,11 +145,11 @@ const headerCopy = {
       </div>
 
       <div class="px-5 py-3 border-t border-ink-300/30 flex gap-2">
-        <button id="city-zoom-btn" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">zoom to detections &rarr;</button>
+        <button id="city-zoom-btn" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-paper">zoom to detections &rarr;</button>
         <a id="city-csv" class="inline-flex items-center justify-center px-3 py-2 border border-ink-300 text-ink-700 text-[11px] font-mono uppercase tracking-wider hover:bg-paper-alt" title="download detections as CSV" download>csv</a>
       </div>
       <div class="px-5 pb-3">
-        <a href="/" class="w-full inline-flex items-center justify-center px-3 py-2 border border-accent-coral text-accent-coral text-[11px] font-mono uppercase tracking-wider hover:bg-accent-coral hover:text-white no-underline">Check your own roof &rarr;</a>
+        <a href="/" class="w-full inline-flex items-center justify-center px-3 py-2 border border-accent-coral text-accent-coral text-[11px] font-mono uppercase tracking-wider hover:bg-accent-coral hover:text-paper no-underline">Check your own roof &rarr;</a>
       </div>
     </div>
 
@@ -172,11 +172,11 @@ const headerCopy = {
         </dl>
       </div>
       <div class="px-5 py-3 border-t border-ink-300/30 flex gap-2">
-        <a id="det-osm-link" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white" target="_blank" rel="noopener">inspect on public map &rarr;</a>
+        <a id="det-osm-link" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-paper" target="_blank" rel="noopener">inspect on public map &rarr;</a>
         <a id="det-fp" class="inline-flex items-center justify-center px-3 py-2 border border-ink-300 text-ink-500 text-[11px] font-mono uppercase tracking-wider hover:text-ink-900 hover:border-ink-700" target="_blank" rel="noopener" title="report a false positive">report fp</a>
       </div>
       <div class="px-5 pb-3">
-        <a href="/" class="w-full inline-flex items-center justify-center px-3 py-2 border border-accent-coral text-accent-coral text-[11px] font-mono uppercase tracking-wider hover:bg-accent-coral hover:text-white no-underline">Check your own roof &rarr;</a>
+        <a href="/" class="w-full inline-flex items-center justify-center px-3 py-2 border border-accent-coral text-accent-coral text-[11px] font-mono uppercase tracking-wider hover:bg-accent-coral hover:text-paper no-underline">Check your own roof &rarr;</a>
       </div>
     </div>
   </aside>
@@ -365,7 +365,7 @@ const headerCopy = {
         mapEl.innerHTML =
           '<div class="flex flex-col items-center justify-center h-full gap-3 p-6 text-center">' +
           '<p class="text-sm text-ink-700">Some map data couldn\'t load right now.</p>' +
-          '<button type="button" onclick="location.reload()" class="inline-flex items-center justify-center px-4 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">Reload</button>' +
+          '<button type="button" onclick="location.reload()" class="inline-flex items-center justify-center px-4 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-paper">Reload</button>' +
           "</div>";
       }
       return;
@@ -1185,7 +1185,7 @@ const headerCopy = {
       map.innerHTML =
         '<div class="flex flex-col items-center justify-center h-full gap-3 p-6 text-center">' +
         '<p class="text-sm text-ink-700">Map data failed to load.</p>' +
-        '<button type="button" onclick="location.reload()" class="inline-flex items-center justify-center px-4 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-white">Reload</button>' +
+        '<button type="button" onclick="location.reload()" class="inline-flex items-center justify-center px-4 py-2 border border-ink-900 text-ink-900 text-[11px] font-mono uppercase tracking-wider hover:bg-ink-900 hover:text-paper">Reload</button>' +
         "</div>";
     }
   });

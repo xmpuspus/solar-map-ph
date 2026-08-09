@@ -47,6 +47,62 @@ type NetMeteringBlock = {
 const path = fileURLToPath(new URL("../../public/data/tariff.json", import.meta.url));
 const raw = JSON.parse(readFileSync(path, "utf-8"));
 
+// This file gets hand-edited every month when Meralco posts a new advisory, and
+// a typo in it reaches a public payback calculator. A quoted number or a missing
+// key would satisfy `astro check` and then render "PHP NaN" and "NaN years" to a
+// homeowner. So the build fails loudly here instead.
+function num(block: string, key: string, min: number, max: number): number {
+  const v = raw?.[block]?.[key];
+  if (typeof v !== "number" || !Number.isFinite(v)) {
+    throw new Error(
+      `tariff.json: ${block}.${key} must be a finite number, got ${JSON.stringify(v)}`,
+    );
+  }
+  if (v < min || v > max) {
+    throw new Error(
+      `tariff.json: ${block}.${key} is ${v}, outside the sane range ${min} to ${max}. ` +
+        `Widen the range here if the market really moved.`,
+    );
+  }
+  return v;
+}
+
+function month(block: string): string {
+  const v = raw?.[block]?.as_of;
+  if (typeof v !== "string" || !/^\d{4}-(0[1-9]|1[0-2])$/.test(v)) {
+    throw new Error(`tariff.json: ${block}.as_of must look like "2026-07", got ${JSON.stringify(v)}`);
+  }
+  return v;
+}
+
+function url(block: string): string {
+  const v = raw?.[block]?.source_url;
+  if (typeof v !== "string" || !v.startsWith("https://")) {
+    throw new Error(`tariff.json: ${block}.source_url must be an https URL, got ${JSON.stringify(v)}`);
+  }
+  return v;
+}
+
+// Ranges are wide enough to survive real market moves and narrow enough to catch
+// a decimal slip or a units mix-up.
+num("electricity_rate", "php_per_kwh", 5, 40);
+num("electricity_rate", "previous_month_php_per_kwh", 5, 40);
+num("install_cost", "php_per_kwp", 20_000, 200_000);
+num("install_cost", "php_per_kwp_low", 20_000, 200_000);
+num("install_cost", "php_per_kwp_high", 20_000, 200_000);
+num("yield", "kwh_per_kwp_per_year", 800, 2_000);
+num("net_metering", "residential_cap_kw", 1, 10_000);
+num("net_metering", "du_decision_working_days", 1, 90);
+num("net_metering", "lgu_electrical_permit_working_days", 1, 90);
+num("net_metering", "lgu_cfei_working_days", 1, 90);
+for (const b of ["electricity_rate", "install_cost", "yield", "net_metering"]) {
+  month(b);
+  url(b);
+}
+if (raw.install_cost.php_per_kwp_low > raw.install_cost.php_per_kwp_high) {
+  throw new Error("tariff.json: install_cost low is above high");
+}
+
 export const electricityRate: RateBlock = raw.electricity_rate;
 export const installCost: CostBlock = raw.install_cost;
 export const pvYield: YieldBlock = raw.yield;
